@@ -82,7 +82,6 @@ class _EventsWidgetState extends State<EventsWidget> {
       "Opción 4",
       "Opción 5",
     ];
-    int count = 0;
 
     final textTheme = Theme.of(context).textTheme;
 
@@ -155,35 +154,38 @@ class _EventsWidgetState extends State<EventsWidget> {
       Center(
         child: Stack(
           children: <Widget>[
-            ClipRRect(
-              borderRadius:
-              // Validacion para el borde superior izquiero
-              (index == 0)
-              ? BorderRadius.only(topLeft: Radius.circular(15))
+            InkWell(
+              onTap: widget._includeDay ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+              child: ClipRRect(
+                borderRadius:
+                // Validacion para el borde superior izquiero
+                (index == 0)
+                ? BorderRadius.only(topLeft: Radius.circular(15))
 
-              // Validacion para el borde superior derecho
-              : (index == 2)
-              ? BorderRadius.only(topRight: Radius.circular(15))
+                // Validacion para el borde superior derecho
+                : (index == 2)
+                ? BorderRadius.only(topRight: Radius.circular(15))
 
-              // Validaciones para el borde inferior izquiero
-              : (index == (listItems.length - 3) && index % 3 == 0)
-              ? BorderRadius.only(bottomLeft: Radius.circular(15))
-              : (index == (listItems.length - 2) && index % 3 == 0)
-              ? BorderRadius.only(bottomLeft: Radius.circular(15))
-              : (index == (listItems.length - 1) && index % 3 == 0)
-              ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                // Validaciones para el borde inferior izquiero
+                : (index == (listItems.length - 3) && index % 3 == 0)
+                ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                : (index == (listItems.length - 2) && index % 3 == 0)
+                ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                : (index == (listItems.length - 1) && index % 3 == 0)
+                ? BorderRadius.only(bottomLeft: Radius.circular(15))
 
-              // Validacion para el borde inferior derecho
-              : (index == (listItems.length - 1) && (index+1) % 3 == 0)
-              ? BorderRadius.only(bottomRight: Radius.circular(15))
+                // Validacion para el borde inferior derecho
+                : (index == (listItems.length - 1) && (index+1) % 3 == 0)
+                ? BorderRadius.only(bottomRight: Radius.circular(15))
 
-              : BorderRadius.circular(0.0),
+                : BorderRadius.circular(0.0),
 
-              child: SizedBox(
-                child: Image.network(
-                  item,
-                  height: 200,
-                  fit: BoxFit.fill,
+                child: SizedBox(
+                  child: Image.network(
+                    item,
+                    height: 200,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -291,7 +293,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(
-                height: 25
+                height: 30
               ),
               gridImagesCol3(),
               SizedBox(

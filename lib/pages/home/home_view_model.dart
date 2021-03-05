@@ -37,7 +37,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   }
 
   void goDetailPage() {
-    _route.goDetail();
+    _route.goDetail(isHotel: false);
   }
 
 }

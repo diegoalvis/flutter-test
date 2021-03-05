@@ -30,8 +30,4 @@ class ResultSearchViewModel extends ViewModel<ResultSearchStatus> {
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
-
-  void goFiltersPage(){
-    _route.goFilters();
-  }
 }

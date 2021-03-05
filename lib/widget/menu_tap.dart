@@ -29,7 +29,7 @@ class IdtMenuTap extends StatelessWidget {
 
     return Container(
       alignment: Alignment.topCenter,
-      margin: EdgeInsets.only(top: isBlue ? 167 : 150),
+      margin: EdgeInsets.only(top: isBlue ? 168 : 150),
       color: IdtColors.white.withOpacity(0.95),
       child: Container(
         color: isBlue ? IdtColors.blue.withOpacity(0.15) : IdtColors.transparent,

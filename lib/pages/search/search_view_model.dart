@@ -31,10 +31,6 @@ class SearchViewModel extends ViewModel<SearchStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goFiltersPage(){
-    _route.goFilters();
-  }
-
   void goResultSearchPage(){
     _route.goResultSearch();
   }

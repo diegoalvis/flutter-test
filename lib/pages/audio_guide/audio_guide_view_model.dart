@@ -30,8 +30,4 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
-
-  void goFiltersPage(){
-    _route.goFilters();
-  }
 }

@@ -1,17 +1,17 @@
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/events/events_status.dart';
+import 'package:bogota_app/pages/event_detail/event_detail_status.dart';
 import 'package:bogota_app/view_model.dart';
 
-class EventsViewModel extends ViewModel<EventsStatus> {
+class EventDetailViewModel extends ViewModel<EventDetailStatus> {
 
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  EventsViewModel(this._route, this._interactor) {
-    status = EventsStatus(
+  EventDetailViewModel(this._route, this._interactor) {
+    status = EventDetailStatus(
       isLoading: true,
-      openMenu: false,
+      moreText: false,
       openMenuTab: false
     );
   }
@@ -20,12 +20,13 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     //TODO
   }
 
-  void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+  void readMore(){
+    final bool tapClick = status.moreText;
+    status = status.copyWith(moreText: !tapClick);
   }
 
-  void closeMenu() {
-    status = status.copyWith(openMenu: false);
+  void goPlayAudioPage() {
+    _route.goPlayAudio();
   }
 
   void onpenMenuTab() {
@@ -37,16 +38,8 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(openMenuTab: false);
   }
 
-  void onTapDrawer(String type) {
+  void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
-  }
-
-  void goDetailPageHotel()  {
-    _route.goDetail(isHotel: true);
-  }
-
-  void goDetailEventPage() {
-    _route.goEventsDetail();
   }
 
 }

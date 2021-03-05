@@ -131,6 +131,16 @@ class IdtMenu extends StatelessWidget {
                         }
                         break;
 
+                        case 6: {
+                          _route.goFilters('Gastronomía');
+                        }
+                        break;
+
+                        case 7: {
+                          _route.goSavedPlaces();
+                        }
+                        break;
+
                         default: {
                           //statements;
                         }
@@ -210,7 +220,7 @@ class IdtMenu extends StatelessWidget {
               },
             ),
             SizedBox(
-              height: 60,
+              height: 65,
             ),
           ],
         ),

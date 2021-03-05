@@ -18,6 +18,10 @@ import '../../app_theme.dart';
 
 class FiltersPage extends StatelessWidget {
 
+  final String title;
+
+  FiltersPage(this.title);
+
   @override
   Widget build(BuildContext context) {
 
@@ -27,13 +31,18 @@ class FiltersPage extends StatelessWidget {
         locator<ApiInteractor>()
       ),
       builder: (context, _) {
-        return FiltersWidget();
+        return FiltersWidget(title);
       },
     );
   }
 }
 
 class FiltersWidget extends StatefulWidget {
+
+  final String _title;
+
+  FiltersWidget(this._title);
+
   @override
   _FiltersWidgetState createState() => _FiltersWidgetState();
 }
@@ -268,7 +277,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 height: 100,
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "CULTURA",
+                  widget._title.toUpperCase(),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleWhite,

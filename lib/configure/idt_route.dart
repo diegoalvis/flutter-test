@@ -1,11 +1,13 @@
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
+import 'package:bogota_app/pages/event_detail/event_detail_page.dart';
 import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
 import 'package:bogota_app/pages/result_search/result_search_page.dart';
+import 'package:bogota_app/pages/saved_places/saved_places_page.dart';
 import 'package:bogota_app/pages/search/search_page.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +38,9 @@ class IdtRoute {
     );
   }
 
-  goDetail(){
+  goDetail({bool isHotel}){
     return navigatorKey.currentState.push(
-      MaterialPageRoute(builder: (_)=> DetailPage())
+      MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel))
     );
   }
 
@@ -66,9 +68,9 @@ class IdtRoute {
     );
   }
 
-  goFilters(){
+  goFilters(String title){
     return navigatorKey.currentState.push(
-      MaterialPageRoute(builder: (_)=> FiltersPage())
+      MaterialPageRoute(builder: (_)=> FiltersPage(title))
     );
   }
 
@@ -87,6 +89,18 @@ class IdtRoute {
   goEvents({@required String title, String nameFilter, @required bool includeDay}){
     return navigatorKey.currentState.push(
       MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
+    );
+  }
+
+  goEventsDetail(){
+    return navigatorKey.currentState.push(
+      MaterialPageRoute(builder: (_)=> EventDetailPage())
+    );
+  }
+
+  goSavedPlaces(){
+    return navigatorKey.currentState.push(
+      MaterialPageRoute(builder: (_)=> SavedPlacesPage())
     );
   }
 

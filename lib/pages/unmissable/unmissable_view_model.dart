@@ -30,8 +30,4 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
-
-  void goFiltersPage(){
-    _route.goFilters();
-  }
 }

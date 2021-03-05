@@ -42,6 +42,6 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void goFiltersPage(){
-    _route.goFilters();
+    _route.goFilters('Cultura');
   }
 }
