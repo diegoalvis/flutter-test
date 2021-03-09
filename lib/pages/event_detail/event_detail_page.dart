@@ -1,20 +1,16 @@
 import 'dart:ui';
 
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
-import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/DataTest.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_view_model.dart';
-import 'package:bogota_app/utils/style_method.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -269,14 +265,9 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               top: 0,
               child: Container(
                   alignment: Alignment.bottomLeft,
-                  child: Container(
-                    child: Icon(
-                      Bogota_icon.curve2,
-                      color: Colors.white,
-                      size: 132,
-                    ),
-                    width: 410,
-                    height: 130,
+                  child: SvgPicture.asset(
+                    IdtAssets.curve_up,
+                    height: 132,
                   )
               )
           ),
@@ -382,10 +373,10 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                           autofocus: false,
                           color: IdtColors.red,
                           alignment: Alignment.centerRight,
-                          icon: Icon(
-                            Bogota_icon.back,
+                          icon: SvgPicture.asset(
+                            IdtAssets.curve_down,
                             color: IdtColors.white,
-                            size: 50.0,
+                            height: 50.0,
                           ),
                           onPressed: () {
                             print("Favorite");

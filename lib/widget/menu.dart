@@ -1,5 +1,5 @@
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/DataTest.dart';
@@ -49,7 +49,7 @@ class IdtMenu extends StatelessWidget {
                     left: 165,
                     child: Container(
                       child: Icon(
-                        Bogota_icon.engrane,
+                        IdtIcons.engrane,
                         size: 27,
                       ),
                     ),

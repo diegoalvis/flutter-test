@@ -1,5 +1,5 @@
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class IdtBottomAppBar extends StatelessWidget {
             Expanded(
               child: IconButton(
                 icon: Icon(
-                  Bogota_icon.compass,
+                  IdtIcons.compass,
                   color: discoverSelect ? IdtColors.orange : IdtColors.grayBtn,
                   size: 32
                 ),

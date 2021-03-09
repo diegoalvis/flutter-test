@@ -1,20 +1,17 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
-import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
-import 'package:bogota_app/widget/player_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
@@ -131,7 +128,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
               color: IdtColors.red,
               alignment: Alignment.center,
               icon: Icon(
-                Bogota_icon.heart1,
+                IdtIcons.heart2,
                 color: IdtColors.red,
                 size: 30.0,
               ),
@@ -260,10 +257,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
                           autofocus: false,
                           color: IdtColors.red,
                           alignment: Alignment.centerRight,
-                          icon: Icon(
-                            Bogota_icon.back,
+                          icon: SvgPicture.asset(
+                            IdtAssets.back,
                             color: IdtColors.white,
-                            size: 50.0,
+                            height: 50.0,
                           ),
                           onPressed: () {
                             print("Favorite");

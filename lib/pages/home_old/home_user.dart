@@ -1,10 +1,10 @@
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/testData.dart';
 import 'package:bogota_app/pages/components/appbar.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/home_old/imperdibles_list.dart';
-import 'package:bogota_app/utils/style_method.dart';
+import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -269,7 +269,7 @@ class _Home_UserState extends State<Home_User> {
                       left: 165,
                       child: Container(
                         child: Icon(
-                          Bogota_icon.engrane,
+                          IdtIcons.engrane,
                           size: 27,
                         ),
                       ),

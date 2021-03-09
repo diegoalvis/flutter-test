@@ -1,7 +1,7 @@
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:bogota_app/bogota_icon.dart';
 
 class IdtFab extends StatelessWidget {
 
@@ -41,7 +41,7 @@ class IdtFab extends StatelessWidget {
           height: 72,
           decoration: homeSelected,
           child: Icon(
-            Bogota_icon.home,
+            IdtIcons.home,
             color: homeSelect ? IdtColors.white : IdtColors.grayBtn,
             size: 39,
           ),

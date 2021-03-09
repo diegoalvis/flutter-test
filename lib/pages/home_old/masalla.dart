@@ -1,14 +1,14 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/testData.dart';
 import 'package:bogota_app/pages/components/appbar.dart';
 import 'package:bogota_app/pages/components/verticalgridcustom.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/components/read_more_text.dart';
-import 'package:bogota_app/utils/style_method.dart';
+import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../app_theme.dart';
@@ -149,7 +149,7 @@ class _Mas_AllaState extends State<Mas_Alla> {
                           color: Colors.red,
                           alignment: Alignment.centerRight,
                           icon: Icon(
-                            Bogota_icon.back,
+                            Icons.arrow_back,
                             color: Colors.white,
                             size: 40.0,
                           ),
@@ -219,7 +219,7 @@ class _Mas_AllaState extends State<Mas_Alla> {
                                 color: Colors.red,
                                 alignment: Alignment.centerRight,
                                 icon: Icon(
-                                  Bogota_icon.heart1,
+                                  IdtIcons.heart2,
                                   color: Colors.red,
                                   size: 30.0,
                                 ),
@@ -250,11 +250,6 @@ class _Mas_AllaState extends State<Mas_Alla> {
                     alignment: Alignment.bottomLeft,
                     //   height: MediaQuery.of(context).size.height * .5,
                     child: Container(
-                      child: Icon(
-                        Bogota_icon.curve1,
-                        color: Colors.white,
-                        size: 132,
-                      ),
                       width: 410,
                       height: 130,
                     )))
@@ -296,12 +291,7 @@ class _Mas_AllaState extends State<Mas_Alla> {
                               minWidth: 150,
                               minHeight: 50.0,
                               maxHeight: 50),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Bogota_icon.mappin,
-                            size: 37,
-                            color: Colors.white,
-                          ),
+                          alignment: Alignment.center
                         ),
                       ),
                     ),
@@ -336,11 +326,7 @@ class _Mas_AllaState extends State<Mas_Alla> {
                                 minHeight: 50.0,
                                 maxHeight: 50),
                             alignment: Alignment.center,
-                            child: Icon(
-                              Bogota_icon.headphones,
-                              size: 37,
-                              color: Colors.white,
-                            )),
+                        ),
                       ),
                     ),
                   ),
@@ -542,11 +528,6 @@ class _Mas_AllaState extends State<Mas_Alla> {
                         alignment: Alignment.bottomLeft,
                         //   height: MediaQuery.of(context).size.height * .5,
                         child: Container(
-                          child: Icon(
-                            Bogota_icon.curve2,
-                            color: Colors.white,
-                            size: 132,
-                          ),
                           width: 410,
                           height: 130,
                         ))),

@@ -1,9 +1,9 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/pages/home_old/home_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bogota_app/bogota_icon.dart';
 
 
 class AppBar_Component extends StatelessWidget implements PreferredSizeWidget {
@@ -44,7 +44,7 @@ class AppBar_Component extends StatelessWidget implements PreferredSizeWidget {
               color: IdtColors.transparent,
               alignment: Alignment.centerRight,
               icon: Icon(
-                Bogota_icon.menu,
+                IdtIcons.menu,
                 color: IdtColors.black,
                 size: 10.0,
               ),
@@ -57,8 +57,7 @@ class AppBar_Component extends StatelessWidget implements PreferredSizeWidget {
                     state: state_profile!,
                   ),
                 );
-                //    Navigator.pushNamed(context, Chat.routeName);
-// do something
+                // Navigator.pushNamed(context, Chat.routeName);
               },
             ),
           ),

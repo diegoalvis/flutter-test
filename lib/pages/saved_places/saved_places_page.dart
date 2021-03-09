@@ -1,19 +1,19 @@
 import 'dart:ui';
 
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
-import 'package:bogota_app/bogota_icon.dart';
+import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/DataTest.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_view_model.dart';
-import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -167,13 +167,12 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                 autofocus: false,
                 color: IdtColors.red,
                 alignment: Alignment.centerRight,
-                icon: Icon(
-                  Bogota_icon.back,
-                  color: IdtColors.white,
-                  size: 50.0,
+                icon: SvgPicture.asset(
+                  IdtAssets.back,
+                  height: 50.0,
                 ),
                 onPressed: () {
-                  print("Favorite");
+                  print("Back");
                 },
               ),
             ),

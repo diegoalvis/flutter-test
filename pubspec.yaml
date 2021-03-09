@@ -62,9 +62,9 @@ flutter:
     - lib/assets/icons/
 
   fonts:
-    - family: Bogota_icon
+    - family: IdtIcons
       fonts:
-        - asset: lib/assets/icons/Bogota_icon.ttf
+        - asset: lib/assets/icons/IdtIcons.ttf
 
     - family: MuseoSans
       fonts:

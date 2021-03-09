@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'GFiles App',
       theme: AppTheme.build(),
       home: SplashScreen(),
-        //onGenerateRoute: locator<IdtRoute>().generateRoute
+      //onGenerateRoute: locator<IdtRoute>().generateRoute
     );
   }
 }

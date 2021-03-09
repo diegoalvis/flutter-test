@@ -1,11 +1,9 @@
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/pages/home_old/home_add_places.dart';
 import 'package:bogota_app/pages/home_old/home_user.dart';
-import 'package:bogota_app/pages/imperdibles/imperdibles.dart';
-import 'package:bogota_app/pages/audioguias/audioguias.dart';
 import 'package:bogota_app/pages/home_old/masalla.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bogota_app/bogota_icon.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = "/HomePage";
@@ -20,9 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Indica los screens a los que se puede enrutar la app
   final List<Widget> screens = [
-    Audioguias(),
-    Audioguias(),
-    Imperdibles(),
     Mas_Alla(),
     Home_User(
       state: true,
@@ -92,7 +87,7 @@ class _HomeState extends State<Home> {
           width: 60,
           height: 60,
           child: Icon(
-            Bogota_icon.home,
+            IdtIcons.home,
             color: currentTab == 2 ? Colors.white : Colors.grey,
             size: 35,
           ),
@@ -145,7 +140,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Bogota_icon.compass,
+                          IdtIcons.compass,
                           color: currentTab == 0 ? orange : grey,
                           size: 30,
                         ),

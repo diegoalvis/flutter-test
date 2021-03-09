@@ -5,7 +5,7 @@ import 'package:bogota_app/data/testData.dart';
 import 'package:bogota_app/pages/components/title_lugares.dart';
 import 'package:bogota_app/pages/components/title_sec.dart';
 import 'package:bogota_app/pages/components/verticalgrid.dart';
-import 'package:bogota_app/utils/style_method.dart';
+import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -379,11 +379,11 @@ class _HorizontalAndVerticalListViewState
               height: 40,
               width: 85,
               decoration: BoxDecoration(
-                image: DecorationImage(
+               /* image: DecorationImage(
                   image: AssetImage(IdtAssets.headphones),
                   // scale: 0.1,
                   fit: BoxFit.scaleDown,
-                ),
+                ),*/
               ),
               //  child: IconShadowWidget(Icon(Bogota_icon.headphones,
               //      color: Colors.white, size: 36),shadowColor: Colors.transparent,),

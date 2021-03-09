@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/DataTest.dart';
 import 'package:bogota_app/pages/detail/detail_view_model.dart';
-import 'package:bogota_app/utils/style_method.dart';
+import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,19 +93,19 @@ class _DetailWidgetState extends State<DetailWidget> {
               )*/
             ],
           ),
-          /*Positioned(
+          Positioned(
             bottom: 0,
             child: SizedBox(
               width: size.width,
               height: size.height * 0.8,
               child: SvgPicture.asset(
-                IdtAssets.curve_ltr,
+                IdtAssets.curve_up,
                 color: IdtColors.white,
                 fit: BoxFit.fill
               ),
             )
-          ),*/
-          Positioned(
+          ),
+          /*Positioned(
             bottom: 0,
             child: Container(
               alignment: Alignment.bottomLeft,
@@ -118,7 +118,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                 height: 130,
               )
             )
-          ),
+          ),*/
           Positioned(
             bottom: 100,
             width: size.width,
@@ -191,10 +191,10 @@ class _DetailWidgetState extends State<DetailWidget> {
                         autofocus: false,
                         color: IdtColors.red,
                         alignment: Alignment.centerRight,
-                        icon: Icon(
-                          Bogota_icon.back,
+                        icon: SvgPicture.asset(
+                          IdtAssets.back_white,
                           color: IdtColors.white,
-                          size: 40.0,
+                          height: 40.0,
                         ),
                         onPressed: () {
                           print("Favorite");
@@ -240,7 +240,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                               color: IdtColors.red,
                               alignment: Alignment.centerRight,
                               icon: Icon(
-                                Bogota_icon.heart1,
+                                IdtIcons.heart2,
                                 color: IdtColors.red,
                                 size: 30.0,
                               ),
@@ -383,10 +383,10 @@ class _DetailWidgetState extends State<DetailWidget> {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Container(
-                child: Icon(
-                  Bogota_icon.curve2,
+                child: SvgPicture.asset(
+                  IdtAssets.curve_down,
                   color: Colors.white,
-                  size: 132,
+                  height: 132,
                 ),
                 width: 410,
                 height: 130,

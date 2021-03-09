@@ -1,5 +1,5 @@
-import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/pages/components/icongrad.dart';
 import 'package:flutter/material.dart';
 
@@ -67,12 +67,7 @@ class GridVerticalCustom_Component extends StatelessWidget {
                               Positioned(
                                 top: 5,
                                 left: MediaQuery.of(context).size.width *0.32,
-                                child: Container(
-                                    child: Icon(
-                                  Bogota_icon.heart1,
-                                  color: Colors.red[700],
-                                  size: 17,
-                                )),
+                                child: Container(),
                               ),
                               type == 1 ? widget_audioguias() : Container(),
                               Positioned(
@@ -149,11 +144,7 @@ class GridVerticalCustom_Component extends StatelessWidget {
             height: 40,
             width: 85,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(IdtAssets.headphones),
-                // scale: 0.1,
-                fit: BoxFit.scaleDown,
-              ),
+
             ),
             //  child: IconShadowWidget(Icon(Bogota_icon.headphones,
             //      color: Colors.white, size: 36),shadowColor: Colors.transparent,),
