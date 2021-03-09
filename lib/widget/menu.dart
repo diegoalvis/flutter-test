@@ -12,7 +12,7 @@ class IdtMenu extends StatelessWidget {
 
   final VoidCallback closeMenu;
 
-  IdtMenu({this.closeMenu});
+  IdtMenu({required this.closeMenu});
 
   final _route = locator<IdtRoute>();
 
@@ -98,7 +98,7 @@ class IdtMenu extends StatelessWidget {
               itemCount: DataTest.List2.length,
               itemBuilder: (BuildContext context, int index) {
                 bool isCurrentIndexSelected =
-                itemsSelectedValue[index] == null ? false : itemsSelectedValue[index];
+                (itemsSelectedValue[index] == null ? false : itemsSelectedValue[index])!;
 
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),

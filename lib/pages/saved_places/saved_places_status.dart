@@ -6,9 +6,9 @@ class SavedPlacesStatus extends ViewStatus{
   final bool openMenu;
   final List<bool> listSwitch;
 
-  SavedPlacesStatus({this.isLoading, this.openMenu, this.listSwitch});
+  SavedPlacesStatus({required this.isLoading, required this.openMenu, required this.listSwitch});
 
-  SavedPlacesStatus copyWith({bool isLoading, bool openMenu, List<bool> listSwitch}) {
+  SavedPlacesStatus copyWith({bool? isLoading, bool? openMenu, List<bool>? listSwitch}) {
     return SavedPlacesStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,

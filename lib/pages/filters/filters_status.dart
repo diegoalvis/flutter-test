@@ -6,9 +6,9 @@ class FiltersStatus extends ViewStatus{
   final bool openMenu;
   final bool openMenuTab;
 
-  FiltersStatus({this.isLoading, this.openMenu, this.openMenuTab});
+  FiltersStatus({required this.isLoading, required this.openMenu, required this.openMenuTab});
 
-  FiltersStatus copyWith({bool isLoading, bool openMenu, bool openMenuTab }) {
+  FiltersStatus copyWith({bool? isLoading, bool? openMenu, bool? openMenuTab }) {
     return FiltersStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,

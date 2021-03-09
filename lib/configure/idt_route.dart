@@ -25,81 +25,81 @@ class IdtRoute {
   final navigatorKey = GlobalKey<NavigatorState>();
 
   void popT<T>(T result){
-    navigatorKey.currentState.pop<T>(result);
+    navigatorKey.currentState!.pop<T>(result);
   }
 
   void pop(){
-    navigatorKey.currentState.pop();
+    navigatorKey.currentState!.pop();
   }
 
   goHome(){
-    return navigatorKey.currentState.pushReplacement(
+    return navigatorKey.currentState!.pushReplacement(
       MaterialPageRoute(builder: (_)=> Home())
     );
   }
 
-  goDetail({bool isHotel}){
-    return navigatorKey.currentState.push(
+  goDetail({required bool isHotel}){
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel))
     );
   }
 
   goPlayAudio(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> PlayAudioPage())
     );
   }
 
   goDiscover(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> DiscoverPage())
     );
   }
 
   goSearch(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SearchPage())
     );
   }
 
   goResultSearch(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> ResultSearchPage())
     );
   }
 
   goFilters(String title){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> FiltersPage(title))
     );
   }
 
   goAudioGuide(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> AudioGuidePage())
     );
   }
 
   goUnmissable(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> UnmissablePage())
     );
   }
 
-  goEvents({@required String title, String nameFilter, @required bool includeDay}){
-    return navigatorKey.currentState.push(
+  goEvents({required String title, String? nameFilter, required bool includeDay}){
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
     );
   }
 
   goEventsDetail(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> EventDetailPage())
     );
   }
 
   goSavedPlaces(){
-    return navigatorKey.currentState.push(
+    return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SavedPlacesPage())
     );
   }

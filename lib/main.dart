@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bogota_app/widget/audio_player.dart';
 import 'package:bogota_app/widget/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,34 +31,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: IdtRoute().navigatorKey,
       debugShowCheckedModeBanner: false,
+
       title: 'GFiles App',
       theme: AppTheme.build(),
-      home: /*ExampleApp()*/ SplashScreen(),
+      home: SplashScreen(),
         //onGenerateRoute: locator<IdtRoute>().generateRoute
     );
-
-    /*return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context)=> Tittle())
-    ],
-      child: MaterialApp(
-        title: "Bogota App",
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'MuseoSans',
-          //   primaryColor: Colors.white,
-          // primaryColorLight: Colors.white
-        ),
-        home: SplashScreen(),
-        routes: <String, WidgetBuilder>{
-          '/HomePage': (BuildContext context) =>  Home(),
-          '/MasAlla': (BuildContext context) =>  Mas_Alla(),
-          '/Imperdibles': (BuildContext context) => Imperdibles(),
-          '/Audioguias': (BuildContext context) => Audioguias(),
-          '/Home_User': (BuildContext context) => Home_User(state: true,),
-          //   '/': (context) => HomePage(),
-
-        },
-      ),);*/
   }
-
-
 }

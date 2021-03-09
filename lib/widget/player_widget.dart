@@ -1,6 +1,7 @@
+/*
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+//import 'package:audioplayers/audioplayers.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class PlayerWidget extends StatefulWidget {
   final String url;
   final PlayerMode mode;
 
-  PlayerWidget({Key key, @required this.url, this.mode = PlayerMode.MEDIA_PLAYER}) : super(key: key);
+  PlayerWidget({Key? key, required this.url, this.mode = PlayerMode.MEDIA_PLAYER}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,24 +27,24 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   String url;
   PlayerMode mode;
 
-  AudioPlayer _audioPlayer;
-  AudioPlayerState _audioPlayerState;
-  Duration _duration;
-  Duration _position;
+  late AudioPlayer _audioPlayer;
+  late AudioPlayerState _audioPlayerState;
+  Duration _duration = Duration();
+  Duration _position = Duration();
 
-  PlayerState _playerState = PlayerState.stopped;
-  PlayingRouteState _playingRouteState = PlayingRouteState.speakers;
-  StreamSubscription _durationSubscription;
-  StreamSubscription _positionSubscription;
-  StreamSubscription _playerCompleteSubscription;
-  StreamSubscription _playerErrorSubscription;
-  StreamSubscription _playerStateSubscription;
-  StreamSubscription<PlayerControlCommand> _playerControlCommandSubscription;
+  late PlayerState _playerState = PlayerState.stopped;
+  late PlayingRouteState _playingRouteState = PlayingRouteState.speakers;
+  late StreamSubscription _durationSubscription;
+  late StreamSubscription _positionSubscription;
+  late StreamSubscription _playerCompleteSubscription;
+  late StreamSubscription _playerErrorSubscription;
+  late StreamSubscription _playerStateSubscription;
+  late StreamSubscription<PlayerControlCommand> _playerControlCommandSubscription;
 
   get _isPlaying => _playerState == PlayerState.playing;
   get _isPaused => _playerState == PlayerState.paused;
-  get _durationText => _duration?.toString()?.split('.')?.first ?? '';
-  get _positionText => _position?.toString()?.split('.')?.first ?? '';
+  get _durationText => _duration.toString().split('.').first;
+  get _positionText => _position.toString().split('.').first;
 
   get _isPlayingThroughEarpiece => _playingRouteState == PlayingRouteState.earpiece;
 
@@ -58,12 +59,12 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   @override
   void dispose() {
     _audioPlayer.dispose();
-    _durationSubscription?.cancel();
-    _positionSubscription?.cancel();
-    _playerCompleteSubscription?.cancel();
-    _playerErrorSubscription?.cancel();
-    _playerStateSubscription?.cancel();
-    _playerControlCommandSubscription?.cancel();
+    _durationSubscription.cancel();
+    _positionSubscription.cancel();
+    _playerCompleteSubscription.cancel();
+    _playerErrorSubscription.cancel();
+    _playerStateSubscription.cancel();
+    _playerControlCommandSubscription.cancel();
     super.dispose();
   }
 
@@ -255,4 +256,4 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   void _onComplete() {
     setState(() => _playerState = PlayerState.stopped);
   }
-}
+}*/

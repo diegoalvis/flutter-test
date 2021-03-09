@@ -9,9 +9,9 @@ import 'package:bogota_app/bogota_icon.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = "/HomePage";
-  Home({Key key, this.state = true, this.i, this.newscreen = false}) : super(key: key);
+  Home({Key? key, this.state = true, this.i, this.newscreen = false}) : super(key: key);
   final bool state;
-  int i;
+  int? i;
   final bool newscreen;
   @override
   _HomeState createState() => _HomeState();
@@ -30,7 +30,8 @@ class _HomeState extends State<Home> {
     Home_Add_Places(),
   ];
   @override
-  Widget currentScreen;
+  late Widget currentScreen;
+
   void initState() {
     /// i: indica el indice del screen que se mostrará
     /// newscreen indica si se ha enrutado desde otra vista
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
     super.initState();
     print(widget.newscreen);
     if (widget.newscreen) {
-      currentScreen = screens[widget.i];
+      currentScreen = screens[widget.i!];
     } else {
       currentScreen = Home_User(
         state: false,

@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 
 abstract class ViewModel<T extends ViewStatus> with ChangeNotifier {
 
-  T _status;
+  late T _status;
 
   T get status => _status;
 

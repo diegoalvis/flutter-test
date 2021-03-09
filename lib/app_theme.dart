@@ -22,7 +22,7 @@ class AppTheme{
     brightness: Brightness.light,
 
     textTheme: textTheme.copyWith(
-      bodyText2: textTheme.bodyText1.copyWith(
+      bodyText2: textTheme.bodyText1!.copyWith(
         fontSize: 12
       )
     )
@@ -31,37 +31,37 @@ class AppTheme{
 
 extension GFilesAttributes on TextTheme{
 
-  TextStyle get titleBlack => bodyText1.copyWith(
+  TextStyle get titleBlack => bodyText1!.copyWith(
     color: IdtColors.black,
     fontSize: 16,
     fontWeight: FontWeight.w600
   );
 
-  TextStyle get titleWhite => bodyText1.copyWith(
+  TextStyle get titleWhite => bodyText1!.copyWith(
     color: IdtColors.white,
     fontSize: 18,
     fontWeight: FontWeight.bold
   );
 
-  TextStyle get subTitleBlack => bodyText1.copyWith(
+  TextStyle get subTitleBlack => bodyText1!.copyWith(
     color: IdtColors.black,
     fontSize: 14,
     fontWeight: FontWeight.w700,
   );
 
-  TextStyle get textMenu => bodyText1.copyWith(
+  TextStyle get textMenu => bodyText1!.copyWith(
     color: IdtColors.black,
     fontSize: 20,
     fontWeight: FontWeight.w600,
   );
 
-  TextStyle get textDescrip => bodyText1.copyWith(
+  TextStyle get textDescrip => bodyText1!.copyWith(
     color: IdtColors.grayText,
     fontSize: 15,
     fontWeight: FontWeight.w400,
   );
 
-  TextStyle get textWhiteShadow => bodyText1.copyWith(
+  TextStyle get textWhiteShadow => bodyText1!.copyWith(
     color: Colors.white,
     fontSize: 12.0,
     fontWeight: FontWeight.bold,
@@ -74,29 +74,29 @@ extension GFilesAttributes on TextTheme{
     ],
   );
 
-  TextStyle get titleGray  => bodyText1.copyWith(
+  TextStyle get titleGray  => bodyText1!.copyWith(
       color: IdtColors.gray,
       fontSize: 16
   );
 
-  TextStyle get textDetail => bodyText1.copyWith(
+  TextStyle get textDetail => bodyText1!.copyWith(
     color: IdtColors.black,
     fontSize: 16
   );
-  TextStyle get grayDetail => bodyText1.copyWith(
+  TextStyle get grayDetail => bodyText1!.copyWith(
       color: IdtColors.gray,
       fontSize: 12
   );
-  TextStyle get blueDetail => bodyText1.copyWith(
+  TextStyle get blueDetail => bodyText1!.copyWith(
       color: IdtColors.blue,
       fontSize: 14
   );
-  TextStyle get textButtomWhite => bodyText1.copyWith(
+  TextStyle get textButtomWhite => bodyText1!.copyWith(
       color: IdtColors.white,
       fontSize: 14,
       fontWeight: FontWeight.w600
   );
-  TextStyle get textButtomBlue => bodyText1.copyWith(
+  TextStyle get textButtomBlue => bodyText1!.copyWith(
       color: IdtColors.blue,
       fontSize: 14,
       fontWeight: FontWeight.w600

@@ -64,7 +64,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                         ),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: Colors.grey[600],
+                            color: Colors.grey[600]!,
                             offset: Offset(0, 0),
                             blurRadius: 11.0,
                           ),
@@ -139,7 +139,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                     );
                   },
                 ),
-              )
+              ), onPressed: () {  },
             ),
           ),
         ),
@@ -170,7 +170,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                     );
                   },
                 ),
-              )
+              ), onPressed: () {  },
             ),
           ),
         )

@@ -28,10 +28,10 @@ class _Mas_AllaState extends State<Mas_Alla> {
 
   String title = 'Long List';
   String prevTitle = '';
-  List<String> items;
-  List<String> duplicateItems;
-  TextEditingController textController;
-  ScrollController con;
+  late List<String> items;
+  late List<String> duplicateItems;
+  late TextEditingController textController;
+  late ScrollController con;
   final itemSize = 80.0;
 
   void initState() {
@@ -424,7 +424,7 @@ class _Mas_AllaState extends State<Mas_Alla> {
                                     ),
                                     boxShadow: <BoxShadow>[
                                       BoxShadow(
-                                        color: Colors.grey[600],
+                                        color: Colors.grey[600]!,
                                         offset: Offset(0, 0),
                                         blurRadius: 11.0,
                                       ),
@@ -492,7 +492,8 @@ class _Mas_AllaState extends State<Mas_Alla> {
                                   duration: Duration(milliseconds: 500));
                             },
                           ),
-                        )),
+                        ),
+                      onPressed: () {  },),
                   ),
                 ),
                 Positioned(
@@ -523,7 +524,8 @@ class _Mas_AllaState extends State<Mas_Alla> {
                                   duration: Duration(milliseconds: 500));
                             },
                           ),
-                        )),
+                        ),
+                      onPressed: () {  },),
                   ),
                 )
           ],

@@ -1,9 +1,9 @@
+/*
 import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,10 +14,14 @@ import 'player_widget.dart';
 
 typedef void OnError(Exception exception);
 
-const kUrl1 = 'https://luan.xyz/files/audio/ambient_c_motion.mp3';
 //const kUrl2 = 'https://luan.xyz/files/audio/nasa_on_a_mission.mp3';
-const kUrl2 = 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3';
-const kUrl3 = 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba-online-audio-converter.com_-1.wav';
+const kUrl1 = 'https://luan.xyz/files/audio/ambient_c_motion.mp3';
+const kUrl2 = 'https://luan.xyz/files/audio/nasa_on_a_mission.mp3';
+const kUrl3 = 'http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1xtra_mf_p';
+
+void main() {
+  runApp(MaterialApp(home: ExampleApp()));
+}
 
 class ExampleApp extends StatefulWidget {
   @override
@@ -27,7 +31,7 @@ class ExampleApp extends StatefulWidget {
 class _ExampleAppState extends State<ExampleApp> {
   AudioCache audioCache = AudioCache();
   AudioPlayer advancedPlayer = AudioPlayer();
-  String localFilePath;
+  late String localFilePath;
 
   @override
   void initState() {
@@ -46,7 +50,7 @@ class _ExampleAppState extends State<ExampleApp> {
   }
 
   Future _loadFile() async {
-    final bytes = await readBytes(IdtConstants.audio);
+    final bytes = await readBytes(Uri().resolve(kUrl1));
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/audio.mp3');
 
@@ -175,10 +179,9 @@ class _ExampleAppState extends State<ExampleApp> {
           case ConnectionState.done:
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             return Text(
-              'audio2.mp3 duration is: ${Duration(milliseconds: snapshot.data)}',
+              'audio2.mp3 duration is: ${Duration(milliseconds: snapshot.data!)}',
             );
         }
-        return null; // unreachable
       },
     );
   }
@@ -199,8 +202,7 @@ class _ExampleAppState extends State<ExampleApp> {
       providers: [
         StreamProvider<Duration>.value(
             initialData: Duration(),
-            value: advancedPlayer.onAudioPositionChanged
-        ),
+            value: advancedPlayer.onAudioPositionChanged),
       ],
       child: DefaultTabController(
         length: 5,
@@ -237,14 +239,14 @@ class _ExampleAppState extends State<ExampleApp> {
 class Advanced extends StatefulWidget {
   final AudioPlayer advancedPlayer;
 
-  const Advanced({Key key, this.advancedPlayer}) : super(key: key);
+  const Advanced({Key? key, required this.advancedPlayer}) : super(key: key);
 
   @override
   _AdvancedState createState() => _AdvancedState();
 }
 
 class _AdvancedState extends State<Advanced> {
-  bool seekDone;
+  late bool seekDone;
 
   @override
   void initState() {
@@ -415,7 +417,7 @@ class _AdvancedState extends State<Advanced> {
 class _Tab extends StatelessWidget {
   final List<Widget> children;
 
-  const _Tab({Key key, this.children}) : super(key: key);
+  const _Tab({Key? key, required this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -439,7 +441,7 @@ class _Btn extends StatelessWidget {
   final String txt;
   final VoidCallback onPressed;
 
-  const _Btn({Key key, this.txt, this.onPressed}) : super(key: key);
+  const _Btn({Key? key, required this.txt, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -448,4 +450,4 @@ class _Btn extends StatelessWidget {
       child: RaisedButton(child: Text(txt), onPressed: onPressed),
     );
   }
-}
+}*/

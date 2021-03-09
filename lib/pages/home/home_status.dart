@@ -6,9 +6,9 @@ class HomeStatus extends ViewStatus{
   final bool isLoading;
   final bool openMenu;
 
-  HomeStatus({this.titleBar, this.isLoading, this.openMenu});
+  HomeStatus({required this.titleBar, required this.isLoading, required this.openMenu});
 
-  HomeStatus copyWith({String titleBar, bool isLoading, bool openMenu }) {
+  HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,

@@ -5,9 +5,9 @@ class ResultSearchStatus extends ViewStatus{
   final bool isLoading;
   final bool openMenu;
 
-  ResultSearchStatus({this.isLoading, this.openMenu});
+  ResultSearchStatus({required this.isLoading, required this.openMenu});
 
-  ResultSearchStatus copyWith({bool isLoading, bool openMenu}) {
+  ResultSearchStatus copyWith({bool? isLoading, bool? openMenu}) {
     return ResultSearchStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu

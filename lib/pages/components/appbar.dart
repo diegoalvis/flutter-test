@@ -7,8 +7,8 @@ import 'package:bogota_app/bogota_icon.dart';
 
 
 class AppBar_Component extends StatelessWidget implements PreferredSizeWidget {
-  AppBar_Component({Key key, this.state_profile}) : super(key: key);
-  final bool state_profile;
+  AppBar_Component({Key? key, this.state_profile}) : super(key: key);
+  final bool? state_profile;
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -54,7 +54,7 @@ class AppBar_Component extends StatelessWidget implements PreferredSizeWidget {
                   context,
                   Home_User.routeName,
                   arguments: Home_User(
-                    state: state_profile,
+                    state: state_profile!,
                   ),
                 );
                 //    Navigator.pushNamed(context, Chat.routeName);

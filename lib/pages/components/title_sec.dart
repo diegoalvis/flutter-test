@@ -4,7 +4,7 @@ import 'package:bogota_app/utils/style_method.dart';
 
 
 class Title_Sec extends StatelessWidget{
-  Title_Sec(this.title,{Key key}) : super(key: key);
+  Title_Sec(this.title,{Key? key}) : super(key: key);
   final String title;
 
 

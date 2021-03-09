@@ -14,7 +14,7 @@ class OtherPlaces extends StatelessWidget {
 
   final VoidCallback onTapCard;
 
-  OtherPlaces({this.onTapCard});
+  OtherPlaces({required this.onTapCard});
 
   Widget ImagesCard(TextTheme textTheme, String item, int index, List listItems) => (
 

@@ -23,7 +23,7 @@ class Bogota_icon {
   Bogota_icon._();
 
   static const _kFontFam = 'Bogota_icon';
-  static const String  _kFontPkg = null;
+  static const String  _kFontPkg = '';
 
   static const IconData engrane = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData headphones = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);

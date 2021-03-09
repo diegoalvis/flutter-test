@@ -5,7 +5,6 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_status.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart';
 
 class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
@@ -41,7 +40,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
   Future loadFile() async {
 
     //TODO: Crear un loading para esta descarga
-    final bytes = await readBytes(status.urlAudio);
+    /*final bytes = await readBytes(Uri.file(status.urlAudio));
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/audio.mp3');
 
@@ -50,7 +49,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     print('File descargado: $file');
     if (await file.exists()) {
       status = status.copyWith(pathAudio: file.path);
-    }
+    }*/
   }
 
   void onTapDrawer(String type) async {

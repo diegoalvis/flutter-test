@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class IdtBottomAppBar extends StatelessWidget {
 
-  final VoidCallback goDiscover;
-  final VoidCallback goSearch;
+  final VoidCallback? goDiscover;
+  final VoidCallback? goSearch;
   final bool discoverSelect;
   final bool searchSelect;
 

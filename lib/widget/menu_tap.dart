@@ -14,9 +14,9 @@ class IdtMenuTap extends StatelessWidget {
   final double opacity;*/
 
   IdtMenuTap({
-    this.closeMenu,
-    this.listItems,
-    this.goFilters,
+    required this.closeMenu,
+    required this.listItems,
+    required this.goFilters,
     this.isBlue = false,
     /*this.colorBack = IdtColors.white,
     this.opacity = 0.95*/

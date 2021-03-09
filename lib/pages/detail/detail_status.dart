@@ -6,9 +6,9 @@ class DetailStatus extends ViewStatus{
   final bool moreText;
   final bool openMenuTab;
 
-  DetailStatus({this.isLoading, this.moreText, this.openMenuTab});
+  DetailStatus({required this.isLoading, required this.moreText, required this.openMenuTab});
 
-  DetailStatus copyWith({bool isLoading, bool moreText, bool openMenuTab }) {
+  DetailStatus copyWith({bool? isLoading, bool? moreText, bool? openMenuTab }) {
     return DetailStatus(
       isLoading: isLoading ?? this.isLoading,
       moreText: moreText ?? this.moreText,

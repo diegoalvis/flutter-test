@@ -23,10 +23,10 @@ class _HorizontalAndVerticalListViewState
   var button_unselected;
 
   String prevTitle = '';
-  List<String> items;
-  List<String> duplicateItems;
-  TextEditingController textController;
-  ScrollController con;
+  late List<String> items;
+  late List<String> duplicateItems;
+  late TextEditingController textController;
+  late ScrollController con;
   final itemSize = 80.0;
   final g = GridVertical_Component();
   final testdata = testData();
@@ -147,7 +147,7 @@ class _HorizontalAndVerticalListViewState
                               ),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                  color: Colors.grey[600],
+                                  color: Colors.grey[600]!,
                                   offset: Offset(0, 0),
                                   blurRadius: 11.0,
                                 ),
@@ -233,7 +233,8 @@ class _HorizontalAndVerticalListViewState
                             duration: Duration(milliseconds: 500));
                       },
                     ),
-                  )),
+                  ),
+                onPressed: () {  },),
             ),
           ),
           Positioned(
@@ -264,7 +265,7 @@ class _HorizontalAndVerticalListViewState
                             duration: Duration(milliseconds: 500));
                       },
                     ),
-                  )),
+                  ), onPressed: () {  },),
             ),
           )
         ],

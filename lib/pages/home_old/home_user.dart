@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 
 class Home_User extends StatefulWidget {
   static const String routeName = "/Home_User";
-  Home_User({Key key, this.state}) : super(key: key);
+  Home_User({Key? key, required this.state}) : super(key: key);
   final bool state;
   @override
   _Home_UserState createState() => _Home_UserState();
@@ -107,9 +107,9 @@ class _Home_UserState extends State<Home_User> {
           itemCount: testdata.List2.length,
           itemBuilder: (BuildContext context, int index) {
             bool isCurrentIndexSelected =
-            itemsSelectedValue[index] == null
+            (itemsSelectedValue[index] == null
                 ? false
-                : itemsSelectedValue[index];
+                : itemsSelectedValue[index])!;
             //     bool isCurrentIndexSelected = false;
             return Container(
               margin: EdgeInsets.only(bottom: 10),

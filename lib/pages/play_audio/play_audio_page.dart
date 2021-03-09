@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/bogota_icon.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -14,10 +12,10 @@ import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/player_widget.dart';
-import 'package:custom_switch/custom_switch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -78,14 +76,14 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
 
     );
   }*/
-  AudioCache audioCache = AudioCache();
-  AudioPlayer advancedPlayer = AudioPlayer();
+  /*AudioCache audioCache = AudioCache();
+  AudioPlayer advancedPlayer = AudioPlayer();*/
 
   @override
   void initState() {
     super.initState();
 
-    if (kIsWeb) {
+    /*if (kIsWeb) {
       // Calls to Platform.isIOS fails on web
       return;
     }
@@ -94,7 +92,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
         audioCache.fixedPlayer.startHeadlessService();
       }
       advancedPlayer.startHeadlessService();
-    }
+    }*/
   }
 
   @override
@@ -199,8 +197,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
                 color: IdtColors.black.withOpacity(0.4),
                 shape: BoxShape.rectangle,
               ),
-              child: viewModel.status.isOnline ?
-                PlayerWidget(url: IdtConstants.audio) : PlayerWidget(url: viewModel.status.pathAudio)
+              /*child: viewModel.status.isOnline ?
+                PlayerWidget(url: IdtConstants.audio) : PlayerWidget(url: viewModel.status.pathAudio)*/
             ),
             //viewModel.status.isOnline ? Text(viewModel.status.pathAudio, style: textTheme.textButtomWhite) : SizedBox.shrink(),
             /*Switch(
@@ -211,10 +209,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
               onChanged: (value){}
             ),*/
             SizedBox(height: 12),
-            CustomSwitch(
-              activeColor: IdtColors.orange,
+            FlutterSwitch(
               value: viewModel.status.modeOffline,
-              onChanged: viewModel.changeModeOffline,
+              onToggle: viewModel.changeModeOffline,
+              activeColor: IdtColors.orange,
             ),
             SizedBox(height: 8),
             Text(

@@ -8,9 +8,9 @@ class PlayAudioStatus extends ViewStatus{
   final String urlAudio;
   final String pathAudio;
 
-  PlayAudioStatus({this.isLoading, this.modeOffline, this.isOnline, this.urlAudio, this.pathAudio});
+  PlayAudioStatus({required this.isLoading, required this.modeOffline, required this.isOnline, required this.urlAudio, required this.pathAudio});
 
-  PlayAudioStatus copyWith({bool isLoading, bool modeOffline, bool isOnline, String urlAudio, String pathAudio }) {
+  PlayAudioStatus copyWith({bool? isLoading, bool? modeOffline, bool? isOnline, String? urlAudio, String? pathAudio }) {
     return PlayAudioStatus(
       isLoading: isLoading ?? this.isLoading,
       modeOffline: modeOffline ?? this.modeOffline,

@@ -344,7 +344,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                         onPressed: () {
                         },
                       ),
-                    )
+                    ),
+                    onPressed: () {  },
                   ),
                 ),
               ),
@@ -370,7 +371,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                         onPressed: () {
                         },
                       ),
-                    )
+                    ),
+                    onPressed: () {  },
                   ),
                 ),
               )

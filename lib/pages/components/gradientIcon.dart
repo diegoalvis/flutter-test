@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 
 class GradientIcon extends StatelessWidget {
 
-  final IconData icon;
-  final double size;
-  final LinearGradient gradient;
+  final IconData? icon;
+  final double? size;
+  final LinearGradient? gradient;
 
-  GradientIcon({@required this.icon, @required this.size, @required this.gradient});
+  GradientIcon({this.icon, this.size, this.gradient});
 
   @override
   Widget build(BuildContext context) {

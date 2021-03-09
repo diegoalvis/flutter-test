@@ -215,23 +215,24 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 180.0, left: 20),
                   child: IconButton(
-                      iconSize: 35,
-                      alignment: Alignment.centerLeft,
-                      icon: FittedBox(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: CircleBorder(),
-                          ),
-                          child: Icon(
-                            Icons.arrow_back_ios_rounded,
-                            color: IdtColors.grayBtn,
-                          ),
-                          onPressed: () {
-                          },
+                    iconSize: 35,
+                    alignment: Alignment.centerLeft,
+                    icon: FittedBox(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: CircleBorder(),
                         ),
-                      )
+                        child: Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: IdtColors.grayBtn,
+                        ),
+                        onPressed: () {
+                        },
+                      ),
+                    ),
+                    onPressed: () {  },
                   ),
                 ),
               ),
@@ -241,23 +242,24 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 175.0, left: 45),
                   child: IconButton(
-                      iconSize: 35,
-                      alignment: Alignment.centerLeft,
-                      icon: FittedBox(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: IdtColors.white,
-                            shape: CircleBorder(),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: IdtColors.grayBtn,
-                          ),
-                          onPressed: () {
-                          },
+                    iconSize: 35,
+                    alignment: Alignment.centerLeft,
+                    icon: FittedBox(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: IdtColors.white,
+                          shape: CircleBorder(),
                         ),
-                      )
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: IdtColors.grayBtn,
+                        ),
+                        onPressed: () {
+                        },
+                      ),
+                    ),
+                    onPressed: () {  },
                   ),
                 ),
               )

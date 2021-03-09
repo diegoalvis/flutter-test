@@ -20,10 +20,10 @@ import '../../app_theme.dart';
 class EventsPage extends StatelessWidget {
 
   final String title;
-  final String nameFilter;
+  final String? nameFilter;
   final bool includeDay;
 
-  EventsPage({@required this.title, this.nameFilter, this.includeDay});
+  EventsPage({required this.title, this.nameFilter, required this.includeDay});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class EventsPage extends StatelessWidget {
 class EventsWidget extends StatefulWidget {
 
   final String _title;
-  final String _nameFilter;
+  final String? _nameFilter;
   final bool _includeDay;
 
   EventsWidget(this._title, this._nameFilter, this._includeDay);
@@ -95,6 +95,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         listItems: listMenu,
         closeMenu: viewModel.closeMenuTab,
         isBlue: true,
+        goFilters: (){},
       )
       : SizedBox.shrink();
 

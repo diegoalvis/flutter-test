@@ -6,9 +6,9 @@ class EventsStatus extends ViewStatus{
   final bool openMenu;
   final bool openMenuTab;
 
-  EventsStatus({this.isLoading, this.openMenu, this.openMenuTab});
+  EventsStatus({required this.isLoading, required this.openMenu, required this.openMenuTab});
 
-  EventsStatus copyWith({bool isLoading, bool openMenu, bool openMenuTab }) {
+  EventsStatus copyWith({bool? isLoading, bool? openMenu, bool? openMenuTab }) {
     return EventsStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,

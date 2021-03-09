@@ -91,6 +91,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listItems: listMenu,
           closeMenu: viewModel.closeMenuTab,
           isBlue: true,
+          goFilters: () {  },
         )
         : SizedBox.shrink();
 
