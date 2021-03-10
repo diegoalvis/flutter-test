@@ -1,16 +1,18 @@
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
+import 'package:bogota_app/configure/get_it_locator.dart';
+import 'package:bogota_app/configure/idt_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class IdtBottomAppBar extends StatelessWidget {
 
-  final VoidCallback? goDiscover;
-  final VoidCallback? goSearch;
   final bool discoverSelect;
   final bool searchSelect;
 
-  IdtBottomAppBar({this.goDiscover, this.goSearch, this.discoverSelect = true, this.searchSelect = false});
+  IdtBottomAppBar({this.discoverSelect = true, this.searchSelect = false});
+
+  final _route = locator<IdtRoute>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class IdtBottomAppBar extends StatelessWidget {
                   size: 32
                 ),
                 padding: EdgeInsets.symmetric(vertical: 5),
-                onPressed: goDiscover
+                onPressed: _route.goDiscoverUntil
               ),
             ),
             Container(
@@ -45,7 +47,7 @@ class IdtBottomAppBar extends StatelessWidget {
                   size: 38
                 ),
                 padding: EdgeInsets.symmetric(vertical: 5),
-                onPressed: goSearch
+                onPressed: _route.goSearchUntil
               ),
             )
           ],

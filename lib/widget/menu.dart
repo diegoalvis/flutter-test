@@ -48,9 +48,12 @@ class IdtMenu extends StatelessWidget {
                     top: 17,
                     left: 165,
                     child: Container(
-                      child: Icon(
-                        IdtIcons.engrane,
-                        size: 27,
+                      child: IconButton(
+                        onPressed: _route.goProfile,
+                        icon: Icon(
+                          IdtIcons.engrane,
+                          size: 27,
+                        ),
                       ),
                     ),
                   )

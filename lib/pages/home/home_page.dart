@@ -48,8 +48,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
         bottomNavigationBar: IdtBottomAppBar(
-          goDiscover: viewModel.goDiscoverPage,
-          goSearch: viewModel.goSearchPage,
           discoverSelect: false,
         ),
         extendBody: true,

@@ -1,11 +1,15 @@
+import 'dart:ui';
+
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_page.dart';
 import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/filters/filters_page.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
+import 'package:bogota_app/pages/profile/profile_page.dart';
 import 'package:bogota_app/pages/result_search/result_search_page.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_page.dart';
 import 'package:bogota_app/pages/search/search_page.dart';
@@ -38,6 +42,13 @@ class IdtRoute {
     );
   }
 
+  goHomeRemoveAll(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> Home()),
+      (Route<dynamic> route) => false
+    );
+  }
+
   goDetail({required bool isHotel}){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel))
@@ -56,9 +67,23 @@ class IdtRoute {
     );
   }
 
+  goDiscoverUntil(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> DiscoverPage()),
+      (route) => route.isFirst
+    );
+  } 
+
   goSearch(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SearchPage())
+    );
+  }
+
+  goSearchUntil(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> SearchPage()),
+      (route) => route.isFirst
     );
   }
 
@@ -101,6 +126,12 @@ class IdtRoute {
   goSavedPlaces(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SavedPlacesPage())
+    );
+  }
+
+  goProfile(){
+    return navigatorKey.currentState!.push(
+      MaterialPageRoute(builder: (_)=> ProfilePage())
     );
   }
 

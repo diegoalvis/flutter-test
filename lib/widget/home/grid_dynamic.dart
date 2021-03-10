@@ -4,7 +4,6 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/data/DataTest.dart';
 import 'package:bogota_app/pages/components/gradientIcon.dart';
-import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -41,13 +40,13 @@ class GridDynamic extends StatelessWidget {
                           topRight:
                           Radius.circular(15.00), // FLUTTER BUG FIX
                         ),
-                        boxShadow: <BoxShadow>[
+                        /*boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: Colors.grey[600],
                             offset: Offset(0, 0),
                             blurRadius: 11.0,
                           ),
-                        ],
+                        ],*/
                       ),
                       child: FittedBox(
                         fit: BoxFit.cover,
@@ -118,7 +117,7 @@ class GridDynamic extends StatelessWidget {
                   onPressed: () {
                   },
                 ),
-              )
+              ), onPressed: () {  },
             ),
           ),
         ),
@@ -144,7 +143,7 @@ class GridDynamic extends StatelessWidget {
                   onPressed: () {
                   },
                 ),
-              )
+              ), onPressed: () {  },
             ),
           ),
         )
