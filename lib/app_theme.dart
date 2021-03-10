@@ -75,8 +75,14 @@ extension GFilesAttributes on TextTheme{
   );
 
   TextStyle get titleGray  => bodyText1!.copyWith(
-      color: IdtColors.gray,
-      fontSize: 16
+    color: IdtColors.gray,
+    fontSize: 16
+  );
+
+  TextStyle get optionsGray  => bodyText1!.copyWith(
+    color: IdtColors.gray.withOpacity(0.9),
+    fontSize: 19,
+    fontWeight: FontWeight.w600
   );
 
   TextStyle get textDetail => bodyText1!.copyWith(

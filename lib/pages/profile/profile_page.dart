@@ -75,11 +75,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 width: 30,
               )
             ),
-            Text(
-              dataText,
-              style: textTheme.titleGray.copyWith(
-                fontSize: 17,
-                fontWeight: FontWeight.w600
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                dataText,
+                style: textTheme.titleGray.copyWith(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600
+                ),
               ),
             ),
             Flexible(
@@ -89,7 +92,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ),
           ],
         ),
-        onPressed: (){},
+        onPressed: viewModel.goSettingPage,
         style: ElevatedButton.styleFrom(
           primary: IdtColors.white,
           onPrimary: IdtColors.gray,
@@ -139,12 +142,15 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 style: textTheme.textButtomWhite,
               ),
               Spacer(),
-              Text(
-                'Editar mi perfil',
-                style: textTheme.textButtomWhite.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600
+              TextButton(
+                child: Text(
+                  'Editar mi perfil',
+                  style: textTheme.textButtomWhite.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600
+                  ),
                 ),
+                onPressed: viewModel.goProfileEditPage,
               ),
               Spacer(),
               _elevationButtonCustom('Configuración de la cuenta'),

@@ -1,15 +1,15 @@
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/profile/profile_status.dart';
+import 'package:bogota_app/pages/profile_edit/profile_edit_status.dart';
 import 'package:bogota_app/view_model.dart';
 
-class ProfileViewModel extends ViewModel<ProfileStatus> {
+class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  ProfileViewModel(this._route, this._interactor) {
-    status = ProfileStatus(
+  ProfileEditViewModel(this._route, this._interactor) {
+    status = ProfileEditStatus(
       titleBar: 'Recibidos',
       isLoading: true,
       openMenu: false
@@ -28,12 +28,8 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void goProfileEditPage() {
-    _route.goProfileEdit();
-  }
-
-  void goSettingPage() {
-    _route.goSettings();
+  void goProfilePage() {
+    _route.goProfile();
   }
 
 }

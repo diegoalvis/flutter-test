@@ -10,9 +10,11 @@ import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
 import 'package:bogota_app/pages/profile/profile_page.dart';
+import 'package:bogota_app/pages/profile_edit/profile_edit_page.dart';
 import 'package:bogota_app/pages/result_search/result_search_page.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_page.dart';
 import 'package:bogota_app/pages/search/search_page.dart';
+import 'package:bogota_app/pages/setting/setting_page.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
 
@@ -132,6 +134,18 @@ class IdtRoute {
   goProfile(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> ProfilePage())
+    );
+  }
+
+  goProfileEdit(){
+    return navigatorKey.currentState!.push(
+      MaterialPageRoute(builder: (_)=> ProfileEditPage())
+    );
+  }
+
+  goSettings(){
+    return navigatorKey.currentState!.push(
+      MaterialPageRoute(builder: (_)=> SettingPage())
     );
   }
 
