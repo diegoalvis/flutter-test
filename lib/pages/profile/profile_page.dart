@@ -100,65 +100,69 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       );
     }
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.0),
-      child: Column(
-        children: [
-          Spacer(
-            flex: 2,
-          ),
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://googleflutter.com/sample_image.jpg'
-                ),
-                fit: BoxFit.fill,
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Column(
+            children: [
+              Spacer(
+                flex: 2,
               ),
-            ),
+              Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://googleflutter.com/sample_image.jpg'
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                'Juan Diego Rivas Cardoba',
+                style: textTheme.textButtomWhite.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                'Colombia',
+                style: textTheme.textButtomWhite,
+              ),
+              Spacer(),
+              Text(
+                'Editar mi perfil',
+                style: textTheme.textButtomWhite.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600
+                ),
+              ),
+              Spacer(),
+              _elevationButtonCustom('Configuración de la cuenta'),
+              Spacer( flex: 4),
+              Text(
+                'Politica de tratamiento de datos',
+                style: textTheme.textButtomWhite.copyWith(
+                  fontSize: 12,
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+            ],
           ),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-            'Juan Diego Rivas Cardoba',
-            style: textTheme.textButtomWhite.copyWith(
-              fontSize: 20,
-              fontWeight: FontWeight.w700
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-            'Colombia',
-            style: textTheme.textButtomWhite,
-          ),
-          Spacer(),
-          Text(
-            'Editar mi perfil',
-            style: textTheme.textButtomWhite.copyWith(
-              fontSize: 18,
-              fontWeight: FontWeight.w600
-            ),
-          ),
-          Spacer(),
-          _elevationButtonCustom('Configuración de la cuenta'),
-          Spacer( flex: 4),
-          Text(
-            'Politica de tratamiento de datos',
-            style: textTheme.textButtomWhite.copyWith(
-              fontSize: 12,
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          menu,
-        ],
-      ),
+        ),
+        menu
+      ],
     );
   }
 }

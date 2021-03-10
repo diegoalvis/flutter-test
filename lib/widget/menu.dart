@@ -45,8 +45,8 @@ class IdtMenu extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 17,
-                    left: 165,
+                    top: 5,
+                    right: 2,
                     child: Container(
                       child: IconButton(
                         onPressed: _route.goProfile,
