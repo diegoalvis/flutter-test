@@ -27,7 +27,7 @@ class ResultSearchViewModel extends ViewModel<ResultSearchStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void onTapDrawer(String type) async {
-    status = status.copyWith(isLoading: true);
+  void goDetailPage() {
+    _route.goDetail(isHotel: false);
   }
 }

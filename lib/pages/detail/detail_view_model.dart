@@ -1,9 +1,10 @@
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_status.dart';
 import 'package:bogota_app/view_model.dart';
 
-class DetailViewModel extends ViewModel<DetailStatus> {
+class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   final IdtRoute _route;
   final ApiInteractor _interactor;
@@ -12,7 +13,7 @@ class DetailViewModel extends ViewModel<DetailStatus> {
     status = DetailStatus(
       isLoading: true,
       moreText: false,
-      openMenuTab: false
+      isFavorite: false
     );
   }
 
@@ -29,17 +30,13 @@ class DetailViewModel extends ViewModel<DetailStatus> {
     _route.goPlayAudio();
   }
 
-  void onpenMenuTab() {
-    final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick);
+  void onTapFavorite() {
+    final bool value = status.isFavorite;
+    status = status.copyWith(isFavorite: !value);
   }
 
-  void closeMenuTab() {
-    status = status.copyWith(openMenuTab: false);
-  }
-
-  void onTapDrawer(String type) async {
-    status = status.copyWith(isLoading: true);
+  void onChangeScrollController(bool value, double width){
+    addEffect(DetailControllerScrollEffect(300, width, value));
   }
 
 }

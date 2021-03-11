@@ -14,6 +14,7 @@ import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -49,10 +50,10 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
 
     return Scaffold(
       backgroundColor: IdtColors.white,
-      bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
       extendBody: true,
       extendBodyBehindAppBar: true,
       floatingActionButton: IdtFab(),
+      bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _buildSavedPlaces(viewModel)
     );
@@ -61,7 +62,6 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   Widget _buildSavedPlaces(SavedPlacesViewModel viewModel) {
 
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
 
     Widget gridImagesCol() {
 
@@ -77,34 +77,47 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: Image.network(
-                      DataTest.imgList2[index],
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                      DataTest.textList2[index],
-                      style: textTheme.textButtomWhite.copyWith(
-                          fontSize: 16
+                    child: InkWell(
+                      onTap: viewModel.goDetailPage,
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5.0),
+                            child: Image.network(
+                              DataTest.imgList2[index],
+                              height: 70,
+                              width: 70,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              DataTest.textList2[index],
+                              style: textTheme.textButtomWhite.copyWith(
+                                  fontSize: 16
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                        ],
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(width: 5),
-                  Switch(
+                  FlutterSwitch(
                     value: viewModel.status.listSwitch[index],
-                    inactiveTrackColor: IdtColors.white,
-                    inactiveThumbColor: IdtColors.grayBtn.withOpacity(0.9),
-                    activeColor: IdtColors.green,
-                    activeTrackColor: IdtColors.white,
-                    onChanged: (value) => viewModel.changeSwitch(value, index)
+                    switchBorder: Border.all(color: IdtColors.grayBtn),
+                    activeColor: IdtColors.white,
+                    activeToggleColor: IdtColors.greenDark,
+                    inactiveColor: IdtColors.white,
+                    height: 30,
+                    width: 60,
+                    padding: 1,
+                    inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
+                    onToggle: (value) => viewModel.changeSwitch(value, index)
                   )
                 ],
               ),
@@ -126,7 +139,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                 end: Alignment.topCenter,
               )
             ),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 120, bottom: 70),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 70),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +150,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                     fontSize: 20
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -159,26 +172,22 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
           left: 0,
           child: Container(
             alignment: Alignment.centerLeft,
-            height: 50,
             color: IdtColors.transparent,
-            child: Padding(
-              padding: EdgeInsets.only(left: 14),
-              child: IconButton(
-                autofocus: false,
-                color: IdtColors.red,
-                alignment: Alignment.centerRight,
-                icon: SvgPicture.asset(
-                  IdtAssets.back,
-                  height: 50.0,
-                ),
-                onPressed: () {
-                  print("Back");
-                },
+            padding: EdgeInsets.only(left: 14),
+            child: IconButton(
+              color: IdtColors.red,
+              alignment: Alignment.centerRight,
+              icon: SvgPicture.asset(
+                IdtAssets.back_white,
+                color: IdtColors.white,
               ),
+              iconSize: 50,
+              onPressed: () {
+                print("Back Button");
+              },
             ),
           ),
         ),
-        menu
       ],
     );
   }

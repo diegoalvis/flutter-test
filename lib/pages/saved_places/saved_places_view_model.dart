@@ -45,7 +45,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goResultSearchPage(){
-    _route.goResultSearch();
+  void goDetailPage(){
+    _route.goDetail(isHotel: false);
   }
 }

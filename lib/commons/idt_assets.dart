@@ -13,6 +13,7 @@ class IdtAssets {
   static const String curve_up = '$path/curve_up.svg';
   static const String curve_down = '$path/curve_down.svg';
   static const String minus = '$path/minus.svg';
+  static const String map = '$path/map.png';
 
   //External
   static const String img_test = 'https://bogotadc.travel/drpl/sites/default/files/2021-01/logosplashexample.png';

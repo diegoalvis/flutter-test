@@ -12,7 +12,6 @@ import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -63,10 +62,10 @@ class _EventsWidgetState extends State<EventsWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(),
         extendBody: true,
         extendBodyBehindAppBar: true,
-        floatingActionButton: IdtFab(),
+        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -76,11 +75,19 @@ class _EventsWidgetState extends State<EventsWidget> {
   Widget _buildDiscover(EventsViewModel viewModel) {
 
     List<String> listMenu = [
-      "Opción 1",
-      "Opción 2",
-      "Opción 3",
-      "Opción 4",
-      "Opción 5",
+      "Localidad 1",
+      "Localidad 2",
+      "Localidad 3",
+      "Localidad 4",
+      "Localidad 5",
+    ];
+
+    List<String> listMenuEvent = [
+      "Categoria 1",
+      "Categoria 2",
+      "Categoria 3",
+      "Categoria 4",
+      "Categoria 5",
     ];
 
     final textTheme = Theme.of(context).textTheme;
@@ -92,10 +99,10 @@ class _EventsWidgetState extends State<EventsWidget> {
 
     final menuTap = viewModel.status.openMenuTab ?
       IdtMenuTap(
-        listItems: listMenu,
+        listItems: widget._includeDay ? listMenuEvent : listMenu,
         closeMenu: viewModel.closeMenuTab,
         isBlue: true,
-        goFilters: (){},
+        goFilters: viewModel.closeMenuTab,
       )
       : SizedBox.shrink();
 
@@ -202,7 +209,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                     Expanded(
                       flex: 10,
                       child: Text(
-                        item.toUpperCase(),
+                        DataTest.textList[index].toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: widget._includeDay ? TextAlign.right : TextAlign.center,

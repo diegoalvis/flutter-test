@@ -2,6 +2,7 @@ import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_status.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailViewModel extends ViewModel<EventDetailStatus> {
 
@@ -12,12 +13,12 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     status = EventDetailStatus(
       isLoading: true,
       moreText: false,
-      openMenuTab: false
+      isFavorite: false
     );
   }
 
   void onInit() async {
-    //TODO
+    // TODO
   }
 
   void readMore(){
@@ -25,21 +26,20 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     status = status.copyWith(moreText: !tapClick);
   }
 
-  void goPlayAudioPage() {
-    _route.goPlayAudio();
+  void onTapFavorite() {
+    final bool value = status.isFavorite;
+    status = status.copyWith(isFavorite: !value);
   }
 
-  void onpenMenuTab() {
-    final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick);
-  }
-
-  void closeMenuTab() {
-    status = status.copyWith(openMenuTab: false);
-  }
-
-  void onTapDrawer(String type) async {
-    status = status.copyWith(isLoading: true);
+  void launchMap() async {
+    final double lat = 4.8272214;
+    final double lon = -74.0310254;
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Error al lanzar la url: $url';
+    }
   }
 
 }

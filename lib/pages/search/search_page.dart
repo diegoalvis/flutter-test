@@ -49,9 +49,9 @@ class _SearchWidgetState extends State<SearchWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(discoverSelect: false, searchSelect: true),
         extendBody: true,
-        floatingActionButton: IdtFab(),
+        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -117,8 +117,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                 child: Text(
                   'Buscar',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16
                   ),
                 ),
                 textColor: Colors.deepOrangeAccent,
