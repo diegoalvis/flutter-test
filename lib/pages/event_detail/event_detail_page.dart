@@ -47,41 +47,15 @@ class EventDetailWidget extends StatefulWidget {
 class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
-
-  /*Future<ClosedCaptionFile> _loadCaptions() async {
-    final String fileContents = await DefaultAssetBundle.of(context).loadString('assets/bumble_bee_captions.srt');
-    return SubRipCaptionFile(fileContents);
-  }*/
 
   @override
   void initState() {
-    /*_controller = VideoPlayerController.network('https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
-      ..initialize().then((_) {
-        _controller.play();
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-      });*/
-    /*_controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      closedCaptionFile: _loadCaptions(),
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    );
-
-    _controller.addListener(() {
-      setState(() {});
-    });
-    _controller.setLooping(true);
-    _controller.initialize();*/
     _controller = VideoPlayerController.network(
       'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
     _controller.addListener(() {
       setState(() {});
     });
-    // Inicializa el controlador y almacena el Future para utilizarlo luego
-    //_initializeVideoPlayerFuture = _controller.initialize();
-
-    // Usa el controlador para hacer un bucle en el vídeo
     _controller.setLooping(true);
     _controller.initialize();
 
@@ -220,16 +194,16 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 borderRadius: BorderRadius.circular(180),
                 child: Image(
                   image: AssetImage(IdtAssets.map),
-                  width: size.width * 0.65,
-                  height: size.width * 0.65,
+                  width: size.width * 0.7,
+                  height: size.width * 0.7,
                   fit: BoxFit.fill,
                 ),
               ),
               InkWell(
                 onTap: viewModel.launchMap,
                 child: Container(
-                  height: size.width * 0.25,
-                  width: size.width * 0.25,
+                  height: size.width * 0.2,
+                  width: size.width * 0.2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(180.0)),
                     border: Border.all(
@@ -239,18 +213,20 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                     color: IdtColors.white
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 5),
                       Icon(
                         Icons.search,
                         color: IdtColors.blueDark.withOpacity(0.8),
-                        size: 30,
+                        size: 28,
                       ),
                       Text(
                         '¿CÓMO LLEGAR?',
                         textAlign: TextAlign.center,
                         style: textTheme.textButtomBlue.copyWith(
+                          fontSize: 12,
                           color: IdtColors.blueDark.withOpacity(0.8),
                         ),
                         maxLines: 2,
@@ -265,7 +241,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
         ],
       );
     }
-
 
     Widget _body (){
 
@@ -309,16 +284,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                     ClosedCaption(text: _controller.value.caption.text),
                     Stack(
                       children: <Widget>[
-                        /*Container(
-                          color: IdtColors.black.withOpacity( _controller.value.isPlaying ? 0 : 0.5),
-                          child: Center(
-                            child: Icon(
-                              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                              color: IdtColors.white,
-                              size: 100.0,
-                            ),
-                          ),
-                        ),*/
                         AnimatedSwitcher(
                           duration: Duration(milliseconds: 100),
                           reverseDuration: Duration(milliseconds: 700),
@@ -348,46 +313,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               ),
             ),
-            /*FutureBuilder(
-              future: _initializeVideoPlayerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: <Widget>[
-                        VideoPlayer(_controller),
-                        ClosedCaption(text: _controller.value.caption.text),
-                        Stack(
-                          children: <Widget>[
-                            Container(
-                              color: IdtColors.grayBtn.withOpacity( _controller.value.isPlaying ? 0 : 0.5),
-                              child: Center(
-                                child: Icon(
-                                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                  color: IdtColors.white,
-                                  size: 100.0,
-                                ),
-                              ),
-                            ),
-                            //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                            GestureDetector(
-                              onTap: () {
-                                _controller.value.isPlaying ? _controller.pause() : _controller.play();
-                              },
-                            ),
-                          ],
-                        ),
-                        VideoProgressIndicator(_controller, allowScrubbing: true),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),*/
             SizedBox(
               height: 35,
             ),
@@ -450,7 +375,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
                 _footerImages(),
                 SizedBox(
-                  height: 35,
+                  height: 15,
                 )
               ],
             ),
@@ -493,43 +418,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
           ),
         ],
       )
-    );
-  }
-}
-
-class _ControlsOverlay extends StatelessWidget {
-
-  const _ControlsOverlay({Key? key, required this.controller}) : super(key: key);
-
-  final VideoPlayerController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AnimatedSwitcher(
-          duration: Duration(milliseconds: 50),
-          reverseDuration: Duration(milliseconds: 200),
-          child: controller.value.isPlaying
-            ? SizedBox.shrink()
-            : Container(
-              color: IdtColors.grayBtn.withOpacity(0.5),
-              child: Center(
-                child: Icon(
-                  Icons.play_arrow,
-                  color: IdtColors.white,
-                  size: 100.0,
-                ),
-              ),
-            ),
-        ),
-        //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        GestureDetector(
-          onTap: () {
-            controller.value.isPlaying ? controller.pause() : controller.play();
-          },
-        ),
-      ],
     );
   }
 }

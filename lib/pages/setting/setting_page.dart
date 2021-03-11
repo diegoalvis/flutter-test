@@ -67,7 +67,7 @@ class _SettingWidgetState extends State<SettingWidget> {
         Padding(
           padding: EdgeInsets.all( 20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
               Padding(
@@ -84,6 +84,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 ),
               ),
               Container(
+                margin: EdgeInsets.symmetric(vertical: 0),
                 alignment: Alignment.centerLeft,
                 height: 45,
                 child: Text(
@@ -92,6 +93,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 ),
               ),
               Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.centerLeft,
                 height: 45,
                 child: Text(
@@ -99,45 +101,50 @@ class _SettingWidgetState extends State<SettingWidget> {
                   style: textTheme.optionsGray,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Activar notificaciones',
-                    style: textTheme.optionsGray,
-                  ),
-                  FlutterSwitch(
-                    value: viewModel.status.switchNotification,
-                    switchBorder: Border.all(color: IdtColors.grayBtn),
-                    activeColor: IdtColors.white,
-                    activeToggleColor: IdtColors.green,
-                    inactiveColor: IdtColors.white,
-                    inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
-                    onToggle: viewModel.changeNotification,
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Activar notificaciones',
+                      style: textTheme.optionsGray,
+                    ),
+                    FlutterSwitch(
+                      value: viewModel.status.switchNotification,
+                      switchBorder: Border.all(color: IdtColors.grayBtn),
+                      activeColor: IdtColors.white,
+                      activeToggleColor: IdtColors.green,
+                      inactiveColor: IdtColors.white,
+                      inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
+                      onToggle: viewModel.changeNotification,
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Activar ubicación',
-                    style: textTheme.optionsGray,
-                  ),
-                  Switch.adaptive(
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                        print(value);
-                      });
-                    },
-                    activeTrackColor: Colors.lightGreenAccent,
-                    activeColor: Colors.green,
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.only(top: 15, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Activar ubicación',
+                      style: textTheme.optionsGray,
+                    ),
+                    FlutterSwitch(
+                      value: viewModel.status.switchNotification2,
+                      switchBorder: Border.all(color: IdtColors.grayBtn),
+                      activeColor: IdtColors.white,
+                      activeToggleColor: IdtColors.green,
+                      inactiveColor: IdtColors.white,
+                      inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
+                      onToggle: viewModel.changeNotification2,
+                    ),
+                  ],
+                ),
               ),
               Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.centerLeft,
                 height: 45,
                 child: Text(

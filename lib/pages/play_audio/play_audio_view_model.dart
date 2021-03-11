@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_status.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:http/http.dart';
 
 class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
@@ -18,12 +15,14 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
       modeOffline: false,
       isOnline: true,
       urlAudio: IdtConstants.audio,
-      pathAudio: ''
+      pathAudio: '',
+      isFavorite: false,
+      language: 'Español'
     );
   }
 
   void onInit() async {
-    //TODO
+    // TODO
   }
 
   void changeModeOffline(bool mode) {
@@ -52,8 +51,13 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     }*/
   }
 
-  void onTapDrawer(String type) async {
-    status = status.copyWith(isLoading: true);
+  void onTapFavorite() {
+    final bool value = status.isFavorite;
+    status = status.copyWith(isFavorite: !value);
+  }
+
+  void selectLanguage(Object? value) {
+    status = status.copyWith(language: value.toString());
   }
 
 }

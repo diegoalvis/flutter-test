@@ -13,7 +13,8 @@ class SettingViewModel extends ViewModel<SettingStatus> {
       titleBar: 'Recibidos',
       isLoading: true,
       openMenu: false,
-      switchNotification: true
+      switchNotification: true,
+      switchNotification2: false,
     );
   }
 
@@ -31,6 +32,10 @@ class SettingViewModel extends ViewModel<SettingStatus> {
 
   void changeNotification(bool value) {
     status = status.copyWith(switchNotification: value);
+  }
+
+  void changeNotification2(bool value) {
+    status = status.copyWith(switchNotification2: value);
   }
 
   void goProfileEditPage() {
