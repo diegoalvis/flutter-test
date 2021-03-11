@@ -1,230 +1,193 @@
+import 'dart:async';
 import 'dart:core';
 
+import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/DataTest.dart';
-import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../app_theme.dart';
 
-class SavedPlaces extends StatefulWidget {
+class SavedPlaces extends StatelessWidget {
 
-  SavedPlaces();
+  final bool openSaved;
+  final VoidCallback changeSaved;
+  final bool notSaved;
+  final VoidCallback addSaved;
+  final bool seeAll;
+  final Function(bool) onTapSeeAll;
+  final Function(bool) changeSrollController;
+  final ScrollController scrollController;
+  final VoidCallback onTapCard;
 
-  @override
-  _SavedPlacesState createState() => _SavedPlacesState();
-}
+  SavedPlaces(this.openSaved, this.changeSaved, this.notSaved, this.addSaved, this.seeAll,
+      this.onTapSeeAll, this.changeSrollController, this.scrollController, this.onTapCard);
 
-class _SavedPlacesState extends State<SavedPlaces> {
+  Widget imagesCard(String image, int index, List<bool> listGuide) => (
 
-  final scrollController = ScrollController();
-  final itemSize = 80.0;
-
-  @override
-  void initState() {
-    scrollController.addListener(() {
-      if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-          !scrollController.position.outOfRange) {
-      } else if (scrollController.offset <= scrollController.position.minScrollExtent &&
-          !scrollController.position.outOfRange) {
-      }
-    });
-    super.initState();
-  }
-
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  Widget SliderImages(BuildContext context) => (
-    Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 0, top: 0),
-          height: 180,
-          color: IdtColors.white,
-          child: ListView.builder(
-            controller: scrollController,
-            itemCount: DataTest.imgList2.length,
-            itemExtent: 150,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => Column(
-              children: <Widget>[
-                Stack(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 17),
-                      decoration: BoxDecoration(
-                        color: IdtColors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15.0)
-                        ),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.grey[600]!,
-                            offset: Offset(0, 0),
-                            blurRadius: 11.0,
-                          ),
-                        ],
-                      ),
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: Container(
-                              height: 200,
-                              width: 220,
-                              color: Colors.white,
-                              child: Image.network(
-                                DataTest.imgList[index],
-                                height: 200,
-                                width: 220,
-                                fit: BoxFit.cover,
-                              ),
-                            )),
-                      )
-                    )
-                  ],
-                ),
-
-                Container(
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: IdtColors.transparent,
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  child: Text(
-                    DataTest.textList[index],
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: IdtColors.black,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            //  itemCount: imgList.length
-          )
+    Container(
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: 1),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(15)
         ),
-        Positioned(
-          width: MediaQuery.of(context).size.width * 0.98,
-          right: MediaQuery.of(context).size.width * 0.08,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40.0, left: 20),
-            child: IconButton(
-              iconSize: 35,
-              alignment: Alignment.centerLeft,
-              icon: FittedBox(
-                alignment: Alignment.center,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: CircleBorder(),
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios_rounded,
-                    color: Colors.grey[900],
-                  ),
-                  onPressed: () {
-                    scrollController.animateTo(
-                      scrollController.offset - itemSize,
-                      curve: Curves.linear,
-                      duration: Duration(milliseconds: 500)
-                    );
-                  },
-                ),
-              ), onPressed: () {  },
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: IdtColors.blackShadow,
+            offset: Offset(0, 0),
+            blurRadius: 4.0,
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                listGuide[index] ? IdtColors.black : IdtColors.transparent,
+                BlendMode.difference
+              ),
+              child: Image.network(
+                image,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        Positioned(
-          width: MediaQuery.of(context).size.width * 0.98,
-          left: MediaQuery.of(context).size.width * 0.74,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40.0, left: 45),
-            child: IconButton(
-              iconSize: 35,
-              alignment: Alignment.centerLeft,
-              icon: FittedBox(
-                alignment: Alignment.center,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: CircleBorder(),
-                  ),
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey[900],
-                  ),
-                  onPressed: () {
-                    scrollController.animateTo(
-                      scrollController.offset + itemSize,
-                      curve: Curves.linear,
-                      duration: Duration(milliseconds: 500)
-                    );
-                  },
-                ),
-              ), onPressed: () {  },
-            ),
-          ),
-        )
-      ],
+          listGuide[index] ? Icon(
+            IdtIcons.headphones,
+            color: IdtColors.white,
+            size: 50,
+          ) : SizedBox.shrink()
+        ],
+      ),
     )
   );
 
-  widget_row_buttons() => (
+  Widget SliderImages(BuildContext context, TextTheme textTheme, List<bool> listGuide, List<String> listImages, List<String> listText) =>
+
+    InkWell(
+      onTap: onTapCard,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 220,
+            margin: EdgeInsets.only(top: 10),
+            color: IdtColors.white,
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: listImages.length,
+              itemExtent: 155,
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => Column(
+                children: <Widget>[
+                  imagesCard(listImages[index], index, listGuide),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                    child: Text(
+                      listText[index],
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: textTheme.grayDetail.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ),
+          Positioned(
+            left: 0,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 50, left: 5),
+              child: IconButton(
+                iconSize: 45,
+                alignment: Alignment.centerLeft,
+                icon: Icon(
+                  Icons.play_circle_fill,
+                  color: IdtColors.white,
+                ),
+                onPressed: () => changeSrollController(false),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 50, right: 5),
+              child: IconButton(
+                iconSize: 45,
+                alignment: Alignment.centerRight,
+                icon: Icon(
+                  Icons.play_circle_fill,
+                  color: IdtColors.white,
+                ),
+                onPressed: () => changeSrollController(true),
+              ),
+            ),
+          ),
+        ],
+      )
+    );
+
+  widget_row_buttons(TextTheme textTheme) => (
     Container(
       height: 45,
-      margin: EdgeInsets.only(top: 10),
       color: IdtColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            child: RaisedButton(
-              elevation: 0,
-              hoverElevation: 0,
-              focusElevation: 0,
-              highlightElevation: 0,
-              splashColor: IdtColors.white,
-              onPressed: () {
-                print('Test');
-              },
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Color(0xFF35A466), width: 1),
-                borderRadius: BorderRadius.circular(80.0)
+          // ignore: deprecated_member_use
+          RaisedButton(
+            elevation: 0,
+            hoverElevation: 0,
+            focusElevation: 0,
+            highlightElevation: 0,
+            onPressed: () => onTapSeeAll(false),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: IdtColors.greenDark,
+                width: 1,
               ),
-              padding: EdgeInsets.all(0.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                  /*gradient: LinearGradient(
-                    colors: IdtStyles.greengradientcolor,
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),*/
-                  color: IdtColors.white,
-                  borderRadius: BorderRadius.circular(30.0)
+              borderRadius: BorderRadius.circular(80.0)
+            ),
+            padding: EdgeInsets.all(0.0),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: seeAll ? null : LinearGradient(
+                  colors: IdtGradients.green,
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                 ),
-                child: Container(
-                  constraints: BoxConstraints(
-                      maxWidth: 150.0,
-                      minWidth: 150,
-                      minHeight: 50.0,
-                      maxHeight: 50),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'AUDIOGUÍAS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF35A466)
-                    ),
-                  ),
+                color: IdtColors.white,
+                borderRadius: BorderRadius.circular(30.0)
+              ),
+              constraints: BoxConstraints(
+                maxWidth: 150.0,
+                minWidth: 150,
+                minHeight: 50.0,
+                maxHeight: 50
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'AUDIOGUÍAS',
+                textAlign: TextAlign.center,
+                style: textTheme.textButtomWhite.copyWith(
+                  color: seeAll ? IdtColors.greenDark : null
                 ),
               ),
             ),
@@ -232,51 +195,77 @@ class _SavedPlacesState extends State<SavedPlaces> {
           SizedBox(
             width: 10,
           ),
-          Container(
-            height: 50.0,
-            child: RaisedButton(
-              elevation: 0,
-              hoverElevation: 0,
-              focusElevation: 0,
-              highlightElevation: 0,
-              onPressed: () {
-                print('Test');
-              },
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Color(0xFF35A466), width: 1),
-                borderRadius: BorderRadius.circular(80.0)
+          // ignore: deprecated_member_use
+          RaisedButton(
+            elevation: 0,
+            hoverElevation: 0,
+            focusElevation: 0,
+            highlightElevation: 0,
+            onPressed: () => onTapSeeAll(true),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: IdtColors.greenDark,
+                width: 1,
               ),
-              padding: EdgeInsets.all(0.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: IdtGradients.green,
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(30.0)
-                ),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: 150.0,
-                    minWidth: 150,
-                    minHeight: 50.0,
-                    maxHeight: 50
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'VER TODOS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: IdtColors.white
-                    ),
-                  ),
+              borderRadius: BorderRadius.circular(80.0)
+            ),
+            padding: EdgeInsets.all(0.0),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: seeAll ? LinearGradient(
+                  colors: IdtGradients.green,
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ) : null,
+                color: IdtColors.white,
+                borderRadius: BorderRadius.circular(30.0)
+              ),
+              constraints: BoxConstraints(
+                maxWidth: 150.0,
+                minWidth: 150,
+                minHeight: 50.0,
+                maxHeight: 50
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'VER TODOS',
+                textAlign: TextAlign.center,
+                style: textTheme.textButtomWhite.copyWith(
+                  color: seeAll ? null : IdtColors.greenDark
                 ),
               ),
             ),
           ),
         ],
-      )));
+      )
+    )
+  );
+
+  Widget _notSavedPlaces(){
+
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              color: IdtColors.grayBg
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.add,
+                color: IdtColors.gray,
+                size: 80
+              ),
+              onPressed: addSaved,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _textTitle(TextTheme textTheme) {
 
@@ -284,8 +273,8 @@ class _SavedPlacesState extends State<SavedPlaces> {
       children: [
         Expanded(
           child: Stack(
+            clipBehavior: Clip.none,
             alignment: Alignment.center,
-            overflow: Overflow.visible,
             children: [
               TitleSection('LUGARES GUARDADOS'),
               Positioned(
@@ -293,33 +282,11 @@ class _SavedPlacesState extends State<SavedPlaces> {
                 child: IconButton(
                   color: IdtColors.transparent,
                   alignment: Alignment.center,
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: IdtGradients.green,
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(100.0)
-                    ),
-                    child: Container(
-                      child: GradientIcon(
-                          icon: Icons.remove,
-                          size: 25.0,
-                          gradient: LinearGradient(
-                            colors: <Color>[
-                              Colors.white,
-                              Colors.white,
-                              Colors.white,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          )
-                      ),
-                    ),
+                  icon: SvgPicture.asset(
+                    IdtAssets.minus,
+                    height: 30,
                   ),
-                  onPressed: () {
-                  },
+                  onPressed: changeSaved,
                 ),
               )
             ],
@@ -338,10 +305,23 @@ class _SavedPlacesState extends State<SavedPlaces> {
       children: [
         SizedBox(height: 35),
         _textTitle(textTheme),
-        SizedBox(height: 12),
-        SliderImages(context),
-        SizedBox(height: 10),
-        widget_row_buttons(),
+        openSaved ? Column(
+          children: [
+            SizedBox(height: 12),
+            notSaved ? _notSavedPlaces() : Column(
+              children: [
+                SliderImages(
+                  context,
+                  textTheme,
+                  seeAll ? DataTest.boolList : DataTest.boolListAudio,
+                  seeAll ? DataTest.imgList : DataTest.imgListAudio,
+                  seeAll ? DataTest.textList : DataTest.textListAudio,
+                ),
+                widget_row_buttons(textTheme),
+              ],
+            ),
+          ],
+        ) : SizedBox.shrink(),
       ],
     );
   }

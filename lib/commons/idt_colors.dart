@@ -13,6 +13,7 @@ class IdtColors {
   static const Color black = Color(0xff212121);
   static const Color blackShadow = Color(0xFF404040);
   static const Color gray = Color(0xff666666);
+  static const Color grayBg = Color(0xfff0f0f0);
   static const Color grayText = Color(0xff8193a1);
   static const Color grayBtn = Color(0xff9E9E9E);
   static const Color orange = Color(0xFFFF7C47);
@@ -20,6 +21,7 @@ class IdtColors {
   static const Color red = Color(0xFFF44336);
   static const Color amber = Color(0xFFFFC107);
   static const Color green = Color(0xFF6DD598);
+  static const Color greenDark = Color(0xFF35A466);
   //
   static const Color transparent = Colors.transparent;
 

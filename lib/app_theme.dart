@@ -90,8 +90,8 @@ extension GFilesAttributes on TextTheme{
     fontSize: 16
   );
   TextStyle get grayDetail => bodyText1!.copyWith(
-      color: IdtColors.gray,
-      fontSize: 12
+    color: IdtColors.gray,
+    fontSize: 12
   );
   TextStyle get blueDetail => bodyText1!.copyWith(
       color: IdtColors.blue,

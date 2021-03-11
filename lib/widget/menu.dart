@@ -21,11 +21,6 @@ class IdtMenu extends StatelessWidget {
 
     final textTheme = Theme.of(context).textTheme;
 
-    bool indexcolor = false;
-    Map<int, bool> itemsSelectedValue = Map();
-    var withoutcolor;
-    var gradientcolor;
-
     widget_profile() => (
       Container(
         child: Center(
@@ -67,8 +62,6 @@ class IdtMenu extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Container(
-        /*width: double.infinity,
-        height: double.infinity,*/
         decoration: BoxDecoration(
           color: IdtColors.white.withOpacity(0.95),
         ),
@@ -100,8 +93,6 @@ class IdtMenu extends StatelessWidget {
               padding: EdgeInsets.all(8),
               itemCount: DataTest.List2.length,
               itemBuilder: (BuildContext context, int index) {
-                bool isCurrentIndexSelected =
-                (itemsSelectedValue[index] == null ? false : itemsSelectedValue[index])!;
 
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),
@@ -120,6 +111,11 @@ class IdtMenu extends StatelessWidget {
                         break;
 
                         case 2: {
+                          _route.goUnmissable();
+                        }
+                        break;
+
+                        case 3: {
                           _route.goUnmissable();
                         }
                         break;
@@ -156,59 +152,24 @@ class IdtMenu extends StatelessWidget {
                         Opacity(
                           opacity: 0.05,
                           child: Container(
-                            color: Colors.transparent,
+                            color: IdtColors.transparent,
                             margin: EdgeInsets.all(10),
                             height: 30.0,
                           ),
                         ),
-                        //    index==1? color_button:Container(),
                         Positioned(
                           top: 1,
-                          child: isCurrentIndexSelected
-                              ? Listener(
-                            child: Container(
-                              margin: EdgeInsets.all(10),
-                              height: 35.0,
-                              width: MediaQuery.of(context).size.width *
-                                  0.9,
-                              decoration: !indexcolor ? withoutcolor : gradientcolor,
-                              alignment: Alignment.center,
-                              child: Text(' ${DataTest.List2[index]}',
-                                style: TextStyle(
-                                  fontFamily: 'MuseoSans',
-                                  fontWeight: !indexcolor ? FontWeight.normal : FontWeight.bold,
-                                  color: !indexcolor ? Color(0xFF505050) : Colors.white,
-                                  fontSize: 18
-                                )
-                              )
-                            ),
-                            onPointerDown: (_) {
-                              /*setState(() {
-                                print("aqui");
-                                print("${!isCurrentIndexSelected}");
-                                //  itemsSelectedValue[index] = !isCurrentIndexSelected;
-                                indexcolor = !indexcolor;
-                              });*/
-                            },
-                            onPointerUp: (_) {
-                              /*setState(() {
-                                //     itemsSelectedValue[index] = !isCurrentIndexSelected;
-                                indexcolor = !indexcolor;
-                              });*/
-                            },
-                          )
-                          : Container(
+                          right: 5,
+                          left: 5,
+                          child: Container(
                             margin: EdgeInsets.all(10),
                             height: 30.0,
-                            width: MediaQuery.of(context).size.width * 0.9,
                             alignment: Alignment.center,
                             child: Text(
                               ' ${DataTest.List2[index]}',
-                              style: TextStyle(
-                                fontFamily: 'MuseoSans',
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF505050),
-                                fontSize: 18
+                              style: textTheme.textMenu.copyWith(
+                                color: IdtColors.gray.withOpacity(0.8),
+                                fontSize: 19
                               )
                             )
                           ),
@@ -223,7 +184,7 @@ class IdtMenu extends StatelessWidget {
               },
             ),
             SizedBox(
-              height: 65,
+              height: 10,
             ),
           ],
         ),

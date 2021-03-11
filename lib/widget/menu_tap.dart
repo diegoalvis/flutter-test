@@ -79,7 +79,7 @@ class IdtMenuTap extends StatelessWidget {
                     child: Text(
                       ' ${listItems[index]}',
                       style: textTheme.textMenu.copyWith(
-                          color: isBlue ? IdtColors.blueAccent : null
+                        color: isBlue ? IdtColors.blueAccent : null
                       )
                     )
                   ),
