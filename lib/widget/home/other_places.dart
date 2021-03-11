@@ -13,8 +13,9 @@ import '../../app_theme.dart';
 class OtherPlaces extends StatelessWidget {
 
   final VoidCallback onTapCard;
+  final VoidCallback goDiscover;
 
-  OtherPlaces({required this.onTapCard});
+  OtherPlaces({required this.onTapCard, required this.goDiscover});
 
   Widget ImagesCard(TextTheme textTheme, String item, int index, List listItems) => (
 
@@ -82,7 +83,7 @@ class OtherPlaces extends StatelessWidget {
     )
   );
 
-  best_rated_btn() => (
+  best_rated_btn(TextTheme textTheme) => (
 
     Container(
       margin: EdgeInsets.all(25),
@@ -93,30 +94,26 @@ class OtherPlaces extends StatelessWidget {
         ),
         padding: EdgeInsets.all(0.0),
         child: Container(
-            constraints: BoxConstraints(
-              maxWidth: 250.0,
-              minWidth: 180,
-              minHeight: 50.0,
-              maxHeight: 50
-            ),
-            decoration: StylesMethodsApp().decorarStyle(
-              IdtGradients.blue,
-              30,
-              Alignment.bottomCenter,
-              Alignment.topCenter
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'EXPLORAR BOGOTÁ',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white
-              ),
-            )
+          constraints: BoxConstraints(
+            maxWidth: 250.0,
+            minWidth: 180,
+            minHeight: 50.0,
+            maxHeight: 50
+          ),
+          decoration: StylesMethodsApp().decorarStyle(
+            IdtGradients.blue,
+            30,
+            Alignment.bottomCenter,
+            Alignment.topCenter
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'DESCUBRE BOGOTÁ',
+            textAlign: TextAlign.center,
+            style: textTheme.textButtomWhite,
+          )
         ),
-        onPressed: () {
-
-        },
+        onPressed: goDiscover,
       ),
     )
   );
@@ -134,7 +131,7 @@ class OtherPlaces extends StatelessWidget {
         SizedBox(height: 25),
         GridImagesCol2(textTheme, DataTest.imgList2),
         SizedBox(height: 5),
-        best_rated_btn(),
+        best_rated_btn(textTheme),
         SizedBox(height: 20),
         TitleSection('Mejor calificado'),
         SizedBox(height: 15),

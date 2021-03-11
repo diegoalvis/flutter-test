@@ -107,7 +107,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 viewModel.goDetailPage
               ),
               SizedBox(height: 25),
-              OtherPlaces(onTapCard: viewModel.goDetailPage)
+              OtherPlaces(onTapCard: viewModel.goDetailPage, goDiscover: viewModel.goDiscoverPage)
             ],
           ),
         ),

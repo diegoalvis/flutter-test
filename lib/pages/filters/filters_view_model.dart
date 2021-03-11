@@ -41,4 +41,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     status = status.copyWith(isLoading: true);
   }
 
+  void goDetailPage() {
+    _route.goDetail(isHotel: false);
+  }
 }

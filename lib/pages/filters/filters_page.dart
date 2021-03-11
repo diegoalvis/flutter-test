@@ -58,10 +58,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(),
         extendBody: true,
         extendBodyBehindAppBar: true,
-        floatingActionButton: IdtFab(),
+        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -91,7 +91,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listItems: listMenu,
           closeMenu: viewModel.closeMenuTab,
           isBlue: true,
-          goFilters: () {  },
+          goFilters: viewModel.closeMenuTab,
         )
         : SizedBox.shrink();
 
@@ -170,8 +170,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
 
     Widget imagesCard(String item, int index, List listItems) => (
 
-      Center(
+      InkWell(
+        onTap: viewModel.goDetailPage,
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             ClipRRect(
               borderRadius:
@@ -229,7 +231,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     Widget gridImagesCol3() => Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: (
-        //TODO: Pasar esta logica al ViewModel
+        //TODO: Pasar esta logica al ViewModel cuando se reciban los datos de la peticion
         StaggeredGridView.count(
           crossAxisCount: 6,
           shrinkWrap: true,

@@ -40,13 +40,13 @@ class IdtRoute {
 
   goHome(){
     return navigatorKey.currentState!.pushReplacement(
-      MaterialPageRoute(builder: (_)=> Home())
+      MaterialPageRoute(builder: (_)=> HomePage())
     );
   }
 
   goHomeRemoveAll(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> Home()),
+      MaterialPageRoute(builder: (_)=> HomePage()),
       (Route<dynamic> route) => false
     );
   }
@@ -101,9 +101,23 @@ class IdtRoute {
     );
   }
 
+  goFiltersUntil(String title){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> FiltersPage(title)),
+      (route) => route.isFirst
+    );
+  }
+
   goAudioGuide(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> AudioGuidePage())
+    );
+  }
+
+  goAudioGuideUntil(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> AudioGuidePage()),
+      (route) => route.isFirst
     );
   }
 
@@ -113,9 +127,23 @@ class IdtRoute {
     );
   }
 
+  goUnmissableUntil(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> UnmissablePage()),
+      (route) => route.isFirst
+    );
+  }
+
   goEvents({required String title, String? nameFilter, required bool includeDay}){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
+    );
+  }
+
+  goEventsUntil({required String title, String? nameFilter, required bool includeDay}){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay)),
+      (route) => route.isFirst
     );
   }
 
@@ -128,6 +156,13 @@ class IdtRoute {
   goSavedPlaces(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SavedPlacesPage())
+    );
+  }
+
+  goSavedPlacesUntil(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_)=> SavedPlacesPage()),
+      (route) => route.isFirst
     );
   }
 

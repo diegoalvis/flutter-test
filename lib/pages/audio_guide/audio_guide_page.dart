@@ -50,9 +50,9 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(),
         extendBody: true,
-        floatingActionButton: IdtFab(),
+        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -65,11 +65,12 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
     final textTheme = Theme.of(context).textTheme;
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
 
-
     Widget imagesCard(String item, int index, List listItems) => (
 
-      Center(
+      InkWell(
+        onTap: viewModel.goDetailPage,
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(10),

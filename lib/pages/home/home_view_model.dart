@@ -53,4 +53,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     _route.goDetail(isHotel: false);
   }
 
+  void goDiscoverPage() {
+    _route.goDiscover();
+  }
+
 }

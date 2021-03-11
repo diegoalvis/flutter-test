@@ -12,12 +12,13 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = DiscoverStatus(
       isLoading: true,
       openMenu: false,
-      openMenuTab: false
+      openMenuTab: false,
+      isZone: false
     );
   }
 
   void onInit() async {
-    //TODO
+    // TODO
   }
 
   void onpenMenu() {
@@ -28,9 +29,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab() {
-    final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick);
+  void onpenMenuTab({bool isZone = false}) {
+    status = status.copyWith(openMenuTab: true, isZone: isZone);
   }
 
   void closeMenuTab() {
@@ -43,5 +43,20 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
   void goFiltersPage(){
     _route.goFilters('Cultura');
+    closeMenuTab();
+  }
+
+  void goDetailPage() {
+    _route.goDetail(isHotel: false);
+  }
+
+  void goEventsPage() {
+    _route.goEvents(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
+    closeMenuTab();
+  }
+
+  void goAudioGuidePage() {
+    _route.goAudioGuide();
+    closeMenuTab();
   }
 }

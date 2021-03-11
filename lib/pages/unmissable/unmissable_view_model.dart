@@ -16,7 +16,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   void onInit() async {
-    //TODO
+    // TODO
   }
 
   void onpenMenu() {
@@ -29,5 +29,9 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
+  }
+
+  void goDetailPage() {
+    _route.goDetail(isHotel: false);
   }
 }

@@ -50,9 +50,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(),
         extendBody: true,
-        floatingActionButton: IdtFab(),
+        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -66,8 +66,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     Widget _buttonTap(String label){
       return Expanded(
-        child: FlatButton(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+        child: TextButton(
           child: Text(
               label,
               maxLines: 1,
@@ -82,8 +81,10 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     Widget imagesCard(String item, int index, List listItems) => (
 
-      Center(
+      InkWell(
+        onTap: viewModel.goDetailPage,
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(10),

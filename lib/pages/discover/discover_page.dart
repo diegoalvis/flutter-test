@@ -49,9 +49,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       child: Scaffold(
         appBar: IdtAppBar(viewModel.onpenMenu),
         backgroundColor: IdtColors.white,
-        bottomNavigationBar: IdtBottomAppBar(),
         extendBody: true,
-        floatingActionButton: IdtFab(),
+        bottomNavigationBar:  viewModel.status.openMenu ? null : IdtBottomAppBar(),
+        floatingActionButton:  viewModel.status.openMenu ? null : IdtFab(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: _buildDiscover(viewModel)
       ),
@@ -68,13 +68,26 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       "Opción 5",
     ];
 
+    List<String> listMenuZone = [
+      "Zona 1",
+      "Zona 2",
+      "Zona 3",
+      "Zona 4",
+      "Zona 5",
+    ];
+
     final textTheme = Theme.of(context).textTheme;
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+
     final menuTap = viewModel.status.openMenuTab
-        ? IdtMenuTap(listItems: listMenu, closeMenu: viewModel.closeMenuTab, goFilters: viewModel.goFiltersPage)
+        ? IdtMenuTap(
+          listItems: viewModel.status.isZone? listMenuZone : listMenu,
+          closeMenu: viewModel.closeMenuTab,
+          goFilters: viewModel.status.isZone? viewModel.goEventsPage : viewModel.goFiltersPage
+        )
         : SizedBox.shrink();
 
-    Widget _buttonTap(String label){
+    Widget _buttonTap(String label, VoidCallback onTap){
       return Expanded(
         child: FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 0),
@@ -85,15 +98,17 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
             overflow: TextOverflow.ellipsis,
             style: textTheme.subTitleBlack
           ),
-          onPressed: viewModel.onpenMenuTab,
+          onPressed: onTap,
         ),
       );
     };
 
     Widget imagesCard(String item, int index, List listItems) => (
 
-      Center(
+      InkWell(
+        onTap: viewModel.goDetailPage,
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             ClipRRect(
               borderRadius:
@@ -197,10 +212,10 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan'),
-                    _buttonTap('Producto'),
-                    _buttonTap('Zona'),
-                    _buttonTap('Audioguías'),
+                    _buttonTap('Plan', viewModel.onpenMenuTab),
+                    _buttonTap('Producto', viewModel.onpenMenuTab),
+                    _buttonTap('Zona', () => viewModel.onpenMenuTab(isZone: true)),
+                    _buttonTap('Audioguías', viewModel.goAudioGuidePage),
                   ],
                 ),
               ),
