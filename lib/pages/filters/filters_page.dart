@@ -8,6 +8,7 @@ import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/menu.dart';
+import 'package:bogota_app/widget/menu_filters.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,14 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         )
         : SizedBox.shrink();
 
+    final menuTapFilter = viewModel.status.openMenuFilter ?
+        IdtMenuFilter(
+          listItems: listMenu,
+          closeMenu: viewModel.closeMenuFilter,
+          goFilters: viewModel.closeMenuFilter,
+        )
+        : SizedBox.shrink();
+
     Widget _buttonsTapFilter(){
       return Row(
         children: [
@@ -161,7 +170,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                   bottomLeft: Radius.circular(30),
                 )
               ),
-                onPressed: (){}
+              onPressed: viewModel.onpenMenuFilter
             )
           )
         ],
@@ -315,7 +324,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           ),
         ),
         menu,
-        menuTap
+        menuTap,
+        menuTapFilter
       ],
     );
   }

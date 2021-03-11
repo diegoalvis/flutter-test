@@ -44,8 +44,8 @@ class IdtMenu extends StatelessWidget {
                     right: 2,
                     child: Container(
                       child: IconButton(
-                        onPressed: () {
-                          _route.goProfile;
+                        onPressed: () async {
+                          await _route.goProfile();
                           closeMenu();
                         },
                         icon: Icon(

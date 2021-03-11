@@ -12,7 +12,8 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     status = FiltersStatus(
       isLoading: true,
       openMenu: false,
-      openMenuTab: false
+      openMenuTab: false,
+      openMenuFilter: false
     );
   }
 
@@ -37,8 +38,13 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     status = status.copyWith(openMenuTab: false);
   }
 
-  void onTapDrawer(String type) async {
-    status = status.copyWith(isLoading: true);
+  void onpenMenuFilter() {
+    final bool tapClick = status.openMenuFilter;
+    status = status.copyWith(openMenuFilter: !tapClick);
+  }
+
+  void closeMenuFilter() {
+    status = status.copyWith(openMenuFilter: false);
   }
 
   void goDetailPage() {
