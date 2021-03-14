@@ -101,6 +101,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listItems: listMenu,
           closeMenu: viewModel.closeMenuFilter,
           goFilters: viewModel.closeMenuFilter,
+          filter1: viewModel.status.filter1,
+          filter2: viewModel.status.filter2,
+          filter3: viewModel.status.filter3,
+          tapButton: viewModel.onTapButton,
         )
         : SizedBox.shrink();
 
@@ -191,7 +195,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ? BorderRadius.only(topLeft: Radius.circular(15))
 
                 // Validacion para el borde superior derecho
-                : (index == 2)
+                : (index == 1)
                 ? BorderRadius.only(topRight: Radius.circular(15))
 
                 : BorderRadius.circular(0.0),
@@ -247,18 +251,17 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           physics: ScrollPhysics(),
 
           staggeredTiles:  DataTest.imgList2.asMap().entries.map((entry) {
-            int rows = 2;
+            int rows = 3;
             count++;
 
-            if(count > 3 && count < 6){
-              rows = 3;
+            if(count > 2 && count < 6){
+              rows = 2;
             }else if(count > 5 && count < 7){
               rows = 6;
             }else if(count > 6){
-              rows = 2;
+              rows = 3;
               count = 1;
             }
-            print('Rows : $rows');
             return StaggeredTile.count(rows, 2);
           }).toList(),
 

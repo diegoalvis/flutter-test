@@ -65,10 +65,10 @@ class _DetailWidgetState extends State<DetailWidget> {
     _effectSubscription = viewModel.effects.listen((event) {
       if(event is DetailControllerScrollEffect){
         scrollController.animateTo(
-            event.next ? scrollController.offset + event.width
-                : scrollController.offset - event.width,
-            curve: Curves.linear,
-            duration: Duration(milliseconds: event.duration)
+          event.next ? scrollController.offset + event.width
+              : scrollController.offset - event.width,
+          curve: Curves.linear,
+          duration: Duration(milliseconds: event.duration)
         );
       }
     });

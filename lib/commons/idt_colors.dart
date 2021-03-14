@@ -11,6 +11,7 @@ class IdtColors {
   static const Color blueAccent = Color(0xff4695cd);
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff212121);
+  static const Color blackOpa = Color(0xff212121);
   static const Color blackShadow = Color(0xFF404040);
   static const Color gray = Color(0xff666666);
   static const Color grayBg = Color(0xfff0f0f0);

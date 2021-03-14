@@ -130,7 +130,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               Text(
                 'Juan Diego Rivas Cardoba',
                 style: textTheme.textButtomWhite.copyWith(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700
                 ),
               ),
@@ -146,7 +146,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 child: Text(
                   'Editar mi perfil',
                   style: textTheme.textButtomWhite.copyWith(
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600
                   ),
                 ),
@@ -156,7 +156,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               _elevationButtonCustom('Configuración de la cuenta'),
               Spacer( flex: 4),
               Text(
-                'Politica de tratamiento de datos',
+                'Política de Tratamiento de Datos',
                 style: textTheme.textButtomWhite.copyWith(
                   fontSize: 12,
                 ),

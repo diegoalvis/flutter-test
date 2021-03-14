@@ -13,7 +13,10 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       isLoading: true,
       openMenu: false,
       openMenuTab: false,
-      openMenuFilter: false
+      openMenuFilter: false,
+      filter1: [false, false, false, false, false],
+      filter2: [false, false, false, false, false],
+      filter3: [false, false, false, false, false],
     );
   }
 
@@ -45,6 +48,25 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   void closeMenuFilter() {
     status = status.copyWith(openMenuFilter: false);
+  }
+
+  void onTapButton(int index, int id) {
+
+    if(id == 1){
+      List<bool> filter = List.of(status.filter1);
+      filter[index] = !filter[index];
+      status = status.copyWith(filter1: filter);
+    }
+    else if(id == 2){
+      List<bool> filter = List.of(status.filter2);
+      filter[index] = !filter[index];
+      status = status.copyWith(filter2: filter);
+    }
+    else if(id == 3){
+      List<bool> filter = List.of(status.filter3);
+      filter[index] = !filter[index];
+      status = status.copyWith(filter3: filter);
+    }
   }
 
   void goDetailPage() {

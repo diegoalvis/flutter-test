@@ -83,14 +83,13 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         ? IdtMenuTap(
           listItems: viewModel.status.isZone? listMenuZone : listMenu,
           closeMenu: viewModel.closeMenuTab,
-          goFilters: viewModel.status.isZone? viewModel.goEventsPage : viewModel.goFiltersPage
+          goFilters: viewModel.goFiltersPage
         )
         : SizedBox.shrink();
 
     Widget _buttonTap(String label, VoidCallback onTap){
       return Expanded(
-        child: FlatButton(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+        child: TextButton(
           child: Text(
             label,
             maxLines: 1,

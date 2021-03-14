@@ -75,7 +75,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
 
     final KTextFieldInputDecoration = InputDecoration(
 
-      contentPadding: EdgeInsets.all(10.0),
+      contentPadding: EdgeInsets.all(12.0),
+      isDense: true,
       hintStyle: textTheme.textButtomWhite,
       hintText: 'Nombre de usuario o Email',
       enabledBorder: OutlineInputBorder(
@@ -117,10 +118,10 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                     child: Column(
                       children: [
                         Spacer(
-                          flex: 2,
+                          flex: 3,
                         ),
                         Container(
-                          height: 150,
+                          height: 120,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
@@ -128,9 +129,19 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               fit: BoxFit.fill
                             ),
                           ),
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.camera_alt,
+                                color: IdtColors.white,
+                              ),
+                              iconSize: 37,
+                              onPressed: () {  },
+                            ),
+                          ),
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 10,
                         ),
                         Text(
                           'Editar Perfil',
@@ -139,9 +150,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                             fontWeight: FontWeight.w600
                           ),
                         ),
-                        Spacer(),
-                        SizedBox(
-                          height: 20,
+                        Spacer(
+                          flex: 5,
                         ),
                         Text(
                           'Juan Diego rivas Cardona',
@@ -177,27 +187,22 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           style: textTheme.textButtomWhite,
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
-                        Text(
-                          'Rivasjd_',
-                          style: textTheme.textButtomWhite.copyWith(
-                            fontSize: 18,
-                          )
-                        ),
-                        SizedBox(height: 8,),
                         TextField(
                           obscureText: true,
                           enableSuggestions: false,
                           autocorrect: false,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                           style: textTheme.textMenu.copyWith(
                             color: IdtColors.white,
+                            fontSize: 35,
                             fontWeight: FontWeight.w400,
                           ),
                           controller: _controllerPassword,
                           decoration: KTextFieldInputDecoration.copyWith(
-                            hintText: 'Contraseña'
+                            hintText: 'Contraseña',
+                            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: -3)
                           ),
                         ),
                         SizedBox(
@@ -207,9 +212,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           'Contraseña',
                           style: textTheme.textButtomWhite,
                         ),
-                        Spacer(),
                         SizedBox(
-                          height: 8,
+                          height: 15,
                         ),
                         TextButton(
                           child: Text(
@@ -250,9 +254,9 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           ),
         ),
         Positioned(
-          top: 8,
-          left: 8,
-          right: 8,
+          top: 12,
+          left: 10,
+          right: 10,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
