@@ -6,6 +6,9 @@ class IdtConstants {
     static final String audio = 'https://bogotadc.travel/drpl/sites/default/files/2021-02/samplebta.mp3';
     static final String kUrl1 = 'https://luan.xyz/files/audio/ambient_c_motion.mp3';
 
+    static final String url_server = 'us-central1-idt-mobile-app-dev.cloudfunctions.net';
+    static final String url_image = 'bogotadc.travel';
+
     // Valores
     static final int itemSize = 100;
 }

@@ -7,15 +7,18 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_view_model.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/home/other_places.dart';
 import 'package:bogota_app/widget/home/saved_places.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 
 // import '../../app_theme.dart';
 
@@ -50,13 +53,16 @@ class _HomeWidgetState extends State<HomeWidget> {
     final viewModel = context.read<HomeViewModel>();
 
     _effectSubscription = viewModel.effects.listen((event) {
-      if(event is ValueControllerScrollEffect){
+      if(event is HomeValueControllerScrollEffect){
         scrollController.animateTo(
           event.next ? scrollController.offset + IdtConstants.itemSize
               : scrollController.offset - IdtConstants.itemSize,
           curve: Curves.linear,
           duration: Duration(milliseconds: event.duration)
         );
+      } else if(event is ShowDialogEffect){
+
+        context.showDialogObservation();
       }
     });
     super.initState();
@@ -89,6 +95,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget _buildHome(HomeViewModel viewModel) {
 
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [
@@ -111,7 +118,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             ],
           ),
         ),
-        menu
+        menu,
+        loading
       ],
     );
   }

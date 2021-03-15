@@ -1,7 +1,10 @@
+import 'package:bogota_app/api/model/data_places_model.dart';
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
+import 'package:bogota_app/utils/errors/filter_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
@@ -12,7 +15,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
       titleBar: 'Recibidos',
-      isLoading: true,
+      isLoading: false,
       openMenu: false,
       openSaved: true,
       notSaved: true,
@@ -21,7 +24,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void onInit() async {
-    //TODO
+    // TODO
   }
 
   void onpenMenu() {
@@ -33,8 +36,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void onpenSavedPlaces() {
-    final bool value = status.openSaved;
-    status = status.copyWith(openSaved: !value);
+
+    addEffect(ShowDialogEffect());
+
+    /*final bool value = status.openSaved;
+    status = status.copyWith(openSaved: !value);*/
   }
 
   void addSavedPLaces() {
@@ -46,15 +52,29 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void onChangeScrollController(bool value){
-    addEffect(ValueControllerScrollEffect(300, value));
+    addEffect(HomeValueControllerScrollEffect(300, value));
   }
 
   void goDetailPage() {
     _route.goDetail(isHotel: false);
   }
 
-  void goDiscoverPage() {
-    _route.goDiscover();
+  void goDiscoverPage() async {
+
+    status = status.copyWith(isLoading: true);
+
+    final response = await _interactor.getPlacesList();
+
+    if(response is IdtSuccess<List<DataPlacesModel>?>){
+
+      print('Respuesta ViewModel: ${response.body![0].title} ');
+      _route.goDiscover();
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
 }
