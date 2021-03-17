@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:bogota_app/api/model/data_places_model.dart';
+
 import 'package:bogota_app/api/model/response_places_model.dart';
 import 'package:bogota_app/api/model/splash_model.dart';
-import 'package:bogota_app/api/repository/service/response/splash_response.dart';
 import 'package:bogota_app/api/request/rate_request.dart';
+import 'package:bogota_app/api/response/splash_response.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
