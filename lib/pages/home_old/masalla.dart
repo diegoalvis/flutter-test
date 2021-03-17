@@ -6,7 +6,7 @@ import 'package:bogota_app/pages/components/appbar.dart';
 import 'package:bogota_app/pages/components/verticalgridcustom.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/components/read_more_text.dart';
-import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
+import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

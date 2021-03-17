@@ -5,7 +5,7 @@ import 'package:bogota_app/data/testData.dart';
 import 'package:bogota_app/pages/components/title_lugares.dart';
 import 'package:bogota_app/pages/components/title_sec.dart';
 import 'package:bogota_app/pages/components/verticalgrid.dart';
-import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
+import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

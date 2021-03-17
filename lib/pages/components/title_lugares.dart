@@ -1,9 +1,7 @@
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
-
-
+import 'package:bogota_app/widget/style_method.dart';
 class Title_Lugares extends StatelessWidget{
 
   final stylemethod= StylesMethodsApp();

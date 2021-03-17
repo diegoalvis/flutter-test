@@ -30,6 +30,7 @@ dependencies:
   http: ^0.13.0
   get_it: ^6.0.0
   rxdart: ^0.26.0
+  build_runner_core: ^6.1.12
 
   #Assets
   flutter_svg: ^0.21.0-nullsafety.0
