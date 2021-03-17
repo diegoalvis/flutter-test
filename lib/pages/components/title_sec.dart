@@ -1,8 +1,6 @@
 import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/TBBC/ServInformacionIDTBogota/Aplicacion/bogota-app/lib/widget/style_method.dart';
-
-
+import 'package:bogota_app/widget/style_method.dart';
 class Title_Sec extends StatelessWidget{
   Title_Sec(this.title,{Key? key}) : super(key: key);
   final String title;

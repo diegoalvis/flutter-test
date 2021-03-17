@@ -1,4 +1,4 @@
-package com.example.bogota_app
+package com.IDT.bogota_app
 
 import io.flutter.embedding.android.FlutterActivity
 
