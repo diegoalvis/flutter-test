@@ -73,19 +73,4 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-  void getSplash() async {
-    // status = status.copyWith(isLoading: true);
-
-    final response = await _interactor.getSplash();
-
-    if (response is IdtSuccess<SplashModel>?) {
-      print('urlImgSplash: $response ');
-      _route.goHome();
-    } else {
-      final erroRes = response as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-    // status = status.copyWith(isLoading: false);
-  }
 }
