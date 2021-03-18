@@ -1,45 +1,31 @@
-import 'dart:async';
-
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/splash/splash_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SettingPage extends StatelessWidget {
+class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SplashViewModel(
-          locator<IdtRoute>(),
-          locator<ApiInteractor>()
-      ),
+      create: (_) =>
+          SplashViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return SplashScreen();
+        return SplashWidget();
       },
     );
   }
 }
-class SplashScreen extends StatefulWidget {
+
+class SplashWidget extends StatefulWidget {
   @override
-  _SplashScreenState createState() => new _SplashScreenState();
+  _SplashWidgetState createState() => new _SplashWidgetState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-
-  // startTime() async {
-  //   var _duration = new Duration(seconds: 2);
-  //   return new Timer(_duration, navigationPage);
-  // }
-
-  void navigationPage() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> HomePage()));
-  }
-
+class _SplashWidgetState extends State<SplashWidget> {
   @override
   void initState() {
     super.initState();
@@ -49,18 +35,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Stack(
+    final viewModel = context.watch<SplashViewModel>();
+
+    return Scaffold(
+        body: Stack(
           children: [
             Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(IdtAssets.splash),
-                    fit: BoxFit.cover,
-                  ),
-                )
-            ),
+              image: DecorationImage(
+                image: viewModel.status.imgSplash != null
+                    ? NetworkImage(viewModel.status.imgSplash!)
+                    : NetworkImage(IdtAssets.img_test),
+                fit: BoxFit.cover,
+              ),
+            )),
             Positioned(
               top: 10.0,
               bottom: 10.0,
@@ -78,7 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       end: Alignment.topCenter,
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   child: Container(
                       height: 65,
                       width: 110,
@@ -87,13 +76,11 @@ class _SplashScreenState extends State<SplashScreen> {
                           image: AssetImage(IdtAssets.logo_bogota),
                           fit: BoxFit.scaleDown,
                         ),
-                      )
-                  ),
+                      )),
                 ),
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }

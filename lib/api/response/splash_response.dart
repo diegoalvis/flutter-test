@@ -9,9 +9,9 @@ part 'splash_response.g.dart';
 class SplashResponse extends IdtModel {
 
   final int? status;
-  final SplashModel? data;
+  final SplashModel data;
 
-  SplashResponse({this.status, this.data});
+  SplashResponse({this.status,required this.data});
 
   factory SplashResponse.fromJson(Map<String, dynamic> json) => _$SplashResponseFromJson(json);
 

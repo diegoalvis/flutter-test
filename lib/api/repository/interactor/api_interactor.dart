@@ -14,7 +14,7 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<SplashModel?>> getSplashInteractor() async {
+  Future<IdtResult<SplashModel>> getSplashInteractor() async {
 
     final response = await locator<SplashService>().getSplash();
 

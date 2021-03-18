@@ -9,7 +9,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class SplashService {
-  Future<IdtResult<SplashModel?>> getSplash() async {
+  Future<IdtResult<SplashModel>> getSplash() async {
     final uri = Uri.https(IdtConstants.url_server, '/util/splash');
 
     final response = await http.get(uri);
@@ -22,7 +22,7 @@ class SplashService {
           {
             final body = json.decode(response.body);
 
-            print('Response: ${body}');
+            print('Response: $body');
 
             final entity = SplashResponse.fromJson(body);
 
