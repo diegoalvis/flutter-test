@@ -4,6 +4,7 @@ import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:bogota_app/pages/components/title_lugares.dart';
 import 'package:bogota_app/pages/components/title_sec.dart';
 import 'package:bogota_app/pages/components/verticalgrid.dart';
+import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bogota_app/widget/style_method.dart';

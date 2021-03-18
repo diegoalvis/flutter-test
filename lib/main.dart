@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bogota_app/pages/splash/splash_page.dart';
 import 'package:bogota_app/widget/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,9 @@ class MyApp extends StatelessWidget {
       navigatorKey: IdtRoute().navigatorKey,
       debugShowCheckedModeBanner: false,
 
-      title: 'GFiles App',
+      title: 'Bogotá App',
       theme: AppTheme.build(),
-      home: SplashScreen(),
+      home: SplashPage(),
       //onGenerateRoute: locator<IdtRoute>().generateRoute
     );
   }
