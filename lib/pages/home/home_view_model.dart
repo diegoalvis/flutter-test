@@ -43,6 +43,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onpenSavedPlaces() {
     final bool value = status.openSaved;
     status = status.copyWith(openSaved: !value);
+    
+    //addEffect(ShowDialogEffect());  Dialog de prueba
   }
 
   void addSavedPLaces() {
