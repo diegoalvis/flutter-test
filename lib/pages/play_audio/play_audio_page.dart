@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -32,7 +32,9 @@ class PlayAudioPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => PlayAudioViewModel(
         locator<IdtRoute>(),
-        locator<ApiInteractor>()
+        locator<PlaceRepository
+
+>()
       ),
       builder: (context, _) {
         return PlayAudioWidget();

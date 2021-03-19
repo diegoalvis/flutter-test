@@ -1,8 +1,13 @@
 import 'dart:ffi';
 
-import 'package:bogota_app/api/model/data_places_model.dart';
-import 'package:bogota_app/api/model/splash_model.dart';
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/model/places_model.dart';
+
+
+import 'package:bogota_app/data/model/splash_model.dart';
+
+
+import 'package:bogota_app/data/model/splash_model.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -16,10 +21,10 @@ import 'splash_status.dart';
 
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
-  final ApiInteractor _interactor;
+  final SplashRepository _interactor;
 
   SplashViewModel(this._route, this._interactor) {
-    status = SplashStatus(imgSplash: null);
+    status = SplashStatus();
   }
 
   void onInit() async {
@@ -35,7 +40,6 @@ class SplashViewModel extends ViewModel<SplashStatus> {
       await Future.delayed(Duration (seconds: 3));
       _route.goHome();
     } else {
-      status = status.copyWith(imgSplash: IdtAssets.splash);
       await Future.delayed(Duration (seconds: 3));
       _route.goHome();
       final erroRes = response as IdtFailure<FilterError>;

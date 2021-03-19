@@ -1,6 +1,12 @@
-import 'package:bogota_app/api/model/data_places_model.dart';
-import 'package:bogota_app/api/model/idt_model.dart';
-import 'package:bogota_app/api/model/splash_model.dart';
+import 'package:bogota_app/data/model/places_model.dart';
+
+
+import 'package:bogota_app/data/model/idt_model.dart';
+
+
+import 'package:bogota_app/data/model/splash_model.dart';
+
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'splash_response.g.dart';

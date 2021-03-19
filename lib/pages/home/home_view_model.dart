@@ -1,6 +1,10 @@
-import 'package:bogota_app/api/model/data_places_model.dart';
-import 'package:bogota_app/api/model/splash_model.dart';
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/model/places_model.dart';
+
+
+import 'package:bogota_app/data/model/splash_model.dart';
+
+
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
@@ -10,7 +14,9 @@ import 'package:bogota_app/view_model.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;
-  final ApiInteractor _interactor;
+  final PlaceRepository
+
+ _interactor;
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(

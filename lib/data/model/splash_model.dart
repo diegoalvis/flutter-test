@@ -1,4 +1,6 @@
-import 'package:bogota_app/api/model/idt_model.dart';
+import 'package:bogota_app/data/model/idt_model.dart';
+
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'splash_model.g.dart';

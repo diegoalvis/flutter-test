@@ -1,7 +1,8 @@
-import 'package:bogota_app/api/model/idt_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'data_places_model.g.dart';
+import 'idt_model.dart';
+
+part 'places_model.g.dart';
 
 @JsonSerializable()
 class DataPlacesModel extends IdtModel {

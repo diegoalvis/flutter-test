@@ -1,4 +1,4 @@
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -11,8 +11,10 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          SplashViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => SplashViewModel(
+        locator<IdtRoute>(),
+        locator<SplashRepository>(),
+      ),
       builder: (context, _) {
         return SplashWidget();
       },

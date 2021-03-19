@@ -1,4 +1,4 @@
-import 'package:bogota_app/data/testData.dart';
+import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/pages/components/appbar.dart';
 import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:bogota_app/pages/components/title_lugares.dart';

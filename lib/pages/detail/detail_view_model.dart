@@ -1,4 +1,4 @@
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_status.dart';
@@ -7,7 +7,7 @@ import 'package:bogota_app/view_model.dart';
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   final IdtRoute _route;
-  final ApiInteractor _interactor;
+  final PlaceRepository _interactor;
 
   DetailViewModel(this._route, this._interactor) {
     status = DetailStatus(

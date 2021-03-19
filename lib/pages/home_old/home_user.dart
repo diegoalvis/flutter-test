@@ -1,6 +1,6 @@
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
-import 'package:bogota_app/data/testData.dart';
+import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/pages/components/appbar.dart';
 import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/home_old/imperdibles_list.dart';

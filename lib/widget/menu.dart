@@ -2,7 +2,7 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/data/DataTest.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

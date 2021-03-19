@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/data/DataTest.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_view_model.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -34,7 +34,7 @@ class DetailPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => DetailViewModel(
         locator<IdtRoute>(),
-        locator<ApiInteractor>()
+        locator<PlaceRepository>()
       ),
       builder: (context, _) {
         return DetailWidget(isHotel);

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
+import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -24,7 +24,9 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SearchViewModel(
         locator<IdtRoute>(),
-        locator<ApiInteractor>()
+        locator<PlaceRepository
+
+>()
       ),
       builder: (context, _) {
         return SearchWidget();

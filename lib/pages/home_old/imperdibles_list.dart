@@ -1,7 +1,8 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
-import 'package:bogota_app/data/testData.dart';
+import 'package:bogota_app/mock/data/testData.dart';
+
 import 'package:bogota_app/pages/components/title_lugares.dart';
 import 'package:bogota_app/pages/components/title_sec.dart';
 import 'package:bogota_app/pages/components/verticalgrid.dart';
