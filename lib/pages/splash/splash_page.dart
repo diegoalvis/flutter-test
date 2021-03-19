@@ -39,48 +39,48 @@ class _SplashWidgetState extends State<SplashWidget> {
 
     return Scaffold(
         body: Stack(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-              image: DecorationImage(
-                image: viewModel.status.imgSplash != null
-                    ? NetworkImage(viewModel.status.imgSplash!)
-                    : NetworkImage(IdtAssets.img_test),
-                fit: BoxFit.cover,
-              ),
-            )),
-            Positioned(
-              top: 10.0,
-              bottom: 10.0,
-              left: 0.0,
-              right: 0.0,
-              child: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(0, 0, 0, 0),
-                        Color.fromARGB(0, 0, 0, 0)
-                      ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    ),
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  child: Container(
-                      height: 65,
-                      width: 110,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(IdtAssets.logo_bogota),
-                          fit: BoxFit.scaleDown,
-                        ),
-                      )),
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: viewModel.status.imgSplash != null
+                  ? NetworkImage(viewModel.status.imgSplash!)
+                  : AssetImage(IdtAssets.splash) as ImageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 10.0,
+          bottom: 10.0,
+          left: 0.0,
+          right: 0.0,
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(0, 0, 0, 0),
+                    Color.fromARGB(0, 0, 0, 0)
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                 ),
               ),
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                  height: 65,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(IdtAssets.logo_bogota),
+                      fit: BoxFit.scaleDown,
+                    ),
+                  )),
             ),
-          ],
-        ));
+          ),
+        ),
+      ],
+    ));
   }
 }

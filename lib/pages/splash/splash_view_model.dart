@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bogota_app/api/model/data_places_model.dart';
 import 'package:bogota_app/api/model/splash_model.dart';
 import 'package:bogota_app/api/repository/interactor/api_interactor.dart';
@@ -33,8 +35,9 @@ class SplashViewModel extends ViewModel<SplashStatus> {
       await Future.delayed(Duration (seconds: 3));
       _route.goHome();
     } else {
-      // print(response.)
-
+      status = status.copyWith(imgSplash: IdtAssets.splash);
+      await Future.delayed(Duration (seconds: 3));
+      _route.goHome();
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
       UnimplementedError();
