@@ -50,8 +50,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().onInit();
+    });
     final viewModel = context.read<HomeViewModel>();
-    viewModel.getUnmissable();
 
     _effectSubscription = viewModel.effects.listen((event) {
       if(event is HomeValueControllerScrollEffect){

@@ -20,11 +20,23 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         openSaved: true,
         notSaved: true,
         seeAll: true,
-        places: []);
+        places: []
+    );
   }
 
   void onInit() async {
-    // TODO
+    final response = await _interactor.getUnmissableList();
+
+    if (response is IdtSuccess<List<DataPlacesModel>?>) {
+      print('Respuesta ViewModel Imperdibles: ${response.body![0].title} ');
+      status.copyWith(places: response.body);
+      // status.places.addAll(response.body)
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void onpenMenu() {
@@ -64,6 +76,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final response = await _interactor.getPlacesList();
 
     if (response is IdtSuccess<List<DataPlacesModel>?>) {
+      print('Respuesta ViewModel: ${response.body![0].title} ');
       _route.goDiscover();
     } else {
       final erroRes = response as IdtFailure<FilterError>;
