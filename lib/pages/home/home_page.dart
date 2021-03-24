@@ -19,18 +19,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class HomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) =>
+          HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return HomeWidget();
       },
@@ -44,7 +38,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   final scrollController = ScrollController();
   StreamSubscription<HomeEffect>? _effectSubscription;
 
@@ -56,15 +49,14 @@ class _HomeWidgetState extends State<HomeWidget> {
     final viewModel = context.read<HomeViewModel>();
 
     _effectSubscription = viewModel.effects.listen((event) {
-      if(event is HomeValueControllerScrollEffect){
+      if (event is HomeValueControllerScrollEffect) {
         scrollController.animateTo(
-          event.next ? scrollController.offset + IdtConstants.itemSize
-              : scrollController.offset - IdtConstants.itemSize,
-          curve: Curves.linear,
-          duration: Duration(milliseconds: event.duration)
-        );
-      } else if(event is ShowDialogEffect){
-
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
         context.showDialogObservation();
       }
     });
@@ -79,27 +71,30 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<HomeViewModel>();
 
     return SafeArea(
       child: Scaffold(
-        appBar: IdtAppBar(viewModel.onpenMenu),
-        backgroundColor: IdtColors.white,
-        extendBody: true,
-        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar( discoverSelect: false ),
-        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: _buildHome(viewModel)
-      ),
+          appBar: IdtAppBar(viewModel.onpenMenu),
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          bottomNavigationBar: viewModel.status.openMenu
+              ? null
+              : IdtBottomAppBar(discoverSelect: false),
+          floatingActionButton:
+              viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: _buildHome(viewModel)),
     );
   }
 
   Widget _buildHome(HomeViewModel viewModel) {
-
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-
+    final menu = viewModel.status.openMenu
+        ? IdtMenu(closeMenu: viewModel.closeMenu)
+        : SizedBox.shrink();
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [
@@ -107,18 +102,21 @@ class _HomeWidgetState extends State<HomeWidget> {
           child: Column(
             children: [
               SavedPlaces(
-                viewModel.status.openSaved,
-                viewModel.onpenSavedPlaces,
-                viewModel.status.notSaved,
-                viewModel.addSavedPLaces,
-                viewModel.status.seeAll,
-                viewModel.onTapSeeAll,
-                viewModel.onChangeScrollController,
-                scrollController,
-                viewModel.goDetailPage
-              ),
+                  viewModel.status.openSaved,
+                  viewModel.onpenSavedPlaces,
+                  viewModel.status.notSaved,
+                  viewModel.addSavedPLaces,
+                  viewModel.status.seeAll,
+                  viewModel.onTapSeeAll,
+                  viewModel.onChangeScrollController,
+                  scrollController,
+                  viewModel.goDetailPage),
               SizedBox(height: 25),
-              OtherPlaces(onTapCard: viewModel.goDetailPage, goDiscover: viewModel.goDiscoverPage)
+              OtherPlaces(
+                onTapCard: viewModel.goDetailPage,
+                goDiscover: viewModel.goDiscoverPage,
+                res: viewModel.status.itemsPlaces,
+              )
             ],
           ),
         ),
@@ -128,4 +126,3 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 }
-

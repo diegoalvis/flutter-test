@@ -15,10 +15,10 @@ class OtherPlaces extends StatelessWidget {
 
   final VoidCallback onTapCard;
   final VoidCallback goDiscover;
+  late List<DataPlacesModel>? res;
+  OtherPlaces({required this.onTapCard, required this.goDiscover, this.res});
 
-  OtherPlaces({required this.onTapCard, required this.goDiscover});
-
-  Widget ImagesCard(TextTheme textTheme, String item, int index, List listItems) => (
+  Widget ImagesCard(TextTheme textTheme, String item, int index, List res) => (
 
     Center(
       child: InkWell(
@@ -31,9 +31,9 @@ class OtherPlaces extends StatelessWidget {
                 ? BorderRadius.only(topLeft: Radius.circular(15))
                 : (index == 1)
                 ? BorderRadius.only(topRight: Radius.circular(15))
-                : (index == (listItems.length - 2) && index % 2 == 0)
+                : (index == (res.length - 2) && index % 2 == 0)
                 ? BorderRadius.only(bottomLeft: Radius.circular(15))
-                : (index == (listItems.length - 1) && index % 2 != 0)
+                : (index == (res.length - 1) && index % 2 != 0)
                 ? BorderRadius.only(bottomRight: Radius.circular(15))
                 : BorderRadius.circular(0.0),
               child: SizedBox(

@@ -9,9 +9,9 @@ class HomeStatus extends ViewStatus{
   final bool openSaved;
   final bool notSaved;
   final bool seeAll;
-  late List<DataPlacesModel> places;
+  late List<DataPlacesModel> itemsPlaces;
 
-  HomeStatus( {required this.places,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
+  HomeStatus( {required this.itemsPlaces,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll});
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
@@ -23,7 +23,7 @@ class HomeStatus extends ViewStatus{
       openSaved: openSaved ?? this.openSaved,
       notSaved: notSaved ?? this.notSaved,
       seeAll: seeAll ?? this.seeAll,
-      places: places ?? this.places
+      itemsPlaces: places ?? this.itemsPlaces
     );
   }
 }

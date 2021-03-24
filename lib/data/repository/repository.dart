@@ -27,9 +27,8 @@ class ApiInteractor {
 
     return response;
   }
+
 }
-
-
 
 /// class PlaceRepository {
 ///
