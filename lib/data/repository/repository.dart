@@ -7,7 +7,7 @@ import 'package:bogota_app/data/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
 // class Repository
-class PlaceRepository {
+class ApiInteractor {
   Future<IdtResult<List<DataPlacesModel>?>> getPlacesList() async { //change name to getEvent
     final response = await locator<FilterService>().getPlaces();
 

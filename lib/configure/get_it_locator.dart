@@ -12,6 +12,8 @@ GetIt locator = GetIt.instance;
 void setUpLocator() async {
 
   locator.registerSingleton<IdtRoute>(IdtRoute());
+  locator.registerSingleton<ApiInteractor>(ApiInteractor());
+
   locator.registerSingleton<SplashRepository>(SplashRepository());
   locator.registerSingleton<PlaceRepository>(PlaceRepository());
   locator.registerSingleton<FilterService>(FilterService());
