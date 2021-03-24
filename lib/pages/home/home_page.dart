@@ -51,6 +51,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     final viewModel = context.read<HomeViewModel>();
+    viewModel.getUnmissable();
 
     _effectSubscription = viewModel.effects.listen((event) {
       if(event is HomeValueControllerScrollEffect){
@@ -96,6 +97,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
 
     return Stack(
       children: [

@@ -35,7 +35,6 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     final response = await _interactor.getSplashInteractor();
 
     if (response is IdtSuccess<SplashModel>) {
-      print('urlImgSplash: $response ');
       status = status.copyWith(imgSplash: IdtConstants.url_image + response.body.background.toString());
       await Future.delayed(Duration (seconds: 3));
       _route.goHome();

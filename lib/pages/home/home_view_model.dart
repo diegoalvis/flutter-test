@@ -1,9 +1,5 @@
 import 'package:bogota_app/data/model/places_model.dart';
 
-
-import 'package:bogota_app/data/model/splash_model.dart';
-
-
 import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
@@ -14,9 +10,7 @@ import 'package:bogota_app/view_model.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;
-  final PlaceRepository
-
- _interactor;
+  final PlaceRepository _interactor;
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
@@ -25,7 +19,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         openMenu: false,
         openSaved: true,
         notSaved: true,
-        seeAll: true);
+        seeAll: true,
+        places: []);
   }
 
   void onInit() async {
@@ -43,7 +38,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onpenSavedPlaces() {
     final bool value = status.openSaved;
     status = status.copyWith(openSaved: !value);
-    
+
     //addEffect(ShowDialogEffect());  Dialog de prueba
   }
 
@@ -69,7 +64,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final response = await _interactor.getPlacesList();
 
     if (response is IdtSuccess<List<DataPlacesModel>?>) {
-      print('Respuesta ViewModel: ${response.body![0].title} ');
       _route.goDiscover();
     } else {
       final erroRes = response as IdtFailure<FilterError>;
@@ -79,4 +73,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
+  void getUnmissable() async {
+    final response = await _interactor.getUnmissableList();
+
+    if (response is IdtSuccess<List<DataPlacesModel>?>) {
+      print('Respuesta ViewModel Imperdibles: ${response.body![0].title} ');
+      // status.places.addAll(response.body)
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
 }
