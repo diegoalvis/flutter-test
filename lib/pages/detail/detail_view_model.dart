@@ -7,7 +7,7 @@ import 'package:bogota_app/view_model.dart';
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   final IdtRoute _route;
-  final PlaceRepository _interactor;
+  final ApiInteractor _interactor;
 
   DetailViewModel(this._route, this._interactor) {
     status = DetailStatus(

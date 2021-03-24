@@ -25,7 +25,7 @@ class UnmissablePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => UnmissableViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

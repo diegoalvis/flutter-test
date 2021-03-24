@@ -6,7 +6,7 @@ import 'package:bogota_app/view_model.dart';
 class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
   final IdtRoute _route;
-  final PlaceRepository _interactor;
+  final ApiInteractor _interactor;
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(

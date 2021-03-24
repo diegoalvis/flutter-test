@@ -14,7 +14,7 @@ import '../../app_theme.dart';
 class OtherPlaces extends StatelessWidget {
 
   final VoidCallback onTapCard;
-  final List<DataPlacesModel> goDiscover;
+  final VoidCallback goDiscover;
 
   OtherPlaces({required this.onTapCard, required this.goDiscover});
 

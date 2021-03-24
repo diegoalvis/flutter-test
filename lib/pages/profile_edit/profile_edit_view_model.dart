@@ -6,7 +6,7 @@ import 'package:bogota_app/view_model.dart';
 class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
   final IdtRoute _route;
-  final PlaceRepository
+  final ApiInteractor
 
  _interactor;
 

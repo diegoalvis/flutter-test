@@ -6,7 +6,7 @@ import 'package:bogota_app/view_model.dart';
 class SearchViewModel extends ViewModel<SearchStatus> {
 
   final IdtRoute _route;
-  final PlaceRepository
+  final ApiInteractor
 
  _interactor;
 

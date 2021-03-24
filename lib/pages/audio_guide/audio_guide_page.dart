@@ -25,7 +25,7 @@ class AudioGuidePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AudioGuideViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository>(),
+        locator<ApiInteractor>(),
 
       ),
       builder: (context, _) {

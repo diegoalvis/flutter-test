@@ -10,7 +10,7 @@ import 'package:bogota_app/view_model.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;
-  final PlaceRepository _interactor;
+  final ApiInteractor _interactor;
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(

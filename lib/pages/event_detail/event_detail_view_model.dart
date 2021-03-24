@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 class EventDetailViewModel extends ViewModel<EventDetailStatus> {
 
   final IdtRoute _route;
-  final PlaceRepository _interactor;
+  final ApiInteractor _interactor;
 
   EventDetailViewModel(this._route, this._interactor) {
     status = EventDetailStatus(

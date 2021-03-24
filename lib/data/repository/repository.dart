@@ -8,7 +8,9 @@ import 'package:bogota_app/utils/idt_result.dart';
 
 // class Repository
 class ApiInteractor {
-  Future<IdtResult<List<DataPlacesModel>?>> getPlacesList() async { //change name to getEvent
+
+  Future<IdtResult<List<DataPlacesModel>?>> getPlacesList() async {
+
     final response = await locator<FilterService>().getPlaces();
 
     return response;
@@ -19,15 +21,15 @@ class ApiInteractor {
 
     return response;
   }
-}
 
-class SplashRepository {
   Future<IdtResult<SplashModel>> getSplashInteractor() async {
     final response = await locator<SplashService>().getSplash();
 
     return response;
   }
 }
+
+
 
 /// class PlaceRepository {
 ///

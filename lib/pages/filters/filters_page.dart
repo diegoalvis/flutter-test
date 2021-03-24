@@ -29,7 +29,7 @@ class FiltersPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => FiltersViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

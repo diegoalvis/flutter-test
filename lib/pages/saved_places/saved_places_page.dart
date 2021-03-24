@@ -27,7 +27,7 @@ class SavedPlacesPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SavedPlacesViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

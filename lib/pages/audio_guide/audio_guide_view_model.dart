@@ -6,7 +6,7 @@ import 'package:bogota_app/view_model.dart';
 class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
 
   final IdtRoute _route;
-  final PlaceRepository _interactor;
+  final ApiInteractor _interactor;
 
   AudioGuideViewModel(this._route, this._interactor) {
     status = AudioGuideStatus(

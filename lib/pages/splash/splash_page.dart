@@ -13,7 +13,7 @@ class SplashPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SplashViewModel(
         locator<IdtRoute>(),
-        locator<SplashRepository>(),
+        locator<ApiInteractor>(),
       ),
       builder: (context, _) {
         return SplashWidget();

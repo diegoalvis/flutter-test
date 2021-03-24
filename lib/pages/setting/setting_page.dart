@@ -18,7 +18,7 @@ class SettingPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SettingViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

@@ -24,7 +24,7 @@ class DiscoverPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => DiscoverViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository>()
+        locator<ApiInteractor>()
       ),
       builder: (context, _) {
         return DiscoverWidget();

@@ -24,7 +24,7 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SearchViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

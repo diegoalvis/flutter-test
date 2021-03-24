@@ -32,7 +32,7 @@ class PlayAudioPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => PlayAudioViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

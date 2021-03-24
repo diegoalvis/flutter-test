@@ -29,7 +29,7 @@ class EventDetailPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => EventDetailViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository>()
+        locator<ApiInteractor>()
       ),
       builder: (context, _) {
         return EventDetailWidget();

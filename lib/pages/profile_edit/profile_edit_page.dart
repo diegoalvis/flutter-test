@@ -18,7 +18,7 @@ class ProfileEditPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ProfileEditViewModel(
         locator<IdtRoute>(),
-        locator<PlaceRepository
+        locator<ApiInteractor
 
 >()
       ),

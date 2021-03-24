@@ -21,7 +21,7 @@ import 'splash_status.dart';
 
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
-  final SplashRepository _interactor;
+  final ApiInteractor _interactor;
 
   SplashViewModel(this._route, this._interactor) {
     status = SplashStatus();
