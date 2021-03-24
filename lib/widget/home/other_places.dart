@@ -15,8 +15,7 @@ class OtherPlaces extends StatelessWidget {
 
   final VoidCallback onTapCard;
   final VoidCallback goDiscover;
-  late List<DataPlacesModel>? res;
-  OtherPlaces({required this.onTapCard, required this.goDiscover, this.res});
+  OtherPlaces({required this.onTapCard, required this.goDiscover, });
 
   Widget ImagesCard(TextTheme textTheme, String item, int index, List res) => (
 
