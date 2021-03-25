@@ -42,7 +42,7 @@ class OtherPlaces extends StatelessWidget {
                   child: Image.network(
                     item,
                     height: 200,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
