@@ -5,6 +5,8 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
+import 'package:bogota_app/utils/errors/food_error.dart';
+import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
@@ -20,23 +22,47 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       openSaved: true,
       notSaved: true,
       seeAll: true,
-      itemsPlaces: [],
+      itemsUnmissablePlaces: [],
+      itemsFoodPlaces: [],
     );
   }
 
   void onInit() async {
-    final response = await _interactor.getUnmissableList();
+    status = status.copyWith(isLoading: true);
+    getUnmissableResponse();
+    getFoodResponse();
+  }
 
-    if (response is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsPlaces: response.body); // Status reasignacion
-      // status.places.addAll(response.body)
+  void getUnmissableResponse() async {
+    final unmissableResponse = await _interactor.getUnmissablePlacesList();
+
+    if (unmissableResponse is IdtSuccess<List<DataPlacesModel>?>) {
+      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
     } else {
-      final erroRes = response as IdtFailure<FilterError>;
+      final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
       print(erroRes.message);
       UnimplementedError();
     }
     status = status.copyWith(isLoading: false);
   }
+
+  void getFoodResponse() async {
+    final foodResponse = await _interactor.getFoodPlacesList();
+
+    if (foodResponse is IdtSuccess<List<DataPlacesModel>?>) {
+      status = status.copyWith(itemsFoodPlaces: foodResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = foodResponse as IdtFailure<FoodError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
 
   void onpenMenu() {
     status = status.copyWith(openMenu: true);

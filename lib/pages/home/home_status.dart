@@ -9,13 +9,14 @@ class HomeStatus extends ViewStatus{
   final bool openSaved;
   final bool notSaved;
   final bool seeAll;
-  late List<DataPlacesModel> itemsPlaces;
+  late List<DataPlacesModel> itemsUnmissablePlaces;
+  late List<DataPlacesModel> itemsFoodPlaces;
 
-  HomeStatus( {required this.itemsPlaces,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
+  HomeStatus( {required this.itemsFoodPlaces, required this.itemsUnmissablePlaces,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll});
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
-    bool? seeAll, List<DataPlacesModel>? itemsPlaces }) {
+    bool? seeAll, List<DataPlacesModel>? itemsUnmissablePlaces,List<DataPlacesModel>? itemsFoodPlaces }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,
@@ -23,7 +24,8 @@ class HomeStatus extends ViewStatus{
       openSaved: openSaved ?? this.openSaved,
       notSaved: notSaved ?? this.notSaved,
       seeAll: seeAll ?? this.seeAll,
-      itemsPlaces: itemsPlaces ?? this.itemsPlaces
+      itemsUnmissablePlaces: itemsUnmissablePlaces ?? this.itemsUnmissablePlaces,
+      itemsFoodPlaces: itemsFoodPlaces ?? this.itemsFoodPlaces
     );
   }
 }

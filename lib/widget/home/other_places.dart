@@ -15,9 +15,10 @@ import '../../app_theme.dart';
 class OtherPlaces extends StatelessWidget {
   final VoidCallback onTapCard;
   final VoidCallback goDiscover;
-  late List<DataPlacesModel>? res;
+  late List<DataPlacesModel>? resUnmissable;
+  late List<DataPlacesModel>? resFood;
 
-  OtherPlaces({required this.onTapCard, required this.goDiscover, this.res});
+  OtherPlaces({required this.onTapCard, required this.goDiscover, this.resUnmissable, this.resFood});
 
   Widget ImagesCard(
           TextTheme textTheme, String item, int index, List res, String name) =>
@@ -118,13 +119,13 @@ class OtherPlaces extends StatelessWidget {
         SizedBox(height: 25),
         TitleSection('Imperdible en Bogotá'),
         SizedBox(height: 25),
-        GridImagesCol2(textTheme, res!),
+        GridImagesCol2(textTheme, resUnmissable!),
         SizedBox(height: 5),
         best_rated_btn(textTheme),
         SizedBox(height: 20),
         TitleSection('Mejor calificado'),
         SizedBox(height: 15),
-        GridImagesCol2(textTheme, res!),
+        GridImagesCol2(textTheme, resFood!),
         SizedBox(height: 55),
       ],
     );

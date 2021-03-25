@@ -43,6 +43,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   void initState() {
+
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<HomeViewModel>().onInit();
     });
@@ -115,7 +116,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,
-                res: viewModel.status.itemsPlaces,
+                resUnmissable: viewModel.status.itemsUnmissablePlaces,
+                resFood: viewModel.status.itemsFoodPlaces,
               )
             ],
           ),

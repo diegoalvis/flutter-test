@@ -6,11 +6,11 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 import 'response/places_response.dart';
 
-class ZoneService {
-  Future<IdtResult<List<DataPlacesModel>?>> getZone() async {
+class PlacesFoodService {
+  Future<IdtResult<List<DataPlacesModel>?>> getPlacesFood() async {
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/zone');
+    final uri = Uri.https(IdtConstants.url_server, '/food');
 
     final response = await http.get(uri);
 
@@ -21,7 +21,7 @@ class ZoneService {
         case 200:
           {
             final entity = PlacesResponse.fromJson(body);
-          print('Zone Status: ${entity.status}');
+          print('PlacesFood Status: ${entity.status}');
             return IdtResult.success(entity.data);
           }
 
