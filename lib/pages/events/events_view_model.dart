@@ -23,7 +23,12 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+    if (status.openMenu==false){
+      status = status.copyWith (openMenu: true);
+    }
+    else{
+      status = status.copyWith(openMenu: false);
+    }
   }
 
   void closeMenu() {
