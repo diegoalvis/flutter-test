@@ -1,3 +1,5 @@
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -51,6 +53,19 @@ class FiltersWidget extends StatefulWidget {
 }
 
 class _FiltersWidgetState extends State<FiltersWidget> {
+  @override
+  void initState() {
+
+    print("gastronomía");
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<FiltersViewModel>().onInit();
+    });
+    //  final viewModel = context.read<EventsViewModel>();
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +198,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       );
     }
 
-    Widget imagesCard(String item, int index, List listItems) => (
+    Widget imagesCard(String item, int index, List listItems, namePlace) => (
 
       InkWell(
         onTap: viewModel.goDetailPage,
@@ -228,7 +243,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                 child: Text(
-                  item.toUpperCase(),
+                  namePlace.toUpperCase(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -243,7 +258,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       )
     );
 
-    Widget gridImagesCol3() => Padding(
+    Widget gridImagesCol3(List<DataPlacesModel> listItems) => Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: (
         //TODO: Pasar esta logica al ViewModel cuando se reciban los datos de la peticion
@@ -252,7 +267,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           shrinkWrap: true,
           physics: ScrollPhysics(),
 
-          staggeredTiles:  DataTest.imgList2.asMap().entries.map((entry) {
+          staggeredTiles:  listItems.asMap().entries.map((entry) {
             int rows = 3;
             count++;
 
@@ -267,11 +282,13 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             return StaggeredTile.count(rows, 2);
           }).toList(),
 
-          children:  DataTest.imgList2.asMap().entries.map((entry) {
+          children:  listItems.asMap().entries.map((entry) {
             final int index = entry.key;
-            final String value = entry.value;
+            final imageUrl =entry.value.image ?? '';
+            final String value = IdtConstants.url_image + imageUrl;
+            final String namePlace = entry.value.title ?? '';
 
-            return imagesCard(value, index, DataTest.imgList2);
+            return imagesCard(value, index, listItems, namePlace);
           }).toList(),
 
           mainAxisSpacing: 8.0,
@@ -321,7 +338,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               SizedBox(
                 height: 25
               ),
-              gridImagesCol3(),
+              gridImagesCol3(viewModel.status.itemsFoodPlaces),
               SizedBox(
                 height: 55
               ),
