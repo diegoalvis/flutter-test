@@ -21,8 +21,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void onInit() async {
-
-    print("entra a events");
+    status = status.copyWith(isLoading: true);
     //TODO
     getSleepResponse();
   }

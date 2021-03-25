@@ -11,6 +11,7 @@ import 'package:bogota_app/view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,9 +34,7 @@ class EventsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => EventsViewModel(
         locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
+        locator<ApiInteractor>()
       ),
       builder: (context, _) {
         return EventsWidget(title, nameFilter, includeDay);
@@ -94,6 +93,9 @@ class _EventsWidgetState extends State<EventsWidget> {
   }
 
   Widget _buildDiscover(EventsViewModel viewModel) {
+
+    final loading =
+    viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     List<String> listMenu = [
       "Localidad 1",
@@ -335,8 +337,9 @@ class _EventsWidgetState extends State<EventsWidget> {
             ],
           ),
         ),
+        loading,
         menu,
-        menuTap
+        menuTap,
       ],
     );
   }
