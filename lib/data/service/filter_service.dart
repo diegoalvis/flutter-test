@@ -26,9 +26,6 @@ class FilterService {
     try {
       final body = json.decode(response.body);
 
-      print('Response: ${body}');
-      print('Response: ${response.statusCode}');
-
       switch (response.statusCode) {
         case 200: {
           final entity = PlacesResponse.fromJson(body);

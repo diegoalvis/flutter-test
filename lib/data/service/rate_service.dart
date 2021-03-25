@@ -19,15 +19,10 @@ class RateService {
     final response = await http.put(uri,body: rateRequest.toJson());
 
     try {
-      print('Response: ${response.statusCode}');
-
       switch (response.statusCode) {
         case 200:
           {
             final body = json.decode(response.body);
-
-            print('Response: ${body}');
-
             final entity = SplashResponse.fromJson(body);
 
             return IdtResult.success(entity.data);

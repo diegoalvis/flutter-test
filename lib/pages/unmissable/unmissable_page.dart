@@ -18,17 +18,11 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class UnmissablePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (_) => UnmissableViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) =>
+          UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return UnmissableWidget();
       },
@@ -42,96 +36,87 @@ class UnmissableWidget extends StatefulWidget {
 }
 
 class _UnmissableWidgetState extends State<UnmissableWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<UnmissableViewModel>();
 
     return SafeArea(
       child: Scaffold(
-        appBar: IdtAppBar(viewModel.onpenMenu),
-        backgroundColor: IdtColors.white,
-        extendBody: true,
-        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: _buildDiscover(viewModel)
-      ),
+          appBar: IdtAppBar(viewModel.onpenMenu),
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          bottomNavigationBar:
+              viewModel.status.openMenu ? null : IdtBottomAppBar(),
+          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: _buildDiscover(viewModel)),
     );
   }
 
   Widget _buildDiscover(UnmissableViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final menu = viewModel.status.openMenu
+        ? IdtMenu(closeMenu: viewModel.closeMenu)
+        : SizedBox.shrink();
 
-    Widget _buttonTap(String label){
+    Widget _buttonTap(String label) {
       return Expanded(
         child: TextButton(
-          child: Text(
-              label,
+          child: Text(label,
               maxLines: 1,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: textTheme.subTitleBlack
-          ),
-          onPressed: (){},
+              style: textTheme.subTitleBlack),
+          onPressed: () {},
         ),
       );
-    };
+    }
 
-    Widget imagesCard(String item, int index, List listItems) => (
+    ;
 
-      InkWell(
-        onTap: viewModel.goDetailPage,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                item,
-                height: 250,
-                fit: BoxFit.fill,
+    Widget imagesCard(String item, int index, List listItems) => (InkWell(
+          onTap: viewModel.goDetailPage,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  item,
+                  height: 250,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            Positioned(
-              top: 8,
-              right: 10,
-              child: Container(
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: IdtColors.white,
-                    size: 20,
-                  )
+              Positioned(
+                top: 8,
+                right: 10,
+                child: Container(
+                    child: Icon(
+                  Icons.favorite_border,
+                  color: IdtColors.white,
+                  size: 20,
+                )),
               ),
-            ),
-            Positioned(
-              bottom: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                child: Text(
-                  item.toUpperCase(),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: textTheme.textWhiteShadow.copyWith(
-                    fontSize: 11
-                  )
-                )
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                    child: Text(item.toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style:
+                            textTheme.textWhiteShadow.copyWith(fontSize: 11))),
               ),
-            ),
-          ],
-        ),
-      )
-    );
+            ],
+          ),
+        ));
 
-    Widget gridImagesCol3() => (
-
-        GridView.count(
+    Widget gridImagesCol3() => (GridView.count(
           shrinkWrap: true,
           physics: ScrollPhysics(),
           crossAxisCount: 2,
@@ -145,9 +130,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
             return imagesCard(value, index, DataTest.imgList2);
           }).toList(),
-        )
-    );
-
+        ));
 
     return Stack(
       children: [
@@ -158,13 +141,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(color: IdtColors.white),
-                child: Center(
-                  child: TitleSection('IMPERDIBLES')
-                ),
+                child: Center(child: TitleSection('IMPERDIBLES')),
               ),
-              SizedBox(
-                height: 25
-              ),
+              SizedBox(height: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 35),
                 child: Divider(
@@ -184,13 +163,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                   ],
                 ),
               ),
-              SizedBox(
-                  height: 25
-              ),
+              SizedBox(height: 25),
               gridImagesCol3(),
-              SizedBox(
-                height: 55
-              ),
+              SizedBox(height: 55),
             ],
           ),
         ),
@@ -199,4 +174,3 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
     );
   }
 }
-

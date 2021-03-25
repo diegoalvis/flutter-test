@@ -115,6 +115,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,
+                res: viewModel.status.itemsPlaces,
               )
             ],
           ),

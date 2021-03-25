@@ -14,13 +14,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
-        titleBar: 'Recibidos',
-        isLoading: false,
-        openMenu: false,
-        openSaved: true,
-        notSaved: true,
-        seeAll: true,
-        itemsPlaces: [],
+      titleBar: 'Recibidos',
+      isLoading: false,
+      openMenu: false,
+      openSaved: true,
+      notSaved: true,
+      seeAll: true,
+      itemsPlaces: [],
     );
   }
 
@@ -28,7 +28,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final response = await _interactor.getUnmissableList();
 
     if (response is IdtSuccess<List<DataPlacesModel>?>) {
-      status.copyWith(places: response.body);
+      status = status.copyWith(itemsPlaces: response.body); // Status reasignacion
       // status.places.addAll(response.body)
     } else {
       final erroRes = response as IdtFailure<FilterError>;

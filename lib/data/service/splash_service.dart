@@ -18,15 +18,10 @@ class SplashService {
     final response = await http.get(uri);
 
     try {
-      print('Response: ${response.statusCode}');
-
       switch (response.statusCode) {
         case 200:
           {
             final body = json.decode(response.body);
-
-            print('Response: $body');
-
             final entity = SplashResponse.fromJson(body);
 
             return IdtResult.success(entity.data);

@@ -15,7 +15,7 @@ class HomeStatus extends ViewStatus{
     required this.notSaved, required this.seeAll});
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
-    bool? seeAll, List<DataPlacesModel>? places }) {
+    bool? seeAll, List<DataPlacesModel>? itemsPlaces }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,
@@ -23,7 +23,7 @@ class HomeStatus extends ViewStatus{
       openSaved: openSaved ?? this.openSaved,
       notSaved: notSaved ?? this.notSaved,
       seeAll: seeAll ?? this.seeAll,
-      itemsPlaces: places ?? this.itemsPlaces
+      itemsPlaces: itemsPlaces ?? this.itemsPlaces
     );
   }
 }

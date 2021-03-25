@@ -6,11 +6,11 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 import 'response/places_response.dart';
 
-class UnmissableService {
-  Future<IdtResult<List<DataPlacesModel>?>> getPlaces() async {
+class ZoneService {
+  Future<IdtResult<List<DataPlacesModel>?>> getZone() async {
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/place/unmissable');
+    final uri = Uri.https(IdtConstants.url_server, '/zone');
 
     final response = await http.get(uri);
 
@@ -21,6 +21,7 @@ class UnmissableService {
         case 200:
           {
             final entity = PlacesResponse.fromJson(body);
+          print('Zone Status: ${entity.status}');
             return IdtResult.success(entity.data);
           }
 
