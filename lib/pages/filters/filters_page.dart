@@ -9,6 +9,7 @@ import 'package:bogota_app/pages/filters/filters_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/menu_filters.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
@@ -87,6 +88,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
   }
 
   Widget _buildDiscover(FiltersViewModel viewModel) {
+    final loading =
+    viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     List<String> listMenu = [
       "Opción 1",
@@ -345,9 +348,11 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             ],
           ),
         ),
+        loading,
         menu,
         menuTap,
-        menuTapFilter
+        menuTapFilter,
+
       ],
     );
   }

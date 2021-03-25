@@ -340,6 +340,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         loading,
         menu,
         menuTap,
+
       ],
     );
   }
