@@ -1,3 +1,5 @@
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -5,6 +7,7 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/events/events_view_model.dart';
+import 'package:bogota_app/view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -56,9 +59,25 @@ class EventsWidget extends StatefulWidget {
 class _EventsWidgetState extends State<EventsWidget> {
 
   @override
+  void initState() {
+
+    print("events");
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<EventsViewModel>().onInit();
+    });
+  //  final viewModel = context.read<EventsViewModel>();
+
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
 
     final viewModel = context.watch<EventsViewModel>();
+
+
 
     return SafeArea(
       child: Scaffold(
@@ -159,7 +178,7 @@ class _EventsWidgetState extends State<EventsWidget> {
       );
     }
 
-    Widget imagesCard(String item, int index, List listItems) => (
+    Widget imagesCard(String item, int index, List listItems, String namePlace) => (
 
       Center(
         child: Stack(
@@ -211,7 +230,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                     Expanded(
                       flex: 10,
                       child: Text(
-                        DataTest.textList[index].toUpperCase(),
+                        namePlace.toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: widget._includeDay ? TextAlign.right : TextAlign.center,
@@ -263,7 +282,7 @@ class _EventsWidgetState extends State<EventsWidget> {
       )
     );
 
-    Widget gridImagesCol3() => (
+    Widget gridImagesCol3(List<DataPlacesModel> listItems) => (
 
         GridView.count(
           shrinkWrap: true,
@@ -273,11 +292,15 @@ class _EventsWidgetState extends State<EventsWidget> {
           mainAxisSpacing: 5,
           //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 10),
-          children: DataTest.imgList2.asMap().entries.map((entry) {
+          children: listItems.asMap().entries.map((entry) {
             final int index = entry.key;
-            final String value = entry.value;
+            final imageUrl =entry.value.image ?? '';
+            final String value = IdtConstants.url_image + imageUrl;
+            final String namePlace = entry.value.title ?? '';
 
-            return imagesCard(value, index, DataTest.imgList2);
+          //  return ImagesCard(textTheme, value, index, listItems, namePlace);
+
+            return imagesCard(value, index, listItems, namePlace);
           }).toList(),
         )
     );
@@ -305,7 +328,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               SizedBox(
                 height: 30
               ),
-              gridImagesCol3(),
+              gridImagesCol3(viewModel.status.itemsSleepPlaces),
               SizedBox(
                 height: 55
               ),
