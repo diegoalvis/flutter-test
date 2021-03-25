@@ -1,14 +1,15 @@
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/repository.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
+import 'package:bogota_app/utils/errors/food_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   final IdtRoute _route;
-  final ApiInteractor
-
- _interactor;
+  final ApiInteractor _interactor;
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
@@ -19,11 +20,29 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       filter1: [false, false, false, false, false],
       filter2: [false, false, false, false, false],
       filter3: [false, false, false, false, false],
+      itemsFoodPlaces: []
     );
   }
 
   void onInit() async {
     //TODO
+    getFoodResponse();
+  }
+
+  void getFoodResponse() async {
+    final foodResponse = await _interactor.getFoodPlacesList();
+
+    if (foodResponse is IdtSuccess<List<DataPlacesModel>?>) {
+      status = status.copyWith(itemsFoodPlaces: foodResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = foodResponse as IdtFailure<FoodError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void onpenMenu() {
