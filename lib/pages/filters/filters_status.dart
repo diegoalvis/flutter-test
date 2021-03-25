@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/view_model.dart';
 
 class FiltersStatus extends ViewStatus{
@@ -9,12 +10,13 @@ class FiltersStatus extends ViewStatus{
   final List<bool> filter1;
   final List<bool> filter2;
   final List<bool> filter3;
+  late List<DataPlacesModel> itemsFoodPlaces;
 
   FiltersStatus({required this.isLoading, required this.openMenu, required this.openMenuTab, required this.openMenuFilter,
-    required this.filter1, required this.filter2, required this.filter3});
+    required this.filter1, required this.filter2, required this.filter3,required this.itemsFoodPlaces});
 
   FiltersStatus copyWith({bool? isLoading, bool? openMenu, bool? openMenuTab, bool? openMenuFilter,
-    List<bool>? filter1, List<bool>? filter2, List<bool>? filter3}) {
+    List<bool>? filter1, List<bool>? filter2, List<bool>? filter3,List<DataPlacesModel>? itemsFoodPlaces}) {
     return FiltersStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,
@@ -23,6 +25,7 @@ class FiltersStatus extends ViewStatus{
       filter1: filter1 ?? this.filter1,
       filter2: filter2 ?? this.filter2,
       filter3: filter3 ?? this.filter3,
+      itemsFoodPlaces: itemsFoodPlaces ?? this.itemsFoodPlaces
     );
   }
 }
