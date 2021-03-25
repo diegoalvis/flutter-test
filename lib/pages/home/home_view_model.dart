@@ -37,7 +37,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final unmissableResponse = await _interactor.getUnmissablePlacesList();
 
     if (unmissableResponse is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse
+          .body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
@@ -51,7 +52,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final foodResponse = await _interactor.getFoodPlacesList();
 
     if (foodResponse is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsFoodPlaces: foodResponse.body); // Status reasignacion
+      status = status.copyWith(
+          itemsFoodPlaces: foodResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = foodResponse as IdtFailure<FoodError>;
@@ -65,7 +67,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
 
   void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+    if (status.openMenu==false){
+    status = status.copyWith (openMenu: true);
+    }
+    else{
+      status = status.copyWith(openMenu: false);
+    }
   }
 
   void closeMenu() {
