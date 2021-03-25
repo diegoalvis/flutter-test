@@ -20,17 +20,11 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class SavedPlacesPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (_) => SavedPlacesViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) =>
+          SavedPlacesViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SavedPlacesWidget();
       },
@@ -44,90 +38,83 @@ class SavedPlacesWidget extends StatefulWidget {
 }
 
 class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<SavedPlacesViewModel>();
 
     return Scaffold(
-      backgroundColor: IdtColors.white,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      floatingActionButton: IdtFab(),
-      bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: _buildSavedPlaces(viewModel)
-    );
+        backgroundColor: IdtColors.white,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        floatingActionButton: IdtFab(),
+        bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: _buildSavedPlaces(viewModel));
   }
 
   Widget _buildSavedPlaces(SavedPlacesViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
+    final _route = locator<IdtRoute>();
 
     Widget gridImagesCol() {
-
       return ListView.builder(
-        itemCount: DataTest.imgList2.length,
-        physics: ScrollPhysics(),
-        padding: EdgeInsets.symmetric(vertical: 0),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-
-          return Column(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: viewModel.goDetailPage,
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5.0),
-                            child: Image.network(
-                              DataTest.imgList2[index],
-                              height: 70,
-                              width: 70,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              DataTest.textList2[index],
-                              style: textTheme.textButtomWhite.copyWith(
-                                  fontSize: 16
+          itemCount: DataTest.imgList2.length,
+          physics: ScrollPhysics(),
+          padding: EdgeInsets.symmetric(vertical: 0),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: viewModel.goDetailPage,
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5.0),
+                              child: Image.network(
+                                DataTest.imgList2[index],
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          SizedBox(width: 10),
-                        ],
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                DataTest.textList2[index],
+                                style: textTheme.textButtomWhite
+                                    .copyWith(fontSize: 16),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  FlutterSwitch(
-                    value: viewModel.status.listSwitch[index],
-                    switchBorder: Border.all(color: IdtColors.grayBtn),
-                    activeColor: IdtColors.white,
-                    activeToggleColor: IdtColors.greenDark,
-                    inactiveColor: IdtColors.white,
-                    height: 30,
-                    width: 60,
-                    padding: 1,
-                    inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
-                    onToggle: (value) => viewModel.changeSwitch(value, index)
-                  )
-                ],
-              ),
-              SizedBox(height: 5),
-            ],
-          );
-        }
-      );
+                    FlutterSwitch(
+                        value: viewModel.status.listSwitch[index],
+                        switchBorder: Border.all(color: IdtColors.grayBtn),
+                        activeColor: IdtColors.white,
+                        activeToggleColor: IdtColors.greenDark,
+                        inactiveColor: IdtColors.white,
+                        height: 30,
+                        width: 60,
+                        padding: 1,
+                        inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
+                        onToggle: (value) =>
+                            viewModel.changeSwitch(value, index))
+                  ],
+                ),
+                SizedBox(height: 5),
+              ],
+            );
+          });
     }
 
     return Stack(
@@ -135,12 +122,11 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
         SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: IdtGradients.blueDark,
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              )
-            ),
+                gradient: LinearGradient(
+              colors: IdtGradients.blueDark,
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
             padding: EdgeInsets.only(left: 20, right: 20, top: 110, bottom: 70),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,9 +134,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
               children: [
                 Text(
                   'LUGARES GUARDADOS',
-                  style: textTheme.titleWhite.copyWith(
-                    fontSize: 20
-                  ),
+                  style: textTheme.titleWhite.copyWith(fontSize: 20),
                 ),
                 SizedBox(height: 10),
                 Align(
@@ -158,9 +142,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                   child: Text(
                     'Modo Offline',
                     textAlign: TextAlign.right,
-                    style: textTheme.textButtomWhite.copyWith(
-                      fontSize: 12
-                    ),
+                    style: textTheme.textButtomWhite.copyWith(fontSize: 12),
                   ),
                 ),
                 gridImagesCol()
@@ -184,9 +166,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                 color: IdtColors.white,
               ),
               iconSize: 50,
-              onPressed: () {
-                print("Back Button");
-              },
+              onPressed: _route.pop,
             ),
           ),
         ),
@@ -194,4 +174,3 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
     );
   }
 }
-
