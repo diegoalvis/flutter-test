@@ -1,8 +1,7 @@
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/view_model.dart';
 
-class HomeStatus extends ViewStatus{
-
+class HomeStatus extends ViewStatus {
   final String titleBar;
   final bool isLoading;
   final bool openMenu;
