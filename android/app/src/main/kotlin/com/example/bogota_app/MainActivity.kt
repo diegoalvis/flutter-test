@@ -1,4 +1,4 @@
-package com.IDT.bogota_app
+package com.IDT.bogotaApp
 
 import io.flutter.embedding.android.FlutterActivity
 
