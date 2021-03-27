@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "462614108100",
+    "project_id": "idt-app-servinformacion",
+    "storage_bucket": "idt-app-servinformacion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462614108100:android:871b9c7c29a2d9bcb7b691",
+        "android_client_info": {
+          "package_name": "com.IDT.bogotaApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462614108100-ql75k23lok85na1kspldifoehr75527l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ZNWM6lnAZUvVsJOHiwNZGpT4QpEXmOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462614108100-ql75k23lok85na1kspldifoehr75527l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "462614108100-8esdhosejvq40jas8g3qc0tug086esa2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.IDT.bogotaApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
