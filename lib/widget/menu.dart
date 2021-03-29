@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class IdtMenu extends StatelessWidget {
-
   final VoidCallback closeMenu;
 
   IdtMenu({required this.closeMenu});
@@ -18,24 +17,22 @@ class IdtMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final textTheme = Theme.of(context).textTheme;
 
-    widget_profile() => (
-      Container(
-        child: Center(
+    widget_profile() => (Container(
+            child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
+                    margin: EdgeInsets.only(
+                        top: 15, right: 30, left: 30, bottom: 5),
                     child: CircleAvatar(
                       radius: 70.0,
                       backgroundImage: NetworkImage(
-                        'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'
-                      ),
+                          'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
                       backgroundColor: Colors.white,
                     ),
                   ),
@@ -59,9 +56,7 @@ class IdtMenu extends StatelessWidget {
               )
             ],
           ),
-        )
-      )
-    );
+        )));
 
     return SingleChildScrollView(
       child: Container(
@@ -77,13 +72,12 @@ class IdtMenu extends StatelessWidget {
             ),
             Container(
               child: IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: IdtColors.orange,
-                  size: 35,
-                ),
-                onPressed: closeMenu
-              ),
+                  icon: Icon(
+                    Icons.close,
+                    color: IdtColors.orange,
+                    size: 35,
+                  ),
+                  onPressed: closeMenu),
             ),
             SizedBox(
               height: 15,
@@ -96,57 +90,42 @@ class IdtMenu extends StatelessWidget {
               padding: EdgeInsets.all(8),
               itemCount: DataTest.List2.length,
               itemBuilder: (BuildContext context, int index) {
-
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: () {
-
-                      switch(index) {
-                        case 0: {
+                      switch (index) {
+                        case 0:
                           _route.goDiscoverUntil();
-                        }
-                        break;
-
-                        case 1: {
+                          break;
+                        case 1:
                           _route.goAudioGuideUntil();
-                        }
-                        break;
-
-                        case 2: {
+                          break;
+                        case 2:
                           _route.goUnmissableUntil();
-                        }
-                        break;
-
-                        case 3: {
+                          break;
+                        case 3:
                           _route.goHomeRemoveAll();
-                        }
-                        break;
-
-                        case 4: {
-                          _route.goEventsUntil(title: 'Eventos', includeDay: true);
-                        }
-                        break;
-
-                        case 5: {
-                          _route.goEventsUntil(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
-                        }
-                        break;
-
-                        case 6: {
+                          break;
+                        case 4:
+                          _route.goEventsUntil(
+                              title: 'Eventos', includeDay: true);
+                          break;
+                        case 5:
+                          _route.goEventsUntil(
+                              title: 'Dónde dormir',
+                              includeDay: false,
+                              nameFilter: 'Localidad');
+                          break;
+                        case 6:
                           _route.goFiltersUntil('Gastronomía');
-                        }
-                        break;
-
-                        case 7: {
+                          break;
+                        case 7:
                           _route.goSavedPlacesUntil();
-                        }
-                        break;
-
-                        default: {
+                          break;
+                        default:
                           //statements;
-                        }
-                        break;
+                          break;
                       }
                       closeMenu();
                     },
@@ -165,17 +144,13 @@ class IdtMenu extends StatelessWidget {
                           right: 5,
                           left: 5,
                           child: Container(
-                            margin: EdgeInsets.all(10),
-                            height: 30.0,
-                            alignment: Alignment.center,
-                            child: Text(
-                              ' ${DataTest.List2[index]}',
-                              style: textTheme.textMenu.copyWith(
-                                color: IdtColors.gray.withOpacity(0.8),
-                                fontSize: 19
-                              )
-                            )
-                          ),
+                              margin: EdgeInsets.all(10),
+                              height: 30.0,
+                              alignment: Alignment.center,
+                              child: Text(' ${DataTest.List2[index]}',
+                                  style: textTheme.textMenu.copyWith(
+                                      color: IdtColors.gray.withOpacity(0.8),
+                                      fontSize: 19))),
                         )
                       ],
                     ),
@@ -183,7 +158,9 @@ class IdtMenu extends StatelessWidget {
                 );
               },
               separatorBuilder: (context, posicion) {
-                return Container(height: 1,);
+                return Container(
+                  height: 1,
+                );
               },
             ),
             SizedBox(

@@ -102,19 +102,23 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     _route.goDetail(isHotel: false);
   }
 
-  void goDiscoverPage() async {
-    status = status.copyWith(isLoading: true);
-
-    final response = await _interactor.getPlacesList();
-
-    if (response is IdtSuccess<List<DataPlacesModel>?>) {
-      print('Respuesta ViewModel: ${response.body![0].title} ');
-      _route.goDiscover();
-    } else {
-      final erroRes = response as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-    status = status.copyWith(isLoading: false);
+  void goDiscoverPage() {
+    _route.goDiscover();
   }
+
+  // void goDiscoverPage() async {
+  //   status = status.copyWith(isLoading: true);
+  //
+  //   final response = await _interactor.getPlacesList();
+  //
+  //   if (response is IdtSuccess<List<DataPlacesModel>?>) {
+  //     print('Respuesta ViewModel: ${response.body![0].title} ');
+  //     _route.goDiscover();
+  //   } else {
+  //     final erroRes = response as IdtFailure<FilterError>;
+  //     print(erroRes.message);
+  //     UnimplementedError();
+  //   }
+  //   status = status.copyWith(isLoading: false);
+  // }
 }
