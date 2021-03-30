@@ -1,4 +1,5 @@
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -22,9 +23,15 @@ import '../../app_theme.dart';
 
 class FiltersPage extends StatelessWidget {
 
-  final String title;
+  final String section;
+  final DataModel item;
+  final List<DataModel> places;
+  final List<DataModel> categories;
+  final List<DataModel> subcategories;
+  final List<DataModel> zones;
 
-  FiltersPage(this.title);
+  FiltersPage(this.section, this.item, this.places, this.categories,
+      this.subcategories, this.zones);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class FiltersPage extends StatelessWidget {
 >()
       ),
       builder: (context, _) {
-        return FiltersWidget(title);
+        return FiltersWidget(section, item, places, categories, subcategories, zones);
       },
     );
   }
@@ -45,9 +52,15 @@ class FiltersPage extends StatelessWidget {
 
 class FiltersWidget extends StatefulWidget {
 
-  final String _title;
+  final String _section;
+  final DataModel _item;
+  final List<DataModel> _places;
+  final List<DataModel> _categories;
+  final List<DataModel> _subcategories;
+  final List<DataModel> _zones;
 
-  FiltersWidget(this._title);
+  FiltersWidget(this._section, this._item, this._places, this._categories,
+      this._subcategories, this._zones);
 
   @override
   _FiltersWidgetState createState() => _FiltersWidgetState();
@@ -56,14 +69,9 @@ class FiltersWidget extends StatefulWidget {
 class _FiltersWidgetState extends State<FiltersWidget> {
   @override
   void initState() {
-
-    print("gastronomía");
-
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<FiltersViewModel>().onInit();
+      context.read<FiltersViewModel>().onInit(widget._section, widget._categories, widget._subcategories, widget._zones);
     });
-    //  final viewModel = context.read<EventsViewModel>();
-
   }
 
 
@@ -91,6 +99,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     final loading =
     viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
+    int count = 0;
     List<String> listMenu = [
       "Opción 1",
       "Opción 2",
@@ -98,7 +107,6 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       "Opción 4",
       "Opción 5",
     ];
-    int count = 0;
 
     final textTheme = Theme.of(context).textTheme;
 
@@ -107,18 +115,20 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       child: IdtMenu(closeMenu: viewModel.closeMenu),
     ) : SizedBox.shrink();
 
-    final menuTap = /*viewModel.status.openMenuTab ?
+    final menuTap = viewModel.status.openMenuTab ?
         IdtMenuTap(
-          listItems: listMenu,
+          listItems: viewModel.status.itemsFilter,
           closeMenu: viewModel.closeMenuTab,
           isBlue: true,
-          goFilters: viewModel.closeMenuTab,
+          goFilters: (item){},
         )
-        :*/ SizedBox.shrink();
+        : SizedBox.shrink();
 
     final menuTapFilter = viewModel.status.openMenuFilter ?
         IdtMenuFilter(
-          listItems: listMenu,
+          listCategories: widget._categories,
+          listSubcategories: widget._subcategories,
+          listZones: widget._zones,
           closeMenu: viewModel.closeMenuFilter,
           goFilters: viewModel.closeMenuFilter,
           filter1: viewModel.status.filter1,
@@ -261,7 +271,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       )
     );
 
-    Widget gridImagesCol3(List<DataPlacesModel> listItems) => Padding(
+    Widget gridImagesCol3(List<DataModel> listItems) => Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: (
         //TODO: Pasar esta logica al ViewModel cuando se reciban los datos de la peticion
@@ -314,7 +324,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 height: 100,
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  widget._title.toUpperCase(),
+                  'CULTURA'.toUpperCase(),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleWhite,
@@ -331,7 +341,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                     style: textTheme.titleBlack,
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Plan con parejas',
+                        text: widget._item.title,
                         style: textTheme.subTitleBlack
                       )
                     ],
@@ -341,7 +351,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               SizedBox(
                 height: 25
               ),
-              gridImagesCol3(viewModel.status.itemsFoodPlaces),
+              gridImagesCol3(widget._places),
               SizedBox(
                 height: 55
               ),

@@ -86,7 +86,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         ? IdtMenuTap(
           listItems: viewModel.status.listOptions,
           closeMenu: viewModel.closeMenuTab,
-          goFilters: viewModel.goFiltersPage
+          goFilters: (item) => viewModel.goFiltersPage(item, widget._categories, widget._subcategories, widget._zones)
         )
         : SizedBox.shrink();
 
@@ -195,11 +195,11 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 margin: EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(color: IdtColors.white),
                 child: Center(
-                    child: TitleSection('DESCUBRE BOGOTÁ')
+                  child: TitleSection('DESCUBRE BOGOTÁ')
                 ),
               ),
               SizedBox(
-                  height: 25
+                height: 25
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 36),
@@ -214,9 +214,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan', ()=> viewModel.onpenMenuTab(widget._categories)),
-                    _buttonTap('Producto', ()=> viewModel.onpenMenuTab(widget._subcategories)),
-                    _buttonTap('Zona', () => viewModel.onpenMenuTab(widget._zones)),
+                    _buttonTap('Plan', ()=> viewModel.onpenMenuTab(widget._categories, 'category')),
+                    _buttonTap('Producto', ()=> viewModel.onpenMenuTab(widget._subcategories, 'subcategory')),
+                    _buttonTap('Zona', () => viewModel.onpenMenuTab(widget._zones, 'zone')),
                     _buttonTap('Audioguías', viewModel.goAudioGuidePage),
                   ],
                 ),

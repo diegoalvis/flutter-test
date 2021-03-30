@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -13,27 +14,44 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
-      isLoading: true,
+      isLoading: false,
       openMenu: false,
       openMenuTab: false,
       openMenuFilter: false,
       filter1: [false, false, false, false, false],
       filter2: [false, false, false, false, false],
       filter3: [false, false, false, false, false],
-      itemsFoodPlaces: []
+      itemsFilter: []
     );
   }
 
-  void onInit() async {
-    //TODO
-    getFoodResponse();
+  void onInit(String section, List<DataModel> categories, List<DataModel> subcategories, List<DataModel> zones) {
+
+    switch(section) {
+      case 'category': {
+        status = status.copyWith(itemsFilter: categories);
+      } break;
+
+      case 'subcategory': {
+        status = status.copyWith(itemsFilter: subcategories);
+      }break;
+
+      case 'zone': {
+        status = status.copyWith(itemsFilter: zones);
+      }break;
+
+      default: {
+        status = status.copyWith(itemsFilter: []);
+      }break;
+    }
+    //getFoodResponse();
   }
 
   void getFoodResponse() async {
-    final foodResponse = await _interactor.getFoodPlacesList();
+    /*final foodResponse = await _interactor.getFoodPlacesList();
 
-    if (foodResponse is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsFoodPlaces: foodResponse.body); // Status reasignacion
+    if (foodResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsFoodPlaces: foodResponse.body!); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = foodResponse as IdtFailure<FoodError>;
@@ -41,7 +59,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       UnimplementedError();
       // FoodError();
       //Todo implementar errores
-    }
+    }*/
     status = status.copyWith(isLoading: false);
   }
 

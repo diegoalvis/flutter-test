@@ -7,18 +7,20 @@ class DiscoverStatus extends ViewStatus{
   final bool openMenu;
   final bool openMenuTab;
   final List<DataModel> listOptions;
+  final String section;
 
 
   DiscoverStatus({required this.isLoading, required this.openMenu, required this.openMenuTab,
-    required this.listOptions});
+    required this.listOptions, required this.section});
 
   DiscoverStatus copyWith({bool? isLoading, bool? openMenu, bool? openMenuTab, bool? isZone,
-    List<DataModel>? listOptions}) {
+    List<DataModel>? listOptions, String? section}) {
     return DiscoverStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,
       openMenuTab: openMenuTab ?? this.openMenuTab,
-      listOptions: listOptions ?? this.listOptions
+      listOptions: listOptions ?? this.listOptions,
+      section: section ?? this.section
     );
   }
 }

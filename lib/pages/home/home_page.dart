@@ -94,8 +94,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     final menu = viewModel.status.openMenu
         ? IdtMenu(closeMenu: viewModel.closeMenu)
         : SizedBox.shrink();
-    final loading =
-        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [

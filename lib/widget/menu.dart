@@ -118,7 +118,7 @@ class IdtMenu extends StatelessWidget {
                               nameFilter: 'Localidad');
                           break;
                         case 6:
-                          _route.goFiltersUntil('Gastronomía');
+                          //_route.goFiltersUntil('Gastronomía');
                           break;
                         case 7:
                           _route.goSavedPlacesUntil();

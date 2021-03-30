@@ -11,14 +11,16 @@ import 'package:http/http.dart' as http;
 
 class FilterService {
 
-  Future<IdtResult<List<DataModel>?>> getPlaces() async {
+  Future<IdtResult<List<DataModel>?>> getPlaces(List<Map> params) async {
 
-    final queryParameters = {
-      'zone': '23'
-    };
+    Map<String, dynamic> queryParameters = {};
 
-    // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/place');
+    params.asMap().forEach((key, value) {
+      queryParameters[value.keys.first] = value.values.first;
+    });
+
+    print('Parametro: $queryParameters');
+    final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
 
     final response = await http.get(uri);
 

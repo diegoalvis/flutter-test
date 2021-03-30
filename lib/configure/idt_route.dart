@@ -100,15 +100,29 @@ class IdtRoute {
     );
   }
 
-  goFilters(String title){
+  goFilters({
+    required String section,
+    required DataModel item,
+    required List<DataModel> places,
+    required List<DataModel> categories,
+    required List<DataModel> subcategories,
+    required List<DataModel> zones,
+  }){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> FiltersPage(title))
+      MaterialPageRoute(builder: (_)=> FiltersPage(section, item, places, categories, subcategories, zones))
     );
   }
 
-  goFiltersUntil(String title){
+  goFiltersUntil({
+    required String section,
+    required DataModel item,
+    required List<DataModel> places,
+    required List<DataModel> categories,
+    required List<DataModel> subcategories,
+    required List<DataModel> zones,
+  }){
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> FiltersPage(title)),
+      MaterialPageRoute(builder: (_)=> FiltersPage(section, item, places, categories, subcategories, zones)),
       (route) => route.isFirst
     );
   }

@@ -116,10 +116,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     late List<DataModel> subcategories;
     late List<DataModel> zones;
 
-    final resPlaces = await _interactor.getPlacesList();
+    final resPlaces = await _interactor.getPlacesList([]);
 
     if (resPlaces is IdtSuccess<List<DataModel>?>) {
-      print('Respuesta ViewModel Places: ${resPlaces.body} ');
       places = resPlaces.body!;
     } else {
       validate = false;
@@ -131,7 +130,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final resCategory = await _interactor.getCategoriesList();
 
     if (resCategory is IdtSuccess<List<DataModel>?>) {
-      print('Respuesta ViewModel Categorias: ${resCategory.body!} ');
       categories = resCategory.body!;
     } else {
       validate = false;
@@ -143,7 +141,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final resSubcategiry = await _interactor.getSubcategoriesList();
 
     if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
-      print('Respuesta ViewModel Subcate: ${resSubcategiry.body} ');
       subcategories = resSubcategiry.body!;
     } else {
       validate = false;
@@ -155,7 +152,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final resZona = await _interactor.getZoneList();
 
     if (resZona is IdtSuccess<List<DataModel>?>) {
-      print('Respuesta ViewModel Zone: ${resZona.body!} ');
       zones = resZona.body!;
     } else {
       validate = false;

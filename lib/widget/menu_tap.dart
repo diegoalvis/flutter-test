@@ -8,7 +8,7 @@ import '../app_theme.dart';
 class IdtMenuTap extends StatelessWidget {
 
   final VoidCallback closeMenu;
-  final VoidCallback goFilters;
+  final Function(DataModel) goFilters;
   final List<DataModel> listItems;
   final bool isBlue;
   /*final Color colorBack;
@@ -71,7 +71,7 @@ class IdtMenuTap extends StatelessWidget {
               return Container(
                 margin: EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
-                  onTap: goFilters,
+                  onTap: ()=> goFilters(listItems[index]),
                   child: Container(
                     margin: EdgeInsets.all(10),
                     height: 30.0,
@@ -90,6 +90,9 @@ class IdtMenuTap extends StatelessWidget {
             separatorBuilder: (context, posicion) {
               return Container(height: 1,);
             },
+          ),
+          SizedBox(
+            height: 75,
           ),
         ],
       ),

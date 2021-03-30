@@ -1,5 +1,6 @@
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class IdtMenuFilter extends StatelessWidget {
 
   final VoidCallback closeMenu;
   final VoidCallback goFilters;
-  final List listItems;
+  final List<DataModel> listCategories;
+  final List<DataModel> listSubcategories;
+  final List<DataModel> listZones;
   final List filter1;
   final List filter2;
   final List filter3;
@@ -18,7 +21,9 @@ class IdtMenuFilter extends StatelessWidget {
 
   IdtMenuFilter({
     required this.closeMenu,
-    required this.listItems,
+    required this.listCategories,
+    required this.listSubcategories,
+    required this.listZones,
     required this.goFilters,
     required this.filter1,
     required this.filter2,
@@ -45,7 +50,7 @@ class IdtMenuFilter extends StatelessWidget {
 
   SingleChildScrollView _buildBody(TextTheme textTheme) {
 
-    Widget _filter (Color color, List<Color> gradient, String title, int id){
+    Widget _filter (List<DataModel> listItems, Color color, List<Color> gradient, String title, int id){
 
       final styleApp =  StylesMethodsApp().decorarStyle(
         gradient,
@@ -88,11 +93,11 @@ class IdtMenuFilter extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                             color:
-                              id == 1 ? filter1[index] ? color : IdtColors.grayBtn
+                              id == 1 ? /*filter1[index] ? color :*/ IdtColors.grayBtn
 
-                              : id == 2 ? filter2[index] ? color : IdtColors.grayBtn
+                              : id == 2 ? /*filter2[index] ? color :*/ IdtColors.grayBtn
 
-                              : id == 3 ? filter3[index] ? color : IdtColors.grayBtn
+                              : id == 3 ? /*filter3[index] ? color :*/ IdtColors.grayBtn
 
                               : IdtColors.grayBtn,
                           width: 1
@@ -108,24 +113,24 @@ class IdtMenuFilter extends StatelessWidget {
                           maxHeight: 40
                         ),
                         decoration:
-                          id == 1 ? filter1[index] ? styleApp : styleAppWhite
+                          id == 1 ? /*filter1[index] ? styleApp :*/ styleAppWhite
 
-                          : id == 2 ? filter2[index] ? styleApp : styleAppWhite
+                          : id == 2 ? /*filter2[index] ? styleApp :*/ styleAppWhite
 
-                          : id == 3 ? filter3[index] ? styleApp : styleAppWhite
+                          : id == 3 ? /*filter3[index] ? styleApp : */ styleAppWhite
 
                           : null,
                         alignment: Alignment.center,
                         child: Text(
-                          'Filtro 1',
+                          listItems[index].title!,
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(
                             color:
-                              id == 1 ? filter1[index] ? null : IdtColors.black.withOpacity(0.8)
+                              id == 1 ? /*filter1[index] ? null :*/ IdtColors.black.withOpacity(0.8)
 
-                              : id == 2 ? filter2[index] ? null : IdtColors.black.withOpacity(0.8)
+                              : id == 2 ? /*filter2[index] ? null :*/ IdtColors.black.withOpacity(0.8)
 
-                              : id == 3 ? filter3[index] ? null : IdtColors.black.withOpacity(0.8)
+                              : id == 3 ? /*filter3[index] ? null :*/ IdtColors.black.withOpacity(0.8)
 
                               : null,
                           ),
@@ -165,9 +170,9 @@ class IdtMenuFilter extends StatelessWidget {
           ),
           Column(
             children: [
-              _filter(IdtColors.orange, IdtGradients.orange, 'Busqueda específica', 1),
-              _filter(IdtColors.blue, IdtGradients.blue, 'Busqueda por zona', 2),
-              _filter(IdtColors.green, IdtGradients.green, 'Descubre Bogotá', 3),
+              _filter(listSubcategories, IdtColors.orange, IdtGradients.orange, 'Busqueda específica', 1),
+              _filter(listZones, IdtColors.blue, IdtGradients.blue, 'Busqueda por zona', 2),
+              _filter(listCategories, IdtColors.green, IdtGradients.green, 'Descubre Bogotá', 3),
               SizedBox(
                 height: 25,
               ),

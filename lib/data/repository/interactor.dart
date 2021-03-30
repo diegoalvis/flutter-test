@@ -12,8 +12,8 @@ import 'package:bogota_app/utils/idt_result.dart';
 // class Repository
 class ApiInteractor {
 
-  Future<IdtResult<List<DataModel>?>> getPlacesList() async {
-    final response = await locator<FilterService>().getPlaces();
+  Future<IdtResult<List<DataModel>?>> getPlacesList(List<Map> params) async {
+    final response = await locator<FilterService>().getPlaces(params);
 
     return response;
   }
