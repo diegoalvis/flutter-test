@@ -1,13 +1,12 @@
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 
-import 'package:bogota_app/data/service/filter_service.dart';
 
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/data/service/food_service.dart';
-import 'package:bogota_app/data/service/sleep_service.dart';
-import 'package:bogota_app/data/service/splash_service.dart';
-import 'package:bogota_app/data/service/unmissable_service.dart';
-import 'package:bogota_app/data/service/zone_service.dart';
+import 'package:bogota_app/data/repository/service/filter_service.dart';
+import 'package:bogota_app/data/repository/service/food_service.dart';
+import 'package:bogota_app/data/repository/service/sleep_service.dart';
+import 'package:bogota_app/data/repository/service/splash_service.dart';
+import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt.instance;

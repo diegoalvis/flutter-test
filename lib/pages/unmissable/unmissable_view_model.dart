@@ -1,4 +1,4 @@
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_status.dart';
 import 'package:bogota_app/view_model.dart';

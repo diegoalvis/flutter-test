@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/response/places_response.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
-import 'response/places_response.dart';
 
 class UnmissableService {
   Future<IdtResult<List<DataPlacesModel>?>> getPlaces() async {

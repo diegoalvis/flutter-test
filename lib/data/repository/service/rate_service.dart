@@ -1,6 +1,8 @@
 import 'dart:convert';
-
+import 'package:bogota_app/data/model/request/rate_request.dart';
+import 'package:bogota_app/data/model/response/splash_response.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
+
 
 
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -9,13 +11,12 @@ import 'package:bogota_app/utils/idt_result.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'response/splash_response.dart';
 
-class SplashService {
-  Future<IdtResult<SplashModel>> getSplash() async {
-    final uri = Uri.https(IdtConstants.url_server, '/util/splash');
-
-    final response = await http.get(uri);
+class RateService {
+  Future<IdtResult<SplashModel?>> ratePlace(String hotel, String rate) async {
+    final uri = Uri.https(IdtConstants.url_server, '/util/rate');
+    final rateRequest = RateRequest(hotel, rate);
+    final response = await http.put(uri,body: rateRequest.toJson());
 
     try {
       switch (response.statusCode) {

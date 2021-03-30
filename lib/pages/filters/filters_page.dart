@@ -1,6 +1,6 @@
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/places_model.dart';
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -107,14 +107,14 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       child: IdtMenu(closeMenu: viewModel.closeMenu),
     ) : SizedBox.shrink();
 
-    final menuTap = viewModel.status.openMenuTab ?
+    final menuTap = /*viewModel.status.openMenuTab ?
         IdtMenuTap(
           listItems: listMenu,
           closeMenu: viewModel.closeMenuTab,
           isBlue: true,
           goFilters: viewModel.closeMenuTab,
         )
-        : SizedBox.shrink();
+        :*/ SizedBox.shrink();
 
     final menuTapFilter = viewModel.status.openMenuFilter ?
         IdtMenuFilter(

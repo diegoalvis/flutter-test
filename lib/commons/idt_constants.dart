@@ -9,6 +9,7 @@ class IdtConstants {
     static final String url_server = 'us-central1-idt-mobile-app-dev.cloudfunctions.net';
     static final String url_image = 'https://bogotadc.travel';
     // https://bogotadc.travel/drpl/sites/default/files/2020-12/4e3e1b5843f033aad0c5de11dcad92c7_0.jpg
+
     // Valores
     static final int itemSize = 100;
 }

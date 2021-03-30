@@ -1,4 +1,5 @@
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class IdtMenuTap extends StatelessWidget {
 
   final VoidCallback closeMenu;
   final VoidCallback goFilters;
-  final List listItems;
+  final List<DataModel> listItems;
   final bool isBlue;
   /*final Color colorBack;
   final double opacity;*/
@@ -77,7 +78,7 @@ class IdtMenuTap extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.9,
                     alignment: Alignment.center,
                     child: Text(
-                      ' ${listItems[index]}',
+                      ' ${listItems[index].title}',
                       style: textTheme.textMenu.copyWith(
                         color: isBlue ? IdtColors.blueAccent : null
                       )

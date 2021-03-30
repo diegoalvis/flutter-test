@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
@@ -7,7 +8,6 @@ import 'package:bogota_app/pages/event_detail/event_detail_page.dart';
 import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
-import 'package:bogota_app/pages/home_old/home.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
 import 'package:bogota_app/pages/profile/profile_page.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_page.dart';
@@ -63,15 +63,20 @@ class IdtRoute {
     );
   }
 
-  goDiscover(){
+  goDiscover({
+      required List<DataModel> places,
+      required List<DataModel> categories,
+      required List<DataModel> subcategories,
+      required List<DataModel> zones,
+    }){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> DiscoverPage())
+      MaterialPageRoute(builder: (_)=> DiscoverPage(places, categories, subcategories, zones))
     );
   }
 
   goDiscoverUntil(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> DiscoverPage()),
+      MaterialPageRoute(builder: (_)=> DiscoverPage([], [], [], [])),
       (route) => route.isFirst
     );
   } 

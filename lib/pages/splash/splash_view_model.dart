@@ -7,7 +7,7 @@ import 'package:bogota_app/data/model/splash_model.dart';
 
 
 import 'package:bogota_app/data/model/splash_model.dart';
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';

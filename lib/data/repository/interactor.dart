@@ -1,17 +1,37 @@
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
-import 'package:bogota_app/data/service/filter_service.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
-import 'package:bogota_app/data/service/food_service.dart';
-import 'package:bogota_app/data/service/sleep_service.dart';
-import 'package:bogota_app/data/service/splash_service.dart';
-import 'package:bogota_app/data/service/unmissable_service.dart';
+import 'package:bogota_app/data/repository/service/filter_service.dart';
+import 'package:bogota_app/data/repository/service/food_service.dart';
+import 'package:bogota_app/data/repository/service/sleep_service.dart';
+import 'package:bogota_app/data/repository/service/splash_service.dart';
+import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
 // class Repository
 class ApiInteractor {
-  Future<IdtResult<List<DataPlacesModel>?>> getPlacesList() async {
+
+  Future<IdtResult<List<DataModel>?>> getPlacesList() async {
     final response = await locator<FilterService>().getPlaces();
+
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getCategoriesList() async {
+    final response = await locator<FilterService>().getCategories();
+
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getSubcategoriesList() async {
+    final response = await locator<FilterService>().getSubcategories();
+
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getZoneList() async {
+    final response = await locator<FilterService>().getZones();
 
     return response;
   }

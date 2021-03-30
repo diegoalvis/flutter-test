@@ -1,4 +1,5 @@
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/discover/discover_status.dart';
 import 'package:bogota_app/view_model.dart';
@@ -13,7 +14,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       isLoading: true,
       openMenu: false,
       openMenuTab: false,
-      isZone: false
+      listOptions: []
     );
   }
 
@@ -34,8 +35,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab({bool isZone = false}) {
-    status = status.copyWith(openMenuTab: true, isZone: isZone);
+  void onpenMenuTab(List<DataModel> listData) {
+    status = status.copyWith(openMenuTab: true, listOptions: listData);
   }
 
   void closeMenuTab() {

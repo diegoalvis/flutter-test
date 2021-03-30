@@ -1,6 +1,10 @@
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
@@ -102,23 +106,68 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     _route.goDetail(isHotel: false);
   }
 
-  void goDiscoverPage() {
-    _route.goDiscover();
-  }
+  void goDiscoverPage() async {
 
-  // void goDiscoverPage() async {
-  //   status = status.copyWith(isLoading: true);
-  //
-  //   final response = await _interactor.getPlacesList();
-  //
-  //   if (response is IdtSuccess<List<DataPlacesModel>?>) {
-  //     print('Respuesta ViewModel: ${response.body![0].title} ');
-  //     _route.goDiscover();
-  //   } else {
-  //     final erroRes = response as IdtFailure<FilterError>;
-  //     print(erroRes.message);
-  //     UnimplementedError();
-  //   }
-  //   status = status.copyWith(isLoading: false);
-  // }
+    status = status.copyWith(isLoading: true);
+
+    bool validate = true;
+    late List<DataModel> places;
+    late List<DataModel> categories;
+    late List<DataModel> subcategories;
+    late List<DataModel> zones;
+
+    final resPlaces = await _interactor.getPlacesList();
+
+    if (resPlaces is IdtSuccess<List<DataModel>?>) {
+      print('Respuesta ViewModel Places: ${resPlaces.body} ');
+      places = resPlaces.body!;
+    } else {
+      validate = false;
+      final erroRes = resPlaces as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+
+    final resCategory = await _interactor.getCategoriesList();
+
+    if (resCategory is IdtSuccess<List<DataModel>?>) {
+      print('Respuesta ViewModel Categorias: ${resCategory.body!} ');
+      categories = resCategory.body!;
+    } else {
+      validate = false;
+      final erroRes = resCategory as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+
+    final resSubcategiry = await _interactor.getSubcategoriesList();
+
+    if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
+      print('Respuesta ViewModel Subcate: ${resSubcategiry.body} ');
+      subcategories = resSubcategiry.body!;
+    } else {
+      validate = false;
+      final erroRes = resSubcategiry as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+
+    final resZona = await _interactor.getZoneList();
+
+    if (resZona is IdtSuccess<List<DataModel>?>) {
+      print('Respuesta ViewModel Zone: ${resZona.body!} ');
+      zones = resZona.body!;
+    } else {
+      validate = false;
+      final erroRes = resZona as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+
+    if (validate){
+      _route.goDiscover(places: places, categories: categories, subcategories: subcategories, zones: zones) ;
+    }
+
+    status = status.copyWith(isLoading: false);
+  }
 }

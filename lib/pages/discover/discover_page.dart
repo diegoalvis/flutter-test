@@ -1,4 +1,7 @@
-import 'package:bogota_app/data/repository/repository.dart';
+import 'package:bogota_app/commons/idt_assets.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -18,8 +21,16 @@ import '../../app_theme.dart';
 
 class DiscoverPage extends StatelessWidget {
 
+  final List<DataModel> places;
+  final List<DataModel> categories;
+  final List<DataModel> subcategories;
+  final List<DataModel> zones;
+
+  DiscoverPage(this.places, this.categories, this.subcategories, this.zones);
+
   @override
   Widget build(BuildContext context) {
+
 
     return ChangeNotifierProvider(
       create: (_) => DiscoverViewModel(
@@ -27,13 +38,21 @@ class DiscoverPage extends StatelessWidget {
         locator<ApiInteractor>()
       ),
       builder: (context, _) {
-        return DiscoverWidget();
+        return DiscoverWidget(places, categories, subcategories, zones);
       },
     );
   }
 }
 
 class DiscoverWidget extends StatefulWidget {
+
+  final List<DataModel> _places;
+  final List<DataModel> _categories;
+  final List<DataModel> _subcategories;
+  final List<DataModel> _zones;
+
+  DiscoverWidget(this._places, this._categories, this._subcategories, this._zones);
+
   @override
   _DiscoverWidgetState createState() => _DiscoverWidgetState();
 }
@@ -60,28 +79,12 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
   Widget _buildDiscover(DiscoverViewModel viewModel) {
 
-    List<String> listMenu = [
-      "Opción 1",
-      "Opción 2",
-      "Opción 3",
-      "Opción 4",
-      "Opción 5",
-    ];
-
-    List<String> listMenuZone = [
-      "Zona 1",
-      "Zona 2",
-      "Zona 3",
-      "Zona 4",
-      "Zona 5",
-    ];
-
     final textTheme = Theme.of(context).textTheme;
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(
-          listItems: viewModel.status.isZone? listMenuZone : listMenu,
+          listItems: viewModel.status.listOptions,
           closeMenu: viewModel.closeMenuTab,
           goFilters: viewModel.goFiltersPage
         )
@@ -102,7 +105,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       );
     };
 
-    Widget imagesCard(String item, int index, List listItems) => (
+    Widget imagesCard(DataModel item, int index, List listItems) => (
 
       InkWell(
         onTap: viewModel.goDetailPage,
@@ -134,7 +137,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 : BorderRadius.circular(0.0),
               child: SizedBox(
                 child: Image.network(
-                  item,
+                  IdtConstants.url_image+item.image!,
                   height: 200,
                   fit: BoxFit.fill,
                 ),
@@ -147,7 +150,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                 child: Text(
-                  item.toUpperCase(),
+                  item.title!.toUpperCase(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -172,11 +175,11 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
           mainAxisSpacing: 5,
           //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 10),
-          children: DataTest.imgList2.asMap().entries.map((entry) {
+          children: widget._places.asMap().entries.map((entry) {
             final int index = entry.key;
-            final String value = entry.value;
+            final DataModel value = entry.value;
 
-            return imagesCard(value, index, DataTest.imgList2);
+            return imagesCard(value, index, widget._places);
           }).toList(),
         )
     );
@@ -211,9 +214,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan', viewModel.onpenMenuTab),
-                    _buttonTap('Producto', viewModel.onpenMenuTab),
-                    _buttonTap('Zona', () => viewModel.onpenMenuTab(isZone: true)),
+                    _buttonTap('Plan', ()=> viewModel.onpenMenuTab(widget._categories)),
+                    _buttonTap('Producto', ()=> viewModel.onpenMenuTab(widget._subcategories)),
+                    _buttonTap('Zona', () => viewModel.onpenMenuTab(widget._zones)),
                     _buttonTap('Audioguías', viewModel.goAudioGuidePage),
                   ],
                 ),
