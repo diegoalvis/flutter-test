@@ -39,9 +39,7 @@ class FiltersPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => FiltersViewModel(
         locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
+        locator<ApiInteractor>()
       ),
       builder: (context, _) {
         return FiltersWidget(section, item, places, categories, subcategories, zones);
@@ -96,18 +94,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
   }
 
   Widget _buildDiscover(FiltersViewModel viewModel) {
-    final loading =
-    viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     int count = 0;
-    List<String> listMenu = [
-      "Opción 1",
-      "Opción 2",
-      "Opción 3",
-      "Opción 4",
-      "Opción 5",
-    ];
-
     final textTheme = Theme.of(context).textTheme;
 
     final menu = viewModel.status.openMenu ? Padding(
@@ -130,7 +120,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listSubcategories: widget._subcategories,
           listZones: widget._zones,
           closeMenu: viewModel.closeMenuFilter,
-          goFilters: viewModel.closeMenuFilter,
+          goFilters: viewModel.getDataFilter,
           filter1: viewModel.status.filter1,
           filter2: viewModel.status.filter2,
           filter3: viewModel.status.filter3,

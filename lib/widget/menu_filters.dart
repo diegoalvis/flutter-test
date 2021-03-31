@@ -14,10 +14,10 @@ class IdtMenuFilter extends StatelessWidget {
   final List<DataModel> listCategories;
   final List<DataModel> listSubcategories;
   final List<DataModel> listZones;
-  final List filter1;
-  final List filter2;
-  final List filter3;
-  final Function(int, int) tapButton;
+  final List<DataModel?> filter1;
+  final List<DataModel?> filter2;
+  final List<DataModel?> filter3;
+  final Function(int, int, List<DataModel>) tapButton;
 
   IdtMenuFilter({
     required this.closeMenu,
@@ -93,11 +93,11 @@ class IdtMenuFilter extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                             color:
-                              id == 1 ? /*filter1[index] ? color :*/ IdtColors.grayBtn
+                              id == 1 ? filter1[index] != null ? color : IdtColors.grayBtn
 
-                              : id == 2 ? /*filter2[index] ? color :*/ IdtColors.grayBtn
+                              : id == 2 ? filter2[index] != null ? color : IdtColors.grayBtn
 
-                              : id == 3 ? /*filter3[index] ? color :*/ IdtColors.grayBtn
+                              : id == 3 ? filter3[index] != null ? color : IdtColors.grayBtn
 
                               : IdtColors.grayBtn,
                           width: 1
@@ -113,11 +113,11 @@ class IdtMenuFilter extends StatelessWidget {
                           maxHeight: 40
                         ),
                         decoration:
-                          id == 1 ? /*filter1[index] ? styleApp :*/ styleAppWhite
+                          id == 1 ? filter1[index] != null ? styleApp : styleAppWhite
 
-                          : id == 2 ? /*filter2[index] ? styleApp :*/ styleAppWhite
+                          : id == 2 ? filter2[index] != null ? styleApp : styleAppWhite
 
-                          : id == 3 ? /*filter3[index] ? styleApp : */ styleAppWhite
+                          : id == 3 ? filter3[index] != null ? styleApp :  styleAppWhite
 
                           : null,
                         alignment: Alignment.center,
@@ -126,17 +126,17 @@ class IdtMenuFilter extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(
                             color:
-                              id == 1 ? /*filter1[index] ? null :*/ IdtColors.black.withOpacity(0.8)
+                              id == 1 ? filter1[index] != null ? null : IdtColors.black.withOpacity(0.8)
 
-                              : id == 2 ? /*filter2[index] ? null :*/ IdtColors.black.withOpacity(0.8)
+                              : id == 2 ? filter2[index] != null ? null : IdtColors.black.withOpacity(0.8)
 
-                              : id == 3 ? /*filter3[index] ? null :*/ IdtColors.black.withOpacity(0.8)
+                              : id == 3 ? filter3[index] != null ? null : IdtColors.black.withOpacity(0.8)
 
                               : null,
                           ),
                         )
                       ),
-                      onPressed: () => tapButton(index, id),
+                      onPressed: () => tapButton(index, id, listItems),
                     ),
                   )
                 ],
@@ -206,7 +206,7 @@ class IdtMenuFilter extends StatelessWidget {
                       ),
                     )
                   ),
-                  onPressed: closeMenu,
+                  onPressed: goFilters,
                 ),
               )
             ],

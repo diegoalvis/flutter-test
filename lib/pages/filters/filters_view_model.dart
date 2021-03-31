@@ -1,10 +1,9 @@
+import 'dart:ffi';
+
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
-import 'package:bogota_app/utils/errors/food_error.dart';
-import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class FiltersViewModel extends ViewModel<FiltersStatus> {
@@ -18,9 +17,9 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       openMenu: false,
       openMenuTab: false,
       openMenuFilter: false,
-      filter1: [false, false, false, false, false],
-      filter2: [false, false, false, false, false],
-      filter3: [false, false, false, false, false],
+      filter1: [],
+      filter2: [],
+      filter3: [],
       itemsFilter: []
     );
   }
@@ -44,6 +43,24 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
         status = status.copyWith(itemsFilter: []);
       }break;
     }
+    // Aqui llenamos esos arreglos
+    final List<DataModel?> filtersCategory = categories.map((element) {
+      return null;
+    }).toList();
+
+    final List<DataModel?> filtersSubcategory = subcategories.map((element) {
+      return null;
+    }).toList();
+
+    final List<DataModel?> filtersZone = zones.map((element) {
+      return null;
+    }).toList();
+
+    print('Filtro 1: ${filtersCategory.length}');
+    print('Filtro 2: ${filtersSubcategory.length}');
+    print('Filtro 3: ${filtersZone.length}');
+
+    status = status.copyWith(filter1: filtersSubcategory, filter3: filtersCategory, filter2: filtersZone);
     //getFoodResponse();
   }
 
@@ -94,21 +111,25 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     status = status.copyWith(openMenuFilter: false);
   }
 
-  void onTapButton(int index, int id) {
+  void getDataFilter() {
+    print('Tap button ${status.filter1[0]}');
+  }
+
+  void onTapButton(int index, int id, List<DataModel> items) {
 
     if(id == 1){
-      List<bool> filter = List.of(status.filter1);
-      filter[index] = !filter[index];
+      List<DataModel?> filter = List.of(status.filter1);
+      filter[index] = filter[index] != null ? null : items[index];
       status = status.copyWith(filter1: filter);
     }
     else if(id == 2){
-      List<bool> filter = List.of(status.filter2);
-      filter[index] = !filter[index];
+      List<DataModel?> filter = List.of(status.filter2);
+      filter[index] = filter[index] != null ? null : items[index];
       status = status.copyWith(filter2: filter);
     }
     else if(id == 3){
-      List<bool> filter = List.of(status.filter3);
-      filter[index] = !filter[index];
+      List<DataModel?> filter = List.of(status.filter3);
+      filter[index] = filter[index] != null ? null : items[index];
       status = status.copyWith(filter3: filter);
     }
   }
