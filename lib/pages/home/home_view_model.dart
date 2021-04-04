@@ -116,7 +116,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     late List<DataModel> subcategories;
     late List<DataModel> zones;
 
-    final resPlaces = await _interactor.getPlacesList([]);
+    final resPlaces = await _interactor.getPlacesList({});
 
     if (resPlaces is IdtSuccess<List<DataModel>?>) {
       places = resPlaces.body!;

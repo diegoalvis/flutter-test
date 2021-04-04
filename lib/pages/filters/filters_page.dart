@@ -1,11 +1,9 @@
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/filters/filters_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -68,11 +66,11 @@ class _FiltersWidgetState extends State<FiltersWidget> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<FiltersViewModel>().onInit(widget._section, widget._categories, widget._subcategories, widget._zones);
+      context.read<FiltersViewModel>().onInit(
+        widget._section, widget._categories, widget._subcategories, widget._zones, widget._places, widget._item
+      );
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +108,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listItems: viewModel.status.itemsFilter,
           closeMenu: viewModel.closeMenuTab,
           isBlue: true,
-          goFilters: (item){},
+          goFilters: (item) => viewModel.getDataFilterAll(item, widget._section),
         )
         : SizedBox.shrink();
 
@@ -121,9 +119,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           listZones: widget._zones,
           closeMenu: viewModel.closeMenuFilter,
           goFilters: viewModel.getDataFilter,
-          filter1: viewModel.status.filter1,
-          filter2: viewModel.status.filter2,
-          filter3: viewModel.status.filter3,
+          filter1: viewModel.status.filterSubcategory,
+          filter2: viewModel.status.filterZone,
+          filter3: viewModel.status.filterCategory,
           tapButton: viewModel.onTapButton,
         )
         : SizedBox.shrink();
@@ -331,7 +329,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                     style: textTheme.titleBlack,
                     children: <TextSpan>[
                       TextSpan(
-                        text: widget._item.title,
+                        text: viewModel.status.section,
                         style: textTheme.subTitleBlack
                       )
                     ],
@@ -341,18 +339,17 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               SizedBox(
                 height: 25
               ),
-              gridImagesCol3(widget._places),
+              gridImagesCol3(viewModel.status.placesFilter),
               SizedBox(
                 height: 55
               ),
             ],
           ),
         ),
-        loading,
         menu,
         menuTap,
         menuTapFilter,
-
+        loading,
       ],
     );
   }

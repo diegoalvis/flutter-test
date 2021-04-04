@@ -1,15 +1,14 @@
-import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/discover/discover_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/widget/title_section.dart';
@@ -80,6 +79,8 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget _buildDiscover(DiscoverViewModel viewModel) {
 
     final textTheme = Theme.of(context).textTheme;
+
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab
@@ -232,7 +233,8 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
           ),
         ),
         menu,
-        menuTap
+        menuTap,
+        loading
       ],
     );
   }

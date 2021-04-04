@@ -11,12 +11,17 @@ import 'package:http/http.dart' as http;
 
 class FilterService {
 
-  Future<IdtResult<List<DataModel>?>> getPlaces(List<Map> params) async {
+  Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
 
     Map<String, dynamic> queryParameters = {};
 
-    params.asMap().forEach((key, value) {
-      queryParameters[value.keys.first] = value.values.first;
+    params.forEach((key, value) {
+
+      queryParameters[key] = value;
+      /*value.keys.forEach((element) {
+        queryParameters[element] = value[element];
+      });*/
+      // queryParameters[value.keys.first] = value.values.first;
     });
 
     print('Parametro: $queryParameters');

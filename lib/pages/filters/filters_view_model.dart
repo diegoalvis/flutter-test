@@ -1,9 +1,9 @@
-import 'dart:ffi';
-
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
+import 'package:bogota_app/utils/errors/filter_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class FiltersViewModel extends ViewModel<FiltersStatus> {
@@ -17,15 +17,19 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       openMenu: false,
       openMenuTab: false,
       openMenuFilter: false,
-      filter1: [],
-      filter2: [],
-      filter3: [],
-      itemsFilter: []
+      filterSubcategory: [],
+      filterZone: [],
+      filterCategory: [],
+      itemsFilter: [],
+      placesFilter: [],
+      section: ''
     );
   }
 
-  void onInit(String section, List<DataModel> categories, List<DataModel> subcategories, List<DataModel> zones) {
+  void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
+      List<DataModel> zones, List<DataModel> places, DataModel item) {
 
+    status = status.copyWith(isLoading: true);
     switch(section) {
       case 'category': {
         status = status.copyWith(itemsFilter: categories);
@@ -43,7 +47,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
         status = status.copyWith(itemsFilter: []);
       }break;
     }
-    // Aqui llenamos esos arreglos
+
     final List<DataModel?> filtersCategory = categories.map((element) {
       return null;
     }).toList();
@@ -60,7 +64,9 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     print('Filtro 2: ${filtersSubcategory.length}');
     print('Filtro 3: ${filtersZone.length}');
 
-    status = status.copyWith(filter1: filtersSubcategory, filter3: filtersCategory, filter2: filtersZone);
+    status = status.copyWith(filterSubcategory: filtersSubcategory, filterCategory: filtersCategory,
+        filterZone: filtersZone, placesFilter: places, isLoading: false, section: item.title);
+
     //getFoodResponse();
   }
 
@@ -82,7 +88,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   void onpenMenu() {
     if (status.openMenu==false){
-      status = status.copyWith (openMenu: true);
+      status = status.copyWith (openMenu: true, openMenuTab: false, openMenuFilter: false);
     }
     else{
       status = status.copyWith(openMenu: false);
@@ -95,7 +101,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   void onpenMenuTab() {
     final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick);
+    status = status.copyWith(openMenuTab: !tapClick, openMenu: false, openMenuFilter: false);
   }
 
   void closeMenuTab() {
@@ -104,33 +110,115 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
 
   void onpenMenuFilter() {
     final bool tapClick = status.openMenuFilter;
-    status = status.copyWith(openMenuFilter: !tapClick);
+    status = status.copyWith(openMenuFilter: !tapClick, openMenu: false, openMenuTab: false);
   }
 
   void closeMenuFilter() {
     status = status.copyWith(openMenuFilter: false);
   }
 
-  void getDataFilter() {
-    print('Tap button ${status.filter1[0]}');
+  void getDataFilterAll(DataModel item, String section) async {
+
+    status = status.copyWith(isLoading: true);
+    final Map query = {
+      section : item.id
+    };
+
+    final response = await _interactor.getPlacesList(query);
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      final places = response.body!;
+      status = status.copyWith(placesFilter: places, section: item.title);
+
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    closeMenuTab();
+    status = status.copyWith(isLoading: false);
+  }
+
+  void getDataFilter() async {
+    status = status.copyWith(isLoading: true);
+
+    final List<String> codesCategory = [];
+    final List<String> codesSubategory = [];
+    final List<String> codesZones = [];
+
+    final Map query = {};
+    String listQuery = '';
+    status.filterCategory.forEach((element) {
+
+      if(element != null){
+        listQuery.isEmpty ? listQuery = element.id : listQuery += ','+element.id ;
+        codesCategory.add(element.id);
+      }
+    });
+
+    if(listQuery.isNotEmpty) {
+      query['category'] = listQuery;
+      listQuery = '';
+    }
+
+    status.filterSubcategory.forEach((element) {
+      if(element != null){
+        listQuery.isEmpty ? listQuery = element.id : listQuery += ','+element.id ;
+        codesSubategory.add(element.id);
+      }
+    });
+
+    if(listQuery.isNotEmpty) {
+      query['subcategory'] = listQuery;
+      listQuery = '';
+    }
+
+    status.filterZone.forEach((element) {
+      if(element != null){
+        listQuery.isEmpty ? listQuery = element.id : listQuery += ','+element.id ;
+        codesZones.add(element.id);
+      }
+    });
+
+    if(listQuery.isNotEmpty) {
+      query['zone'] = listQuery;
+      listQuery = '';
+    }
+
+    final response = await _interactor.getPlacesList(query);
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      print('Places: ${response.body!.length}');
+      if(response.body!.length > 0){
+        status = status.copyWith(placesFilter: response.body!);
+      }
+      // TODO: Mostrar mensaje que no hay resultados
+
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    closeMenuFilter();
+    status = status.copyWith(isLoading: false);
   }
 
   void onTapButton(int index, int id, List<DataModel> items) {
 
     if(id == 1){
-      List<DataModel?> filter = List.of(status.filter1);
+      List<DataModel?> filter = List.of(status.filterSubcategory);
       filter[index] = filter[index] != null ? null : items[index];
-      status = status.copyWith(filter1: filter);
+      status = status.copyWith(filterSubcategory: filter);
     }
     else if(id == 2){
-      List<DataModel?> filter = List.of(status.filter2);
+      List<DataModel?> filter = List.of(status.filterZone);
       filter[index] = filter[index] != null ? null : items[index];
-      status = status.copyWith(filter2: filter);
+      status = status.copyWith(filterZone: filter);
     }
     else if(id == 3){
-      List<DataModel?> filter = List.of(status.filter3);
+      List<DataModel?> filter = List.of(status.filterCategory);
       filter[index] = filter[index] != null ? null : items[index];
-      status = status.copyWith(filter3: filter);
+      status = status.copyWith(filterCategory: filter);
     }
   }
 

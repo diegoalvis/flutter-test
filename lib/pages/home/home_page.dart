@@ -121,8 +121,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             ],
           ),
         ),
-        loading,
         menu,
+        loading,
       ],
     );
   }

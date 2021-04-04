@@ -13,7 +13,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
-      isLoading: true,
+      isLoading: false,
       openMenu: false,
       openMenuTab: false,
       listOptions: [],
@@ -53,15 +53,15 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   void goFiltersPage(DataModel item, List<DataModel> categories,
       List<DataModel> subcategories, List<DataModel> zones) async {
 
+    status = status.copyWith(isLoading: true);
     final Map query = {
       status.section : item.id
     };
 
-    final response = await _interactor.getPlacesList([query]);
+    final response = await _interactor.getPlacesList(query);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
-      print('PLaces: $places');
       _route.goFilters(section: status.section, item: item, categories: categories, subcategories: subcategories, zones: zones, places: places);
     } else {
       final erroRes = response as IdtFailure<FilterError>;
@@ -69,6 +69,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
     closeMenuTab();
+    status = status.copyWith(isLoading: false);
   }
 
   void goDetailPage() {
