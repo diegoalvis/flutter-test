@@ -278,7 +278,19 @@ class SavedPlaces extends StatelessWidget {
               TitleSection('LUGARES GUARDADOS'),
               Positioned(
                 right: 12,
-                child: IconButton(
+                child:
+                openSaved ? Transform.rotate(
+                  angle: 1.5,
+                  child: IconButton(
+                    color: IdtColors.transparent,
+                    alignment: Alignment.center,
+                    icon: SvgPicture.asset(
+                      IdtAssets.minus,
+                      height: 30,
+                    ),
+                    onPressed: changeSaved,
+                  ),
+                ) : IconButton(
                   color: IdtColors.transparent,
                   alignment: Alignment.center,
                   icon: SvgPicture.asset(
@@ -286,7 +298,8 @@ class SavedPlaces extends StatelessWidget {
                     height: 30,
                   ),
                   onPressed: changeSaved,
-                ),
+                )
+                ,
               )
             ],
           ),

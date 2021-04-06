@@ -1,7 +1,5 @@
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -10,6 +8,7 @@ import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/food_error.dart';
+import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
@@ -104,6 +103,26 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void goDetailPage() {
     _route.goDetail(isHotel: false);
+  }
+
+  void setLocationUser() async {
+
+    final GpsModel location = GpsModel(
+      imei: '999',
+      longitud: '-78.229',
+      latitud: '2.3666',
+      fecha: '03/19/21'
+    );
+    final response = await _interactor.postLocationUser(location);
+
+    if (response is IdtSuccess<GpsModel?>) {
+      final places = response.body!;
+      print('Response: ${places.fecha}');
+    } else {
+      final erroRes = response as IdtFailure<GpsError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
   }
 
   void goDiscoverPage() async {

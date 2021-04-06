@@ -262,27 +262,11 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     Widget gridImagesCol3(List<DataModel> listItems) => Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: (
-        //TODO: Pasar esta logica al ViewModel cuando se reciban los datos de la peticion
         StaggeredGridView.count(
           crossAxisCount: 6,
           shrinkWrap: true,
           physics: ScrollPhysics(),
-
-          staggeredTiles:  listItems.asMap().entries.map((entry) {
-            int rows = 3;
-            count++;
-
-            if(count > 2 && count < 6){
-              rows = 2;
-            }else if(count > 5 && count < 7){
-              rows = 6;
-            }else if(count > 6){
-              rows = 3;
-              count = 1;
-            }
-            return StaggeredTile.count(rows, 2);
-          }).toList(),
-
+          staggeredTiles: viewModel.status.staggedList,
           children:  listItems.asMap().entries.map((entry) {
             final int index = entry.key;
             final imageUrl =entry.value.image ?? '';

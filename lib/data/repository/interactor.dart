@@ -1,15 +1,16 @@
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/food_service.dart';
+import 'package:bogota_app/data/repository/service/gps_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
-// class Repository
 class ApiInteractor {
 
   Future<IdtResult<List<DataModel>?>> getPlacesList(Map params) async {
@@ -56,6 +57,12 @@ class ApiInteractor {
 
   Future<IdtResult<List<DataPlacesModel>?>> getSleepPlacesList() async {
     final response = await locator<PlacesSleepService>().getPlacesSleep();
+
+    return response;
+  }
+
+  Future<IdtResult<GpsModel?>> postLocationUser(GpsModel gpsModel) async {
+    final response = await locator<GpsService>().setLocationUser(gpsModel);
 
     return response;
   }
