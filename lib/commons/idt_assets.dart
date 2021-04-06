@@ -6,6 +6,7 @@ class IdtAssets {
 
   //Local
   static const String splash = '$path/splash.jpg';
+  static const String loading = '$path/loading.gif';
   static const String logo_bogota = '$path/logo_bogota.png';
   static const String logo_bogota_black = '$path/logo_bogota_appbar.svg';
   static const String back = '$path/back.svg';
