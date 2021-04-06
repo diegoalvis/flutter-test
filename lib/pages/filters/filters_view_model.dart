@@ -5,6 +5,7 @@ import 'package:bogota_app/pages/filters/filters_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class FiltersViewModel extends ViewModel<FiltersStatus> {
 
@@ -22,7 +23,8 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       filterCategory: [],
       itemsFilter: [],
       placesFilter: [],
-      section: ''
+      section: '',
+      staggedList: []
     );
   }
 
@@ -60,12 +62,24 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       return null;
     }).toList();
 
-    print('Filtro 1: ${filtersCategory.length}');
-    print('Filtro 2: ${filtersSubcategory.length}');
-    print('Filtro 3: ${filtersZone.length}');
+    int count = 0;
+    final List<StaggeredTile> listStaggered = places.asMap().entries.map((entry) {
+      int rows = 3;
+      count++;
+
+      if(count > 2 && count < 6){
+        rows = 2;
+      }else if(count > 5 && count < 7){
+        rows = 6;
+      }else if(count > 6){
+        rows = 3;
+        count = 1;
+      }
+      return StaggeredTile.count(rows, 2);
+    }).toList();
 
     status = status.copyWith(filterSubcategory: filtersSubcategory, filterCategory: filtersCategory,
-        filterZone: filtersZone, placesFilter: places, isLoading: false, section: item.title);
+        filterZone: filtersZone, placesFilter: places, isLoading: false, section: item.title, staggedList: listStaggered);
 
     //getFoodResponse();
   }
