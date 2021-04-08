@@ -43,10 +43,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   void initState() {
-
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<HomeViewModel>().onInit();
     });
+
     final viewModel = context.read<HomeViewModel>();
 
     _effectSubscription = viewModel.effects.listen((event) {
@@ -76,7 +76,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu, backButton: false,),
+          appBar: IdtAppBar(
+            viewModel.onpenMenu,
+            backButton: false,
+          ),
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar: viewModel.status.openMenu
@@ -91,10 +94,14 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget _buildHome(HomeViewModel viewModel) {
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
-        : SizedBox.shrink();
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? IdtMenu(closeMenu: viewModel.closeMenu)
+          : SizedBox.shrink(),
+    );
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [
