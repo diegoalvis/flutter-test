@@ -119,10 +119,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                   scrollController,
                   viewModel.goDetailPage),
               SizedBox(height: 25),
-              TextButton(
-                child: Text('Enviar ubicacion'),
-                onPressed: viewModel.setLocationUser,
-              ),
+              // TextButton(
+              //   child: Text('Enviar ubicacion'),
+              //   onPressed: viewModel.setLocationUser,
+              // ),
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,
