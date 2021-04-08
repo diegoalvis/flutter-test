@@ -146,7 +146,8 @@ class DataTest {
     //'RECORRIDOS ESPECIALES',
     'DÓNDE DORMIR',
     'DÓNDE COMER',
-    'LUGARES GUARDADOS'
+    'LUGARES GUARDADOS',
+    'TÉRMINOS Y CONDICIONES'
   ];
 
 }
