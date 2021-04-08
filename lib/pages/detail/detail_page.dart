@@ -112,12 +112,15 @@ class _DetailWidgetState extends State<DetailWidget> {
             ],
           ),
           Positioned(
-              bottom: 0,
+              top: 260,
+             // bottom: 100,
               left: 0,
               right: 0,
               child: SizedBox(
-                child: SvgPicture.asset(IdtAssets.curve_up,
-                    color: IdtColors.white, fit: BoxFit.fill),
+                child: Image(image: AssetImage(IdtAssets.curve_up)),
+
+/*                SvgPicture.asset(IdtAssets.curve_up,
+                    color: IdtColors.white, fit: BoxFit.fill),*/
               )),
           Positioned(
             bottom: 100,
@@ -304,13 +307,20 @@ class _DetailWidgetState extends State<DetailWidget> {
             ],
           ),
           Positioned(
-              top: 0,
+             // top: 0,
+            bottom: 260,
               right: 0,
               left: 0,
               child: Container(
                   alignment: Alignment.topCenter,
-                  child: SvgPicture.asset(IdtAssets.curve_down,
-                      color: Colors.white, fit: BoxFit.fill))),
+                  child: Image(image: AssetImage(IdtAssets.curve_down)),
+
+/*                  SvgPicture.asset(IdtAssets.curve_down,
+                      color: Colors.white, fit: BoxFit.fill)*/
+
+              )
+
+          ),
         ],
       );
     }
