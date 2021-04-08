@@ -1,5 +1,5 @@
 import 'dart:core';
-
+import 'dart:math';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -280,7 +280,7 @@ class SavedPlaces extends StatelessWidget {
                 right: 12,
                 child:
                 openSaved ? Transform.rotate(
-                  angle: 1.5,
+                  angle: pi / 2.0,
                   child: IconButton(
                     color: IdtColors.transparent,
                     alignment: Alignment.center,
