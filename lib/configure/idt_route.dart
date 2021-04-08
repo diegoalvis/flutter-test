@@ -63,20 +63,15 @@ class IdtRoute {
     );
   }
 
-  goDiscover({
-      required List<DataModel> places,
-      required List<DataModel> categories,
-      required List<DataModel> subcategories,
-      required List<DataModel> zones,
-    }){
+  goDiscover(){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> DiscoverPage(places, categories, subcategories, zones))
+      MaterialPageRoute(builder: (_)=> DiscoverPage())
     );
   }
 
   goDiscoverUntil(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> DiscoverPage([], [], [], [])),
+      MaterialPageRoute(builder: (_)=> DiscoverPage()),
       (route) => route.isFirst
     );
   } 

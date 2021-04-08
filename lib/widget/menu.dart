@@ -20,7 +20,7 @@ class IdtMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    widget_profile() => (Container(
+    final profileWidget = (Container(
             child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,7 @@ class IdtMenu extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            widget_profile(),
+            profileWidget,
             ListView.separated(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,

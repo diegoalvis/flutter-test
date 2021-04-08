@@ -125,64 +125,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
   }
 
-  void goDiscoverPage() async {
-
-    status = status.copyWith(isLoading: true);
-
-    bool validate = true;
-    late List<DataModel> places;
-    late List<DataModel> categories;
-    late List<DataModel> subcategories;
-    late List<DataModel> zones;
-
-    final resPlaces = await _interactor.getPlacesList({});
-
-    if (resPlaces is IdtSuccess<List<DataModel>?>) {
-      places = resPlaces.body!;
-    } else {
-      validate = false;
-      final erroRes = resPlaces as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-
-    final resCategory = await _interactor.getCategoriesList();
-
-    if (resCategory is IdtSuccess<List<DataModel>?>) {
-      categories = resCategory.body!;
-    } else {
-      validate = false;
-      final erroRes = resCategory as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-
-    final resSubcategiry = await _interactor.getSubcategoriesList();
-
-    if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
-      subcategories = resSubcategiry.body!;
-    } else {
-      validate = false;
-      final erroRes = resSubcategiry as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-
-    final resZona = await _interactor.getZoneList();
-
-    if (resZona is IdtSuccess<List<DataModel>?>) {
-      zones = resZona.body!;
-    } else {
-      validate = false;
-      final erroRes = resZona as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-
-    if (validate){
-      _route.goDiscover(places: places, categories: categories, subcategories: subcategories, zones: zones) ;
-    }
-
-    status = status.copyWith(isLoading: false);
+  void goDiscoverPage() {
+      _route.goDiscover();
   }
 }
