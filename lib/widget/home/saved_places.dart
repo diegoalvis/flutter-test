@@ -12,7 +12,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../app_theme.dart';
 
 class SavedPlaces extends StatelessWidget {
-
   final bool openSaved;
   final VoidCallback changeSaved;
   final bool notSaved;
@@ -23,128 +22,133 @@ class SavedPlaces extends StatelessWidget {
   final ScrollController scrollController;
   final VoidCallback onTapCard;
 
-  SavedPlaces(this.openSaved, this.changeSaved, this.notSaved, this.addSaved, this.seeAll,
-      this.onTapSeeAll, this.changeSrollController, this.scrollController, this.onTapCard);
+  SavedPlaces(
+      this.openSaved,
+      this.changeSaved,
+      this.notSaved,
+      this.addSaved,
+      this.seeAll,
+      this.onTapSeeAll,
+      this.changeSrollController,
+      this.scrollController,
+      this.onTapCard);
 
-  Widget imagesCard(String image, int index, List<bool> listGuide) => (
-
-    Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(15)
+  Widget imagesCard(String image, int index, List<bool> listGuide) =>
+      (Container(
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          color: IdtColors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: IdtColors.blackShadow,
+              offset: Offset(0, 0),
+              blurRadius: 4.0,
+            ),
+          ],
         ),
-        color: IdtColors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: IdtColors.blackShadow,
-            offset: Offset(0, 0),
-            blurRadius: 4.0,
-          ),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                listGuide[index] ? IdtColors.black : IdtColors.transparent,
-                BlendMode.difference
-              ),
-              child: Image.network(
-                image,
-                height: 150,
-                width: double.infinity,
-                fit: BoxFit.fill,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                    listGuide[index] ? IdtColors.black : IdtColors.transparent,
+                    BlendMode.difference),
+                child: Image.network(
+                  image,
+                  height: 150,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-          listGuide[index] ? Icon(
-            IdtIcons.headphones,
-            color: IdtColors.white,
-            size: 50,
-          ) : SizedBox.shrink()
-        ],
-      ),
-    )
-  );
-
-  Widget SliderImages(BuildContext context, TextTheme textTheme, List<bool> listGuide, List<String> listImages, List<String> listText) =>
-
-    InkWell(
-      onTap: onTapCard,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 220,
-            margin: EdgeInsets.only(top: 10),
-            color: IdtColors.white,
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: listImages.length,
-              itemExtent: 155,
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => Column(
-                children: <Widget>[
-                  imagesCard(listImages[index], index, listGuide),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-                    child: Text(
-                      listText[index],
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: textTheme.grayDetail.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13
-                      ),
-                    ),
+            listGuide[index]
+                ? Icon(
+                    IdtIcons.headphones,
+                    color: IdtColors.white,
+                    size: 50,
                   )
-                ],
-              ),
-            )
-          ),
-          Positioned(
-            left: 0,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 50, left: 5),
-              child: IconButton(
-                iconSize: 45,
-                alignment: Alignment.centerLeft,
-                icon: Icon(
-                  Icons.play_circle_fill,
-                  color: IdtColors.white,
-                ),
-                onPressed: () => changeSrollController(false),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 50, right: 5),
-              child: IconButton(
-                iconSize: 45,
-                alignment: Alignment.centerRight,
-                icon: Icon(
-                  Icons.play_circle_fill,
-                  color: IdtColors.white,
-                ),
-                onPressed: () => changeSrollController(true),
-              ),
-            ),
-          ),
-        ],
-      )
-    );
+                : SizedBox.shrink()
+          ],
+        ),
+      ));
 
-  widget_row_buttons(TextTheme textTheme) => (
-    Container(
+  Widget SliderImages(
+          BuildContext context,
+          TextTheme textTheme,
+          List<bool> listGuide,
+          List<String> listImages,
+          List<String> listText) =>
+      InkWell(
+          onTap: onTapCard,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                  height: 220,
+                  margin: EdgeInsets.only(top: 10),
+                  color: IdtColors.white,
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: listImages.length,
+                    itemExtent: 155,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Column(
+                      children: <Widget>[
+                        imagesCard(listImages[index], index, listGuide),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 20.0),
+                          child: Text(
+                            listText[index],
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: textTheme.grayDetail.copyWith(
+                                fontWeight: FontWeight.w600, fontSize: 13),
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+              Positioned(
+                left: 0,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 50, left: 5),
+                  child: IconButton(
+                    iconSize: 45,
+                    alignment: Alignment.centerLeft,
+                    icon: Icon(
+                      Icons.play_circle_fill,
+                      color: IdtColors.white,
+                    ),
+                    onPressed: () => changeSrollController(false),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 50, right: 5),
+                  child: IconButton(
+                    iconSize: 45,
+                    alignment: Alignment.centerRight,
+                    icon: Icon(
+                      Icons.play_circle_fill,
+                      color: IdtColors.white,
+                    ),
+                    onPressed: () => changeSrollController(true),
+                  ),
+                ),
+              ),
+            ],
+          ));
+
+  widget_row_buttons(TextTheme textTheme) => (Container(
       height: 45,
       color: IdtColors.white,
       child: Row(
@@ -158,36 +162,34 @@ class SavedPlaces extends StatelessWidget {
             highlightElevation: 0,
             onPressed: () => onTapSeeAll(false),
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: IdtColors.greenDark,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(80.0)
-            ),
+                side: BorderSide(
+                  color: IdtColors.greenDark,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(80.0)),
             padding: EdgeInsets.all(0.0),
             child: Container(
               decoration: BoxDecoration(
-                gradient: seeAll ? null : LinearGradient(
-                  colors: IdtGradients.green,
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-                color: IdtColors.white,
-                borderRadius: BorderRadius.circular(30.0)
-              ),
+                  gradient: seeAll
+                      ? null
+                      : LinearGradient(
+                          colors: IdtGradients.green,
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                  color: IdtColors.white,
+                  borderRadius: BorderRadius.circular(30.0)),
               constraints: BoxConstraints(
-                maxWidth: 150.0,
-                minWidth: 150,
-                minHeight: 50.0,
-                maxHeight: 50
-              ),
+                  maxWidth: 150.0,
+                  minWidth: 150,
+                  minHeight: 50.0,
+                  maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
                 'AUDIOGUÍAS',
                 textAlign: TextAlign.center,
-                style: textTheme.textButtomWhite.copyWith(
-                  color: seeAll ? IdtColors.greenDark : null
-                ),
+                style: textTheme.textButtomWhite
+                    .copyWith(color: seeAll ? IdtColors.greenDark : null),
               ),
             ),
           ),
@@ -202,46 +204,41 @@ class SavedPlaces extends StatelessWidget {
             highlightElevation: 0,
             onPressed: () => onTapSeeAll(true),
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: IdtColors.greenDark,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(80.0)
-            ),
+                side: BorderSide(
+                  color: IdtColors.greenDark,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(80.0)),
             padding: EdgeInsets.all(0.0),
             child: Container(
               decoration: BoxDecoration(
-                gradient: seeAll ? LinearGradient(
-                  colors: IdtGradients.green,
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ) : null,
-                color: IdtColors.white,
-                borderRadius: BorderRadius.circular(30.0)
-              ),
+                  gradient: seeAll
+                      ? LinearGradient(
+                          colors: IdtGradients.green,
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        )
+                      : null,
+                  color: IdtColors.white,
+                  borderRadius: BorderRadius.circular(30.0)),
               constraints: BoxConstraints(
-                maxWidth: 150.0,
-                minWidth: 150,
-                minHeight: 50.0,
-                maxHeight: 50
-              ),
+                  maxWidth: 150.0,
+                  minWidth: 150,
+                  minHeight: 50.0,
+                  maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
                 'VER TODOS',
                 textAlign: TextAlign.center,
-                style: textTheme.textButtomWhite.copyWith(
-                  color: seeAll ? null : IdtColors.greenDark
-                ),
+                style: textTheme.textButtomWhite
+                    .copyWith(color: seeAll ? null : IdtColors.greenDark),
               ),
             ),
           ),
         ],
-      )
-    )
-  );
+      )));
 
-  Widget _notSavedPlaces(){
-
+  Widget _notSavedPlaces() {
     return Row(
       children: [
         Expanded(
@@ -249,15 +246,10 @@ class SavedPlaces extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             height: 200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              color: IdtColors.grayBg
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                color: IdtColors.grayBg),
             child: IconButton(
-              icon: Icon(
-                Icons.add,
-                color: IdtColors.gray,
-                size: 80
-              ),
+              icon: Icon(Icons.add, color: IdtColors.gray, size: 80),
               onPressed: addSaved,
             ),
           ),
@@ -267,7 +259,6 @@ class SavedPlaces extends StatelessWidget {
   }
 
   Widget _textTitle(TextTheme textTheme) {
-
     return Row(
       children: [
         Expanded(
@@ -278,28 +269,28 @@ class SavedPlaces extends StatelessWidget {
               TitleSection('LUGARES GUARDADOS'),
               Positioned(
                 right: 12,
-                child:
-                openSaved ? Transform.rotate(
-                  angle: pi / 2.0,
-                  child: IconButton(
-                    color: IdtColors.transparent,
-                    alignment: Alignment.center,
-                    icon: SvgPicture.asset(
-                      IdtAssets.minus,
-                      height: 30,
-                    ),
-                    onPressed: changeSaved,
-                  ),
-                ) : IconButton(
-                  color: IdtColors.transparent,
-                  alignment: Alignment.center,
-                  icon: SvgPicture.asset(
-                    IdtAssets.minus,
-                    height: 30,
-                  ),
-                  onPressed: changeSaved,
-                )
-                ,
+                child: openSaved
+                    ? Transform.rotate(
+                        angle: pi / 2.0,
+                        child: IconButton(
+                          color: IdtColors.transparent,
+                          alignment: Alignment.center,
+                          icon: SvgPicture.asset(
+                            IdtAssets.minus,
+                            height: 30,
+                          ),
+                          onPressed: changeSaved,
+                        ),
+                      )
+                    : IconButton(
+                        color: IdtColors.transparent,
+                        alignment: Alignment.center,
+                        icon: SvgPicture.asset(
+                          IdtAssets.minus,
+                          height: 30,
+                        ),
+                        onPressed: changeSaved,
+                      ),
               )
             ],
           ),
@@ -310,30 +301,37 @@ class SavedPlaces extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final textTheme = Theme.of(context).textTheme;
 
     return Column(
       children: [
         SizedBox(height: 35),
         _textTitle(textTheme),
-        openSaved ? Column(
-          children: [
-            SizedBox(height: 12),
-            notSaved ? _notSavedPlaces() : Column(
-              children: [
-                SliderImages(
-                  context,
-                  textTheme,
-                  seeAll ? DataTest.boolList : DataTest.boolListAudio,
-                  seeAll ? DataTest.imgList : DataTest.imgListAudio,
-                  seeAll ? DataTest.textList : DataTest.textListAudio,
-                ),
-                widget_row_buttons(textTheme),
-              ],
-            ),
-          ],
-        ) : SizedBox.shrink(),
+        AnimatedCrossFade(
+          duration: Duration(milliseconds: 300),
+          firstChild: Column(
+            children: [
+              SizedBox(height: 12),
+              notSaved
+                  ? _notSavedPlaces()
+                  : Column(
+                      children: [
+                        SliderImages(
+                          context,
+                          textTheme,
+                          seeAll ? DataTest.boolList : DataTest.boolListAudio,
+                          seeAll ? DataTest.imgList : DataTest.imgListAudio,
+                          seeAll ? DataTest.textList : DataTest.textListAudio,
+                        ),
+                        widget_row_buttons(textTheme),
+                      ],
+                    ),
+            ],
+          ),
+          secondChild: SizedBox.shrink(),
+          crossFadeState:
+              openSaved ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        ),
       ],
     );
   }
