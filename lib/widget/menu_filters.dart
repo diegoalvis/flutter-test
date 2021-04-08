@@ -174,10 +174,10 @@ class IdtMenuFilter extends StatelessWidget {
               _filter(listZones, IdtColors.blue, IdtGradients.blue, 'Busqueda por zona', 2),
               _filter(listCategories, IdtColors.green, IdtGradients.green, 'Descubre Bogotá', 3),
               SizedBox(
-                height: 25,
+                height: 20,
               ),
               Container(
-                margin: EdgeInsets.all(25),
+                margin: EdgeInsets.all(1),
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: IdtColors.blue, width: 1),

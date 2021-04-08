@@ -1,3 +1,4 @@
+import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -31,8 +32,9 @@ class IdtMenu extends StatelessWidget {
                         top: 15, right: 30, left: 30, bottom: 5),
                     child: CircleAvatar(
                       radius: 70.0,
-                      backgroundImage: NetworkImage(
-                          'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
+                      backgroundImage: AssetImage(IdtAssets.profile_photo),
+/*                      NetworkImage(
+                          'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                       backgroundColor: Colors.white,
                     ),
                   ),
