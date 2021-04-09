@@ -198,12 +198,15 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _buttonTap('Plan', () => viewModel.onpenMenuTab(_categories, 'category', 0),
+                        viewModel.status.currentOption == 0),
                     _buttonTap(
-                        categories[0], () => viewModel.onpenMenuTab(_categories, 'category', 0), viewModel.status.currentOption == 0),
-                    _buttonTap(categories[1],
-                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory', 1), viewModel.status.currentOption == 1),
-                    _buttonTap(categories[2], () => viewModel.onpenMenuTab(_zones, 'zone', 2), viewModel.status.currentOption == 2),
-                    _buttonTap(categories[3], viewModel.goAudioGuidePage, false),
+                        'Producto',
+                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory', 1),
+                        viewModel.status.currentOption == 1),
+                    _buttonTap('Zona', () => viewModel.onpenMenuTab(_zones, 'zone', 2),
+                        viewModel.status.currentOption == 2),
+                    _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
                   ],
                 ),
               ),
@@ -219,6 +222,4 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       ],
     );
   }
-
-  final categories = ['Plan', 'Producto', 'Zona', 'Audioguías'];
 }
