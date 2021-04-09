@@ -147,7 +147,7 @@ class DataTest {
     'DÓNDE DORMIR',
     'DÓNDE COMER',
     'LUGARES GUARDADOS',
-    'TÉRMINOS Y CONDICIONES'
+    'PRIVACIDAD Y TÉRMINOS'
   ];
 
 }
