@@ -88,13 +88,22 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
     Widget _buttonTap(String label, VoidCallback onTap) {
       return Expanded(
-        child: TextButton(
-          child: Text(label,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.subTitleBlack),
-          onPressed: onTap,
+        child: Column(
+          children: [
+            TextButton(
+              child: Text(label,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.subTitleBlack),
+              onPressed: onTap,
+            ),
+            Container(
+              height: 5,
+              width: 50,
+              color: Colors.black,
+            )
+          ],
         ),
       );
     }
@@ -204,13 +213,12 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                   children: [
                     _buttonTap('Plan',
                         () => viewModel.onpenMenuTab(_categories, 'category')),
-                    _buttonTap(
-                        'Producto',
-                        () => viewModel.onpenMenuTab(
-                            _subcategories, 'subcategory')),
-                    _buttonTap(
-                        'Zona', () => viewModel.onpenMenuTab(_zones, 'zone')),
-                    _buttonTap('Audioguías', viewModel.goAudioGuidePage),
+                    _buttonTap('Producto',
+                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory')),
+                    _buttonTap('Zona',
+                            () => viewModel.onpenMenuTab(_zones, 'zone')),
+                    _buttonTap('Audioguías',
+                        viewModel.goAudioGuidePage),
                   ],
                 ),
               ),
