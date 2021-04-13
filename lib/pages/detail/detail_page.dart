@@ -103,7 +103,7 @@ class _DetailWidgetState extends State<DetailWidget> {
         children: [
           Column(
             children: [
-              Image(
+              Image(   //imagen de fondo
                 image: AssetImage(IdtAssets.splash),
                 width: size.width,
                 height: size.height * 0.5,
@@ -111,7 +111,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
             ],
           ),
-          Positioned(
+          Positioned(   // curva
               bottom: 0,
               left: 0,
               right: 0,
@@ -119,7 +119,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                 child: SvgPicture.asset(IdtAssets.curve_up,
                     color: IdtColors.white, fit: BoxFit.fill),
               )),
-          Positioned(
+          Positioned(    // rating Starts
             bottom: 100,
             width: size.width,
             child: Column(
@@ -173,7 +173,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               ],
             ),
           ),
-          Positioned(
+          Positioned(  // app_bar row
             top: 45,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
