@@ -55,7 +55,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: IdtColors.white,
         body: _buildRegisterUser(viewModel),
       ),
@@ -74,7 +73,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       contentPadding: EdgeInsets.all(8.0),
       isDense: true,
       hintStyle: textTheme.textButtomWhite.copyWith(color: IdtColors.grayBtn),
-      hintText: 'Nombre de usuario o Email',
+      hintText: '',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
@@ -107,7 +106,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             //imagen de fondo
             image: AssetImage(IdtAssets.splash),
             width: size.width,
-            height: size.height * 0.6,
+            height: size.height * 0.5,
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -169,44 +168,81 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     }
 
     return SingleChildScrollView(
-        reverse: true,
-      child: Column(
-        children: [
-          _header(),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              children: [
-                Text('LOREM IPSUM', style: textTheme.textMenu),
-                Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
-                SizedBox(
-                  height: 30,
-                ),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  style: textTheme.textDetail,
-                  controller: _controllerEmail,
-                  decoration: KTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                _btnGradient(IdtIcons.mappin, IdtGradients.orange),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('o recuperar a través de', style: textTheme.bodyText2),
-                IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
-                Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
-              ],
+        // reverse: true,
+      child: Container(
+        color: IdtColors.white,
+        child: Column(
+          children: [
+            _header(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Column(
+                children: [
+                  Text('BIENVENIDO', style: textTheme.textMenu),
+                  Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    style: textTheme.textDetail,
+                    controller: _controllerEmail,
+                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Nombre'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    style: textTheme.textDetail,
+                    controller: _controllerEmail,
+                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Apellido'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    style: textTheme.textDetail,
+                    controller: _controllerEmail,
+                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Correo electronico'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    style: textTheme.textDetail,
+                    controller: _controllerEmail,
+                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Contraseña'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    style: textTheme.textDetail,
+                    controller: _controllerEmail,
+                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Comfirmar contraseña'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  _btnGradient(IdtIcons.mappin, IdtGradients.orange),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          loading,
-        ],
+            SizedBox(
+              height: 5,
+            ),
+            loading,
+          ],
+        ),
       ),
     );
   }

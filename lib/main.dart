@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
+import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:bogota_app/pages/splash/splash_page.dart';
 import 'package:bogota_app/widget/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'Bogotá App',
       theme: AppTheme.build(),
       // home: SplashPage(),
-      home: RecoverPassPage(),
+      home: RegisterUserPage(),
       // home: DetailPage(),
       //onGenerateRoute: locator<IdtRoute>().generateRoute
     );
