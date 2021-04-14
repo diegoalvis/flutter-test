@@ -1,5 +1,6 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -69,12 +70,12 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final bottom = MediaQuery.of(context).viewInsets.bottom;
 
-
     final KTextFieldInputDecoration = InputDecoration(
-      contentPadding: EdgeInsets.all(8.0),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       isDense: true,
-      hintStyle: textTheme.textButtomWhite.copyWith(color: IdtColors.grayBtn),
-      hintText: 'Nombre de usuario o Email',
+      hintStyle: textTheme.textButtomWhite
+          .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+      hintText: 'Correo electrónico',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
@@ -140,7 +141,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                   child: Text(
                     'App Oficial de Bogotá',
                     style: textTheme.textWhiteShadow
-                        .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
+                        .copyWith(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 )
               ],
@@ -161,7 +162,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             alignment: Alignment.center,
             child: Text(
               'Restablecer contraseña',
-              style: textTheme.textButtomWhite,
+              style: textTheme.textButtomWhite.copyWith(fontSize: 17),
               textAlign: TextAlign.center,
             )),
         onPressed: () {},
@@ -169,44 +170,59 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     }
 
     return SingleChildScrollView(
-        reverse: true,
-      child: Column(
-        children: [
-          _header(),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              children: [
-                Text('LOREM IPSUM', style: textTheme.textMenu),
-                Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
-                SizedBox(
-                  height: 30,
+      reverse: true,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottom),
+        child: Column(
+          children: [
+            _header(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                height: size.height * 0.4 - 5,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('LOREM IPSUM', style: textTheme.textMenu),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    TextField(
+                      cursorColor: IdtColors.blackShadow,
+                      keyboardType: TextInputType.emailAddress,
+                      style: textTheme.textButtomWhite.copyWith(
+                          color: IdtColors.black, fontSize: 15, fontWeight: FontWeight.w500),
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _btnGradient(IdtIcons.mappin, IdtGradients.orange),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text('o recupérar a través de',
+                        style: textTheme.textDetail.copyWith(fontSize: 14, color: IdtColors.gray)),
+                    Spacer(),
+                    IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
+                    Spacer(),
+                    Text('Oficina de turismo de Bogotá',
+                        style: textTheme.textDetail.copyWith(fontSize: 10, color: IdtColors.gray)),
+                  ],
                 ),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  style: textTheme.textDetail,
-                  controller: _controllerEmail,
-                  decoration: KTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                _btnGradient(IdtIcons.mappin, IdtGradients.orange),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('o recuperar a través de', style: textTheme.bodyText2),
-                IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
-                Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
-              ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          loading,
-        ],
+            SizedBox(
+              height: 8,
+            ),
+            loading,
+          ],
+        ),
       ),
     );
   }
