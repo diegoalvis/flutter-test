@@ -37,7 +37,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
 
   @override
   void initState() {
-    _controllerEmail.text = 'juan.rivas@iddt.gov.co';
+    _controllerEmail.text = '';
     final viewModel = context.read<RecoverPassViewModel>();
     super.initState();
   }
@@ -55,6 +55,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: IdtColors.white,
         body: _buildRecoverPass(viewModel),
       ),
@@ -66,9 +67,10 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
 
     final KTextFieldInputDecoration = InputDecoration(
-
       contentPadding: EdgeInsets.all(8.0),
       isDense: true,
       hintStyle: textTheme.textButtomWhite.copyWith(color: IdtColors.grayBtn),
@@ -101,16 +103,12 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     Widget _header() {
       return Stack(
         children: [
-          Column(
-            children: [
-              Image(
-                //imagen de fondo
-                image: AssetImage(IdtAssets.splash),
-                width: size.width,
-                height: size.height * 0.6,
-                fit: BoxFit.cover,
-              ),
-            ],
+          Image(
+            //imagen de fondo
+            image: AssetImage(IdtAssets.splash),
+            width: size.width,
+            height: size.height * 0.6,
+            fit: BoxFit.cover,
           ),
           Positioned(
             // curva
@@ -132,12 +130,10 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Container(
+                Image.asset(
+                  IdtAssets.logo_bogota,
                   height: 140,
-                  child: Image.asset(
-                    IdtAssets.logo_bogota,
-                    fit: BoxFit.scaleDown,
-                  ),
+                  fit: BoxFit.scaleDown,
                 ),
                 Positioned(
                   bottom: 0,
@@ -154,16 +150,13 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
       );
     }
 
-    Widget _btnGradient(IconData icon, Color color, List<Color> listColors) {
-      //Columna de botonoes para los hoteles
+    Widget _btnGradient(IconData icon, List<Color> listColors) {
       return RaisedButton(
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: color, width: 1),
-            borderRadius: BorderRadius.circular(30.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         padding: EdgeInsets.all(0),
         child: Container(
-            decoration: StylesMethodsApp().decorarStyle(
-                listColors, 30, Alignment.bottomCenter, Alignment.topCenter),
+            decoration: StylesMethodsApp()
+                .decorarStyle(listColors, 30, Alignment.bottomCenter, Alignment.topCenter),
             padding: EdgeInsets.symmetric(vertical: 9),
             alignment: Alignment.center,
             child: Text(
@@ -175,50 +168,45 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
       );
     }
 
-
     return SingleChildScrollView(
-      child: Container(
-        color: IdtColors.white,
-        child: Column(
-          children: [
-            _header(),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                children: [
-
-
-                  Text(
-                    'LOREM IPSUM',
-                    style:
-                        textTheme.textMenu
-                  ),
-                  Text(
-                    'Lorem adipiscing elít. sed diam domummy',
-                    style:
-                    textTheme.textDetail
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _btnGradient(IdtIcons.mappin, IdtColors.orange, IdtGradients.orange)
-
-                ],
-              ),
+        reverse: true,
+      child: Column(
+        children: [
+          _header(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: Column(
+              children: [
+                Text('LOREM IPSUM', style: textTheme.textMenu),
+                Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+                SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  style: textTheme.textDetail,
+                  controller: _controllerEmail,
+                  decoration: KTextFieldInputDecoration,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                _btnGradient(IdtIcons.mappin, IdtGradients.orange),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('o recuperar a través de', style: textTheme.bodyText2),
+                IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
+                Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
+              ],
             ),
-            loading,
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          loading,
+        ],
       ),
     );
   }
