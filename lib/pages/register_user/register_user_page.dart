@@ -159,7 +159,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             padding: EdgeInsets.symmetric(vertical: 9),
             alignment: Alignment.center,
             child: Text(
-              'Restablecer contraseña',
+              'Crear Cuenta',
               style: textTheme.textButtomWhite,
               textAlign: TextAlign.center,
             )),
@@ -176,65 +176,70 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             _header(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                children: [
-                  Text('BIENVENIDO', style: textTheme.textMenu),
-                  Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Nombre'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Apellido'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Correo electronico'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Contraseña'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    style: textTheme.textDetail,
-                    controller: _controllerEmail,
-                    decoration: KTextFieldInputDecoration.copyWith(hintText: 'Comfirmar contraseña'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  _btnGradient(IdtIcons.mappin, IdtGradients.orange),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
-                ],
+              child: Container(
+                height: size.height*0.5,
+
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('BIENVENIDO', style: textTheme.textMenu),
+                    Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Nombre'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Apellido'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Correo electronico'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Contraseña'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                      controller: _controllerEmail,
+                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Comfirmar contraseña'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    _btnGradient(IdtIcons.mappin, IdtGradients.orange),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
+                  ],
+                ),
               ),
             ),
             SizedBox(
