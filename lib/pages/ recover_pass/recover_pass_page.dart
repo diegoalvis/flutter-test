@@ -5,8 +5,10 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
+import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -70,12 +72,12 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final bottom = MediaQuery.of(context).viewInsets.bottom;
 
-    final KTextFieldInputDecoration = InputDecoration(
+    final KTextFieldDecoration = InputDecoration(
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       isDense: true,
       hintStyle: textTheme.textButtomWhite
           .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
-      hintText: 'Correo electrónico',
+      hintText: 'KTextFieldDecoration.copyWith(hintText:   )',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
@@ -191,18 +193,18 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                     SizedBox(
                       height: 30,
                     ),
-                    TextField(
-                      cursorColor: IdtColors.blackShadow,
-                      keyboardType: TextInputType.emailAddress,
-                      style: textTheme.textButtomWhite.copyWith(
-                          color: IdtColors.black, fontSize: 15, fontWeight: FontWeight.w500),
-                      controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration,
-                    ),
+                    TextFieldCustom(
+                        style: textTheme.textDetail,
+                        controller: _controllerEmail,
+                        decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
                     SizedBox(
                       height: 10,
                     ),
-                    _btnGradient(IdtIcons.mappin, IdtGradients.orange),
+                    BtnGradient(
+                      'Restablecer contraseña',
+                      colorGradient: IdtGradients.orange,
+                      textStyle: textTheme.textButtomWhite.copyWith(fontSize: 17),
+                    ),
                     SizedBox(
                       height: 16,
                     ),
