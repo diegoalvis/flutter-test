@@ -224,12 +224,6 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                         height: 10,
                       ),
                       BtnGradient('Restablecer contraseña',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
-                            );
-                          },
                           colorGradient: IdtGradients.orange,
                           textStyle: textTheme.textButtomWhite.copyWith(
                               fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
