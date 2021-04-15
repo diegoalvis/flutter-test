@@ -4,8 +4,10 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
+import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -32,12 +34,22 @@ class RegisterUserWidget extends StatefulWidget {
 }
 
 class _RegisterUserWidgetState extends State<RegisterUserWidget> {
+  final _controllerName = TextEditingController();
+  final _controllerLastNames = TextEditingController();
   final _controllerEmail = TextEditingController();
+  final _controllerPass = TextEditingController();
+  final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
 
   @override
   void initState() {
     _controllerEmail.text = '';
+    _controllerName.text = '';
+    _controllerLastNames.text = '';
+    _controllerEmail.text = '';
+    _controllerPass.text = '';
+    _controllerConfirmPass.text = '';
+
     final viewModel = context.read<RegisterUserViewModel>();
     super.initState();
   }
@@ -67,13 +79,14 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final bottom = MediaQuery.of(context).viewInsets.bottom;
+    String dropdownValue = 'One';
 
-
-    final KTextFieldInputDecoration = InputDecoration(
-      contentPadding: EdgeInsets.all(8.0),
+    final KTextFieldDecoration = InputDecoration(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       isDense: true,
-      hintStyle: textTheme.textButtomWhite.copyWith(color: IdtColors.grayBtn),
-      hintText: '',
+      hintStyle: textTheme.textButtomWhite
+          .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+      hintText: '.copyWith',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
@@ -106,7 +119,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             //imagen de fondo
             image: AssetImage(IdtAssets.splash),
             width: size.width,
-            height: size.height * 0.5,
+            height: size.height * 0.47,
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -124,7 +137,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
           ),
           Positioned(
             // Logo de bogota
-            top: size.height / 5.5,
+            top: size.height / 6,
             width: size.width,
             child: Stack(
               alignment: Alignment.center,
@@ -168,7 +181,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     }
 
     return SingleChildScrollView(
-        // reverse: true,
+      // reverse: true,
       child: Container(
         color: IdtColors.white,
         child: Column(
@@ -177,73 +190,104 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Container(
-                height: size.height*0.5,
-
+                height: size.height * 0.5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('BIENVENIDO', style: textTheme.textMenu),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
                     SizedBox(
-                      height: 30,
+                      height: 25,
                     ),
-                    TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
+                    TextFieldCustom(
+                        style: textTheme.textDetail,
+                        controller: _controllerName,
+                        decoration: KTextFieldDecoration.copyWith(hintText: 'Nombre')),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFieldCustom(
+                      style: textTheme.textDetail,
+                      controller: _controllerLastNames,
+                      decoration: KTextFieldDecoration.copyWith(hintText: 'Apellidos'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      height: 38,
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: DropdownButton<String>(
+                        // hint: 'Motivo del Viaje',
+                        value: dropdownValue,
+                        isDense: true,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 50,
+                        style: textTheme.textButtomWhite
+                            .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        },
+                        items: <String>['One', 'Two', 'Free', 'Four']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFieldCustom(
                       style: textTheme.textDetail,
                       controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Nombre'),
+                      decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico'),
                     ),
                     SizedBox(
-                      height: 5,
-                    ),TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
+                      height: 8,
+                    ),
+                    TextFieldCustom(
                       style: textTheme.textDetail,
-                      controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Apellido'),
+                      controller: _controllerPass,
+                      decoration: KTextFieldDecoration.copyWith(hintText: 'Contraseña'),
                     ),
                     SizedBox(
-                      height: 5,
-                    ),TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
+                      height: 8,
+                    ),
+                    TextFieldCustom(
                       style: textTheme.textDetail,
-                      controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Correo electronico'),
+                      controller: _controllerConfirmPass,
+                      decoration: KTextFieldDecoration.copyWith(hintText: 'Comfirmar contraseña'),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      style: textTheme.textDetail,
-                      controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Contraseña'),
+                    Spacer(),
+                    BtnGradient(
+                      'Crear cuenta',
+                      colorGradient: IdtGradients.orange,
+                      textStyle: textTheme.textButtomWhite.copyWith(fontSize: 17),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      style: textTheme.textDetail,
-                      controller: _controllerEmail,
-                      decoration: KTextFieldInputDecoration.copyWith(hintText: 'Comfirmar contraseña'),
+                    Spacer(),
+                    Text(
+                      'Oficina de turismo de Bogotá',
+                      style: textTheme.textDetail.copyWith(fontSize: 10, color: IdtColors.gray),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    _btnGradient(IdtIcons.mappin, IdtGradients.orange),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text('Oficina de turismo de Bogotá', style: textTheme.bodyText2),
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 5,
+              height: 8,
             ),
             loading,
           ],
