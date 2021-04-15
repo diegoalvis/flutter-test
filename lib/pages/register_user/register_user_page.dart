@@ -78,7 +78,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
     String dropdownValue = 'One';
 
     final KTextFieldDecoration = InputDecoration(
@@ -181,7 +180,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     }
 
     return SingleChildScrollView(
-      // reverse: true,
+      reverse: true,
       child: Container(
         color: IdtColors.white,
         child: Column(
@@ -194,7 +193,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('BIENVENIDO', style: textTheme.textMenu),
+                    Text('BIENVENIDO', style: textTheme.textMenu.copyWith(fontWeight:FontWeight.w700,color: IdtColors.gray)),
                     SizedBox(
                       height: 5,
                     ),

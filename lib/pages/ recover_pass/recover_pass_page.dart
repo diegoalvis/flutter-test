@@ -70,7 +70,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final bottom = MediaQuery.of(context).viewInsets.bottom;     // Calcula el tamaño visible cuando aparece el keyboard
 
     final KTextFieldDecoration = InputDecoration(
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
