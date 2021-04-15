@@ -22,8 +22,7 @@ class DiscoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          DiscoverViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => DiscoverViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return DiscoverWidget();
       },
@@ -32,20 +31,18 @@ class DiscoverPage extends StatelessWidget {
 }
 
 class DiscoverWidget extends StatefulWidget {
-
   @override
   _DiscoverWidgetState createState() => _DiscoverWidgetState();
 }
 
-
 class _DiscoverWidgetState extends State<DiscoverWidget> {
-
   @override
   void initState() {
     final viewModel = context.read<DiscoverViewModel>();
     viewModel.getDiscoveryData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DiscoverViewModel>();
@@ -55,11 +52,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
           appBar: IdtAppBar(viewModel.onpenMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
-          bottomNavigationBar:
-              viewModel.status.openMenu ? null : IdtBottomAppBar(),
+          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: _buildDiscover(viewModel)),
     );
   }
@@ -72,29 +67,41 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     final List<DataModel> _subcategories = viewModel.subcategories;
     final List<DataModel> _zones = viewModel.zones;
 
-    final loading =
-        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
-        : SizedBox.shrink();
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final menu =
+        viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(
-            listItems: viewModel.status.listOptions,
             closeMenu: viewModel.closeMenuTab,
-            goFilters: (item) => viewModel.goFiltersPage(
-                item, _categories, _subcategories, _zones))
+            listItems: viewModel.status.listOptions,
+            goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones))
         : SizedBox.shrink();
 
-    Widget _buttonTap(String label, VoidCallback onTap) {
+    Widget _buttonTap(
+      String label,
+      VoidCallback onTap,
+      bool isSelected,
+    ) {
       return Expanded(
-        child: TextButton(
-          child: Text(label,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.subTitleBlack),
-          onPressed: onTap,
+        child: Column(
+          children: [
+            TextButton(
+              child: Text(label,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.subTitleBlack),
+              onPressed: onTap,
+            ),
+            isSelected
+                ? Container(
+                    height: 5,
+                    width: 50,
+                    color: Colors.black,
+                  )
+                : SizedBox.shrink()
+          ],
         ),
       );
     }
@@ -115,25 +122,16 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                             ? BorderRadius.only(topRight: Radius.circular(15))
 
                             // Validaciones para el borde inferior izquiero
-                            : (index == (listItems.length - 3) &&
-                                    index % 3 == 0)
-                                ? BorderRadius.only(
-                                    bottomLeft: Radius.circular(15))
-                                : (index == (listItems.length - 2) &&
-                                        index % 3 == 0)
-                                    ? BorderRadius.only(
-                                        bottomLeft: Radius.circular(15))
-                                    : (index == (listItems.length - 1) &&
-                                            index % 3 == 0)
-                                        ? BorderRadius.only(
-                                            bottomLeft: Radius.circular(15))
+                            : (index == (listItems.length - 3) && index % 3 == 0)
+                                ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                                : (index == (listItems.length - 2) && index % 3 == 0)
+                                    ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                                    : (index == (listItems.length - 1) && index % 3 == 0)
+                                        ? BorderRadius.only(bottomLeft: Radius.circular(15))
 
                                         // Validacion para el borde inferior derecho
-                                        : (index == (listItems.length - 1) &&
-                                                (index + 1) % 3 == 0)
-                                            ? BorderRadius.only(
-                                                bottomRight:
-                                                    Radius.circular(15))
+                                        : (index == (listItems.length - 1) && (index + 1) % 3 == 0)
+                                            ? BorderRadius.only(bottomRight: Radius.circular(15))
                                             : BorderRadius.circular(0.0),
                 child: SizedBox(
                   child: Image.network(
@@ -148,14 +146,12 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                     child: Text(item.title!.toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style:
-                            textTheme.textWhiteShadow.copyWith(fontSize: 11))),
+                        style: textTheme.textWhiteShadow.copyWith(fontSize: 11))),
               ),
             ],
           ),
@@ -202,15 +198,15 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan',
-                        () => viewModel.onpenMenuTab(_categories, 'category')),
+                    _buttonTap('Plan', () => viewModel.onpenMenuTab(_categories, 'category', 0),
+                        viewModel.status.currentOption == 0),
                     _buttonTap(
                         'Producto',
-                        () => viewModel.onpenMenuTab(
-                            _subcategories, 'subcategory')),
-                    _buttonTap(
-                        'Zona', () => viewModel.onpenMenuTab(_zones, 'zone')),
-                    _buttonTap('Audioguías', viewModel.goAudioGuidePage),
+                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory', 1),
+                        viewModel.status.currentOption == 1),
+                    _buttonTap('Zona', () => viewModel.onpenMenuTab(_zones, 'zone', 2),
+                        viewModel.status.currentOption == 2),
+                    _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
                   ],
                 ),
               ),

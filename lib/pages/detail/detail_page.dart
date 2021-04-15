@@ -103,7 +103,7 @@ class _DetailWidgetState extends State<DetailWidget> {
         children: [
           Column(
             children: [
-              Image(
+              Image(   //imagen de fondo
                 image: AssetImage(IdtAssets.splash),
                 width: size.width,
                 height: size.height * 0.5,
@@ -111,18 +111,15 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
             ],
           ),
-          Positioned(
-              top: 260,
-             // bottom: 100,
+          Positioned(   // curva
+              bottom: 0,
               left: 0,
               right: 0,
               child: SizedBox(
-                child: Image(image: AssetImage(IdtAssets.curve_up)),
-
-/*                SvgPicture.asset(IdtAssets.curve_up,
-                    color: IdtColors.white, fit: BoxFit.fill),*/
-              )),
-          Positioned(
+                child: SvgPicture.asset(IdtAssets.curve_up,
+                    color: IdtColors.white, fit: BoxFit.fill,),
+              ),),
+          Positioned(  // rating Starts
             bottom: 100,
             width: size.width,
             child: Column(
@@ -147,7 +144,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                           half: Icon(IdtIcons.star_half_alt,
                               color: IdtColors.amber),
                           empty:
-                              Icon(IdtIcons.star_empty, color: IdtColors.amber),
+                              Icon(IdtIcons.star_empty,
+                                color: IdtColors.amber),
                         ),
                         onRatingUpdate: (rating) {
                           print(rating);
@@ -176,7 +174,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               ],
             ),
           ),
-          Positioned(
+          Positioned(  // app_bar row
             top: 45,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +248,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           Stack(
             alignment: Alignment.center,
             children: [
-              Container(
+              Container(  //carrusel imagenes
                   margin: EdgeInsets.only(bottom: 0, top: 3),
                   width: size.width,
                   height: size.height * 0.5,
@@ -288,7 +286,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   ),
                 ),
               ),
-              Positioned(
+              Positioned(  //flecha derecha
                 right: 0,
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
@@ -306,27 +304,20 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
             ],
           ),
-          Positioned(
-             // top: 0,
-            bottom: 260,
+          Positioned(  //Curva de abajo
+              top: 0,
               right: 0,
               left: 0,
               child: Container(
                   alignment: Alignment.topCenter,
-                  child: Image(image: AssetImage(IdtAssets.curve_down)),
-
-/*                  SvgPicture.asset(IdtAssets.curve_down,
-                      color: Colors.white, fit: BoxFit.fill)*/
-
-              )
-
-          ),
+                  child: SvgPicture.asset(IdtAssets.curve_down,
+                      color: Colors.white, fit: BoxFit.fill))),
         ],
       );
     }
 
     Widget _btnsPlaces() {
-      return Row(
+      return Row(  // row botonoes ubicacion y audio
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           RaisedButton(
@@ -373,9 +364,8 @@ class _DetailWidgetState extends State<DetailWidget> {
       );
     }
 
-    ;
-
     Widget _btnGradient(IconData icon, Color color, List<Color> listColors) {
+      //Columna de botonoes para los hoteles
       return RaisedButton(
         shape: RoundedRectangleBorder(
             side: BorderSide(color: color, width: 1),
@@ -412,7 +402,7 @@ class _DetailWidgetState extends State<DetailWidget> {
       );
     }
 
-    Widget _btnsHotel() {
+    Widget _btnsHotel() {  //Column botones en hoteles
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -432,8 +422,6 @@ class _DetailWidgetState extends State<DetailWidget> {
         ],
       );
     }
-
-    ;
 
     return SingleChildScrollView(
       child: Container(

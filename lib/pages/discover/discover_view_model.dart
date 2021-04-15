@@ -10,10 +10,13 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-   List<DataModel> places = [] ;
-   List<DataModel> categories= [] ;
-   List<DataModel> subcategories= [] ;
-   List<DataModel> zones= [] ;
+  List<DataModel> places = [];
+
+  List<DataModel> categories = [];
+
+  List<DataModel> subcategories = [];
+
+  List<DataModel> zones = [];
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
@@ -40,21 +43,21 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab(List<DataModel> listData, String section) {
+  void onpenMenuTab(List<DataModel> listData, String section, int currentOption) {
     status = status.copyWith(
-        openMenuTab: true, listOptions: listData, section: section);
+        openMenuTab: true, listOptions: listData, section: section, currentOption: currentOption);
   }
 
   void closeMenuTab() {
-    status = status.copyWith(openMenuTab: false);
+    status = status.copyWith(openMenuTab: false, currentOption: -1);
   }
 
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
 
-  void goFiltersPage(DataModel item, List<DataModel> categories,
-      List<DataModel> subcategories, List<DataModel> zones) async {
+  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
+      List<DataModel> zones) async {
     status = status.copyWith(isLoading: true);
     final Map query = {status.section: item.id};
 
@@ -139,8 +142,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void goEventsPage() {
-    _route.goEvents(
-        title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
+    _route.goEvents(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
     closeMenuTab();
   }
 
