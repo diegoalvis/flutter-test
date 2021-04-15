@@ -1,3 +1,4 @@
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'style_method.dart';
@@ -9,11 +10,13 @@ class BtnGradient extends StatelessWidget {
     Key? key,
     required this.colorGradient,
     required this.textStyle,
+
   }) : super(key: key);
 
   final List<Color> colorGradient;
   final TextStyle textStyle;
   final String text;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class BtnGradient extends StatelessWidget {
             style: textStyle,
             textAlign: TextAlign.center,
           )),
-      onPressed: () {},
+      onPressed: null,
     );
   }
 }

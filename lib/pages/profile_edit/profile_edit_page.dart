@@ -3,6 +3,7 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/login/login_page.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/menu.dart';
@@ -236,11 +237,15 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                             style: textTheme.textButtomWhite.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.w700
-                            )
+                            ),
+
                           ),
-                          onPressed: () {
-                            print("cambiar mi contraseña");
-                          },
+                          onPressed:  () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
+                          }
                         ),
                         SizedBox(
                           height: 12,

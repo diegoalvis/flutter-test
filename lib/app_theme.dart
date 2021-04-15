@@ -89,6 +89,8 @@ extension GFilesAttributes on TextTheme{
     color: IdtColors.black,
     fontSize: 16
   );
+
+
   TextStyle get grayDetail => bodyText1!.copyWith(
     color: IdtColors.gray,
     fontSize: 12

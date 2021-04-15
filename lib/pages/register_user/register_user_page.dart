@@ -41,6 +41,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
   String dropdownValue = 'Motivo de Viaje';
+  String dropdownValueCountry = 'Colombia';
 
   @override
   void initState() {
@@ -118,22 +119,22 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             //imagen de fondo
             image: AssetImage(IdtAssets.splash),
             width: size.width,
-            height: size.height * 0.48,
+            height: size.height * 0.58,
             fit: BoxFit.cover,
           ),
           Positioned(
-            // curva
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              child: SvgPicture.asset(
-                IdtAssets.curve_up,
-                color: IdtColors.white,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+              top: 190,
+              // bottom: 100,
+              left: 0,
+              right: 0,
+              child: SizedBox(
+                child: Image(image: AssetImage(IdtAssets.curve_up),
+                    height: size.height * 0.9
+                ),
+
+/*                SvgPicture.asset(IdtAssets.curve_up,
+                    color: IdtColors.white, fit: BoxFit.fill),*/
+              )),
           Positioned(
             // Logo de bogota
             bottom: size.height/2*0.32 ,
@@ -157,6 +158,25 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
               ],
             ),
           ),
+          Positioned(
+              top: size.height/2* 1.05 ,
+              width: size.width,
+              child: Column(children: [
+            Text('BIENVENIDO',
+              style: textTheme.textMenu.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: IdtColors.gray,
+                  letterSpacing: 0.0),),
+            SizedBox(
+              height: 1,
+            ),
+            Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail.copyWith(fontSize: 15), textAlign: TextAlign.center,),
+            SizedBox(
+              height: 20,
+            ),
+          ],))
+
         ],
       );
     }
@@ -179,33 +199,27 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       );
     }
 
-    return SingleChildScrollView(
-      reverse: true,
-      child: Container(
-        color: IdtColors.white,
+    return CustomScrollView(
+     //reverse: true,
+    slivers: <Widget>[
+
+    SliverToBoxAdapter(child: _header(),),
+
+
+      SliverToBoxAdapter(
+        child:       Container(
+        color: IdtColors.transparent,
         child: Column(
           children: [
-            _header(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Container(
-                height: size.height * 0.52,
+
+                height: size.height * 0.5  ,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('BIENVENIDO',
-                        style: textTheme.textMenu.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: IdtColors.gray,
-                            letterSpacing: 0.0),),
-                    SizedBox(
-                      height: 1,
-                    ),
-                    Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height:10),
                     TextFieldCustom(
                         keyboardType: TextInputType.name,
                         style: textTheme.textDetail,
@@ -266,6 +280,49 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     SizedBox(
                       height: 8,
                     ),
+                    Container(
+                      height: 38,
+                      width: double.infinity,
+                      padding: EdgeInsets.only(left: 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: IdtColors.gray),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: Text('País'),
+                        isDense: true,
+                        icon: Icon(
+                          Icons.arrow_drop_down_outlined,
+                          color: IdtColors.grayBtn,
+                        ),
+                        iconSize: 38,
+                        style: textTheme.textButtomWhite.copyWith(
+                            color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+                        items: <String>[
+                          'Colombia',
+                          'Ecuador',
+                          'Estados Unidos',
+                          'Brasil'
+                        ].map<DropdownMenuItem<String>>((String option) {
+                          return DropdownMenuItem<String>(
+                            child: Text(
+                              '$option',
+                              // style: textTheme.textDetail,
+                            ),
+                            value: option,
+                          );
+                        }).toList(),
+                        value: dropdownValueCountry,
+                        onChanged: (String? newCountryValue) {
+                          setState(() {
+                            dropdownValueCountry = newCountryValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     TextFieldCustom(
                       keyboardType: TextInputType.emailAddress,
                       style: textTheme.textDetail,
@@ -289,13 +346,14 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       style: textTheme.textDetail,
                       controller: _controllerConfirmPass,
                       obscureText: true,
-                      decoration: KTextFieldDecoration.copyWith(hintText: 'Comfirmar contraseña'),
+                      decoration: KTextFieldDecoration.copyWith(hintText: 'Confirmar contraseña'),
                     ),
                     Spacer(),
                     BtnGradient(
                       'Crear cuenta',
                       colorGradient: IdtGradients.orange,
                       textStyle: textTheme.textButtomWhite.copyWith(fontSize: 16, letterSpacing: 0.0,fontWeight: FontWeight.w700),
+                    //  onpress: null,
                     ),
                     Spacer(),
                     Text(
@@ -303,7 +361,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       style: textTheme.textDetail.copyWith(fontSize: 8.5, color: IdtColors.gray,),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: 1,
+
                     )
                   ],
                 ),
@@ -312,7 +371,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             loading,
           ],
         ),
-      ),
+      ),),
+
+      SliverToBoxAdapter(child: SizedBox(height: 30,),)
+      ]
     );
   }
 }

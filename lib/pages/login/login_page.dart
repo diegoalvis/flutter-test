@@ -5,8 +5,10 @@ import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/login/login_view_model.dart';
+import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -336,10 +338,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      '¿Olvidó su contraseña?',
-                      style: textTheme.textWhiteShadow.copyWith(
-                          fontSize: 13, fontWeight: FontWeight.normal),
+                    GestureDetector(
+                      child: Text(
+                        '¿Olvidó su contraseña?',
+                        style: textTheme.textWhiteShadow.copyWith(
+                            fontSize: 13, fontWeight: FontWeight.normal),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RecoverPassPage()),
+                        );
+                      },
                     )
                   ],
                 ),
@@ -371,7 +381,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                       textAlign: TextAlign.center,
                       style: textTheme.textButtomWhite.copyWith(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.white),
                     )),
-                onPressed: null,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterUserPage()),
+                    );
+                  }
               ),
             )),
         Positioned(
