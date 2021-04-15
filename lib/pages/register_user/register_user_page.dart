@@ -4,6 +4,7 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -117,10 +118,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         children: [
           Image(
             //imagen de fondo
-            image: AssetImage(IdtAssets.splash),
+            image: AssetImage(IdtAssets.bogota_dc_travel),
             width: size.width,
             height: size.height * 0.58,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           ),
           Positioned(
               top: 190,
@@ -140,6 +141,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             child: Stack(
               alignment: Alignment.center,
               children: [
+
                 Image.asset(
                   IdtAssets.logo_bogota,
                   height: 140,
@@ -186,23 +188,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       );
     }
 
-    Widget _btnGradient(IconData icon, List<Color> listColors) {
-      return RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        padding: EdgeInsets.all(0),
-        child: Container(
-            decoration: StylesMethodsApp()
-                .decorarStyle(listColors, 30, Alignment.bottomCenter, Alignment.topCenter),
-            padding: EdgeInsets.symmetric(vertical: 9),
-            alignment: Alignment.center,
-            child: Text(
-              'Crear Cuenta',
-              style: textTheme.textButtomWhite,
-              textAlign: TextAlign.center,
-            )),
-        onPressed: () {},
-      );
-    }
 
     return CustomScrollView(
         // reverse: true,
@@ -353,7 +338,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         colorGradient: IdtGradients.orange,
                         textStyle: textTheme.textButtomWhite.copyWith(
                             fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                        //  onpress: null,
                       ),
                       Spacer(),
                       Text(
