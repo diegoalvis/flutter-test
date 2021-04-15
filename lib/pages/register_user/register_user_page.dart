@@ -198,7 +198,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: IdtColors.gray,
-                            letterSpacing: 0.0)),
+                            letterSpacing: 0.0),),
                     SizedBox(
                       height: 1,
                     ),

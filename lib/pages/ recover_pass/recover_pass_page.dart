@@ -70,7 +70,9 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final bottom = MediaQuery.of(context).viewInsets.bottom;     // Calcula el tamaño visible cuando aparece el keyboard
+    final bottom = MediaQuery.of(context)
+        .viewInsets
+        .bottom; // Calcula el tamaño visible cuando aparece el keyboard
 
     final KTextFieldDecoration = InputDecoration(
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -185,26 +187,33 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('LOREM IPSUM', style: textTheme.textMenu),
+                    Text(
+                      'LOREM IPSUM',
+                      style: textTheme.textMenu.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: IdtColors.gray,
+                          letterSpacing: 0.0),
+                    ),
                     SizedBox(
-                      height: 5,
+                      height: 1,
                     ),
                     Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
                     SizedBox(
                       height: 30,
                     ),
                     TextFieldCustom(
+                      keyboardType: TextInputType.emailAddress,
                         style: textTheme.textDetail,
                         controller: _controllerEmail,
                         decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
                     SizedBox(
                       height: 10,
                     ),
-                    BtnGradient(
-                      'Restablecer contraseña',
-                      colorGradient: IdtGradients.orange,
-                        textStyle: textTheme.textButtomWhite.copyWith(fontSize: 16, letterSpacing: 0.0,fontWeight: FontWeight.w700)
-                    ),
+                    BtnGradient('Restablecer contraseña',
+                        colorGradient: IdtGradients.orange,
+                        textStyle: textTheme.textButtomWhite.copyWith(
+                            fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
                     SizedBox(
                       height: 16,
                     ),
@@ -214,9 +223,10 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                     IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
                     Spacer(),
                     Text('Oficina de turismo de Bogotá',
-                        style: textTheme.textDetail.copyWith(fontSize: 8.5, color: IdtColors.gray,)
-                    ),
-
+                        style: textTheme.textDetail.copyWith(
+                          fontSize: 8.5,
+                          color: IdtColors.gray,
+                        )),
                   ],
                 ),
               ),
