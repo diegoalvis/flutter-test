@@ -118,10 +118,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         children: [
           Image(
             //imagen de fondo
-            image: AssetImage(IdtAssets.splash),
+            image: AssetImage(IdtAssets.bogota_dc_travel),
             width: size.width,
             height: size.height * 0.58,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           ),
           Positioned(
               top: 190,
@@ -141,6 +141,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             child: Stack(
               alignment: Alignment.center,
               children: [
+
                 Image.asset(
                   IdtAssets.logo_bogota,
                   height: 140,
@@ -186,7 +187,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         ],
       );
     }
-
 
 
     return CustomScrollView(
@@ -244,10 +244,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                           style: textTheme.textButtomWhite.copyWith(
                               color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
                           items: <String>[
+                            'Vacaciones / recreación / ocio',
+                            'Visita a familiares y amigos',
+                            'Negocios y motivos profesionales'
+                            ,'Trabajo remunerado'
+                            'Educación y formación',
+                            'Compras',
+                            'Religión/peregrinaciones',
+                            'Salud y atención médica',
+                            'otros motivos',
                             'Motivo de Viaje',
-                            'Conocer lugares',
-                            'Negocios',
-                            'Vacaciones'
                           ].map<DropdownMenuItem<String>>((String option) {
                             return DropdownMenuItem<String>(
                               child: Text(
@@ -338,12 +344,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         colorGradient: IdtGradients.orange,
                         textStyle: textTheme.textButtomWhite.copyWith(
                             fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                         onPressed: () {
-                           Navigator.push(
-                             context,
-                             MaterialPageRoute(builder: (context) => HomePage()),
-                           );
-                         },
                       ),
                       Spacer(),
                       Text(
