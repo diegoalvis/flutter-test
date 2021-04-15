@@ -8,6 +8,7 @@ import 'package:bogota_app/pages/event_detail/event_detail_page.dart';
 import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
+import 'package:bogota_app/pages/login/login_page.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
 import 'package:bogota_app/pages/profile/profile_page.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_page.dart';
@@ -43,6 +44,13 @@ class IdtRoute {
       MaterialPageRoute(builder: (_)=> HomePage())
     );
   }
+
+  goLogin(){
+    return navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(builder: (_)=> LoginPage())
+    );
+  }
+
 
   goHomeRemoveAll(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
