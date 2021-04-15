@@ -244,10 +244,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                           style: textTheme.textButtomWhite.copyWith(
                               color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
                           items: <String>[
+                            'Vacaciones / recreación / ocio',
+                            'Visita a familiares y amigos',
+                            'Negocios y motivos profesionales'
+                            ,'Trabajo remunerado'
+                            'Educación y formación',
+                            'Compras',
+                            'Religión/peregrinaciones',
+                            'Salud y atención médica',
+                            'otros motivos',
                             'Motivo de Viaje',
-                            'Conocer lugares',
-                            'Negocios',
-                            'Vacaciones'
                           ].map<DropdownMenuItem<String>>((String option) {
                             return DropdownMenuItem<String>(
                               child: Text(
