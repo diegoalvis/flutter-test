@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
 
       title: 'Bogotá App',
       theme: AppTheme.build(),
-      // home: SplashPage(),
+       home: SplashPage(),
       // home: LoginPage(),
-      home: RegisterUserPage(),
+      //home: RegisterUserPage(),
       // home: RecoverPassPage(),
       // home: DetailPage(),
       //onGenerateRoute: locator<IdtRoute>().generateRoute

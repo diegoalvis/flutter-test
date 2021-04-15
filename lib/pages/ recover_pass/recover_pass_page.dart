@@ -116,18 +116,18 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             fit: BoxFit.cover,
           ),
           Positioned(
-            // curva
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              child: SvgPicture.asset(
-                IdtAssets.curve_up,
-                color: IdtColors.white,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+              top: 250,
+              // bottom: 100,
+              left: -12,
+              right: 0,
+              child: SizedBox(
+                child: Image(image: AssetImage(IdtAssets.curve_up),
+                    height: size.height * 0.8
+                ),
+
+/*                SvgPicture.asset(IdtAssets.curve_up,
+                    color: IdtColors.white, fit: BoxFit.fill),*/
+              )),
           Positioned(
             // Logo de bogota
             top: size.height / 5.5,
@@ -151,6 +151,30 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
               ],
             ),
           ),
+          Positioned(
+              top: size.height / 2 * 1.05,
+              width: size.width,
+              child: Column(children: [
+                SizedBox(
+                  height: 10,
+                ),
+            Text(
+              'LOREM IPSUM',
+              style: textTheme.textMenu.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: IdtColors.gray,
+                  letterSpacing: 0.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 1,
+            ),
+            Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+            SizedBox(
+              height: 50,
+            ),
+          ],))
         ],
       );
     }
@@ -173,71 +197,93 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
       );
     }
 
-    return SingleChildScrollView(
-      reverse: true,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: bottom),
-        child: Column(
-          children: [
-            _header(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Container(
-                height: size.height * 0.4 - 5,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'LOREM IPSUM',
-                      style: textTheme.textMenu.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: IdtColors.gray,
-                          letterSpacing: 0.0),
-                    ),
-                    SizedBox(
-                      height: 1,
-                    ),
-                    Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    TextFieldCustom(
-                      keyboardType: TextInputType.emailAddress,
-                        style: textTheme.textDetail,
-                        controller: _controllerEmail,
-                        decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    BtnGradient('Restablecer contraseña',
-                        colorGradient: IdtGradients.orange,
-                        textStyle: textTheme.textButtomWhite.copyWith(
-                            fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text('o recupérar a través de',
-                        style: textTheme.textDetail.copyWith(fontSize: 14, color: IdtColors.gray)),
-                    Spacer(),
-                    IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
-                    Spacer(),
-                    Text('Oficina de turismo de Bogotá',
-                        style: textTheme.textDetail.copyWith(
-                          fontSize: 8.5,
-                          color: IdtColors.gray,
-                        )),
-                  ],
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(child: Padding(
+          padding: EdgeInsets.only(bottom: bottom),
+          child: Column(
+            children: [
+              _header(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Container(
+                  height: size.height * 0.5 - 5,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFieldCustom(
+                          keyboardType: TextInputType.emailAddress,
+                          style: textTheme.textDetail,
+                          controller: _controllerEmail,
+                          decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      BtnGradient('Restablecer contraseña',
+                          colorGradient: IdtGradients.orange,
+                          textStyle: textTheme.textButtomWhite.copyWith(
+                              fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text('o recuperar a través de',
+                          style: textTheme.textDetail.copyWith(fontSize: 14, color: IdtColors.gray)),
+                      Positioned(
+                          bottom: 60,
+                          left: 50,
+                          child: Container(
+                            color: Colors.white,
+                            height: 60,
+                            width: 300,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(color: Colors.white,
+                                  child: Image(image:AssetImage(IdtAssets.facebook)),
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                SizedBox(width: 8,),
+                                Container(color: Colors.white,
+                                  width: 40,
+                                  height: 40,
+                                  child: Image(
+                                    image:AssetImage(IdtAssets.google),
+                                  ),
+
+                                ),
+                                SizedBox(width: 8,),
+                                Container(color: Colors.white,
+                                  width: 50,
+                                  height: 50,
+                                  child: Image(
+                                    image:AssetImage(IdtAssets.apple),
+                                  ),
+
+                                )
+                              ],),
+                          )),
+
+                      Text('Oficina de turismo de Bogotá',
+                          style: textTheme.textDetail.copyWith(
+                            fontSize: 8.5,
+                            color: IdtColors.gray,
+                          )),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            loading,
-          ],
-        ),
-      ),
+              SizedBox(
+                height: 1,
+              ),
+              loading,
+            ],
+          ),
+        ),)
+      ],
     );
   }
 }
