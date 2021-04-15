@@ -9,13 +9,14 @@ class BtnGradient extends StatelessWidget {
       {
     Key? key,
     required this.colorGradient,
-    required this.textStyle,
+    required this.textStyle,required this.onPressed,
 
   }) : super(key: key);
 
   final List<Color> colorGradient;
   final TextStyle textStyle;
   final String text;
+  final Function onPressed;
 
 
   @override
@@ -33,7 +34,7 @@ class BtnGradient extends StatelessWidget {
             style: textStyle,
             textAlign: TextAlign.center,
           )),
-      onPressed: null,
+      onPressed: onPressed(),
     );
   }
 }
