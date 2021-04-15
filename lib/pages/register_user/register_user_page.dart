@@ -118,7 +118,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             //imagen de fondo
             image: AssetImage(IdtAssets.splash),
             width: size.width,
-            height: size.height * 0.5,
+            height: size.height * 0.48,
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -207,6 +207,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       height: 20,
                     ),
                     TextFieldCustom(
+                        keyboardType: TextInputType.name,
                         style: textTheme.textDetail,
                         controller: _controllerName,
                         decoration: KTextFieldDecoration.copyWith(hintText: 'Nombre')),
@@ -214,6 +215,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       height: 8,
                     ),
                     TextFieldCustom(
+                      keyboardType: TextInputType.name,
                       style: textTheme.textDetail,
                       controller: _controllerLastNames,
                       decoration: KTextFieldDecoration.copyWith(hintText: 'Apellidos'),
@@ -265,6 +267,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       height: 8,
                     ),
                     TextFieldCustom(
+                      keyboardType: TextInputType.emailAddress,
                       style: textTheme.textDetail,
                       controller: _controllerEmail,
                       decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico'),
@@ -273,8 +276,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       height: 8,
                     ),
                     TextFieldCustom(
+                      keyboardType: TextInputType.visiblePassword,
                       style: textTheme.textDetail,
                       controller: _controllerPass,
+                      obscureText: true,
                       decoration: KTextFieldDecoration.copyWith(hintText: 'Contraseña'),
                     ),
                     SizedBox(
@@ -283,6 +288,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     TextFieldCustom(
                       style: textTheme.textDetail,
                       controller: _controllerConfirmPass,
+                      obscureText: true,
                       decoration: KTextFieldDecoration.copyWith(hintText: 'Comfirmar contraseña'),
                     ),
                     Spacer(),

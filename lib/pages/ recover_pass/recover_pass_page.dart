@@ -73,18 +73,18 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     final bottom = MediaQuery.of(context).viewInsets.bottom;     // Calcula el tamaño visible cuando aparece el keyboard
 
     final KTextFieldDecoration = InputDecoration(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       isDense: true,
       hintStyle: textTheme.textButtomWhite
           .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
-      hintText: 'KTextFieldDecoration.copyWith(hintText:   )',
+      hintText: '.copyWith',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
         ),
         borderSide: BorderSide(
           width: 1,
-          color: IdtColors.black,
+          color: IdtColors.gray,
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -92,7 +92,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
           Radius.circular(50.0),
         ),
         borderSide: BorderSide(
-          width: 2,
+          width: 1.4,
           color: IdtColors.black,
         ),
       ),
