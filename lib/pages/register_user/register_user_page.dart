@@ -193,7 +193,9 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('BIENVENIDO', style: textTheme.textMenu.copyWith(fontWeight:FontWeight.w700,color: IdtColors.gray)),
+                    Text('BIENVENIDO',
+                        style: textTheme.textMenu
+                            .copyWith(fontWeight: FontWeight.w700, color: IdtColors.gray)),
                     SizedBox(
                       height: 5,
                     ),
@@ -219,19 +221,22 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     Container(
                       height: 38,
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: DropdownButton<String>(
+                        isExpanded: true,
                         // hint: 'Motivo del Viaje',
                         value: dropdownValue,
                         isDense: true,
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 50,
-                        style: textTheme.textButtomWhite
-                            .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+                        icon: Icon(
+                          Icons.arrow_drop_down_outlined,
+                          color: IdtColors.grayBtn,
+                        ),
+                        iconSize: 38,
+                        style: textTheme.textButtomWhite.copyWith(
+                            color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
                         onChanged: (String? newValue) {
                           setState(() {
                             dropdownValue = newValue!;
