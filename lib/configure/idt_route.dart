@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
@@ -12,6 +13,7 @@ import 'package:bogota_app/pages/login/login_page.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
 import 'package:bogota_app/pages/profile/profile_page.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_page.dart';
+import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:bogota_app/pages/result_search/result_search_page.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_page.dart';
 import 'package:bogota_app/pages/search/search_page.dart';
@@ -51,6 +53,17 @@ class IdtRoute {
     );
   }
 
+  goRegister(){
+    return navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(builder: (_)=> RegisterUserPage())
+    );
+  }
+
+  goRecoverPass(){
+    return navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(builder: (_)=> RecoverPassPage())
+    );
+  }
 
   goHomeRemoveAll(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
