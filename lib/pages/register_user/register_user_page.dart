@@ -40,6 +40,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   final _controllerPass = TextEditingController();
   final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
+  String dropdownValue = 'Motivo de Viaje';
+
 
   @override
   void initState() {
@@ -78,7 +80,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    String dropdownValue = 'One';
 
     final KTextFieldDecoration = InputDecoration(
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -189,19 +190,19 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Container(
-                height: size.height * 0.5,
+                height: size.height * 0.53,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('BIENVENIDO',
                         style: textTheme.textMenu
-                            .copyWith(fontWeight: FontWeight.w700, color: IdtColors.gray)),
+                            .copyWith(fontSize: 18,fontWeight: FontWeight.w700, color: IdtColors.gray, letterSpacing: 0.1)),
                     SizedBox(
-                      height: 5,
+                      height: 1,
                     ),
                     Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
                     SizedBox(
-                      height: 25,
+                      height: 20,
                     ),
                     TextFieldCustom(
                         style: textTheme.textDetail,
@@ -227,8 +228,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        // hint: 'Motivo del Viaje',
-                        value: dropdownValue,
+                        hint: Text('Motivo del Viaje'),
                         isDense: true,
                         icon: Icon(
                           Icons.arrow_drop_down_outlined,
@@ -237,18 +237,19 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         iconSize: 38,
                         style: textTheme.textButtomWhite.copyWith(
                             color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+                        items: <String>['Motivo de Viaje', 'Conocer lugares', 'Negocios', 'Vacaciones']
+                            .map<DropdownMenuItem<String>>((String option) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$option'),
+                            value: option,
+                          );
+                        }).toList(),
+                        value: dropdownValue,
                         onChanged: (String? newValue) {
                           setState(() {
                             dropdownValue = newValue!;
                           });
                         },
-                        items: <String>['One', 'Two', 'Free', 'Four']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
                     ),
                     SizedBox(
@@ -286,12 +287,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       'Oficina de turismo de Bogotá',
                       style: textTheme.textDetail.copyWith(fontSize: 10, color: IdtColors.gray),
                     ),
+                    SizedBox(height: 5,)
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 8,
             ),
             loading,
           ],
