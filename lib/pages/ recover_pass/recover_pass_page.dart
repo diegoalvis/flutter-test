@@ -203,7 +203,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                     BtnGradient(
                       'Restablecer contraseña',
                       colorGradient: IdtGradients.orange,
-                      textStyle: textTheme.textButtomWhite.copyWith(fontSize: 17),
+                        textStyle: textTheme.textButtomWhite.copyWith(fontSize: 16, letterSpacing: 0.0,fontWeight: FontWeight.w700)
                     ),
                     SizedBox(
                       height: 16,
@@ -214,7 +214,9 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                     IconButton(icon: Icon(Icons.radio_button_off_sharp), onPressed: () {}),
                     Spacer(),
                     Text('Oficina de turismo de Bogotá',
-                        style: textTheme.textDetail.copyWith(fontSize: 10, color: IdtColors.gray)),
+                        style: textTheme.textDetail.copyWith(fontSize: 8.5, color: IdtColors.gray,)
+                    ),
+
                   ],
                 ),
               ),

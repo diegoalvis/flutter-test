@@ -42,7 +42,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   final scrollController = ScrollController();
   String dropdownValue = 'Motivo de Viaje';
 
-
   @override
   void initState() {
     _controllerEmail.text = '';
@@ -93,7 +92,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         ),
         borderSide: BorderSide(
           width: 1,
-          color: IdtColors.black,
+          color: IdtColors.gray,
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -101,7 +100,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
           Radius.circular(50.0),
         ),
         borderSide: BorderSide(
-          width: 2,
+          width: 1.4,
           color: IdtColors.black,
         ),
       ),
@@ -119,7 +118,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             //imagen de fondo
             image: AssetImage(IdtAssets.splash),
             width: size.width,
-            height: size.height * 0.47,
+            height: size.height * 0.5,
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -137,7 +136,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
           ),
           Positioned(
             // Logo de bogota
-            top: size.height / 6,
+            bottom: size.height/2*0.32 ,
             width: size.width,
             child: Stack(
               alignment: Alignment.center,
@@ -190,13 +189,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Container(
-                height: size.height * 0.53,
+                height: size.height * 0.52,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('BIENVENIDO',
-                        style: textTheme.textMenu
-                            .copyWith(fontSize: 18,fontWeight: FontWeight.w700, color: IdtColors.gray, letterSpacing: 0.1)),
+                        style: textTheme.textMenu.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: IdtColors.gray,
+                            letterSpacing: 0.0)),
                     SizedBox(
                       height: 1,
                     ),
@@ -224,7 +226,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       width: double.infinity,
                       padding: EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
+                          border: Border.all(color: IdtColors.gray),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: DropdownButton<String>(
                         isExpanded: true,
@@ -237,10 +239,17 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         iconSize: 38,
                         style: textTheme.textButtomWhite.copyWith(
                             color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
-                        items: <String>['Motivo de Viaje', 'Conocer lugares', 'Negocios', 'Vacaciones']
-                            .map<DropdownMenuItem<String>>((String option) {
+                        items: <String>[
+                          'Motivo de Viaje',
+                          'Conocer lugares',
+                          'Negocios',
+                          'Vacaciones'
+                        ].map<DropdownMenuItem<String>>((String option) {
                           return DropdownMenuItem<String>(
-                            child: Text('$option'),
+                            child: Text(
+                              '$option',
+                              // style: textTheme.textDetail,
+                            ),
                             value: option,
                           );
                         }).toList(),
@@ -280,14 +289,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     BtnGradient(
                       'Crear cuenta',
                       colorGradient: IdtGradients.orange,
-                      textStyle: textTheme.textButtomWhite.copyWith(fontSize: 17),
+                      textStyle: textTheme.textButtomWhite.copyWith(fontSize: 16, letterSpacing: 0.0,fontWeight: FontWeight.w700),
                     ),
                     Spacer(),
                     Text(
                       'Oficina de turismo de Bogotá',
-                      style: textTheme.textDetail.copyWith(fontSize: 10, color: IdtColors.gray),
+                      style: textTheme.textDetail.copyWith(fontSize: 8.5, color: IdtColors.gray,),
                     ),
-                    SizedBox(height: 5,)
+                    SizedBox(
+                      height: 8,
+                    )
                   ],
                 ),
               ),
