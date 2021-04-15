@@ -66,6 +66,13 @@ class ApiInteractor {
 
     return response;
   }
+
+/*  Future<IdtResult<List<DataPlacesModel>?>> getAudioGuidePlacesList() async {
+    final response = await locator<AudioGuideService>().getPlacesAudio();
+
+    return response;
+  }*/
+
 }
 
 /// class PlaceRepository {

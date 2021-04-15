@@ -1,6 +1,8 @@
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_status.dart';
+import 'package:bogota_app/utils/errors/unmissable_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
@@ -18,7 +20,20 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   void onInit() async {
     //TODO
   }
+/*  void getAudioGuideResponse() async {
+    final audioguideResponse = await _interactor.getAudioGuidePlacesList();
 
+    if (audioguideResponse is IdtSuccess<List<DataPlacesModel>?>) {
+      status = status.copyWith(itemsAudioGuidePlaces: audioguideResponse
+          .body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = audioguideResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }*/
   void onpenMenu() {
     if (status.openMenu==false){
       status = status.copyWith (openMenu: true);
