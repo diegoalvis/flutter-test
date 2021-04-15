@@ -5,6 +5,7 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -223,6 +224,12 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                         height: 10,
                       ),
                       BtnGradient('Restablecer contraseña',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
+                          },
                           colorGradient: IdtGradients.orange,
                           textStyle: textTheme.textButtomWhite.copyWith(
                               fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),

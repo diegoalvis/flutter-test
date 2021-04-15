@@ -187,23 +187,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       );
     }
 
-    Widget _btnGradient(IconData icon, List<Color> listColors) {
-      return RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        padding: EdgeInsets.all(0),
-        child: Container(
-            decoration: StylesMethodsApp()
-                .decorarStyle(listColors, 30, Alignment.bottomCenter, Alignment.topCenter),
-            padding: EdgeInsets.symmetric(vertical: 9),
-            alignment: Alignment.center,
-            child: Text(
-              'Crear Cuenta',
-              style: textTheme.textButtomWhite,
-              textAlign: TextAlign.center,
-            )),
-        onPressed: () {},
-      );
-    }
+
 
     return CustomScrollView(
         // reverse: true,
