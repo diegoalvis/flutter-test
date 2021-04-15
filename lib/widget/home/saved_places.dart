@@ -308,7 +308,7 @@ class SavedPlaces extends StatelessWidget {
         SizedBox(height: 35),
         _textTitle(textTheme),
         AnimatedCrossFade(
-          duration: Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 400),
           firstChild: Column(
             children: [
               SizedBox(height: 12),

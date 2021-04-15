@@ -18,6 +18,10 @@ class IdtAssets {
   static const String map = '$path/map.png';
   static const String waves = '$path/waves_sound.png';
   static const String profile_photo = '$path/profile_photo.png';
+  static const String bogota_dc_travel = '$path/bogota_dc_travel.jpg';
+  static const String facebook = '$path/facebook.png';
+  static const String google = '$path/google.png';
+  static const String apple = '$path/apple.png';
 
 
 
