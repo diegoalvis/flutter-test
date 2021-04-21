@@ -33,7 +33,12 @@ class BtnGradient extends StatelessWidget {
             style: textStyle,
             textAlign: TextAlign.center,
           )),
-      onPressed: null,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      },
     );
   }
 }
