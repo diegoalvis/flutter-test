@@ -107,7 +107,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     }
 
     Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
-          onTap: viewModel.goDetailPage,
+          onTap:() => viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
