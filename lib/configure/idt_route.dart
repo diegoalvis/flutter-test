@@ -157,11 +157,11 @@ class IdtRoute {
     );
   }
 
-  goUnmissable(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> UnmissablePage())
-    );
-  }
+  // goUnmissable(){
+  //   return navigatorKey.currentState!.push(
+  //     MaterialPageRoute(builder: (_)=> UnmissablePage())
+  //   );
+  // }
 
   goUnmissableUntil(){
     return navigatorKey.currentState!.pushAndRemoveUntil(

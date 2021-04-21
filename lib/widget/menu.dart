@@ -21,44 +21,43 @@ class IdtMenu extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final profileWidget = (Container(
-            child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: 15, right: 30, left: 30, bottom: 5),
-                    child: CircleAvatar(
-                      radius: 70.0,
-                      backgroundImage: AssetImage(IdtAssets.profile_photo),
+              Container(
+                margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
+                child: CircleAvatar(
+                  radius: 70.0,
+                  backgroundImage: AssetImage(IdtAssets.profile_photo),
 /*                      NetworkImage(
                           'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
-                      backgroundColor: Colors.white,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 2,
+                child: Container(
+                  child: IconButton(
+                    onPressed: () async {
+                      await _route.goProfile();
+                      closeMenu();
+                    },
+                    icon: Icon(
+                      IdtIcons.engrane,
+                      size: 27,
                     ),
                   ),
-                  Positioned(
-                    top: 5,
-                    right: 2,
-                    child: Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          await _route.goProfile();
-                          closeMenu();
-                        },
-                        icon: Icon(
-                          IdtIcons.engrane,
-                          size: 27,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               )
             ],
-          ),
-        )));
+          )
+        ],
+      ),
+    )));
 
     return SingleChildScrollView(
       child: Container(
@@ -110,14 +109,11 @@ class IdtMenu extends StatelessWidget {
                           _route.goHomeRemoveAll();
                           break;
                         case 4:
-                          _route.goEventsUntil(
-                              title: 'Eventos', includeDay: true);
+                          _route.goEventsUntil(title: 'Eventos', includeDay: true);
                           break;
                         case 5:
                           _route.goEventsUntil(
-                              title: 'Dónde dormir',
-                              includeDay: false,
-                              nameFilter: 'Localidad');
+                              title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
                           break;
                         case 6:
                           //_route.goFiltersUntil('Gastronomía');
@@ -151,8 +147,7 @@ class IdtMenu extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(' ${DataTest.List2[index]}',
                                   style: textTheme.textMenu.copyWith(
-                                      color: IdtColors.gray.withOpacity(0.8),
-                                      fontSize: 19))),
+                                      color: IdtColors.gray.withOpacity(0.8), fontSize: 19))),
                         )
                       ],
                     ),
