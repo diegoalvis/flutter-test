@@ -1,7 +1,11 @@
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_status.dart';
+import 'package:bogota_app/utils/errors/unmissable_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
@@ -12,14 +16,17 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   DetailViewModel(this._route, this._interactor) {
     status = DetailStatus(
       isLoading: true,
+      isFavorite: false,
       moreText: false,
-      isFavorite: false
     );
   }
 
   void onInit() async {
     //TODO
+    print('detail view');
+   // getPlaceByIdResponse('287');
   }
+
 
   void readMore(){
     final bool tapClick = status.moreText;

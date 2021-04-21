@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
@@ -59,9 +60,9 @@ class IdtRoute {
     );
   }
 
-  goDetail({required bool isHotel}){
+  goDetail({required bool isHotel, required DataPlacesDetailModel detail}){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel))
+      MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel, detail:detail))
     );
   }
 

@@ -1,8 +1,11 @@
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
+import 'package:bogota_app/data/repository/service/audioguide_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/food_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
@@ -52,6 +55,15 @@ class ApiInteractor {
   Future<IdtResult<List<DataPlacesModel>?>> getFoodPlacesList() async {
     final response = await locator<PlacesFoodService>().getPlacesFood();
 
+    return response;
+  }
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList() async {
+    final response = await locator<AudioGuideService>().getAudioGuide();
+
+    return response;
+  }
+  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
+    final response = await locator<FilterService>().getPlaceById(id);
     return response;
   }
 

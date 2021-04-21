@@ -30,6 +30,6 @@ class ResultSearchViewModel extends ViewModel<ResultSearchStatus> {
   }
 
   void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   // _route.goDetail(isHotel: false);
   }
 }

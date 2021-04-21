@@ -138,7 +138,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   // _route.goDetail(isHotel: false);
   }
 
   void goEventsPage() {

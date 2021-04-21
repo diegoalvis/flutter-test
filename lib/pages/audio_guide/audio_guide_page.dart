@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -9,6 +11,7 @@ import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,10 +45,18 @@ class AudioGuideWidget extends StatefulWidget {
 
 class _AudioGuideWidgetState extends State<AudioGuideWidget> {
 
+  void initState() {
+    print('pago audio');
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<AudioGuideViewModel>().getAudioGuideResponse();});
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
     final viewModel = context.watch<AudioGuideViewModel>();
+
+
 
     return SafeArea(
       child: Scaffold(
@@ -62,14 +73,16 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
 
   Widget _buildDiscover(AudioGuideViewModel viewModel) {
 
+    final List<DataAudioGuideModel> _audios = viewModel.status.itemsAudioGuide;
 
     final textTheme = Theme.of(context).textTheme;
     final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
-    Widget imagesCard(String item, int index, List listItems) => (
+    Widget imagesCard(DataAudioGuideModel item, int index, List listItems) => (
 
       InkWell(
-        onTap: viewModel.goDetailPage,
+        onTap: () => viewModel.goDetailPage(item.id.toString()),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -78,7 +91,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(IdtColors.black, BlendMode.difference),
                 child: Image.network(
-                  item,
+                  IdtConstants.url_image + item.image!,
                   height: 250,
                   fit: BoxFit.fill,
                 ),
@@ -110,7 +123,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                 child: Text(
-                  item.toUpperCase(),
+                  item.title!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -135,11 +148,11 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
           mainAxisSpacing: 9,
           //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 30),
-          children: DataTest.imgList2.asMap().entries.map((entry) {
+          children: _audios.asMap().entries.map((entry) {
             final int index = entry.key;
-            final String value = entry.value;
+            final DataAudioGuideModel value = entry.value;
 
-            return imagesCard(value, index, DataTest.imgList2);
+            return imagesCard(value, index, _audios);
           }).toList(),
         )
     );
@@ -179,7 +192,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             ],
           ),
         ),
-        menu
+        menu,
+        loading,
       ],
     );
   }

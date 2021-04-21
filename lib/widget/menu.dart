@@ -101,7 +101,7 @@ class IdtMenu extends StatelessWidget {
                           _route.goDiscoverUntil();
                           break;
                         case 1:
-                          _route.goAudioGuideUntil();
+                          _route.goAudioGuide();
                           break;
                         case 2:
                           _route.goUnmissableUntil();

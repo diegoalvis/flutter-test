@@ -40,8 +40,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final unmissableResponse = await _interactor.getUnmissablePlacesList();
 
     if (unmissableResponse is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse
-          .body); // Status reasignacion
+      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
@@ -102,7 +101,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   // _route.goDetail(isHotel: false);
   }
 
   void setLocationUser() async {

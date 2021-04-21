@@ -38,7 +38,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goDetailPage() {
-    _route.goDetail(isHotel: false);
+  void goDetailPage(String id) {
+  //  _route.goDetail(isHotel: false, id:id);
   }
 }

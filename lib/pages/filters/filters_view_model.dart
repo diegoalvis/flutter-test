@@ -237,6 +237,6 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
   }
 
   void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   // _route.goDetail(isHotel: false, id: '278');
   }
 }

@@ -76,7 +76,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
     ;
 
     Widget imagesCard(String item, int index, List listItems) => (InkWell(
-          onTap: viewModel.goDetailPage,
+          onTap: () {
+              viewModel.goDetailPage(index.toString());
+          },
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
