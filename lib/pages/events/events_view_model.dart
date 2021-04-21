@@ -69,7 +69,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void goDetailPageHotel()  {
-    _route.goDetail(isHotel: true);
+  //  _route.goDetail(isHotel: true);
   }
 
   void goDetailEventPage() {
