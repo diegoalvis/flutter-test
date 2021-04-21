@@ -218,13 +218,13 @@ class _EventsWidgetState extends State<EventsWidget> {
                                   padding: EdgeInsets.symmetric(vertical: 2),
                                   child: Column(
                                     children: [
-                                      Text(month,
+                                      Text(dayOfMonth,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
                                           style: textTheme.textButtomWhite
                                               .copyWith(fontSize: 16, )),
-                                      Text(dayOfMonth,
+                                      Text(month,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
@@ -255,7 +255,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             final String namePlace = entry.value.title ?? '';
             initializeDateFormatting();
             final String dateMmmDdd =
-                DateFormat('MMMd', 'es').format(DateTime.parse(entry.value.date!));
+                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
             List separatedDate = dateMmmDdd.split(" ");
 
             return imagesCard(
