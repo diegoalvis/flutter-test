@@ -1,8 +1,8 @@
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
-import 'package:bogota_app/utils/errors/food_error.dart';
+import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
@@ -16,28 +16,27 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       isLoading: true,
       openMenu: false,
       openMenuTab: false,
-      itemsSleepPlaces: []
+      itemsEventPlaces: []
     );
   }
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
     //TODO
-    getSleepResponse();
+    getEventResponse();
   }
 
-  void getSleepResponse() async {
-    final sleepResponse = await _interactor.getSleepPlacesList();
+  void getEventResponse() async {
+    final eventResponse = await _interactor.getEventPlacesList();
 
-    if (sleepResponse is IdtSuccess<List<DataPlacesModel>?>) {
-      status = status.copyWith(itemsSleepPlaces: sleepResponse.body); // Status reasignacion
+    if (eventResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsEventPlaces: eventResponse.body);// Status reasignacion
+
       // status.places.addAll(UnmissableResponse.body)
     } else {
-      final erroRes = sleepResponse as IdtFailure<FoodError>;
+      final erroRes = EventError as IdtFailure<EventError>;
       print(erroRes.message);
       UnimplementedError();
-      // FoodError();
-      //Todo implementar errores
     }
     status = status.copyWith(isLoading: false);
   }

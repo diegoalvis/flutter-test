@@ -1,19 +1,18 @@
+import 'dart:ui';
+
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/events/events_view_model.dart';
-import 'package:bogota_app/view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
-import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,8 +51,6 @@ class EventsWidget extends StatefulWidget {
 class _EventsWidgetState extends State<EventsWidget> {
   @override
   void initState() {
-    print("press events in menu");
-
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<EventsViewModel>().onInit();
     });
@@ -148,7 +145,7 @@ class _EventsWidgetState extends State<EventsWidget> {
       );
     }
 
-    Widget imagesCard(String item, int index, List listItems, String namePlace) => (Center(
+    Widget imagesCard(String image, int index, List listItems, String namePlace) => (Center(
           child: Stack(
             children: <Widget>[
               InkWell(
@@ -179,7 +176,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                                               : BorderRadius.circular(0.0),
                   child: SizedBox(
                     child: Image.network(
-                      item,
+                      image,
                       height: 200,
                       fit: BoxFit.cover,
                     ),
@@ -197,7 +194,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                     child: Row(
                       children: [
                         Expanded(
-                          flex: 10,
+                          flex: 2,
                           child: Text(namePlace.toUpperCase(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -206,12 +203,13 @@ class _EventsWidgetState extends State<EventsWidget> {
                         ),
                         widget._includeDay
                             ? Expanded(
-                                flex: 5,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
                                     gradient: LinearGradient(colors: IdtGradients.orange),
-                                  ),
+                                    borderRadius:BorderRadius.only(topLeft: Radius.circular(15),)
+
+                                ),
                                   padding: EdgeInsets.symmetric(vertical: 3),
                                   child: Column(
                                     children: [
@@ -237,23 +235,22 @@ class _EventsWidgetState extends State<EventsWidget> {
           ),
         ));
 
-    Widget gridImagesCol3(List<DataPlacesModel> listItems) => (GridView.count(
+    Widget gridImagesCol3(List<DataModel> listItems) => (GridView.count(
           shrinkWrap: true,
           physics: ScrollPhysics(),
           crossAxisCount: 3,
           crossAxisSpacing: 3,
           mainAxisSpacing: 5,
-          //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 10),
           children: listItems.asMap().entries.map((entry) {
             final int index = entry.key;
-            final imageUrl = entry.value.image ?? '';
-            final String value = IdtConstants.url_image + imageUrl;
+            final imageUrl = entry.value.coverImage ?? '';
+            final String image = IdtConstants.url_image + imageUrl;
             final String namePlace = entry.value.title ?? '';
 
             //  return ImagesCard(textTheme, value, index, listItems, namePlace);
 
-            return imagesCard(value, index, listItems, namePlace);
+            return imagesCard(image, index, listItems, namePlace);
           }).toList(),
         ));
 
@@ -277,7 +274,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsSleepPlaces),
+              gridImagesCol3(viewModel.status.itemsEventPlaces),
               SizedBox(height: 55),
             ],
           ),

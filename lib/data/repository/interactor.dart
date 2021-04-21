@@ -3,6 +3,7 @@ import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
+import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/food_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
@@ -38,7 +39,13 @@ class ApiInteractor {
   }
 
   Future<IdtResult<List<DataPlacesModel>?>> getUnmissablePlacesList() async {
-    final response = await locator<UnmissableService>().getPlaces();
+    final response = await locator<UnmissableService>().getUnmissablePlaces();
+
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getEventPlacesList() async {
+    final response = await locator<EventService>().getEvent();
 
     return response;
   }

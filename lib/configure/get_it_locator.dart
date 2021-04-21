@@ -2,6 +2,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 
 
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/food_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
@@ -23,6 +24,7 @@ void setUpLocator() async {
   locator.registerSingleton<PlacesSleepService>(PlacesSleepService());
   locator.registerSingleton<UnmissableService>(UnmissableService());
   locator.registerSingleton<PlacesFoodService>(PlacesFoodService());
+  locator.registerSingleton<EventService>(EventService());
   // locator.registerSingleton<ZoneService>(ZoneService());
 
   /* locator.registerSingletonAsync(() async {

@@ -8,9 +8,11 @@ part 'data_model.g.dart';
 class DataModel extends IdtModel {
 
   final String id;
+  final String?  date;
   final String? title;
   final String? image;
   final String? video;
+
 
   @JsonKey(name: 'id_subcategory')
   final String?  idSubcategiry;
@@ -21,7 +23,11 @@ class DataModel extends IdtModel {
   @JsonKey(name: 'cover_image')
   final String? coverImage;
 
-  DataModel({ required this.id, this.title, this.image, this.video, this.urlAudioguia,
+  @JsonKey(name: 'seo_image')
+  final String? seoImage;
+
+
+  DataModel({ required this.id,this.date, this.seoImage, this.title, this.image, this.video, this.urlAudioguia,
     this.idSubcategiry, this.coverImage
   });
 
