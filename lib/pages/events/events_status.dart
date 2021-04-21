@@ -9,8 +9,6 @@ class EventsStatus extends ViewStatus{
   final bool openMenuTab;
   late List<DataModel> itemsEventPlaces;
 
-
-
   EventsStatus({required this.isLoading, required this.openMenu, required this.openMenuTab, required this.itemsEventPlaces});
 
   EventsStatus copyWith({bool? isLoading, bool? openMenu, bool? openMenuTab, List<DataModel>? itemsEventPlaces }) {

@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -102,9 +104,8 @@ class _EventsWidgetState extends State<EventsWidget> {
           Expanded(
             child: FlatButton(
               padding: EdgeInsets.symmetric(vertical: 10),
-              color: viewModel.status.openMenuTab
-                  ? IdtColors.white
-                  : IdtColors.blue.withOpacity(0.15),
+              color:
+                  viewModel.status.openMenuTab ? IdtColors.white : IdtColors.blue.withOpacity(0.15),
               shape: RoundedRectangleBorder(
                   side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
                   borderRadius: BorderRadius.only(
@@ -145,7 +146,9 @@ class _EventsWidgetState extends State<EventsWidget> {
       );
     }
 
-    Widget imagesCard(String image, int index, List listItems, String namePlace) => (Center(
+    Widget imagesCard(String image, int index, List listItems, String namePlace, String dayOfMonth,
+            String month) =>
+        (Center(
           child: Stack(
             children: <Widget>[
               InkWell(
@@ -194,35 +197,38 @@ class _EventsWidgetState extends State<EventsWidget> {
                     child: Row(
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Text(namePlace.toUpperCase(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               textAlign: widget._includeDay ? TextAlign.right : TextAlign.center,
-                              style: textTheme.textWhiteShadow.copyWith(fontSize: 10)),
+                              style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
                         ),
                         widget._includeDay
                             ? Expanded(
-                                child: Container(
+                          flex: 2,
+                          child: Container(
+                                  margin: EdgeInsets.only(left: 3),
                                   decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    gradient: LinearGradient(colors: IdtGradients.orange),
-                                    borderRadius:BorderRadius.only(topLeft: Radius.circular(15),)
-
-                                ),
-                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                      shape: BoxShape.rectangle,
+                                      gradient: LinearGradient(colors: IdtGradients.orange),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                      )),
+                                  padding: EdgeInsets.symmetric(vertical: 2),
                                   child: Column(
                                     children: [
-                                      Text('Jun',
+                                      Text(dayOfMonth,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
-                                          style: textTheme.textButtomWhite.copyWith(fontSize: 12)),
-                                      Text('24',
+                                          style: textTheme.textButtomWhite
+                                              .copyWith(fontSize: 16, )),
+                                      Text(month,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
-                                          style: textTheme.textButtomWhite.copyWith(fontSize: 14)),
+                                          style: textTheme.textButtomWhite.copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
                                     ],
                                   ),
                                 ),
@@ -247,10 +253,13 @@ class _EventsWidgetState extends State<EventsWidget> {
             final imageUrl = entry.value.coverImage ?? '';
             final String image = IdtConstants.url_image + imageUrl;
             final String namePlace = entry.value.title ?? '';
+            initializeDateFormatting();
+            final String dateMmmDdd =
+                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
+            List separatedDate = dateMmmDdd.split(" ");
 
-            //  return ImagesCard(textTheme, value, index, listItems, namePlace);
-
-            return imagesCard(image, index, listItems, namePlace);
+            return imagesCard(
+                image, index, listItems, namePlace, separatedDate[0], separatedDate[1]);
           }).toList(),
         ));
 
