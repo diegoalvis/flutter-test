@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:url_launcher/url_launcher.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -25,12 +26,12 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (_) => EventDetailViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor>()
-      ),
+      create: (_) =>
+          EventDetailViewModel(
+              locator<IdtRoute>(),
+              locator<ApiInteractor>()
+          ),
       builder: (context, _) {
         return EventDetailWidget();
       },
@@ -47,6 +48,7 @@ class EventDetailWidget extends StatefulWidget {
 class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   late VideoPlayerController _controller;
+  final _route = locator<IdtRoute>();
 
   @override
   void initState() {
@@ -70,29 +72,31 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<EventDetailViewModel>();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        floatingActionButton: IdtFab(),
-        bottomNavigationBar: IdtBottomAppBar(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        backgroundColor: IdtColors.white,
-        body: _buildEventDetail(viewModel)
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+          floatingActionButton: IdtFab(),
+          bottomNavigationBar: IdtBottomAppBar(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          backgroundColor: IdtColors.white,
+          body: _buildEventDetail(viewModel)
       ),
     );
   }
 
   Widget _buildEventDetail(EventDetailViewModel viewModel) {
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
-    final textTheme = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
-
-    Widget _btnsPlaces(){
+    Widget _btnsPlaces() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -107,9 +111,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   color: IdtColors.white,
                   size: 50,
                 ),
-                onPressed: () {
-                  print('Location');
-                },
+                onPressed: viewModel.launchMap,
               ),
               SizedBox(
                 width: 120,
@@ -119,7 +121,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.textButtomWhite.copyWith(
-                    fontSize: 16
+                      fontSize: 16
                   ),
                 ),
               )
@@ -140,7 +142,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   size: 50,
                 ),
                 onPressed: () {
-
+                  launch("tel:+1 555 010 999");
+                  print('LLamando, fallando en la llamada?!!');
                 },
               ),
               SizedBox(
@@ -151,7 +154,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.textButtomWhite.copyWith(
-                    fontSize: 16
+                      fontSize: 16
                   ),
                 ),
               )
@@ -161,29 +164,29 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       );
     };
 
-    Widget _footerImages(){
-
+    Widget _footerImages() {
       return Column(
         children: [
           CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              enlargeCenterPage: true,
-              height: 320,
-              viewportFraction: 0.6
-            ),
-            items: DataTest.imgList2.map((item) => Container(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  child: Image.network(
-                    item,
-                    fit: BoxFit.cover
-                  )
-                ),
+              options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  height: 320,
+                  viewportFraction: 0.6
               ),
-            )).toList()
+              items: DataTest.imgList2.map((item) =>
+                  Container(
+                    child: Container(
+                      margin: EdgeInsets.all(5.0),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          child: Image.network(
+                              item,
+                              fit: BoxFit.cover
+                          )
+                      ),
+                    ),
+                  )).toList()
           ),
           SizedBox(height: 25),
           Stack(
@@ -204,12 +207,12 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   height: size.width * 0.2,
                   width: size.width * 0.2,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(180.0)),
-                    border: Border.all(
-                      color: IdtColors.blueDark.withOpacity(0.8),
-                      width: 2
-                    ),
-                    color: IdtColors.white
+                      borderRadius: BorderRadius.all(Radius.circular(180.0)),
+                      border: Border.all(
+                          color: IdtColors.blueDark.withOpacity(0.8),
+                          width: 2
+                      ),
+                      color: IdtColors.white
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -241,54 +244,53 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       );
     }
 
-    Widget _body (){
-
+    Widget _body() {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-              child: Text(
-                'ROCK AL PARQUE',
-                maxLines: 2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                child: Text(
+                  'ROCK AL PARQUE',
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.textWhiteShadow.copyWith(
+                      fontSize: 35
+                  ),
+                ),
+              ),
+              Text(
+                'Julio 14, 15 y 16 de 2021'.toUpperCase(),
+                maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: textTheme.textWhiteShadow.copyWith(
-                  fontSize: 35
+                    fontSize: 15
                 ),
               ),
-            ),
-            Text(
-              'Julio 14, 15 y 16 de 2021'.toUpperCase(),
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.textWhiteShadow.copyWith(
-                fontSize: 15
+              SizedBox(
+                height: 35,
               ),
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            Container(
-              height: 220,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: <Widget>[
-                    VideoPlayer(_controller),
-                    ClosedCaption(text: _controller.value.caption.text),
-                    Stack(
-                      children: <Widget>[
-                        AnimatedSwitcher(
-                          duration: Duration(milliseconds: 100),
-                          reverseDuration: Duration(milliseconds: 700),
-                          child: _controller.value.isPlaying
-                            ? SizedBox.shrink()
-                            : Container(
+              Container(
+                height: 220,
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      VideoPlayer(_controller),
+                      ClosedCaption(text: _controller.value.caption.text),
+                      Stack(
+                        children: <Widget>[
+                          AnimatedSwitcher(
+                            duration: Duration(milliseconds: 100),
+                            reverseDuration: Duration(milliseconds: 700),
+                            child: _controller.value.isPlaying
+                                ? SizedBox.shrink()
+                                : Container(
                               color: IdtColors.black.withOpacity(0.5),
                               child: Center(
                                 child: Icon(
@@ -298,125 +300,124 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                                 ),
                               ),
                             ),
-                        ),
-                        //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                        GestureDetector(
-                          onTap: () {
-                            _controller.value.isPlaying ? _controller.pause() : _controller.play();
-                          },
-                        ),
-                      ],
-                    ),
-                    VideoProgressIndicator(_controller, allowScrubbing: true),
-                  ],
+                          ),
+                          //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                          GestureDetector(
+                            onTap: () {
+                              _controller.value.isPlaying ? _controller.pause() : _controller
+                                  .play();
+                            },
+                          ),
+                        ],
+                      ),
+                      VideoProgressIndicator(_controller, allowScrubbing: true),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            _btnsPlaces(),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              margin: EdgeInsets.only(bottom: 15),
-              child: Text(
-                'Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,',
-                style: textTheme.textButtomWhite,
-                maxLines: viewModel.status.moreText ? null : 20,
-                overflow: TextOverflow.fade,
-                textAlign: TextAlign.justify,
+              SizedBox(
+                height: 35,
               ),
-            ),
-            TextButton(
-              child: Text(
-                viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.textButtomWhite.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold
-                )
+              _btnsPlaces(),
+              SizedBox(
+                height: 30,
               ),
-              onPressed: viewModel.readMore,
-            )
-          ],
-        )
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 55),
+                margin: EdgeInsets.only(bottom: 15),
+                child: Text(
+                  'Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,',
+                  style: textTheme.textButtomWhite,
+                  maxLines: viewModel.status.moreText ? null : 20,
+                  overflow: TextOverflow.fade,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              TextButton(
+                child: Text(
+                    viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.textButtomWhite.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+                onPressed: viewModel.readMore,
+              )
+            ],
+          )
       );
     }
 
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            IdtAssets.splash
-          ),
-          fit: BoxFit.fitHeight,
-        )
-      ),
-      height: size.height,
-      width: size.width,
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 65,
-                ),
-                _body(),
-                SizedBox(
-                  height: 30,
-                ),
-                _footerImages(),
-                SizedBox(
-                  height: 15,
-                )
-              ],
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  IdtAssets.splash
+              ),
+              fit: BoxFit.fitHeight,
+            )
+        ),
+        height: size.height,
+        width: size.width,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 65,
+                  ),
+                  _body(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  _footerImages(),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: 50,
-            right: 0,
-            left: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 14),
-                  child: IconButton(
-                    autofocus: false,
-                    alignment: Alignment.centerRight,
-                    icon: SvgPicture.asset(
-                      IdtAssets.back,
-                      color: IdtColors.white,
+            Positioned(
+              top: 50,
+              right: -5,
+              left: -15,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 14),
+                    child: IconButton(
+                      autofocus: false,
+                      alignment: Alignment.centerRight,
+                      icon: SvgPicture.asset(
+                        IdtAssets.back,
+                        color: IdtColors.white,
+                      ),
+                      iconSize: 45,
+                      onPressed: _route.pop,
                     ),
-                    iconSize: 45,
-                    onPressed: () {
-                      print("Back Button");
-                    },
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
-                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                  IconButton(
+                    icon: Icon(
+                      viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
+                      color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                    ),
+                    padding: EdgeInsets.only(right: 20.0),
+                    iconSize: 35,
+                    onPressed: viewModel.onTapFavorite,
                   ),
-                  padding: EdgeInsets.only(right: 20.0),
-                  iconSize: 35,
-                  onPressed: viewModel.onTapFavorite,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      )
+          ],
+        )
     );
   }
 }
