@@ -172,7 +172,7 @@ class IdtRoute {
 
   goEvents({required String title, String? nameFilter, required bool includeDay}){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
+      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay,  ))
     );
   }
 

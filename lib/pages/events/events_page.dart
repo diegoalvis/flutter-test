@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -21,17 +22,19 @@ import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
 
+
 class EventsPage extends StatelessWidget {
   final String title;
   final String? nameFilter;
   final bool includeDay;
+  final SocialEventType type;
 
-  EventsPage({required this.title, this.nameFilter, required this.includeDay});
+  EventsPage({required this.title, this.nameFilter, required this.includeDay, required this.type});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>(), type),
       builder: (context, _) {
         return EventsWidget(title, nameFilter, includeDay);
       },
@@ -40,9 +43,10 @@ class EventsPage extends StatelessWidget {
 }
 
 class EventsWidget extends StatefulWidget {
-  final String _title;
+  // final String _title;
   final String? _nameFilter;
-  final bool _includeDay;
+  // final bool _includeDayeDay;
+  final eventType type;
 
   EventsWidget(this._title, this._nameFilter, this._includeDay);
 
@@ -153,7 +157,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             children: <Widget>[
               InkWell(
                 onTap:
-                    widget._includeDay ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+                    widget.type == eventType.EVENT ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
                 child: ClipRRect(
                   borderRadius:
                       // Validacion para el borde superior izquiero
