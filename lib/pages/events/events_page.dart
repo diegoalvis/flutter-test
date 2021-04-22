@@ -283,7 +283,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsEventPlaces),
+              gridImagesCol3(viewModel.status.itemsEventPlaces), //viewModel.status.itemsEventPlaces
               SizedBox(height: 55),
             ],
           ),
