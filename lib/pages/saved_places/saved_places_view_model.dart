@@ -48,6 +48,6 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   }
 
   void goDetailPage(){
-    _route.goDetail(isHotel: false);
+    //_route.goDetail(isHotel: false);
   }
 }

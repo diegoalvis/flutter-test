@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -24,8 +26,9 @@ import '../../app_theme.dart';
 
 class DetailPage extends StatelessWidget {
   final bool isHotel;
+  final DataPlacesDetailModel detail;
 
-  DetailPage({this.isHotel = false});
+  DetailPage({this.isHotel = false, required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class DetailPage extends StatelessWidget {
       create: (_) =>
           DetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return DetailWidget(isHotel);
+        return DetailWidget(isHotel, detail);
       },
     );
   }
@@ -41,8 +44,9 @@ class DetailPage extends StatelessWidget {
 
 class DetailWidget extends StatefulWidget {
   final bool _isHotel;
+  final DataPlacesDetailModel _detail;
 
-  DetailWidget(this._isHotel);
+  DetailWidget(this._isHotel, this._detail);
 
   @override
   _DetailWidgetState createState() => _DetailWidgetState();
@@ -54,7 +58,9 @@ class _DetailWidgetState extends State<DetailWidget> {
 
   @override
   void initState() {
+    print('detail page');
     final viewModel = context.read<DetailViewModel>();
+  //  viewModel.getPlaceByIdResponse(widget.id);
 
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is DetailControllerScrollEffect) {
@@ -66,6 +72,7 @@ class _DetailWidgetState extends State<DetailWidget> {
             duration: Duration(milliseconds: event.duration));
       }
     });
+
     super.initState();
   }
 
@@ -97,6 +104,7 @@ class _DetailWidgetState extends State<DetailWidget> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
+
 
     Widget _header() {
       return Stack(
@@ -163,7 +171,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   margin: EdgeInsets.only(top: 10),
                   padding: EdgeInsets.symmetric(horizontal: 35),
                   child: Text(
-                    'PARQUE METROPOLITANO SIMÓN BOLIVAR',
+                    widget._detail.title!,
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     softWrap: true,
@@ -254,7 +262,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   height: size.height * 0.5,
                   color: IdtColors.white,
                   child: ListView.builder(
-                    itemCount: DataTest.imgList2.length,
+                    itemCount: widget._detail.gallery!.length,
                     shrinkWrap: true,
                     itemExtent: MediaQuery.of(context).size.width,
                     scrollDirection: Axis.horizontal,
@@ -262,9 +270,9 @@ class _DetailWidgetState extends State<DetailWidget> {
                     itemBuilder: (context, index) => Column(
                       children: <Widget>[
                         Image.network(
-                          DataTest.imgList2[index],
-                          width: size.width,
+                          IdtConstants.url_image + widget._detail.gallery![index],
                           height: size.height * 0.5,
+                          width: size.width,
                           fit: BoxFit.cover,
                         ),
                       ],
@@ -443,7 +451,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child: Text(
-                          'Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,',
+                          widget._detail.body!,
                           style: textTheme.textDescrip,
                           maxLines: viewModel.status.moreText ? null : 20,
                           overflow: TextOverflow.fade,

@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/model/response_model.dart';
+import 'package:bogota_app/data/model/responsedetail_model.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
@@ -54,6 +56,38 @@ class FilterService {
 
   }
 
+  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
+
+    final uri = Uri.https(IdtConstants.url_server, '/place/' +id,);
+
+    final response = await http.get(uri);
+
+    try {
+      final body = json.decode(response.body);
+      print('pre service');
+      print(body);
+      switch (response.statusCode) {
+        case 200: {
+          final entity = ResponseDetailModel.fromJson(body);
+          print('service');
+          print(entity.data);
+          return IdtResult.success(entity.data);
+        }
+
+        default: {
+          final error = FilterError('Capturar el error', response.statusCode);
+
+          return IdtResult.failure(error);
+        }
+      }
+
+    } on StateError catch (err) {
+      final error = FilterError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+
+  }
   Future<IdtResult<List<DataModel>?>> getCategories() async {
 
     final queryParameters = {

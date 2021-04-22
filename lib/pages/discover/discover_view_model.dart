@@ -1,8 +1,10 @@
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/discover/discover_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
+import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
@@ -137,8 +139,25 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     }
   }
 
-  void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   goDetailPage(String id) async {
+    status = status.copyWith(isLoading: true);
+
+    final placebyidResponse = await _interactor.getPlaceById(id);
+    print('view model detail page');
+    print(placebyidResponse);
+    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+      print("model detail");
+      print(placebyidResponse.body!.title);
+      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+
   }
 
   void goEventsPage() {

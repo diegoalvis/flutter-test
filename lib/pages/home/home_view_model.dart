@@ -101,7 +101,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void goDetailPage() {
-    _route.goDetail(isHotel: false);
+   // _route.goDetail(isHotel: false);
   }
 
   void setLocationUser() async {
