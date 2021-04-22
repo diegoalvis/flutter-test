@@ -19,7 +19,6 @@ class IdtMenu extends StatelessWidget {
 
   final _route = locator<IdtRoute>();
 
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -125,7 +124,11 @@ class IdtMenu extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(' ${DataTest.List2[index]}',
                                   style: textTheme.textMenu.copyWith(
-                                      color: IdtColors.gray.withOpacity(0.8), fontSize: 19))),
+                                    // fontSize: 19,
+                                    color: optionIndex == index
+                                        ? IdtColors.white.withOpacity(0.8)
+                                        : IdtColors.gray.withOpacity(0.8),
+                                  ))),
                         )
                       ],
                     ),
