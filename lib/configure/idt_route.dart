@@ -79,9 +79,9 @@ class IdtRoute {
     );
   }
 
-  goPlayAudio(){
+  goPlayAudio({required DataPlacesDetailModel detail}){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> PlayAudioPage())
+      MaterialPageRoute(builder: (_)=> PlayAudioPage(detail:detail))
     );
   }
 

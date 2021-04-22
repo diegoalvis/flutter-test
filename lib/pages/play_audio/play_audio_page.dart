@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -8,6 +9,7 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/detail/detail_view_model.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -21,11 +23,13 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:share/share.dart';
 
 import '../../app_theme.dart';
 
 class PlayAudioPage extends StatelessWidget {
-
+  final DataPlacesDetailModel detail;
+  PlayAudioPage({ required this.detail});
   @override
   Widget build(BuildContext context) {
 
@@ -37,13 +41,17 @@ class PlayAudioPage extends StatelessWidget {
 >()
       ),
       builder: (context, _) {
-        return PlayAudioWidget();
+        return PlayAudioWidget(detail);
       },
     );
   }
 }
 
 class PlayAudioWidget extends StatefulWidget {
+  final DataPlacesDetailModel _detail;
+
+  PlayAudioWidget(this._detail);
+
 
   @override
   _PlayAudioWidgetState createState() => _PlayAudioWidgetState();
@@ -58,6 +66,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
   late AudioPlayer _player;
 
   Future<void> _init() async {
+    
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     try {
@@ -73,8 +82,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
   @override
   void initState() {
     super.initState();
-
+    final viewModel = context.read<PlayAudioViewModel>();
     _player = AudioPlayer();
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
     ));
@@ -156,7 +166,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
               child: Text(
-                'PARQUE METROPOLITANO SIMÓN BOLIVAR',
+                widget._detail.title!,
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
@@ -357,12 +367,16 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
 
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
+        image: DecorationImage(image: NetworkImage(IdtConstants.url_image + widget._detail.image!),
+          fit: BoxFit.fill
+        ),
+/*        DecorationImage(
+          image:
+          AssetImage(
             IdtAssets.splash
           ),
           fit: BoxFit.cover,
-        )
+        )*/
       ),
       height: size.height,
       width: size.width,
@@ -416,6 +430,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
                           ),
                           onPressed: () {
                             print("Share");
+                            Share.share("Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
+
                           },
                         ),
                       ),

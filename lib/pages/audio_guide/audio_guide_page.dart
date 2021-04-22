@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -94,6 +95,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                   IdtConstants.url_image + item.image!,
                   height: 250,
                   fit: BoxFit.fill,
+
                 ),
               ),
             ),
@@ -111,9 +113,9 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             Align(
               alignment: Alignment.center,
               child: Icon(
-                Icons.headset_rounded,
+                IdtIcons.headphones,
                 color: IdtColors.white,
-                size: 60,
+                size: 50,
               )
             ),
             Positioned(

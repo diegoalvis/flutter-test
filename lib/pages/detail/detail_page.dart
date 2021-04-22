@@ -336,7 +336,7 @@ class _DetailWidgetState extends State<DetailWidget> {
       );
     }
 
-    Widget _btnsPlaces() {
+    Widget _btnsPlaces(DataPlacesDetailModel _detail) {
       return Row(  // row botonoes ubicacion y audio
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -378,7 +378,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   color: IdtColors.white,
                   size: 40,
                 )),
-            onPressed: viewModel.goPlayAudioPage,
+            onPressed:()=> viewModel.goPlayAudioPage(_detail),
           )
         ],
       );
@@ -452,7 +452,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               SizedBox(
                 height: 30,
               ),
-              widget._isHotel ? _btnsHotel() : _btnsPlaces(),
+              widget._isHotel ? _btnsHotel() : _btnsPlaces(widget._detail),
               SizedBox(
                 height: 30,
               ),
