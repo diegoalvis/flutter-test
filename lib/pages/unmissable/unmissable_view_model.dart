@@ -9,9 +9,7 @@ import 'package:bogota_app/view_model.dart';
 class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
   final IdtRoute _route;
-  final ApiInteractor
-
- _interactor;
+  final ApiInteractor _interactor;
 
   UnmissableViewModel(this._route, this._interactor) {
     status = UnmissableStatus(
