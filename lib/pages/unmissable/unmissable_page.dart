@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -65,7 +65,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
   Widget _buildDiscover(UnmissableViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
-    final List<DataPlacesModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
+    final List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
     final menu = viewModel.status.openMenu
         ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 3,)
         : SizedBox.shrink();
@@ -85,7 +85,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     ;
 
-    Widget imagesCard(DataPlacesModel item, int index, List listItems) => (InkWell(
+    Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
           onTap: () =>viewModel.goDetailPage(index.toString()),
           child: Stack(
             alignment: Alignment.center,
@@ -136,7 +136,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           padding: EdgeInsets.symmetric(horizontal: 30),
           children: _unmissable.asMap().entries.map((entry) {
             final int index = entry.key;
-            final DataPlacesModel value = entry.value;
+            final DataModel value = entry.value;
 
             return imagesCard(value, index, DataTest.imgList2);
           }).toList(),

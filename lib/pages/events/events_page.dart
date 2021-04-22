@@ -26,7 +26,7 @@ class EventsPage extends StatelessWidget {
   final String? nameFilter;
   final bool includeDay;
 
-  EventsPage({required this.title, this.nameFilter, required this.includeDay});
+  EventsPage({required this.title, this.nameFilter, required this.includeDay, });
 
   @override
   Widget build(BuildContext context) {
