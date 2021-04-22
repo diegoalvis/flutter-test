@@ -142,9 +142,9 @@ class DataTest {
     'AUDIOGUÍAS',
     '*IMPERDIBLES',
     'MÁS ALLÁ DE BOGOTÁ',
-    '*EVENTOS',
+    'EVENTOS',
     //'RECORRIDOS ESPECIALES',
-    'DÓNDE DORMIR',
+    '*DÓNDE DORMIR',
     '*DÓNDE COMER',
     '*LUGARES GUARDADOS',
     '*PRIVACIDAD Y TÉRMINOS'

@@ -176,16 +176,15 @@ class IdtRoute {
     );
   }
 
-  goEventsUntil({required String title, String? nameFilter, required bool includeDay}){
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay)),
-      (route) => route.isFirst
-    );
-  }
-
   goEventsDetail(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> EventDetailPage())
+    );
+  }
+
+  goSleeps({required String title, String? nameFilter, required bool includeDay}){
+    return navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
     );
   }
 

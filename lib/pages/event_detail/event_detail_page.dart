@@ -93,7 +93,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
     final size = MediaQuery.of(context).size;
 
     Widget _btnsPlaces(){
-
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

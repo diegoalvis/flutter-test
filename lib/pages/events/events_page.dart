@@ -255,7 +255,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             final String namePlace = entry.value.title ?? '';
             initializeDateFormatting();
             final String dateMmmDdd =
-                DateFormat('MMMd','es' ).format(DateTime.parse(entry.value.date!)); //entry.value.date
+                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
             List separatedDate = dateMmmDdd.split(" ");
 
             return imagesCard(

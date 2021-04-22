@@ -160,11 +160,6 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
   }
 
-  void goEventsPage() {
-    _route.goEvents(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
-    closeMenuTab();
-  }
-
   void goAudioGuidePage() {
     _route.goAudioGuide();
     closeMenuTab();
