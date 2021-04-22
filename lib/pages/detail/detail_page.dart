@@ -122,12 +122,13 @@ class _DetailWidgetState extends State<DetailWidget> {
             ],
           ),
           Positioned(   // curva
-              bottom: 0,
+              top: 150,
               left: 0,
               right: 0,
               child: SizedBox(
-                child: SvgPicture.asset(IdtAssets.curve_up,
-                    color: IdtColors.white, fit: BoxFit.fill,),
+                child: Image(image: AssetImage(IdtAssets.curve_up),
+      height: size.height * 0.9
+      ),
               ),),
           Positioned(  // rating Starts
             bottom: 100,
@@ -319,13 +320,18 @@ class _DetailWidgetState extends State<DetailWidget> {
             ],
           ),
           Positioned(  //Curva de abajo
-              top: 0,
+              bottom: 130,
               right: 0,
               left: 0,
               child: Container(
                   alignment: Alignment.topCenter,
-                  child: SvgPicture.asset(IdtAssets.curve_down,
-                      color: Colors.white, fit: BoxFit.fill))),
+                  child: Image(image: AssetImage(IdtAssets.curve_down),
+                      height: size.height * 0.92
+                  ),
+/*                  SvgPicture.asset(IdtAssets.curve_down,
+                      color: Colors.white, fit: BoxFit.fill)*/
+
+              )),
         ],
       );
     }
@@ -443,6 +449,9 @@ class _DetailWidgetState extends State<DetailWidget> {
           child: Column(
             children: [
               _header(),
+              SizedBox(
+                height: 30,
+              ),
               widget._isHotel ? _btnsHotel() : _btnsPlaces(),
               SizedBox(
                 height: 30,

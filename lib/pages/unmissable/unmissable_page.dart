@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -36,6 +38,13 @@ class UnmissableWidget extends StatefulWidget {
 }
 
 class _UnmissableWidgetState extends State<UnmissableWidget> {
+
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<UnmissableViewModel>().getUnmissableResponse();});
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<UnmissableViewModel>();
@@ -56,6 +65,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
   Widget _buildDiscover(UnmissableViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
+    final List<DataPlacesModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
     final menu = viewModel.status.openMenu
         ? IdtMenu(closeMenu: viewModel.closeMenu)
         : SizedBox.shrink();
@@ -75,7 +85,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     ;
 
-    Widget imagesCard(String item, int index, List listItems) => (InkWell(
+    Widget imagesCard(DataPlacesModel item, int index, List listItems) => (InkWell(
           onTap: () =>viewModel.goDetailPage(index.toString()),
           child: Stack(
             alignment: Alignment.center,
@@ -83,7 +93,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  item,
+                  IdtConstants.url_image + item.image!,
                   height: 250,
                   fit: BoxFit.fill,
                 ),
@@ -105,7 +115,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                    child: Text(item.toUpperCase(),
+                    child: Text(item.title!.toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -124,9 +134,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           mainAxisSpacing: 9,
           //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 30),
-          children: DataTest.imgList2.asMap().entries.map((entry) {
+          children: _unmissable.asMap().entries.map((entry) {
             final int index = entry.key;
-            final String value = entry.value;
+            final DataPlacesModel value = entry.value;
 
             return imagesCard(value, index, DataTest.imgList2);
           }).toList(),

@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/model/places_model.dart';
 import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -10,16 +11,37 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  List<DataPlacesModel> unmissable = [];
+
 
   UnmissableViewModel(this._route, this._interactor) {
     status = UnmissableStatus(
       isLoading: true,
-      openMenu: false
+      openMenu: false,
+      itemsUnmissablePlaces: [],
     );
   }
 
   void onInit() async {
+
+    getUnmissableResponse();
     // TODO
+  }
+
+  void getUnmissableResponse() async {
+    print('entra unmmisable');
+    final unmissableResponse = await _interactor.getUnmissablePlacesList();
+
+    if (unmissableResponse is IdtSuccess<List<DataPlacesModel>?>) {
+      print(unmissableResponse.body![0].title);
+      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void onpenMenu() {
