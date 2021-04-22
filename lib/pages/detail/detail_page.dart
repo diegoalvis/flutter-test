@@ -324,11 +324,12 @@ class _DetailWidgetState extends State<DetailWidget> {
               left: 0,
               child: Container(
                   alignment: Alignment.topCenter,
-                  child: Image(image: AssetImage(IdtAssets.curve_down),
+                  child:
+/*                  Image(image: AssetImage(IdtAssets.curve_down),
                       height: size.height * 0.92
-                  ),
-/*                  SvgPicture.asset(IdtAssets.curve_down,
-                      color: Colors.white, fit: BoxFit.fill)*/
+                  ),*/
+                  SvgPicture.asset(IdtAssets.curve_down,
+                      color: Colors.white, fit: BoxFit.fill)
 
               )),
         ],

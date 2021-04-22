@@ -58,7 +58,7 @@ class PlayAudioWidget extends StatefulWidget {
 }
 
 class _PlayAudioWidgetState extends State<PlayAudioWidget> {
-
+  final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [
     "Español",
     "Ingles"
@@ -400,19 +400,18 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
                       height: 50,
                       color: IdtColors.transparent,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 14),
+                        padding: EdgeInsets.only(left: 0),
                         child: IconButton(
                           autofocus: false,
                           color: IdtColors.red,
                           alignment: Alignment.centerRight,
                           icon: SvgPicture.asset(
-                            IdtAssets.back,
+                            IdtAssets.back_white,
                             color: IdtColors.white,
-                            height: 50.0,
+                            height: 70.0,
                           ),
-                          onPressed: () {
-                            print("Favorite");
-                          },
+                          iconSize:60,
+                          onPressed: _route.pop,
                         ),
                       ),
                     ),
