@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 import '../../app_theme.dart';
 
@@ -112,12 +113,12 @@ class _DetailWidgetState extends State<DetailWidget> {
         children: [
           Column(
             children: [
-              Image(   //imagen de fondo
-                image: AssetImage(IdtAssets.splash),
+              Image.network(
+                IdtConstants.url_image + widget._detail.image!,
                 width: size.width,
                 height: size.height * 0.5,
                 fit: BoxFit.fill,
-              ),
+              )
             ],
           ),
           Positioned(   // curva
@@ -223,6 +224,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                           iconSize: 35,
                           onPressed: () {
                             print("Share");
+                            Share.share("Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
+
                           },
                         ),
                       ),
