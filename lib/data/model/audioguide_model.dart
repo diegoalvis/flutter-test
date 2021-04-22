@@ -14,7 +14,7 @@ class DataAudioGuideModel extends IdtModel {
   @JsonKey(name: 'url_audioguia')
   final String? urlAudioguia;
 
-  DataAudioGuideModel({this.id, this.title, this.image, this.urlAudioguia});
+  DataAudioGuideModel({this.id, this.title, this.image, this.urlAudioguia, String? audioguia_es, String? audioguia_en, String? audioguia_pt});
 
   factory DataAudioGuideModel.fromJson(Map<String, dynamic> json) => _$DataAudioGuideModelFromJson(json);
 
