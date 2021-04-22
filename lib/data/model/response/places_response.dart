@@ -1,4 +1,4 @@
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/idt_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'places_response.g.dart';
@@ -7,7 +7,7 @@ part 'places_response.g.dart';
 class PlacesResponse extends IdtModel {
 
   final int? status;
-  final List<DataPlacesModel>? data;
+  final List<DataModel>? data;
 
   PlacesResponse({this.status, this.data});
 

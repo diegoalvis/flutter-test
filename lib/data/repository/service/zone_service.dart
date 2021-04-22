@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/response/places_response.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
@@ -7,7 +7,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class ZoneService {
-  Future<IdtResult<List<DataPlacesModel>?>> getZone() async {
+  Future<IdtResult<List<DataModel>?>> getZone() async {
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/zone');

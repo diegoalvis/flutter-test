@@ -1,18 +1,11 @@
 import 'dart:ffi';
 
-import 'package:bogota_app/data/model/places_model.dart';
-
-
-import 'package:bogota_app/data/model/splash_model.dart';
 
 
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
-import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/home/home_effect.dart';
-import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';

@@ -83,7 +83,7 @@ class _EventsWidgetState extends State<EventsWidget> {
     final menu = viewModel.status.openMenu
         ? Padding(
             padding: EdgeInsets.only(top: 70),
-            child: IdtMenu(closeMenu: viewModel.closeMenu),
+            child: IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 4,),
           )
         : SizedBox.shrink();
 
@@ -255,7 +255,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             final String namePlace = entry.value.title ?? '';
             initializeDateFormatting();
             final String dateMmmDdd =
-                DateFormat('MMMd','es' ).format(DateTime.parse(entry.value.date!)); //entry.value.date
+                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
             List separatedDate = dateMmmDdd.split(" ");
 
             return imagesCard(
@@ -283,7 +283,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsEventPlaces),
+              gridImagesCol3(viewModel.status.itemsEventPlaces), //viewModel.status.itemsEventPlaces
               SizedBox(height: 55),
             ],
           ),

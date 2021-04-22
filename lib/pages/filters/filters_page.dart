@@ -100,7 +100,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
 
     final menu = viewModel.status.openMenu ? Padding(
       padding: EdgeInsets.only(top: 70),
-      child: IdtMenu(closeMenu: viewModel.closeMenu),
+      child: IdtMenu(closeMenu: viewModel.closeMenu, ),
     ) : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab ?
@@ -330,10 +330,11 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             ],
           ),
         ),
-        menu,
+
         menuTap,
         menuTapFilter,
         loading,
+        menu,
       ],
     );
   }

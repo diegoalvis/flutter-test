@@ -67,7 +67,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
     final textTheme = Theme.of(context).textTheme;
     final List<DataPlacesModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
     final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
+        ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 3,)
         : SizedBox.shrink();
 
     Widget _buttonTap(String label) {

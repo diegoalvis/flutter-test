@@ -3,8 +3,7 @@ import 'dart:core';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
-import 'package:bogota_app/data/model/places_model.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,8 @@ import '../../app_theme.dart';
 class OtherPlaces extends StatelessWidget {
   final VoidCallback onTapCard;
   final VoidCallback goDiscover;
-  late List<DataPlacesModel>? resUnmissable;
-  late List<DataPlacesModel>? resFood;
+  late List<DataModel>? resUnmissable;
+  late List<DataModel>? resFood;
 
   OtherPlaces({required this.onTapCard, required this.goDiscover, this.resUnmissable, this.resFood});
 
@@ -67,7 +66,7 @@ class OtherPlaces extends StatelessWidget {
         ),
       ));
 
-  Widget GridImagesCol2(TextTheme textTheme, List<DataPlacesModel> listItems) =>
+  Widget GridImagesCol2(TextTheme textTheme, List<DataModel> listItems) =>
       (GridView.count(
         shrinkWrap: true,
         physics: ScrollPhysics(),

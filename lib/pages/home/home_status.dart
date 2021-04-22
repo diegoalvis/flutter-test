@@ -1,4 +1,4 @@
-import 'package:bogota_app/data/model/places_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/view_model.dart';
 
 class HomeStatus extends ViewStatus {
@@ -8,14 +8,14 @@ class HomeStatus extends ViewStatus {
   final bool openSaved;
   final bool notSaved;
   final bool seeAll;
-  late List<DataPlacesModel> itemsUnmissablePlaces;
-  late List<DataPlacesModel> itemsFoodPlaces;
+  late List<DataModel> itemsUnmissablePlaces;
+  late List<DataModel> itemsFoodPlaces;
 
   HomeStatus( {required this.itemsFoodPlaces, required this.itemsUnmissablePlaces,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll});
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
-    bool? seeAll, List<DataPlacesModel>? itemsUnmissablePlaces,List<DataPlacesModel>? itemsFoodPlaces }) {
+    bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsFoodPlaces }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,

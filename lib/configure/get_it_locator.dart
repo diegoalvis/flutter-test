@@ -22,11 +22,11 @@ void setUpLocator() async {
   locator.registerSingleton<GpsService>(GpsService());
   locator.registerSingleton<SplashService>(SplashService());
 
-  locator.registerSingleton<PlacesSleepService>(PlacesSleepService());
   locator.registerSingleton<UnmissableService>(UnmissableService());
   locator.registerSingleton<PlacesFoodService>(PlacesFoodService());
   locator.registerSingleton<AudioGuideService>(AudioGuideService());
   locator.registerSingleton<EventService>(EventService());
+  locator.registerSingleton<PlacesSleepService>(PlacesSleepService());
   // locator.registerSingleton<ZoneService>(ZoneService());
 
   /* locator.registerSingletonAsync(() async {

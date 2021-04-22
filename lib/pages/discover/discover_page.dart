@@ -68,8 +68,12 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     final List<DataModel> _zones = viewModel.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final menu =
-        viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final menu = viewModel.status.openMenu
+        ? IdtMenu(
+            closeMenu: viewModel.closeMenu,
+            optionIndex: 0,
+          )
+        : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(
@@ -107,7 +111,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     }
 
     Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
-          onTap:() => viewModel.goDetailPage(item.id.toString()),
+          onTap: () => viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -216,9 +220,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
             ],
           ),
         ),
-        menu,
+        loading,
         menuTap,
-        loading
+        menu,
       ],
     );
   }

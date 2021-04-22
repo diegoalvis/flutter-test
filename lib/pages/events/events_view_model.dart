@@ -16,7 +16,8 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       isLoading: true,
       openMenu: false,
       openMenuTab: false,
-      itemsEventPlaces: []
+      itemsEventPlaces: [],
+      itemsSleepPlaces: []
     );
   }
 
@@ -24,6 +25,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: true);
     //TODO
     getEventResponse();
+    getSleepsResponse();
   }
 
   void getEventResponse() async {
@@ -31,6 +33,21 @@ class EventsViewModel extends ViewModel<EventsStatus> {
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(itemsEventPlaces: eventResponse.body);// Status reasignacion
+
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = EventError as IdtFailure<EventError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+  void getSleepsResponse() async {
+    final sleepResponse = await _interactor.getSleepPlacesList();
+
+    if (sleepResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsSleepPlaces: sleepResponse.body);// Status reasignacion
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
