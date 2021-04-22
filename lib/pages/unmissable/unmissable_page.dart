@@ -57,7 +57,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
   Widget _buildDiscover(UnmissableViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
     final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
+        ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 3,)
         : SizedBox.shrink();
 
     Widget _buttonTap(String label) {

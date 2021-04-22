@@ -76,7 +76,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
     final List<DataAudioGuideModel> _audios = viewModel.status.itemsAudioGuide;
 
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 1,) : SizedBox.shrink();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     Widget imagesCard(DataAudioGuideModel item, int index, List listItems) => (
@@ -192,8 +192,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             ],
           ),
         ),
-        menu,
         loading,
+        menu,
       ],
     );
   }

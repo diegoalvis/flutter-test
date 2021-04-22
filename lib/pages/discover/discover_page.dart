@@ -69,7 +69,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final menu =
-        viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+        viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 0, ) : SizedBox.shrink();
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(

@@ -1,9 +1,11 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +13,12 @@ import '../app_theme.dart';
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
+  final int? optionIndex;
 
-  IdtMenu({required this.closeMenu});
+  IdtMenu({required this.closeMenu, this.optionIndex});
 
   final _route = locator<IdtRoute>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,48 +99,22 @@ class IdtMenu extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: () {
-                      switch (index) {
-                        case 0:
-                          _route.goDiscoverUntil();
-                          break;
-                        case 1:
-                          _route.goAudioGuide();
-                          break;
-                        case 2:
-                          _route.goUnmissableUntil();
-                          break;
-                        case 3:
-                          _route.goHomeRemoveAll();
-                          break;
-                        case 4:
-                          _route.goEvents(title: 'Eventos', includeDay: true);
-                          break;
-                        case 5:
-                          _route.goSleeps(
-                              title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
-                          break;
-                        case 6:
-                          //_route.goFiltersUntil('Gastronomía');
-                          break;
-                        case 7:
-                          _route.goSavedPlacesUntil();
-                          break;
-                        default:
-                          //statements;
-                          break;
-                      }
-                      closeMenu();
+                      onOptionSelected(index);
                     },
                     child: Stack(
                       children: [
-                        Opacity(
-                          opacity: 0.05,
-                          child: Container(
-                            color: IdtColors.transparent,
-                            margin: EdgeInsets.all(10),
-                            height: 30.0,
-                          ),
-                        ),
+                        optionIndex == index
+                            ? Container(
+                                decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange, 30,
+                                    Alignment.bottomCenter, Alignment.topCenter),
+                                margin: EdgeInsets.all(10),
+                                height: 30.0,
+                              )
+                            : Container(
+                                color: IdtColors.transparent,
+                                margin: EdgeInsets.all(10),
+                                height: 30.0,
+                              ),
                         Positioned(
                           top: 1,
                           right: 5,
@@ -167,5 +145,38 @@ class IdtMenu extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onOptionSelected(int index) {
+    switch (index) {
+      case 0:
+        _route.goDiscoverUntil();
+        break;
+      case 1:
+        _route.goAudioGuide();
+        break;
+      case 2:
+        _route.goUnmissableUntil();
+        break;
+      case 3:
+        _route.goHomeRemoveAll();
+        break;
+      case 4:
+        _route.goEvents(title: 'Eventos', includeDay: true);
+        break;
+      case 5:
+        _route.goSleeps(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
+        break;
+      case 6:
+        //_route.goFiltersUntil('Gastronomía');
+        break;
+      case 7:
+        _route.goSavedPlacesUntil();
+        break;
+      default:
+        //statements;
+        break;
+    }
+    closeMenu();
   }
 }

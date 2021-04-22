@@ -83,7 +83,7 @@ class _EventsWidgetState extends State<EventsWidget> {
     final menu = viewModel.status.openMenu
         ? Padding(
             padding: EdgeInsets.only(top: 70),
-            child: IdtMenu(closeMenu: viewModel.closeMenu),
+            child: IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 4,),
           )
         : SizedBox.shrink();
 
