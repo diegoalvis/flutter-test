@@ -104,6 +104,7 @@ class _DetailWidgetState extends State<DetailWidget> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
+    double _newrating=0;
 
 
     Widget _header() {
@@ -141,7 +142,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       RatingBar(
-                        initialRating: 3.3,
+                        initialRating: 0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -156,11 +157,13 @@ class _DetailWidgetState extends State<DetailWidget> {
                                 color: IdtColors.amber),
                         ),
                         onRatingUpdate: (rating) {
+                          _newrating=rating;
                           print(rating);
+                          print(_newrating);
                         },
                       ),
                       Text(
-                        '3.3/5',
+                        widget._detail.rate! == 0?  widget._detail.rate!+'/5': _newrating.toString(),
                         style: textTheme.textWhiteShadow.copyWith(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       )

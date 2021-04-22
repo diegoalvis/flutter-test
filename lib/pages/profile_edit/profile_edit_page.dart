@@ -250,6 +250,25 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         SizedBox(
                           height: 12,
                         ),
+                        TextButton(
+                            child: Text(
+                              'Cerrar Sesión',
+                              style: textTheme.textButtomWhite.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700
+                              ),
+
+                            ),
+                            onPressed:  () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginPage()),
+                              );
+                            }
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
                       ],
                     ),
                   ),
