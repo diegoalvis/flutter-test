@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:ui';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -43,12 +42,11 @@ class EventsPage extends StatelessWidget {
 }
 
 class EventsWidget extends StatefulWidget {
-  // final String _title;
+  final String _title;
   final String? _nameFilter;
-  // final bool _includeDayeDay;
-  final eventType type;
+  final bool _includeDay;
 
-  EventsWidget(this._title, this._nameFilter, this._includeDay);
+  EventsWidget(this._title, this._nameFilter, this._includeDay,);
 
   @override
   _EventsWidgetState createState() => _EventsWidgetState();
@@ -150,14 +148,14 @@ class _EventsWidgetState extends State<EventsWidget> {
       );
     }
 
-    Widget imagesCard(String image, int index, List listItems, String namePlace, String dayOfMonth,
-            String month) =>
+    Widget imagesCard(String image, int index, List listItems, String namePlace, [String? dayOfMonth,
+            String? month]) =>
         (Center(
           child: Stack(
             children: <Widget>[
               InkWell(
                 onTap:
-                    widget.type == eventType.EVENT ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+                    widget._includeDay ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
                 child: ClipRRect(
                   borderRadius:
                       // Validacion para el borde superior izquiero
@@ -196,7 +194,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                 right: 0.0,
                 child: Container(
                     padding: widget._includeDay
-                        ? EdgeInsets.only(left: 10.0)
+                        ? EdgeInsets.only(left: 30.0)
                         : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                     child: Row(
                       children: [
@@ -222,13 +220,13 @@ class _EventsWidgetState extends State<EventsWidget> {
                                   padding: EdgeInsets.symmetric(vertical: 2),
                                   child: Column(
                                     children: [
-                                      Text(dayOfMonth,
+                                      Text(dayOfMonth!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
                                           style: textTheme.textButtomWhite
                                               .copyWith(fontSize: 16, )),
-                                      Text(month,
+                                      Text(month!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
@@ -246,24 +244,32 @@ class _EventsWidgetState extends State<EventsWidget> {
         ));
 
     Widget gridImagesCol3(List<DataModel> listItems) => (GridView.count(
-          shrinkWrap: true,
+    shrinkWrap: true,
           physics: ScrollPhysics(),
           crossAxisCount: 3,
           crossAxisSpacing: 3,
           mainAxisSpacing: 5,
           padding: EdgeInsets.symmetric(horizontal: 10),
           children: listItems.asMap().entries.map((entry) {
+
             final int index = entry.key;
-            final imageUrl = entry.value.coverImage ?? '';
+            final imageUrl = entry.value.image ?? '';
             final String image = IdtConstants.url_image + imageUrl;
             final String namePlace = entry.value.title ?? '';
-            initializeDateFormatting();
-            final String dateMmmDdd =
-                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
-            List separatedDate = dateMmmDdd.split(" ");
+
+
+
+            // final int index = entry.key;
+            // final imageUrl = entry.value.coverImage ?? '';
+            // final String image = IdtConstants.url_image + imageUrl;
+            // final String namePlace = entry.value.title ?? '';
+            // initializeDateFormatting();
+            // final String dateMmmDdd =
+            //     DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
+            // List separatedDate = dateMmmDdd.split(" ");
 
             return imagesCard(
-                image, index, listItems, namePlace, separatedDate[0], separatedDate[1]);
+                image, index, listItems, namePlace);
           }).toList(),
         ));
 
@@ -287,7 +293,11 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsEventPlaces), //viewModel.status.itemsEventPlaces
+              gridImagesCol3(
+
+                  viewModel.status.itemsPlaces
+
+              ),
               SizedBox(height: 55),
             ],
           ),

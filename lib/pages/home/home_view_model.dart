@@ -30,8 +30,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
-    getUnmissableResponse();
-    getFoodResponse();
   }
 
   void getUnmissableResponse() async {

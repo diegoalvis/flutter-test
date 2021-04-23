@@ -165,13 +165,13 @@ class IdtMenu extends StatelessWidget {
         _route.goHomeRemoveAll();
         break;
       case 4:
-        _route.goEvents(title: 'Eventos', includeDay: true);
+        _route.goEvents(title: 'Evento', includeDay: true,  nameFilter: 'Todos');
         break;
       case 5:
         _route.goSleeps(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
         break;
       case 6:
-        //_route.goFiltersUntil('Gastronomía');
+        // _route.goFiltersUntil('Gastronomía') TODO
         break;
       case 7:
         _route.goSavedPlacesUntil();

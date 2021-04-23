@@ -7,7 +7,7 @@ import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
-enum SocialEventType { EVENT, SLEEP,  }
+enum SocialEventType { EVENT, SLEEP, EAT }
 
 
 class EventsViewModel extends ViewModel<EventsStatus> {
@@ -20,8 +20,8 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         isLoading: true,
         openMenu: false,
         openMenuTab: false,
-        itemsEventPlaces: [],
-        itemsSleepPlaces: []);
+        itemsPlaces: [],
+        );
   }
 
   void onInit() async {
@@ -32,6 +32,8 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       case SocialEventType.SLEEP:
         getSleepsResponse();
         break;
+      case SocialEventType.EAT:
+        getEatResponse();
     }
     status = status.copyWith(isLoading: true);
     //TODO
@@ -41,7 +43,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     final eventResponse = await _interactor.getEventPlacesList();
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsEventPlaces: eventResponse.body); // Status reasignacion
+      status = status.copyWith(itemsPlaces: eventResponse.body); // Status reasignacion
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -56,15 +58,29 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     final sleepResponse = await _interactor.getSleepPlacesList();
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsSleepPlaces: sleepResponse.body); // Status reasignacion
+      status = status.copyWith(itemsPlaces: sleepResponse.body); // Status reasignacion
 
-      // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
       print(erroRes.message);
       UnimplementedError();
     }
     status = status.copyWith(isLoading: false);
+  }
+
+  void getEatResponse() async{
+    //TODO
+  }
+
+  void selectType(){
+    switch (type) {
+      case SocialEventType.EVENT:
+
+        break;
+      case SocialEventType.SLEEP:
+        break;
+      case SocialEventType.EAT:
+    }
   }
 
   void onpenMenu() {
