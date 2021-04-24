@@ -1,3 +1,4 @@
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -6,9 +7,9 @@ import 'package:bogota_app/pages/events/events_status.dart';
 import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:intl/intl.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
-
 
 class EventsViewModel extends ViewModel<EventsStatus> {
   final IdtRoute _route;
@@ -21,22 +22,32 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         openMenu: false,
         openMenuTab: false,
         itemsPlaces: [],
-        );
+        title: '',
+        nameFilter: 'TODOS');
   }
 
   void onInit() async {
+    late String title, nameFilter;
     switch (type) {
       case SocialEventType.EVENT:
+        title = 'Evento';
+        nameFilter = 'Todos';
         getEventResponse();
         break;
       case SocialEventType.SLEEP:
+        title = 'Dónde dormir';
+        nameFilter = 'Localidad';
         getSleepsResponse();
         break;
       case SocialEventType.EAT:
+        title = '----';
         getEatResponse();
     }
-    status = status.copyWith(isLoading: true);
-    //TODO
+    status = status.copyWith(
+      isLoading: true,
+      title: title,
+      nameFilter: nameFilter,
+    );
   }
 
   void getEventResponse() async {
@@ -68,14 +79,13 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void getEatResponse() async{
+  void getEatResponse() async {
     //TODO
   }
 
-  void selectType(){
+  void selectType() {
     switch (type) {
       case SocialEventType.EVENT:
-
         break;
       case SocialEventType.SLEEP:
         break;
@@ -114,5 +124,21 @@ class EventsViewModel extends ViewModel<EventsStatus> {
 
   void goDetailEventPage() {
     _route.goEventsDetail();
+  }
+
+  String getImageUrl(DataModel value) {
+    late String? imageUrl;
+    switch (type) {
+      case SocialEventType.EVENT:
+        imageUrl = value.coverImage;
+        break;
+      case SocialEventType.SLEEP:
+        imageUrl = value.image;
+        break;
+      case SocialEventType.EAT:
+        //todo
+        break;
+    }
+    return IdtConstants.url_image + (imageUrl ?? '');
   }
 }

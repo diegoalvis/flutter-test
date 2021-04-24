@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bogota_app/app_theme.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'configure/get_it_locator.dart';
 import 'configure/idt_route.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    initializeDateFormatting();
     return MaterialApp(
       navigatorKey: IdtRoute().navigatorKey,
       debugShowCheckedModeBanner: false,

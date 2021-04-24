@@ -171,9 +171,9 @@ class IdtRoute {
     );
   }
 
-  goEvents({required String title, String? nameFilter, required bool includeDay}){
+  goEvents(int optionIndex){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay, type: SocialEventType.EVENT,  ))
+      MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EVENT, optionIndex: optionIndex,))
     );
   }
 
@@ -183,9 +183,9 @@ class IdtRoute {
     );
   }
 
-  goSleeps({required String title, String? nameFilter, required bool includeDay}){
+  goSleeps(int optionIndex){
     return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay, type: SocialEventType.SLEEP,))
+        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex))
     );
   }
 
