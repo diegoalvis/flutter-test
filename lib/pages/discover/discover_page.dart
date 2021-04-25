@@ -220,8 +220,8 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
             ],
           ),
         ),
-        loading,
         menuTap,
+        loading,
         menu,
       ],
     );

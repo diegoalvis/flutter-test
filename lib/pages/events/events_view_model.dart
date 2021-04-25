@@ -93,16 +93,6 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void selectType() {
-    switch (type) {
-      case SocialEventType.EVENT:
-        break;
-      case SocialEventType.SLEEP:
-        break;
-      case SocialEventType.EAT:
-    }
-  }
-
   void onpenMenu() {
     if (status.openMenu == false) {
       status = status.copyWith(openMenu: true);
@@ -125,10 +115,12 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void onTapDrawer(String type) {
+    //Esto para que sirve??
     status = status.copyWith(isLoading: true);
   }
 
   void goDetailPageHotel() {
+    //todo
     //  _route.goDetail(isHotel: true);
   }
 
@@ -137,6 +129,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   String getImageUrl(DataModel value) {
+    //determina la Key, para hacer el adecuado solicitud de la imagen
     late String? imageUrl;
     switch (type) {
       case SocialEventType.EVENT:
@@ -149,6 +142,6 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         imageUrl = value.image;
         break;
     }
-    return IdtConstants.url_image + (imageUrl ?? '');
+    return IdtConstants.url_image + (imageUrl ?? ''); //hay alguna imagen por defecto?
   }
 }
