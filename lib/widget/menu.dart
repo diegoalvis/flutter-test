@@ -165,13 +165,13 @@ class IdtMenu extends StatelessWidget {
         _route.goHomeRemoveAll();
         break;
       case 4:
-        _route.goEvents(title: 'Eventos', includeDay: true);
+        _route.goEvents(index);
         break;
       case 5:
-        _route.goSleeps(title: 'Dónde dormir', includeDay: false, nameFilter: 'Localidad');
+        _route.goSleeps(index);
         break;
       case 6:
-        //_route.goFiltersUntil('Gastronomía');
+        _route.goEat(index);
         break;
       case 7:
         _route.goSavedPlacesUntil();
@@ -183,3 +183,5 @@ class IdtMenu extends StatelessWidget {
     closeMenu();
   }
 }
+
+

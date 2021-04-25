@@ -5,7 +5,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
-import 'package:bogota_app/utils/errors/food_error.dart';
+import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
@@ -24,14 +24,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       notSaved: true,
       seeAll: true,
       itemsUnmissablePlaces: [],
-      itemsFoodPlaces: [],
+      itemsEatPlaces: [],
     );
   }
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getUnmissableResponse();
-    getFoodResponse();
+    getEatResponse();
   }
 
   void getUnmissableResponse() async {
@@ -48,15 +48,15 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-  void getFoodResponse() async {
-    final foodResponse = await _interactor.getFoodPlacesList();
+  void getEatResponse() async {
+    final eatResponse = await _interactor.getEatPlacesList();
 
-    if (foodResponse is IdtSuccess<List<DataModel>?>) {
+    if (eatResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(
-          itemsFoodPlaces: foodResponse.body); // Status reasignacion
+          itemsEatPlaces: eatResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
-      final erroRes = foodResponse as IdtFailure<FoodError>;
+      final erroRes = eatResponse as IdtFailure<EatError>;
       print(erroRes.message);
       UnimplementedError();
       // FoodError();

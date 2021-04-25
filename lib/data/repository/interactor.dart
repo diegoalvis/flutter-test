@@ -48,7 +48,16 @@ class ApiInteractor {
 
   Future<IdtResult<List<DataModel>?>> getEventPlacesList() async {
     final response = await locator<EventService>().getEvent();
+    return response;
+  }
 
+  Future<IdtResult<List<DataModel>?>> getSleepPlacesList() async {
+    final response = await locator<PlacesSleepService>().getPlacesSleep();
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getEatPlacesList() async {
+    final response = await locator<PlacesEatService>().getPlacesEat();
     return response;
   }
 
@@ -58,11 +67,6 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getFoodPlacesList() async {
-    final response = await locator<PlacesFoodService>().getPlacesFood();
-
-    return response;
-  }
   Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList() async {
     final response = await locator<AudioGuideService>().getAudioGuide();
 
@@ -73,11 +77,6 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getSleepPlacesList() async {
-    final response = await locator<PlacesSleepService>().getPlacesSleep();
-
-    return response;
-  }
 
   Future<IdtResult<GpsModel?>> postLocationUser(GpsModel gpsModel) async {
     final response = await locator<GpsService>().setLocationUser(gpsModel);

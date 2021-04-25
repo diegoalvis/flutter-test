@@ -23,7 +23,7 @@ void setUpLocator() async {
   locator.registerSingleton<SplashService>(SplashService());
 
   locator.registerSingleton<UnmissableService>(UnmissableService());
-  locator.registerSingleton<PlacesFoodService>(PlacesFoodService());
+  locator.registerSingleton<PlacesEatService>(PlacesEatService());
   locator.registerSingleton<AudioGuideService>(AudioGuideService());
   locator.registerSingleton<EventService>(EventService());
   locator.registerSingleton<PlacesSleepService>(PlacesSleepService());

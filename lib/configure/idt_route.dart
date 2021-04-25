@@ -8,6 +8,7 @@ import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_page.dart';
 import 'package:bogota_app/pages/events/events_page.dart';
+import 'package:bogota_app/pages/events/events_view_model.dart';
 import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/login/login_page.dart';
@@ -170,9 +171,9 @@ class IdtRoute {
     );
   }
 
-  goEvents({required String title, String? nameFilter, required bool includeDay}){
+  goEvents(int optionIndex){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
+      MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EVENT, optionIndex: optionIndex,))
     );
   }
 
@@ -182,9 +183,15 @@ class IdtRoute {
     );
   }
 
-  goSleeps({required String title, String? nameFilter, required bool includeDay}){
+  goSleeps(int optionIndex){
     return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> EventsPage(title: title, nameFilter: nameFilter, includeDay: includeDay))
+        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex))
+    );
+  }
+
+  goEat(int optionIndex){
+    return navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex))
     );
   }
 

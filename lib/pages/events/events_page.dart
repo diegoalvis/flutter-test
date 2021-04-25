@@ -22,29 +22,27 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class EventsPage extends StatelessWidget {
-  final String title;
-  final String? nameFilter;
-  final bool includeDay;
+  final SocialEventType type;
+  final int? optionIndex;
 
-  EventsPage({required this.title, this.nameFilter, required this.includeDay, });
+  EventsPage({required this.type, this.optionIndex});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>(), type),
       builder: (context, _) {
-        return EventsWidget(title, nameFilter, includeDay);
+        return EventsWidget(optionIndex);
       },
     );
   }
 }
 
 class EventsWidget extends StatefulWidget {
-  final String _title;
-  final String? _nameFilter;
-  final bool _includeDay;
+  final int? optionIndex;
 
-  EventsWidget(this._title, this._nameFilter, this._includeDay);
+  EventsWidget(this.optionIndex);
 
   @override
   _EventsWidgetState createState() => _EventsWidgetState();
@@ -77,20 +75,25 @@ class _EventsWidgetState extends State<EventsWidget> {
 
   Widget _buildDiscover(EventsViewModel viewModel) {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final String title = viewModel.status.title;
+    final String nameFilter = viewModel.status.nameFilter;
 
     final textTheme = Theme.of(context).textTheme;
 
     final menu = viewModel.status.openMenu
         ? Padding(
             padding: EdgeInsets.only(top: 70),
-            child: IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 4,),
+            child: IdtMenu(
+              closeMenu: viewModel.closeMenu,
+              optionIndex: widget.optionIndex,
+            ),
           )
         : SizedBox.shrink();
 
     final menuTap =
         /*viewModel.status.openMenuTab ?
       IdtMenuTap(
-        listItems: widget._includeDay ? listMenuEvent : listMenu,
+        listItems: isEvent ? listMenuEvent : listMenu,
         closeMenu: viewModel.closeMenuTab,
         isBlue: true,
         goFilters: viewModel.closeMenuTab,
@@ -121,7 +124,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: Text(
-                            widget._nameFilter?.toUpperCase() ?? 'TODOS',
+                            nameFilter.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: textTheme.textDetail
                                 .copyWith(fontSize: 15, fontWeight: FontWeight.w400),
@@ -146,122 +149,123 @@ class _EventsWidgetState extends State<EventsWidget> {
       );
     }
 
-    Widget imagesCard(String image, int index, List listItems, String namePlace, String dayOfMonth,
-            String month) =>
-        (Center(
-          child: Stack(
-            children: <Widget>[
-              InkWell(
-                onTap:
-                    widget._includeDay ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
-                child: ClipRRect(
-                  borderRadius:
-                      // Validacion para el borde superior izquiero
-                      (index == 0)
-                          ? BorderRadius.only(topLeft: Radius.circular(15))
+    Widget imagesCard(int index, int totalItems, DataModel model) {
+      final String namePlace = model.title ?? '';
+      final imageUrl = viewModel.getImageUrl(model);
 
-                          // Validacion para el borde superior derecho
-                          : (index == 2)
-                              ? BorderRadius.only(topRight: Radius.circular(15))
+      final isEvent = viewModel.type == SocialEventType.EVENT;
+      late String month, dayOfMonth;
+      if (isEvent) {
+        final String dateMmmDdd =
+            DateFormat('MMMd', 'es').format(DateTime.parse('2021-01-11T16:27:45')); //model.date
+        month = dateMmmDdd.split(" ").first;
+        dayOfMonth = dateMmmDdd.split(" ").last;
+      }
 
-                              // Validaciones para el borde inferior izquiero
-                              : (index == (listItems.length - 3) && index % 3 == 0)
-                                  ? BorderRadius.only(bottomLeft: Radius.circular(15))
-                                  : (index == (listItems.length - 2) && index % 3 == 0)
-                                      ? BorderRadius.only(bottomLeft: Radius.circular(15))
-                                      : (index == (listItems.length - 1) && index % 3 == 0)
-                                          ? BorderRadius.only(bottomLeft: Radius.circular(15))
+      return (Center(
+        child: Stack(
+          children: <Widget>[
+            InkWell(
+              onTap: isEvent ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+              child: ClipRRect(
+                borderRadius:
+                    // Validacion para el borde superior izquiero
+                    (index == 0)
+                        ? BorderRadius.only(topLeft: Radius.circular(15))
 
-                                          // Validacion para el borde inferior derecho
-                                          : (index == (listItems.length - 1) &&
-                                                  (index + 1) % 3 == 0)
-                                              ? BorderRadius.only(bottomRight: Radius.circular(15))
-                                              : BorderRadius.circular(0.0),
-                  child: SizedBox(
-                    child: Image.network(
-                      image,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
+                        // Validacion para el borde superior derecho
+                        : (index == 2)
+                            ? BorderRadius.only(topRight: Radius.circular(15))
+
+                            // Validaciones para el borde inferior izquiero
+                            : (index == (totalItems - 3) && index % 3 == 0)
+                                ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                                : (index == (totalItems - 2) && index % 3 == 0)
+                                    ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                                    : (index == (totalItems - 1) && index % 3 == 0)
+                                        ? BorderRadius.only(bottomLeft: Radius.circular(15))
+
+                                        // Validacion para el borde inferior derecho
+                                        : (index == (totalItems - 1) && (index + 1) % 3 == 0)
+                                            ? BorderRadius.only(bottomRight: Radius.circular(15))
+                                            : BorderRadius.circular(0.0),
+                child: SizedBox(
+                  child: Image.network(
+                    imageUrl,
+                    height: 200,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                    padding: widget._includeDay
-                        ? EdgeInsets.only(left: 10.0)
-                        : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Text(namePlace.toUpperCase(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: widget._includeDay ? TextAlign.right : TextAlign.center,
-                              style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
-                        ),
-                        widget._includeDay
-                            ? Expanded(
-                          flex: 2,
-                          child: Container(
-                                  margin: EdgeInsets.only(left: 3),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      gradient: LinearGradient(colors: IdtGradients.orange),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                      )),
-                                  padding: EdgeInsets.symmetric(vertical: 2),
-                                  child: Column(
-                                    children: [
-                                      Text(dayOfMonth,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: textTheme.textButtomWhite
-                                              .copyWith(fontSize: 16, )),
-                                      Text(month,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: textTheme.textButtomWhite.copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-                                    ],
-                                  ),
+            ),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                  padding: isEvent
+                      ? EdgeInsets.only(left: 30.0)
+                      : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(namePlace.toUpperCase(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: isEvent ? TextAlign.right : TextAlign.center,
+                            style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
+                      ),
+                      isEvent
+                          ? Expanded(
+                              flex: 2,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 3),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    gradient: LinearGradient(colors: IdtGradients.orange),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                    )),
+                                padding: EdgeInsets.symmetric(vertical: 2),
+                                child: Column(
+                                  children: [
+                                    Text(dayOfMonth,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: textTheme.textButtomWhite.copyWith(
+                                          fontSize: 16,
+                                        )),
+                                    Text(month,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: textTheme.textButtomWhite
+                                            .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
+                                  ],
                                 ),
-                              )
-                            : SizedBox.shrink()
-                      ],
-                    )),
-              ),
-            ],
-          ),
-        ));
+                              ),
+                            )
+                          : SizedBox.shrink()
+                    ],
+                  )),
+            ),
+          ],
+        ),
+      ));
+    }
 
     Widget gridImagesCol3(List<DataModel> listItems) => (GridView.count(
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          crossAxisCount: 3,
-          crossAxisSpacing: 3,
-          mainAxisSpacing: 5,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          children: listItems.asMap().entries.map((entry) {
-            final int index = entry.key;
-            final imageUrl = entry.value.coverImage ?? '';
-            final String image = IdtConstants.url_image + imageUrl;
-            final String namePlace = entry.value.title ?? '';
-            initializeDateFormatting();
-            final String dateMmmDdd =
-                DateFormat('MMMd','es' ).format(DateTime.parse('2021-01-11T16:27:45')); //entry.value.date
-            List separatedDate = dateMmmDdd.split(" ");
-
-            return imagesCard(
-                image, index, listItems, namePlace, separatedDate[0], separatedDate[1]);
-          }).toList(),
-        ));
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        crossAxisCount: 3,
+        crossAxisSpacing: 3,
+        mainAxisSpacing: 5,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        children: List.generate(listItems.length, (index) {
+          return imagesCard(index, listItems.length, listItems[index]);
+        })));
 
     return Stack(
       children: [
@@ -275,7 +279,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                 height: 100,
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  widget._title.toUpperCase(),
+                  title.toUpperCase(),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleWhite,
@@ -283,7 +287,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsEventPlaces), //viewModel.status.itemsEventPlaces
+              gridImagesCol3(viewModel.status.itemsPlaces),
               SizedBox(height: 55),
             ],
           ),

@@ -21,7 +21,6 @@ class PlacesSleepService {
         case 200:
           {
             final entity = PlacesResponse.fromJson(body);
-            print('PlacesSleep Status: ${entity.status}');
             return IdtResult.success(entity.data);
           }
 

@@ -144,8 +144,8 @@ class DataTest {
     'MÁS ALLÁ DE BOGOTÁ',
     'EVENTOS',
     //'RECORRIDOS ESPECIALES',
-    '*DÓNDE DORMIR',
-    '*DÓNDE COMER',
+    'DÓNDE DORMIR',
+    'DÓNDE COMER',
     '*LUGARES GUARDADOS',
     '*PRIVACIDAD Y TÉRMINOS'
   ];
