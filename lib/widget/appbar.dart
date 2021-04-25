@@ -25,13 +25,6 @@ class IdtAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 50.0,
           width: 100.0,
         ),
-/*        title: SvgPicture.asset(
-          IdtAssets.logo_bogota_black,
-          fit: BoxFit.contain,
-          alignment: Alignment.center,
-          height: 50.0,
-          width: 100.0,
-        ),*/
         leading: backButton
             ? IconButton(
                 icon: SvgPicture.asset(
