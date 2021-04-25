@@ -6,8 +6,8 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
-class PlacesFoodService {
-  Future<IdtResult<List<DataModel>?>> getPlacesFood() async {
+class PlacesEatService {
+  Future<IdtResult<List<DataModel>?>> getPlacesEat() async {
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/food');

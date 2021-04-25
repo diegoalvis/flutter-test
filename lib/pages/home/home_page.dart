@@ -127,7 +127,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,
                 resUnmissable: viewModel.status.itemsUnmissablePlaces,
-                resFood: viewModel.status.itemsFoodPlaces,
+                resFood: viewModel.status.itemsEatPlaces,
               )
             ],
           ),

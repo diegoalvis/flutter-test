@@ -189,6 +189,12 @@ class IdtRoute {
     );
   }
 
+  goEat(int optionIndex){
+    return navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex))
+    );
+  }
+
   goSavedPlaces(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> SavedPlacesPage())

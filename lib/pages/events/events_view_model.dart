@@ -2,12 +2,11 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
+import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:intl/intl.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
 
@@ -40,7 +39,8 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         getSleepsResponse();
         break;
       case SocialEventType.EAT:
-        title = '----';
+        title = 'Dónde comer';
+        nameFilter = 'Localidad';
         getEatResponse();
     }
     status = status.copyWith(
@@ -80,7 +80,17 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void getEatResponse() async {
-    //TODO
+    final eatResponse = await _interactor.getEatPlacesList();
+
+    if (eatResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsPlaces: eatResponse.body); // Status reasignacion
+
+    } else {
+      final erroRes = EventError as IdtFailure<EatError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void selectType() {
@@ -136,7 +146,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         imageUrl = value.image;
         break;
       case SocialEventType.EAT:
-        //todo
+        imageUrl = value.image;
         break;
     }
     return IdtConstants.url_image + (imageUrl ?? '');

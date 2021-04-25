@@ -171,7 +171,7 @@ class IdtMenu extends StatelessWidget {
         _route.goSleeps(index);
         break;
       case 6:
-        // _route.goFiltersUntil('Gastronomía') TODO
+        _route.goEat(index);
         break;
       case 7:
         _route.goSavedPlacesUntil();
