@@ -120,7 +120,6 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void goDetailPageHotel() {
-    //todo
     //  _route.goDetail(isHotel: true);
   }
 
