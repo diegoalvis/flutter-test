@@ -145,7 +145,7 @@ class IdtRoute {
     );
   }
 
-  goAudioGuide(){
+  goAudioGuide(int optionIndex){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> AudioGuidePage())
     );
@@ -164,9 +164,9 @@ class IdtRoute {
   //   );
   // }
 
-  goUnmissableUntil(){
+  goUnmissableUntil(int optionIndex){
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> UnmissablePage()),
+      MaterialPageRoute(builder: (_)=> UnmissablePage(optionIndex: optionIndex, )),
       (route) => route.isFirst
     );
   }
