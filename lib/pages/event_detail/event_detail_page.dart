@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/places_social_detail_model.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -57,10 +59,13 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
   late VideoPlayerController _controller;
   final _route = locator<IdtRoute>();
 
+
   @override
   void initState() {
+    print(widget._detail.video);
     _controller = VideoPlayerController.network(
-        widget._detail.video ??
+        // widget._detail.video.toString()   //todo
+        // 'https://youtu.be/oKJAeXNLqMY'
             'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
     _controller.addListener(() {
@@ -124,7 +129,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               SizedBox(
                 width: 120,
                 child: Text(
-                  'Parque Simón Bolivar',
+                  widget._detail.place!,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -157,7 +162,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               SizedBox(
                 width: 120,
                 child: Text(
-                  'tel: +573133333',
+                  'tel: ${widget._detail.phone}',
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -182,14 +187,14 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   height: 320,
                   viewportFraction: 0.6
               ),
-              items: DataTest.imgList2.map((item) =>
+              items: widget._detail.gallery!.map((item) =>
                   Container(
                     child: Container(
                       margin: EdgeInsets.all(5.0),
                       child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
                           child: Image.network(
-                              item,
+                              IdtConstants.url_image + item,
                               fit: BoxFit.cover
                           )
                       ),
@@ -253,6 +258,10 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
     }
 
     Widget _body() {
+      final String dateEvent =
+      DateFormat('yMMMMd', 'es').format(DateTime.parse(widget._detail.date!));
+      final viewModel = context.watch<EventDetailViewModel>();
+
       return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -260,7 +269,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 child: Text(
-                  'ROCK AL PARQUE',
+                  widget._detail.title!,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -270,7 +279,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               ),
               Text(
-                'Julio 14, 15 y 16 de 2021'.toUpperCase(),
+                dateEvent.toUpperCase(),
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
@@ -334,7 +343,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 padding: EdgeInsets.symmetric(horizontal: 55),
                 margin: EdgeInsets.only(bottom: 15),
                 child: Text(
-                  'Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de. Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero, que exhibe arte de Fernando Botero, y el Museo del Oro, con piezas de, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,, Bogotá es la extensa capital en altura de Colombia. La Candelaria, su populares, incluido el Museo Botero,',
+                  widget._detail.description!,
                   style: textTheme.textButtomWhite,
                   maxLines: viewModel.status.moreText ? null : 20,
                   overflow: TextOverflow.fade,

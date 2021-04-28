@@ -157,7 +157,7 @@ class _EventsWidgetState extends State<EventsWidget> {
       late String month, dayOfMonth;
       if (isEvent) {
         final String dateMmmDdd =
-            DateFormat('MMMd', 'es').format(DateTime.parse('2021-01-11T16:27:45')); //model.date
+            DateFormat('MMMd', 'es').format(DateTime.parse(model.date!));
         month = dateMmmDdd.split(" ").first;
         dayOfMonth = dateMmmDdd.split(" ").last;
       }
