@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bogota_app/data/model/places_social_detail_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -22,7 +23,9 @@ import '../../app_theme.dart';
 
 class EventDetailPage extends StatelessWidget {
 
-  EventDetailPage();
+  final DataPlacesSocialDetailModel detail;
+
+  EventDetailPage({required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +36,17 @@ class EventDetailPage extends StatelessWidget {
               locator<ApiInteractor>()
           ),
       builder: (context, _) {
-        return EventDetailWidget();
+        return EventDetailWidget(detail);
       },
     );
   }
 }
 
 class EventDetailWidget extends StatefulWidget {
+  final DataPlacesSocialDetailModel _detail;
+
+
+  EventDetailWidget(this._detail);
 
   @override
   _EventDetailWidgetState createState() => _EventDetailWidgetState();
@@ -53,7 +60,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+        widget._detail.video ??
+            'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
     _controller.addListener(() {
       setState(() {});

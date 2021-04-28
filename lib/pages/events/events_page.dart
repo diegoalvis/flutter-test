@@ -166,7 +166,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         child: Stack(
           children: <Widget>[
             InkWell(
-              onTap: isEvent ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+              onTap: isEvent ? viewModel.goDetailSocialPage(model.id.toString(),) : null,//todo hotel & restaurant
               child: ClipRRect(
                 borderRadius:
                     // Validacion para el borde superior izquiero

@@ -21,11 +21,6 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     );
   }
 
-  void onInit() async {
-    //TODO
-    print('detail view');
-   // getPlaceByIdResponse('287');
-  }
 
 
   void readMore(){
