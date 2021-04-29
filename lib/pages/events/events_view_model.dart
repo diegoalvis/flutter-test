@@ -126,7 +126,6 @@ class EventsViewModel extends ViewModel<EventsStatus> {
 
     final placeEventbyIdResponse = await _interactor.getPlaceSocialById(id);
     if (placeEventbyIdResponse is IdtSuccess<DataPlacesSocialDetailModel?>) {
-      print('Titulo del evento: ${placeEventbyIdResponse.body!.title}');
       _route.goEventsDetail(detail: placeEventbyIdResponse.body!);
     } else {
       final erroRes = placeEventbyIdResponse as IdtFailure<UnmissableError>;

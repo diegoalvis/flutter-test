@@ -62,7 +62,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   @override
   void initState() {
-    print(widget._detail.video);
     _controller = VideoPlayerController.network(
         // widget._detail.video.toString()   //todo
         // 'https://youtu.be/oKJAeXNLqMY'
@@ -124,7 +123,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   color: IdtColors.white,
                   size: 50,
                 ),
-                onPressed: viewModel.launchMap(widget._detail.location!),
+                onPressed:()=> viewModel.launchMap(widget._detail.location!),
               ),
               SizedBox(
                 width: 120,
@@ -215,7 +214,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               ),
               InkWell(
-                onTap: viewModel.launchMap(widget._detail.location!),
+                onTap: ()=> viewModel.launchMap(widget._detail.location!),
                 child: Container(
                   height: size.width * 0.2,
                   width: size.width * 0.2,

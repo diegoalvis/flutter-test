@@ -22,7 +22,6 @@ class EventService {
       switch (response.statusCode) {
         case 200:
           {
-            print('respuesta exitosa para event');  //
             final entity = ResponseModel.fromJson(body);
             return IdtResult.success(entity.data);
           }
