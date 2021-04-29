@@ -58,6 +58,7 @@ class _DetailWidgetState extends State<DetailWidget> {
 
   @override
   void initState() {
+    print('detail page');
     final viewModel = context.read<DetailViewModel>();
   //  viewModel.getPlaceByIdResponse(widget.id);
 
@@ -465,6 +466,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child: Text(
+                        widget._detail.description ??
                           widget._detail.body!,
                           style: textTheme.textDescrip,
                           maxLines: viewModel.status.moreText ? null : 20,
