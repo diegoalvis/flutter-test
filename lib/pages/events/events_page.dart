@@ -157,7 +157,7 @@ class _EventsWidgetState extends State<EventsWidget> {
       late String month, dayOfMonth;
       if (isEvent) {
         final String dateMmmDdd =
-            DateFormat('MMMd', 'es').format(DateTime.parse('2021-01-11T16:27:45')); //model.date
+            DateFormat('MMMd', 'es').format(DateTime.parse(model.date!));
         month = dateMmmDdd.split(" ").first;
         dayOfMonth = dateMmmDdd.split(" ").last;
       }
@@ -166,7 +166,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         child: Stack(
           children: <Widget>[
             InkWell(
-              onTap: isEvent ? viewModel.goDetailEventPage : viewModel.goDetailPageHotel,
+              onTap: isEvent ? () => viewModel.goDetailSocialPage(model.id.toString(),) : null,//todo hotel & restaurant
               child: ClipRRect(
                 borderRadius:
                     // Validacion para el borde superior izquiero

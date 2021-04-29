@@ -35,7 +35,7 @@ dependencies:
 
   #Assets
   flutter_svg: ^0.21.0-nullsafety.0
-  video_player: ^2.0.0
+  video_player: ^2.1.1
   just_audio: ^0.7.0
 
   #Views

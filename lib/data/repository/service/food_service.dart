@@ -21,7 +21,6 @@ class PlacesEatService {
         case 200:
           {
             final entity = PlacesResponse.fromJson(body);
-          print('PlacesFood Status: ${entity.status}');
             return IdtResult.success(entity.data);
           }
 
