@@ -1,6 +1,8 @@
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+
 import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/places_social_detail_model.dart';
 import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
@@ -52,7 +54,7 @@ class ApiInteractor {
   }
 
   Future<IdtResult<List<DataModel>?>> getEventPlacesList() async {
-    final response = await locator<EventService>().getEvent();
+    final response = await locator<EventService>().getPlacesEvent();
     return response;
   }
 
@@ -79,6 +81,10 @@ class ApiInteractor {
   }
   Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
     final response = await locator<FilterService>().getPlaceById(id);
+    return response;
+  }
+  Future<IdtResult<DataPlacesSocialDetailModel?>> getPlaceSocialById(String id) async {
+    final response = await locator<EventService>().getPlaceSocialById(id);
     return response;
   }
 

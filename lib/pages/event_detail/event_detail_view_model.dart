@@ -31,9 +31,11 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     status = status.copyWith(isFavorite: !value);
   }
 
-  void launchMap() async {
-    final double lat = 4.8272214;
-    final double lon = -74.0310254;
+ void launchMap(String location) async {
+    String longitude = location.split(", ").first;
+    String latitude = location.split(", ").last;
+    final double lat = double.parse(latitude);
+    final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
     if (await canLaunch(url)) {
       await launch(url);

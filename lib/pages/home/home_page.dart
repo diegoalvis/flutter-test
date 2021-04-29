@@ -97,7 +97,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
-          ? IdtMenu(closeMenu: viewModel.closeMenu ,)
+          ? IdtMenu(closeMenu: viewModel.closeMenu , optionIndex: 3,)
           : SizedBox.shrink(),
     );
     final loading =

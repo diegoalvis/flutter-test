@@ -20,25 +20,31 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class UnmissablePage extends StatelessWidget {
+  final int? optionIndex;
+
+  UnmissablePage({this.optionIndex});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) =>
           UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return UnmissableWidget();
+        return UnmissableWidget(optionIndex);
       },
     );
   }
 }
 
 class UnmissableWidget extends StatefulWidget {
+  final int? optionIndex;
+
+  const UnmissableWidget(this.optionIndex);
+
   @override
   _UnmissableWidgetState createState() => _UnmissableWidgetState();
 }
 
 class _UnmissableWidgetState extends State<UnmissableWidget> {
-
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<UnmissableViewModel>().getUnmissableResponse();});
@@ -64,10 +70,11 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
   }
 
   Widget _buildDiscover(UnmissableViewModel viewModel) {
+
     final textTheme = Theme.of(context).textTheme;
     final List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
     final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 3,)
+        ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: widget.optionIndex,)
         : SizedBox.shrink();
 
     Widget _buttonTap(String label) {
