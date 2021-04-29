@@ -1,6 +1,6 @@
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
@@ -9,6 +9,7 @@ import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/cupertino.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
 
@@ -121,14 +122,28 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  goDetailSocialPage(String id) async {
+  goDetailEventPage(String id) async {
     status = status.copyWith(isLoading: true);
 
-    final placeEventbyIdResponse = await _interactor.getPlaceSocialById(id);
-    if (placeEventbyIdResponse is IdtSuccess<DataPlacesSocialDetailModel?>) {
-      _route.goEventsDetail(detail: placeEventbyIdResponse.body!);
+    final placeEventByIdResponse = await _interactor.getEventSocialById(id);
+    if (placeEventByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+      _route.goEventDetail(detail: placeEventByIdResponse.body!);
     } else {
-      final erroRes = placeEventbyIdResponse as IdtFailure<UnmissableError>;
+      final erroRes = placeEventByIdResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+  goDetailEatPage(String id) async{
+    status = status.copyWith(isLoading: true);
+
+    final placeEatByIdResponse = await _interactor.getEatSocialById(id);
+    if(placeEatByIdResponse is IdtSuccess<DataPlacesDetailModel?>){
+      _route.goEatDetail(detail: placeEatByIdResponse.body!);
+    } else {
+      final erroRes = placeEatByIdResponse as IdtFailure<UnmissableError>;
       print(erroRes.message);
       UnimplementedError();
     }

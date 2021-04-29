@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
 import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
@@ -178,7 +177,7 @@ class IdtRoute {
     );
   }
 
-  goEventsDetail({required DataPlacesSocialDetailModel detail}){
+  goEventDetail({required DataPlacesDetailModel detail}){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> EventDetailPage(detail: detail,))
     );
@@ -193,6 +192,12 @@ class IdtRoute {
   goEat(int optionIndex){
     return navigatorKey.currentState!.push(
         MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex))
+    );
+  }
+
+  goEatDetail({required DataPlacesDetailModel detail}){
+    return navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_)=> DetailPage(isHotel: false, detail: detail,))
     );
   }
 

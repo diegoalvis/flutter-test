@@ -1,6 +1,5 @@
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/idt_model.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
 import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,7 +9,7 @@ part 'response_socialdetail_model.g.dart';
 class ResponseSocialDetailModel extends IdtModel {
 
   final int? status;
-  final DataPlacesSocialDetailModel? data;
+  final DataPlacesDetailModel? data;
 
   ResponseSocialDetailModel({this.status, this.data});
 

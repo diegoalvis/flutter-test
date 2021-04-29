@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
+import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -25,7 +25,7 @@ import '../../app_theme.dart';
 
 class EventDetailPage extends StatelessWidget {
 
-  final DataPlacesSocialDetailModel detail;
+  final DataPlacesDetailModel detail;
 
   EventDetailPage({required this.detail});
 
@@ -45,7 +45,7 @@ class EventDetailPage extends StatelessWidget {
 }
 
 class EventDetailWidget extends StatefulWidget {
-  final DataPlacesSocialDetailModel _detail;
+  final DataPlacesDetailModel _detail;
 
 
   EventDetailWidget(this._detail);
