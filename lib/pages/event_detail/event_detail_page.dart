@@ -124,7 +124,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   color: IdtColors.white,
                   size: 50,
                 ),
-                onPressed: viewModel.launchMap,
+                onPressed: viewModel.launchMap(widget._detail.location!),
               ),
               SizedBox(
                 width: 120,
@@ -215,7 +215,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               ),
               InkWell(
-                onTap: viewModel.launchMap,
+                onTap: viewModel.launchMap(widget._detail.location!),
                 child: Container(
                   height: size.width * 0.2,
                   width: size.width * 0.2,
