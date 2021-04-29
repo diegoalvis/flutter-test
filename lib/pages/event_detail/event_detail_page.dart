@@ -370,9 +370,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                  IdtAssets.splash
-              ),
+              image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
               fit: BoxFit.fitHeight,
             )
         ),
