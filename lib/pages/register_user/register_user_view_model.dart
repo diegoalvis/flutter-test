@@ -1,5 +1,7 @@
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/register_model.dart';
+import 'package:bogota_app/data/model/request/register_request.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -20,6 +22,7 @@ class RegisterUserViewModel extends ViewModel<RegisterUserStatus>  {
   RegisterUserViewModel(this._route, this._interactor) {
     status = RegisterUserStatus(
       isLoading: false,
+      isAlert: false
 
     );
   }
@@ -29,7 +32,27 @@ class RegisterUserViewModel extends ViewModel<RegisterUserStatus>  {
     // getUnmissableResponse();
     // getFoodResponse();
   }
+  registerResponse(RegisterRequest data ) async {
+    print('entra a registro');
 
+    final registerResponse = await _interactor.register(data);
+    if (registerResponse is IdtSuccess<RegisterModel?>) {
+      print("model register");
+      print(registerResponse);
+      //  status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+      _route.goHome();
+    } else {
+      final erroRes = registerResponse as IdtFailure<RegisterModel?>;
+      print('error en viewmodel');
+      print(erroRes.message);
+      status = status.copyWith(isAlert: true);
+      UnimplementedError();
+
+    }
+    status = status.copyWith(isLoading: false);
+  }
 
   void setLocationUser() async {
 

@@ -1,7 +1,15 @@
+import 'dart:convert';
+
+import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/register_model.dart';
+import 'package:bogota_app/data/model/request/login_request.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/login/login_status.dart';
+import 'package:bogota_app/utils/errors/unmissable_error.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginViewModel extends ViewModel<LoginStatus> {
@@ -12,8 +20,8 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   LoginViewModel(this._route, this._interactor) {
     status = LoginStatus(
         isLoading: true,
-        moreText: false,
-        isFavorite: false
+        username: '',
+        password: ''
     );
   }
 
@@ -21,25 +29,33 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     // TODO
   }
 
-  void readMore(){
-    final bool tapClick = status.moreText;
-    status = status.copyWith(moreText: !tapClick);
-  }
+  void loginResponse(String username, String password) async {
+    LoginRequest params = LoginRequest(username, password);
+    print('params');
+    print(params.toJson());
+    final loginResponse = await _interactor.login(params);
 
-  void onTapFavorite() {
-    final bool value = status.isFavorite;
-    status = status.copyWith(isFavorite: !value);
-  }
+    if (loginResponse is IdtSuccess<RegisterModel?>) {
+      print("model login");
+      print(loginResponse);
+    //  status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+      _route.goHome();
 
-  void launchMap() async {
-    final double lat = 4.8272214;
-    final double lon = -74.0310254;
-    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
-    if (await canLaunch(url)) {
-      await launch(url);
     } else {
-      throw 'Error al lanzar la url: $url';
+      final erroRes = loginResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
     }
+    status = status.copyWith(isLoading: false);
+  }
+
+
+  void goUserHomePage(String username, String password) {
+    print('view model username');
+    print(username);
+    _route.goUserHome();
   }
 
 }

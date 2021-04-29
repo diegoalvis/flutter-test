@@ -92,6 +92,12 @@ class IdtRoute {
     );
   }
 
+  goUserHome(){
+    return navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_)=> HomePage())
+    );
+  }
+
   goDiscoverUntil(){
     return navigatorKey.currentState!.pushAndRemoveUntil(
       MaterialPageRoute(builder: (_)=> DiscoverPage()),

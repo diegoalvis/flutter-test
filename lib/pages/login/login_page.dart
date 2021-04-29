@@ -42,7 +42,27 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+
+    usernameController.addListener(_printLatestValue);
+    passwordController.addListener(_printLatestValue);
+  }
+  _printLatestValue() {
+    print("Second text field: ${usernameController.text}");
+  }
+  @override
+  void dispose() {
+    // Limpia el controlador cuando el widget se elimine del árbol de widgets
+    // Esto también elimina el listener _printLatestValue
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +244,10 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                             ),
                             style: TextStyle(color: Colors.white),
+                            controller: usernameController,
+                            onChanged: (text) {
+                                print("First text field: $text");
+                              }
                           ),
                         ),
                       ),
@@ -260,6 +284,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                             minLines: 1,
                             style: TextStyle(color: Colors.white),
                             obscureText: true,
+                              controller: passwordController,
+                              onChanged: (text) {
+                                print("First text field: $text");
+                              }
                           ),
                         ),
                       ),
@@ -296,10 +324,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             fontSize: 16, fontWeight: FontWeight.bold)
                     )),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    viewModel.loginResponse(usernameController.text,passwordController.text);
                   }
               ),
             )),

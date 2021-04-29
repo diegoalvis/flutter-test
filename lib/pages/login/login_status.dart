@@ -3,16 +3,17 @@ import 'package:bogota_app/view_model.dart';
 class LoginStatus extends ViewStatus{
 
   final bool isLoading;
-  final bool moreText;
-  final bool isFavorite;
+  final String username;
+  final String password;
 
-  LoginStatus({required this.isLoading, required this.moreText, required this.isFavorite});
+  LoginStatus({required this.isLoading,required this.username,required this.password,  });
 
-  LoginStatus copyWith({bool? isLoading, bool? moreText, bool? isFavorite}) {
+  LoginStatus copyWith({bool? isLoading, String? username, String? password}) {
     return LoginStatus(
         isLoading: isLoading ?? this.isLoading,
-        moreText: moreText ?? this.moreText,
-        isFavorite: isFavorite ?? this.isFavorite
+      username: username ?? this.username,
+      password: password ?? this.password,
+
     );
   }
 }

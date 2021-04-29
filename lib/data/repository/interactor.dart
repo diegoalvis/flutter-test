@@ -2,6 +2,9 @@ import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/register_model.dart';
+import 'package:bogota_app/data/model/request/login_request.dart';
+import 'package:bogota_app/data/model/request/register_request.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/repository/service/audioguide_service.dart';
@@ -9,6 +12,8 @@ import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/food_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
+import 'package:bogota_app/data/repository/service/login_service.dart';
+import 'package:bogota_app/data/repository/service/register_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
@@ -80,6 +85,20 @@ class ApiInteractor {
 
   Future<IdtResult<GpsModel?>> postLocationUser(GpsModel gpsModel) async {
     final response = await locator<GpsService>().setLocationUser(gpsModel);
+
+    return response;
+  }
+
+  Future<IdtResult<RegisterModel?>> login(LoginRequest params) async {
+    print('entra al future del login');
+    final response = await locator<LoginService>().postLogin(params);
+
+    return response;
+  }
+
+  Future<IdtResult<RegisterModel?>> register(RegisterRequest params) async {
+
+    final response = await locator<RegisterService>().postRegister(params);
 
     return response;
   }
