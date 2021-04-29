@@ -58,7 +58,6 @@ class _DetailWidgetState extends State<DetailWidget> {
 
   @override
   void initState() {
-    print('detail page');
     final viewModel = context.read<DetailViewModel>();
   //  viewModel.getPlaceByIdResponse(widget.id);
 
@@ -164,7 +163,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                         },
                       ),
                       Text(
-                        widget._detail.rate! == 0?  widget._detail.rate!+'/5': _newrating.toString(),
+                        widget._detail.rate == 0?  widget._detail.rate!+'/5': _newrating.toString(),
                         style: textTheme.textWhiteShadow.copyWith(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       )

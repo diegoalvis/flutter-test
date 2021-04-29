@@ -122,30 +122,36 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  goDetailEventPage(String id) async {
+  goDetailPage(String id, SocialEventType type) async {
     status = status.copyWith(isLoading: true);
+    final placeByIdResponse;
 
-    final placeEventByIdResponse = await _interactor.getEventSocialById(id);
-    if (placeEventByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
-      _route.goEventDetail(detail: placeEventByIdResponse.body!);
-    } else {
-      final erroRes = placeEventByIdResponse as IdtFailure<UnmissableError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  goDetailEatPage(String id) async{
-    status = status.copyWith(isLoading: true);
-
-    final placeEatByIdResponse = await _interactor.getEatSocialById(id);
-    if(placeEatByIdResponse is IdtSuccess<DataPlacesDetailModel?>){
-      _route.goEatDetail(detail: placeEatByIdResponse.body!);
-    } else {
-      final erroRes = placeEatByIdResponse as IdtFailure<UnmissableError>;
-      print(erroRes.message);
-      UnimplementedError();
+    switch (type) {
+      case SocialEventType.EVENT:
+        placeByIdResponse = await _interactor.getEventSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goEventDetail(detail: placeByIdResponse.body!);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
+        break;
+      case SocialEventType.SLEEP:
+        // TODO: Handle this case.`
+        break;
+      case SocialEventType.EAT:
+        placeByIdResponse = await _interactor.getEatSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goDetail(detail: placeByIdResponse.body!, isHotel: false);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
+        break;
     }
     status = status.copyWith(isLoading: false);
   }

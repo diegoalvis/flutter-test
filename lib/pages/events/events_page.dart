@@ -151,7 +151,6 @@ class _EventsWidgetState extends State<EventsWidget> {
 
     Widget imagesCard(int index, int totalItems, DataModel model) {
       final imageUrl = viewModel.getImageUrl(model);
-
       final isEvent = viewModel.type == SocialEventType.EVENT;
       final isSleep = viewModel.type == SocialEventType.SLEEP;
       final isEat = viewModel.type == SocialEventType.EAT;
@@ -167,12 +166,8 @@ class _EventsWidgetState extends State<EventsWidget> {
         child: Stack(
           children: <Widget>[
             InkWell(
-              onTap:
-              isEvent ? () =>
-                  viewModel.goDetailEventPage(model.id.toString(),) : //Dgo
-              isEat ? () =>
-                  viewModel.goDetailEatPage(model.id.toString()):
-              null,//todo hotel & restaurant
+              onTap: () =>
+                  viewModel.goDetailPage(model.id.toString(), viewModel.type),
               child: ClipRRect(
                 borderRadius:
                     // Validacion para el borde superior izquiero
