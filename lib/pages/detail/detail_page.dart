@@ -113,7 +113,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                 IdtConstants.url_image + widget._detail.image!,
                 width: size.width,
                 height: size.height * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               )
             ],
           ),
