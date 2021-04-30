@@ -139,7 +139,15 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.SLEEP:
-        // TODO: Handle this case.`
+        placeByIdResponse = await _interactor.getSleepSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goDetail(detail: placeByIdResponse.body!, isHotel: true);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.EAT:
         placeByIdResponse = await _interactor.getEatSocialById(id);

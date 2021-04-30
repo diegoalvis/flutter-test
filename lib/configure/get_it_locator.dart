@@ -26,7 +26,7 @@ void setUpLocator() async {
   locator.registerSingleton<EatService>(EatService());
   locator.registerSingleton<AudioGuideService>(AudioGuideService());
   locator.registerSingleton<EventService>(EventService());
-  locator.registerSingleton<PlacesSleepService>(PlacesSleepService());
+  locator.registerSingleton<SleepService>(SleepService());
   // locator.registerSingleton<ZoneService>(ZoneService());
 
   /* locator.registerSingletonAsync(() async {

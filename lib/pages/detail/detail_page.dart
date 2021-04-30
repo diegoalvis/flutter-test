@@ -379,9 +379,16 @@ class _DetailWidgetState extends State<DetailWidget> {
       );
     }
 
-    Widget _btnGradient(IconData icon, Color color, List<Color> listColors) {
+    Widget _btnGradient(
+      String dataText, {
+      required onPress,
+      required IconData icon,
+      required Color color,
+      required List<Color> listColors,
+    }) {
       //Columna de botonoes para los hoteles
       return RaisedButton(
+        onPressed: onPress ,
         shape: RoundedRectangleBorder(
             side: BorderSide(color: color, width: 1), borderRadius: BorderRadius.circular(17.0)),
         padding: EdgeInsets.all(0),
@@ -405,14 +412,13 @@ class _DetailWidgetState extends State<DetailWidget> {
                 Expanded(
                   flex: 9,
                   child: Text(
-                    'Carrera 2 Este No. 1',
+                    dataText,
                     style: textTheme.textButtomWhite,
                     textAlign: TextAlign.center,
                   ),
                 )
               ],
             )),
-        onPressed: () {},
       );
     }
 
@@ -421,15 +427,27 @@ class _DetailWidgetState extends State<DetailWidget> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _btnGradient(IdtIcons.mappin, IdtColors.orange, IdtGradients.orange),
+          _btnGradient(widget._detail.address.toString(),
+              onPress: () => viewModel.launchMap(widget._detail.location!),
+              icon: IdtIcons.mappin,
+              color: IdtColors.orange,
+              listColors: IdtGradients.orange),
           SizedBox(
             height: 5,
           ),
-          _btnGradient(Icons.phone, IdtColors.green, IdtGradients.green),
+          _btnGradient(widget._detail.phone.toString(),
+              onPress: () => viewModel.launchMap(widget._detail.location!),
+
+              icon: Icons.phone, color: IdtColors.green, listColors: IdtGradients.green),
           SizedBox(
             height: 5,
           ),
-          _btnGradient(Icons.wifi_tethering_sharp, IdtColors.blueDark, IdtGradients.blueDark),
+          _btnGradient(widget._detail.webUrl.toString(),
+              onPress: () => viewModel.launchMap(widget._detail.location!),
+
+              icon: Icons.wifi_tethering_sharp,
+              color: IdtColors.blueDark,
+              listColors: IdtGradients.blueDark),
           SizedBox(
             height: 10,
           ),
@@ -460,7 +478,9 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child: Text(
-                          widget._detail.description ?? widget._detail.body!,
+                          widget._detail.description ??
+                              widget._detail.body ??
+                              'Description o body null',
                           style: textTheme.textDescrip,
                           maxLines: viewModel.status.moreText ? null : 20,
                           overflow: TextOverflow.fade,

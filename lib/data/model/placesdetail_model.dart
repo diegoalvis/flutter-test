@@ -25,6 +25,9 @@ class DataPlacesDetailModel extends IdtModel {
   final List? gallery;
   final List? ids_subcategories;
 
+  @JsonKey(name: 'web_url')
+  final String? webUrl;
+
   @JsonKey(name: 'cover_image')
   final String? coverImage;
 
@@ -34,7 +37,7 @@ class DataPlacesDetailModel extends IdtModel {
   //@JsonKey(name: 'audioguia_es')
   //final String? urlAudioguia;
 
-  DataPlacesDetailModel(this.coverImage, this.seoImage, {required this.id,this.description, this.date, this.video, this.phone, this.place,  this.title,this.body, this.image,this.audioguia_es,this.audioguia_en,this.audioguia_pt, this.rate, this.location,
+  DataPlacesDetailModel( {required this.id,this.description,this.coverImage, this.seoImage, this.webUrl, this.date, this.video, this.phone, this.place,  this.title,this.body, this.image,this.audioguia_es,this.audioguia_en,this.audioguia_pt, this.rate, this.location,
     this.address, this.gallery, this.ids_subcategories});
 
   factory DataPlacesDetailModel.fromJson(Map<String, dynamic> json) => _$DataPlacesDetailModelFromJson(json);

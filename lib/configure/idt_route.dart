@@ -194,12 +194,18 @@ class IdtRoute {
         MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex))
     );
   }
+  //
+  // goSleepDetail({required DataPlacesDetailModel detail}){
+  //   return navigatorKey.currentState!.push(
+  //       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: true, detail: detail,))
+  //   );
+  // }
 
-  goEatDetail({required DataPlacesDetailModel detail}){
-    return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> DetailPage(isHotel: false, detail: detail,))
-    );
-  }
+  // goEatDetail({required DataPlacesDetailModel detail}){
+  //   return navigatorKey.currentState!.push(
+  //       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: false, detail: detail,))
+  //   );
+  // }
 
   goSavedPlaces(){
     return navigatorKey.currentState!.push(
