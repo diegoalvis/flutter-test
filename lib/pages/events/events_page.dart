@@ -152,8 +152,6 @@ class _EventsWidgetState extends State<EventsWidget> {
     Widget imagesCard(int index, int totalItems, DataModel model) {
       final imageUrl = viewModel.getImageUrl(model);
       final isEvent = viewModel.type == SocialEventType.EVENT;
-      final isSleep = viewModel.type == SocialEventType.SLEEP;
-      final isEat = viewModel.type == SocialEventType.EAT;
       late String month, dayOfMonth;
       if (isEvent) {
         final String dateMmmDdd =
@@ -205,7 +203,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               right: 0.0,
               child: Container(
                   padding: isEvent
-                      ? EdgeInsets.only(left: 30.0)
+                      ? EdgeInsets.only(left: 5.0)
                       : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                   child: Row(
                     children: [
@@ -218,36 +216,33 @@ class _EventsWidgetState extends State<EventsWidget> {
                             style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
                       ),
                       isEvent
-                          ? Expanded(
-                              flex: 2,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 3),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    gradient: LinearGradient(colors: IdtGradients.orange),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
+                          ? Container(
+                            margin: EdgeInsets.only(left: 3),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                gradient: LinearGradient(colors: IdtGradients.orange),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                )),
+                            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                            child: Column(
+                              children: [
+                                Text(dayOfMonth,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.textButtomWhite.copyWith(
+                                      fontSize: 16,
                                     )),
-                                padding: EdgeInsets.symmetric(vertical: 2),
-                                child: Column(
-                                  children: [
-                                    Text(dayOfMonth,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.textButtomWhite.copyWith(
-                                          fontSize: 16,
-                                        )),
-                                    Text(month,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.textButtomWhite
-                                            .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
-                                  ],
-                                ),
-                              ),
-                            )
+                                Text(month,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.textButtomWhite
+                                        .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
+                              ],
+                            ),
+                          )
                           : SizedBox.shrink()
                     ],
                   )),
