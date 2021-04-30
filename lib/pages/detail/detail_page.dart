@@ -503,7 +503,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
               _footerImages(viewModel),
               SizedBox(
-                height: 10,
+                height: 80,
               )
             ],
           )),

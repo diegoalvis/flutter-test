@@ -390,7 +390,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   ),
                   _footerImages(),
                   SizedBox(
-                    height: 15,
+                    height: 80,
                   )
                 ],
               ),
