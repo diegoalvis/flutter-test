@@ -7,6 +7,7 @@ import 'package:bogota_app/pages/detail/detail_status.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
@@ -40,6 +41,19 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   void onChangeScrollController(bool value, double width){
     addEffect(DetailControllerScrollEffect(300, width, value));
+  }
+
+  void launchMap(String location) async {
+    String latitude = location.split(", ").first;
+    String longitude = location.split(", ").last;
+    final double lat = double.parse(latitude);
+    final double lon = double.parse(longitude);
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Error al lanzar la url: $url';
+    }
   }
 
 }
