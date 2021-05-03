@@ -63,88 +63,92 @@ class IdtMenu extends StatelessWidget {
     )));
 
     return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          color: IdtColors.white.withOpacity(0.95),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: IdtColors.orange,
-                    size: 35,
-                  ),
-                  onPressed: closeMenu),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            profileWidget,
-            ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding: EdgeInsets.all(8),
-              itemCount: DataTest.List2.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      onOptionSelected(index);
-                    },
-                    child: Stack(
-                      children: [
-                        optionIndex == index
-                            ? Container(
-                                decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange, 30,
-                                    Alignment.bottomCenter, Alignment.topCenter),
-                                margin: EdgeInsets.all(10),
-                                height: 30.0,
-                              )
-                            : Container(
-                                color: IdtColors.transparent,
-                                margin: EdgeInsets.all(10),
-                                height: 30.0,
-                              ),
-                        Positioned(
-                          top: 1,
-                          right: 5,
-                          left: 5,
-                          child: Container(
-                              margin: EdgeInsets.all(10),
-                              height: 30.0,
-                              alignment: Alignment.center,
-                              child: Text(' ${DataTest.List2[index]}',
-                                  style: textTheme.textMenu.copyWith(
-                                    // fontSize: 19,
-                                    color: optionIndex == index
-                                        ? IdtColors.white.withOpacity(0.8)
-                                        : IdtColors.gray.withOpacity(0.8),
-                                  ))),
-                        )
-                      ],
+      child: AnimatedSwitcher(
+        duration: Duration(milliseconds: 2000),
+
+        child: Container(
+          decoration: BoxDecoration(
+            color: IdtColors.white.withOpacity(0.95),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: IdtColors.orange,
+                      size: 35,
                     ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, posicion) {
-                return Container(
-                  height: 1,
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-          ],
+                    onPressed: closeMenu),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              profileWidget,
+              ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.all(8),
+                itemCount: DataTest.List2.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        onOptionSelected(index);
+                      },
+                      child: Stack(
+                        children: [
+                          optionIndex == index
+                              ? Container(
+                                  decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange, 30,
+                                      Alignment.bottomCenter, Alignment.topCenter),
+                                  margin: EdgeInsets.all(10),
+                                  height: 30.0,
+                                )
+                              : Container(
+                                  color: IdtColors.transparent,
+                                  margin: EdgeInsets.all(10),
+                                  height: 30.0,
+                                ),
+                          Positioned(
+                            top: 1,
+                            right: 5,
+                            left: 5,
+                            child: Container(
+                                margin: EdgeInsets.all(10),
+                                height: 30.0,
+                                alignment: Alignment.center,
+                                child: Text(' ${DataTest.List2[index]}',
+                                    style: textTheme.textMenu.copyWith(
+                                      // fontSize: 19,
+                                      color: optionIndex == index
+                                          ? IdtColors.white.withOpacity(0.8)
+                                          : IdtColors.gray.withOpacity(0.8),
+                                    ))),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, posicion) {
+                  return Container(
+                    height: 1,
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );

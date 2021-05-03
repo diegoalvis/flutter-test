@@ -17,17 +17,10 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class SearchPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (_) => SearchViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) => SearchViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SearchWidget();
       },
@@ -41,40 +34,41 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<SearchViewModel>();
 
     return SafeArea(
       child: Scaffold(
-        appBar: IdtAppBar(viewModel.onpenMenu),
-        backgroundColor: IdtColors.white,
-        extendBody: true,
-        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: _buildDiscover(viewModel)
-      ),
+          appBar: IdtAppBar(viewModel.onpenMenu),
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+          bottomNavigationBar: viewModel.status.openMenu
+              ? null
+              : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          body: _buildDiscover(viewModel)),
     );
   }
 
   Widget _buildDiscover(SearchViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child:
+          viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
+    );
 
     return Stack(
       children: [
         Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: IdtGradients.orange,
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            )
-          ),
+              gradient: LinearGradient(
+            colors: IdtGradients.orange,
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          )),
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,44 +87,36 @@ class _SearchWidgetState extends State<SearchWidget> {
                   ),
                   Expanded(
                     child: TextFormField(
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: IdtColors.white,
-                        fontSize: 20
-                      ),
-                      keyboardType: TextInputType.streetAddress,
-                      decoration:InputDecoration(
-                        hintText: 'Buscar...',
-                        alignLabelWithHint: true,
-                        hintStyle: TextStyle(color: IdtColors.white),
-                        labelStyle: TextStyle(color: IdtColors.white),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white70)),
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                      )
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: IdtColors.white, fontSize: 20),
+                        keyboardType: TextInputType.streetAddress,
+                        decoration: InputDecoration(
+                          hintText: 'Buscar...',
+                          alignLabelWithHint: true,
+                          hintStyle: TextStyle(color: IdtColors.white),
+                          labelStyle: TextStyle(color: IdtColors.white),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+                        )
                         //TODO: Arreglar los colores y estilos
-                    ),
+                        ),
                   )
                 ],
               ),
               SizedBox(height: 15),
               RaisedButton(
-                child: Text(
-                  'Buscar',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16
+                  child: Text(
+                    'Buscar',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
-                ),
-                textColor: Colors.deepOrangeAccent,
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                onPressed: viewModel.goResultSearchPage
-              )
+                  textColor: Colors.deepOrangeAccent,
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                  onPressed: viewModel.goResultSearchPage)
             ],
           ),
         ),
@@ -139,4 +125,3 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 }
-

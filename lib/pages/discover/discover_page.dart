@@ -68,12 +68,15 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     final List<DataModel> _zones = viewModel.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(
-            closeMenu: viewModel.closeMenu,
-            optionIndex: 0,
-          )
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? IdtMenu(
+              closeMenu: viewModel.closeMenu,
+              optionIndex: 0,
+            )
+          : SizedBox.shrink(),
+    );
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(

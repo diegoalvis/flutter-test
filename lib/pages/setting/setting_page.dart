@@ -16,12 +16,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) => SettingViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SettingWidget();
       },
@@ -37,7 +32,6 @@ class SettingWidget extends StatefulWidget {
 class _SettingWidgetState extends State<SettingWidget> {
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<SettingViewModel>();
 
     return SafeArea(
@@ -46,32 +40,31 @@ class _SettingWidgetState extends State<SettingWidget> {
           color: IdtColors.white,
         ),
         child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
-          backgroundColor: Colors.transparent,
-          // floatingActionButton: IdtFab(homeSelect: true),
-          body: _buildConfigApp(viewModel)
-        ),
+            appBar: IdtAppBar(viewModel.onpenMenu),
+            backgroundColor: Colors.transparent,
+            // floatingActionButton: IdtFab(homeSelect: true),
+            body: _buildConfigApp(viewModel)),
       ),
     );
   }
 
   Widget _buildConfigApp(SettingViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
     bool isSwitched = true;
 
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child:
+          viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
+    );
 
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.all( 20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 40),
                 child: Align(

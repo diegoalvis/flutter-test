@@ -16,10 +16,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor>()
-      ),
+      create: (_) => ProfileViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return ProfileWidget();
       },
@@ -48,41 +45,39 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
         ),
         child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
-          backgroundColor: IdtColors.transparent,
-          body: _buildProfile(viewModel)
-        ),
+            appBar: IdtAppBar(viewModel.onpenMenu),
+            backgroundColor: IdtColors.transparent,
+            body: _buildProfile(viewModel)),
       ),
     );
   }
 
   Widget _buildProfile(ProfileViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
 
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? IdtMenu(
+              closeMenu: viewModel.closeMenu,
+            )
+          : SizedBox.shrink(),
+    );
 
-    Widget _elevationButtonCustom(String dataText){
-
+    Widget _elevationButtonCustom(String dataText) {
       return ElevatedButton(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(
-              child: SizedBox(
-                width: 30,
-              )
-            ),
+                child: SizedBox(
+              width: 30,
+            )),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 dataText,
-                style: textTheme.titleGray.copyWith(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600
-                ),
+                style: textTheme.titleGray.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
               ),
             ),
             Flexible(
@@ -117,9 +112,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(
-                      'https://googleflutter.com/sample_image.jpg'
-                    ),
+                    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -129,10 +122,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               ),
               Text(
                 'Juan Diego Rivas Cardoba',
-                style: textTheme.textButtomWhite.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700
-                ),
+                style:
+                    textTheme.textButtomWhite.copyWith(fontSize: 18, fontWeight: FontWeight.w700),
               ),
               SizedBox(
                 height: 12,
@@ -145,16 +136,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               TextButton(
                 child: Text(
                   'Editar mi perfil',
-                  style: textTheme.textButtomWhite.copyWith(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                  ),
+                  style:
+                      textTheme.textButtomWhite.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
                 onPressed: viewModel.goProfileEditPage,
               ),
               Spacer(),
               _elevationButtonCustom('Configuración de la cuenta'),
-              Spacer( flex: 4),
+              Spacer(flex: 4),
               Text(
                 'Política de Tratamiento de Datos',
                 style: textTheme.textButtomWhite.copyWith(
@@ -172,4 +161,3 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 }
-
