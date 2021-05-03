@@ -7,6 +7,8 @@ import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
+import 'package:bogota_app/data/repository/service/login_service.dart';
+import 'package:bogota_app/data/repository/service/register_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
@@ -27,6 +29,8 @@ void setUpLocator() async {
   locator.registerSingleton<AudioGuideService>(AudioGuideService());
   locator.registerSingleton<EventService>(EventService());
   locator.registerSingleton<SleepService>(SleepService());
+  locator.registerSingleton<LoginService>(LoginService());
+  locator.registerSingleton<RegisterService>(RegisterService());
   // locator.registerSingleton<ZoneService>(ZoneService());
 
   /* locator.registerSingletonAsync(() async {

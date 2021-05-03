@@ -45,6 +45,7 @@ dependencies:
   carousel_slider: ^4.0.0-nullsafety.0
   flutter_staggered_grid_view: ^0.4.0-nullsafety.3
   share: ^2.0.1
+  country_state_city_picker: ^1.2.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -64,6 +65,7 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/icons/
+    - lib/commons/
 
   fonts:
     - family: IdtIcons
@@ -77,6 +79,7 @@ flutter:
         - asset: lib/assets/fonts/MuseoSans-700.ttf
         - asset: lib/assets/fonts/MuseoSans-900.ttf
         - asset: lib/assets/fonts/MyriadPro-Regular.ttf
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
