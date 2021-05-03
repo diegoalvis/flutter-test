@@ -107,6 +107,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Stack(
       children: [
         SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(
             children: [
               SavedPlaces(
@@ -120,35 +121,34 @@ class _HomeWidgetState extends State<HomeWidget> {
                   scrollController,
                   viewModel.goDetailPage),
               SizedBox(height: 25),
-              Container(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 140,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(IdtAssets.bogota_dc_travel),
-                          fit: BoxFit.fill,
-                        ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(IdtAssets.bogota_dc_travel),
+                        fit: BoxFit.fill,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              items[index].toUpperCase(),
-                              style: TextStyle(color: IdtColors.white, fontSize: 26, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(IdtIcons.compass, color: Colors.white,size: 26,),
-                          ],
-                        ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            items[index].toUpperCase(),
+                            style: TextStyle(color: IdtColors.white, fontSize: 26, fontWeight: FontWeight.bold),
+                          ),
+                          Icon(IdtIcons.compass, color: Colors.white,size: 26,),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
               // TextButton(
               //   child: Text('Enviar ubicacion'),
