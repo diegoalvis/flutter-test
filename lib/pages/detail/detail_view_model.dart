@@ -10,7 +10,6 @@ import 'package:bogota_app/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
-
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
@@ -22,9 +21,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     );
   }
 
-
-
-  void readMore(){
+  void readMore() {
     final bool tapClick = status.moreText;
     status = status.copyWith(moreText: !tapClick);
   }
@@ -39,8 +36,14 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     status = status.copyWith(isFavorite: !value);
   }
 
-  void onChangeScrollController(bool value, double width){
+  void onChangeScrollController(bool value, double width) {
     addEffect(DetailControllerScrollEffect(300, width, value));
+  }
+
+  void launchCall(String phone) async {
+    //Todo
+    print('Lamando desde el icono');
+    launch(phone);
   }
 
   void launchMap(String location) async {
@@ -55,5 +58,4 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
       throw 'Error al lanzar la url: $url';
     }
   }
-
 }

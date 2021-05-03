@@ -436,7 +436,7 @@ class _DetailWidgetState extends State<DetailWidget> {
             height: 5,
           ),
           _btnGradient(widget._detail.phone.toString(),
-              onPress: () => viewModel.launchMap(widget._detail.location!),
+              onPress: () => viewModel.launchCall(widget._detail.phone!),
 
               icon: Icons.phone, color: IdtColors.green, listColors: IdtGradients.green),
           SizedBox(
