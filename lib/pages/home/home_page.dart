@@ -7,7 +7,6 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_view_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
@@ -85,7 +84,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar:
-          viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
+              viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: _buildHome(viewModel)),
@@ -93,13 +92,39 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget _buildHome(HomeViewModel viewModel) {
+    final _route = locator<IdtRoute>();
+    void optionSelectedHome(
+      int index,
+    ) {
+      switch (index) {
+        case 0:
+          _route.goDiscoverUntil();
+          break;
+        case 1:
+          _route.goEvents(index);
+          break;
+        case 2:
+          _route.goUnmissableUntil(index);
+          break;
+        case 3:
+          _route.goEat(index);
+          break;
+        case 4:
+          _route.goSleeps(index);
+          break;
+        default:
+          //statements;
+          break;
+      }
+    }
+
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
           ? IdtMenu(
-        closeMenu: viewModel.closeMenu,
-        optionIndex: 3,
-      )
+              closeMenu: viewModel.closeMenu,
+              optionIndex: 3,
+            )
           : SizedBox.shrink(),
     );
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
@@ -124,27 +149,37 @@ class _HomeWidgetState extends State<HomeWidget> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: items.length,
+                itemCount: optionsHome.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 140,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(IdtAssets.bogota_dc_travel),
-                        fit: BoxFit.fill,
+                  return GestureDetector(
+                    onTap: () => optionSelectedHome(index),
+                    child: Container(
+                      height: 140,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(IdtAssets.bogota_dc_travel),
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            items[index].toUpperCase(),
-                            style: TextStyle(color: IdtColors.white, fontSize: 26, fontWeight: FontWeight.bold),
-                          ),
-                          Icon(IdtIcons.compass, color: Colors.white,size: 26,),
-                        ],
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              optionsHome[index].toUpperCase(),
+                              style: TextStyle(
+                                  color: IdtColors.white,
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Icon(
+                              IdtIcons.compass,
+                              color: Colors.white,
+                              size: 26,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -169,5 +204,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  final items = List<String>.generate(5, (i) => "Seccion $i");
+  List<String> optionsHome = [
+    'Descubre Bogotá',
+    'Eventos',
+    'Más allá de Bogotá',
+    '¿Dónde comer?',
+    '¿Dónde Dormir?'
+  ];
 }

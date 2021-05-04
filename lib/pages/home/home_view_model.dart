@@ -48,7 +48,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final unmissableResponse = await _interactor.getUnmissablePlacesList();
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      status =
+          status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
@@ -62,8 +63,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final eatResponse = await _interactor.getEatPlacesList();
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(
-          itemsEatPlaces: eatResponse.body); // Status reasignacion
+      status = status.copyWith(itemsEatPlaces: eatResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = eatResponse as IdtFailure<EatError>;
@@ -75,12 +75,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-
   void onpenMenu() {
-    if (status.openMenu==false){
-    status = status.copyWith (openMenu: true);
-    }
-    else{
+    if (status.openMenu == false) {
+      status = status.copyWith(openMenu: true);
+    } else {
       status = status.copyWith(openMenu: false);
     }
   }
@@ -109,17 +107,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void goDetailPage() {
-   // _route.goDetail(isHotel: false);
+    // _route.goDetail(isHotel: false);
   }
 
   void setLocationUser() async {
-
-    final GpsModel location = GpsModel(
-      imei: '999',
-      longitud: '-78.229',
-      latitud: '2.3666',
-      fecha: '03/19/21'
-    );
+    final GpsModel location =
+        GpsModel(imei: '999', longitud: '-78.229', latitud: '2.3666', fecha: '03/19/21');
     final response = await _interactor.postLocationUser(location);
 
     if (response is IdtSuccess<GpsModel?>) {
@@ -133,6 +126,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void goDiscoverPage() {
-      _route.goDiscover();
+    _route.goDiscover();
   }
 }
