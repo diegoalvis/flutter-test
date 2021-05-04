@@ -30,9 +30,17 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
+
+  void initState() {
+    final viewModel = context.read<ProfileViewModel>();
+    viewModel.getDiscoveryData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProfileViewModel>();
+
 
     return SafeArea(
       child: Container(

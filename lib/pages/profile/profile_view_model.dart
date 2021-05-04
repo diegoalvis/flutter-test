@@ -6,9 +6,7 @@ import 'package:bogota_app/view_model.dart';
 class ProfileViewModel extends ViewModel<ProfileStatus> {
 
   final IdtRoute _route;
-  final ApiInteractor
-
- _interactor;
+  final ApiInteractor _interactor;
 
   ProfileViewModel(this._route, this._interactor) {
     status = ProfileStatus(
@@ -20,6 +18,22 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
 
   void onInit() async {
     //TODO
+  }
+
+  void getDataUser() async {
+    print('obteniendo datos del Usuario');
+    final dataUser = await _interactor.getUnmissablePlacesList();
+
+    if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
+      print(unmissableResponse.body![0].title);
+      status = status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void onpenMenu() {
