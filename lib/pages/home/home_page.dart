@@ -84,7 +84,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar:
-              viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
+          viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: _buildHome(viewModel)),
@@ -93,9 +93,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Widget _buildHome(HomeViewModel viewModel) {
     final _route = locator<IdtRoute>();
-    void optionSelectedHome(
-      int index,
-    ) {
+    void optionSelectedHome(int index,) {
       switch (index) {
         case 0:
           _route.goDiscoverUntil();
@@ -113,7 +111,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           _route.goSleeps(index);
           break;
         default:
-          //statements;
+        //statements;
           break;
       }
     }
@@ -122,9 +120,9 @@ class _HomeWidgetState extends State<HomeWidget> {
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
           ? IdtMenu(
-              closeMenu: viewModel.closeMenu,
-              optionIndex: 3,
-            )
+        closeMenu: viewModel.closeMenu,
+        optionIndex: 3,
+      )
           : SizedBox.shrink(),
     );
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
@@ -149,39 +147,48 @@ class _HomeWidgetState extends State<HomeWidget> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: optionsHome.length,
+                itemCount: optionsHomeList.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => optionSelectedHome(index),
-                    child: Container(
-                      height: 140,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(IdtAssets.bogota_dc_travel),
-                          fit: BoxFit.fill,
+                      onTap: () => optionSelectedHome(index),
+                      child:
+                      Container(
+                        height: 130,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(IdtAssets.bogota_dc_travel),
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Stack(alignment: AlignmentDirectional.center,
                           children: [
-                            Text(
-                              optionsHome[index].toUpperCase(),
-                              style: TextStyle(
-                                  color: IdtColors.white,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold),
+                            Container(
+                              color: colorsHomeList[index].withOpacity(0.4),
                             ),
-                            Icon(
-                              IdtIcons.compass,
-                              color: Colors.white,
-                              size: 26,
-                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(optionsHomeList[index].toUpperCase(),
+                                    style: TextStyle(
+                                        color: IdtColors.white,
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,shadows: [
+                                      Shadow(
+                                          color: Colors.black.withOpacity(0.9),
+                                          offset: Offset(3, 2),
+                                          blurRadius: 3),
+                                    ]),),
+                                  Icon(Icons.radio_button_on, color: IdtColors.white,),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                    ),
+                      )
+
+
                   );
                 },
               ),
@@ -204,7 +211,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  List<String> optionsHome = [
+  List<Color> colorsHomeList = [Colors.deepOrange,Colors.yellow,Colors.green,Colors.lightBlueAccent,Colors.blueAccent];
+
+  List<String> optionsHomeList = [
     'Descubre Bogotá',
     'Eventos',
     'Más allá de Bogotá',
@@ -212,3 +221,41 @@ class _HomeWidgetState extends State<HomeWidget> {
     '¿Dónde Dormir?'
   ];
 }
+
+// Container(
+//   height: 140,
+//   decoration: BoxDecoration(
+//     color: Colors.red.withOpacity(0.4),
+//   ),
+//   child: Stack(
+//     children: [
+//       Center(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(horizontal: 12),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 optionsHome[index].toUpperCase(),
+//                 style: TextStyle(
+//                     color: IdtColors.white,
+//                     fontSize: 26,
+//                     fontWeight: FontWeight.bold),shadows: [
+//                                       Shadow(
+//                                           color: Colors.black.withOpacity(0.7),
+//                                           offset: Offset(3, 2),
+//                                           blurRadius: 3),
+//                                     ]
+//               ),
+//               Icon(
+//                 IdtIcons.compass,
+//                 color: Colors.white,
+//                 size: 26,
+//               ),
+//             ],
+//           ),
+//         ),
+//       )
+//     ],
+//   ),
+// ),
