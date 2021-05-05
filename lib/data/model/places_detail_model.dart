@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'idt_model.dart';
 
-part 'placesdetail_model.g.dart';
+part 'places_detail_model.g.dart';
 
 @JsonSerializable()
 class DataPlacesDetailModel extends IdtModel {

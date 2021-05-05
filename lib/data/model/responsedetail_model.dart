@@ -1,6 +1,6 @@
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/idt_model.dart';
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'responsedetail_model.g.dart';
