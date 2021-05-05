@@ -38,6 +38,9 @@ class DiscoverWidget extends StatefulWidget {
 class _DiscoverWidgetState extends State<DiscoverWidget> {
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<DiscoverViewModel>().onInit();
+    });
     final viewModel = context.read<DiscoverViewModel>();
     viewModel.getDiscoveryData();
     super.initState();

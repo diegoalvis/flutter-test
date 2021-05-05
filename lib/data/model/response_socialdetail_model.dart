@@ -4,7 +4,7 @@ import 'package:bogota_app/data/model/placesdetail_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'response_socialdetail_model.g.dart';
-
+//ResponseDetailModel = DataPlacesDetailModel
 @JsonSerializable()
 class ResponseSocialDetailModel extends IdtModel {
 

@@ -6,9 +6,9 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
 @JsonSerializable()
-class UserModel  {
+class UserModel extends IdtModel {
 
-  final int? id;
+  final String? id;
   final String? name;
   final String? mail;
   final String? country;

@@ -5,9 +5,11 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile/profile_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -30,17 +32,19 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
-
+  @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<ProfileViewModel>().onInit();
+    });
     final viewModel = context.read<ProfileViewModel>();
-    viewModel.getDiscoveryData();
+    viewModel.getDataUser('290');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProfileViewModel>();
-
 
     return SafeArea(
       child: Container(
@@ -62,6 +66,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   Widget _buildProfile(ProfileViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
@@ -129,7 +134,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 height: 12,
               ),
               Text(
-                'Juan Diego Rivas Cardoba',
+                viewModel.status.dataUser!.name!,
                 style:
                     textTheme.textButtomWhite.copyWith(fontSize: 18, fontWeight: FontWeight.w700),
               ),
@@ -137,7 +142,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 height: 12,
               ),
               Text(
-                'Colombia',
+                viewModel.status.dataUser!.country!,
                 style: textTheme.textButtomWhite,
               ),
               Spacer(),
@@ -164,6 +169,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ],
           ),
         ),
+        loading,
         menu
       ],
     );

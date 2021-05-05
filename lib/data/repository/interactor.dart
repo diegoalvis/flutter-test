@@ -7,6 +7,7 @@ import 'package:bogota_app/data/model/request/login_request.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
+import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/service/audioguide_service.dart';
 import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
@@ -50,8 +51,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getUnmissablePlacesList() async {
-    final response = await locator<UnmissableService>().getUnmissablePlaces();
+  Future<IdtResult<UserModel?>> getDataUser(String id) async {
+    final response = await locator<RegisterService>().getDataUser(id);
     return response;
   }
 
