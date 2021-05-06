@@ -6,7 +6,7 @@ class ProfileStatus extends ViewStatus{
   final String titleBar;
   final bool isLoading;
   final bool openMenu;
-  final UserModel? dataUser;
+  late UserModel? dataUser;
 
   ProfileStatus({required this.dataUser,required this.titleBar, required this.isLoading, required this.openMenu});
 

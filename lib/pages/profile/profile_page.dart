@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -66,7 +67,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   Widget _buildProfile(ProfileViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
@@ -133,18 +133,22 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               SizedBox(
                 height: 12,
               ),
-              Text(
-                viewModel.status.dataUser!.name!,
-                style:
-                    textTheme.textButtomWhite.copyWith(fontSize: 18, fontWeight: FontWeight.w700),
-              ),
+              viewModel.status.dataUser == null
+                  ? CircularProgressIndicator()
+                  : Text(
+                      viewModel.status.dataUser!.name!,
+                      style: textTheme.textButtomWhite
+                          .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
+                    ),
               SizedBox(
                 height: 12,
               ),
-              Text(
-                viewModel.status.dataUser!.country!,
-                style: textTheme.textButtomWhite,
-              ),
+              viewModel.status.dataUser == null
+                  ? SizedBox.shrink()
+                  : Text(
+                      viewModel.status.dataUser!.country!,
+                      style: textTheme.textButtomWhite,
+                    ),
               Spacer(),
               TextButton(
                 child: Text(
@@ -169,7 +173,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ],
           ),
         ),
-        loading,
         menu
       ],
     );
