@@ -3,7 +3,7 @@ import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/response/places_response.dart';
-import 'package:bogota_app/data/model/responsedetail_model.dart';
+import 'package:bogota_app/data/model/response_detail_model.dart';
 
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
