@@ -1,4 +1,4 @@
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/view_model.dart';
 
 class DetailStatus extends ViewStatus{

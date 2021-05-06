@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/response/places_response.dart';
-import 'package:bogota_app/data/model/response_socialdetail_model.dart';
+import 'package:bogota_app/data/model/responsedetail_model.dart';
+
 import 'package:bogota_app/utils/errors/sleep_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
@@ -50,7 +51,7 @@ class SleepService {
       switch (response.statusCode) {
         case 200: {
           print('service Social SLEEP 200 ok, id: '+ id);
-          final entity = ResponseSocialDetailModel.fromJson(body);
+          final entity = ResponseDetailModel.fromJson(body);
           return IdtResult.success(entity.data);
         }
 

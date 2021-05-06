@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';

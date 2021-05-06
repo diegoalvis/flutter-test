@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/response_model.dart';
 import 'package:bogota_app/data/model/responsedetail_model.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
