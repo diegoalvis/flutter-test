@@ -42,7 +42,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       context.read<DiscoverViewModel>().onInit();
     });
     final viewModel = context.read<DiscoverViewModel>();
-    viewModel.getDiscoveryData();
+    viewModel.getDiscoveryData();  //se carga la Data de las 4 secciones
     super.initState();
   }
 
@@ -65,7 +65,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget _buildDiscover(DiscoverViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    final List<DataModel> _places = viewModel.places;
+    final List<DataModel> _places = viewModel.places; //lugares para la grilla
     final List<DataModel> _categories = viewModel.categories;
     final List<DataModel> _subcategories = viewModel.subcategories;
     final List<DataModel> _zones = viewModel.zones;
@@ -82,6 +82,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     );
 
     final menuTap = viewModel.status.openMenuTab
+    //fila de plan, producto, zona
         ? IdtMenuTap(
             closeMenu: viewModel.closeMenuTab,
             listItems: viewModel.status.listOptions,

@@ -73,7 +73,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           categories: categories,
           subcategories: subcategories,
           zones: zones,
-          places: places);
+          places: places
+      );
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);

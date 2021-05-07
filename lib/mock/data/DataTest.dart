@@ -1,19 +1,17 @@
-
 class DataTest {
-
   DataTest._();
 
   static const List<String> imgList = [
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/sumapaz-4.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/_MG_0206%20%281%29.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/Outlets-de-las-Am%C3%A9ricas_RicardoB%C3%A1ez-9.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/_MG_0206%20%281%29.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
-  'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg'
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/sumapaz-4.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/_MG_0206%20%281%29.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/Outlets-de-las-Am%C3%A9ricas_RicardoB%C3%A1ez-9.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/_MG_0206%20%281%29.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
+    'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg'
   ];
 
   static const List<bool> boolList = [
@@ -38,14 +36,7 @@ class DataTest {
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg'
   ];
 
-  static const List<bool> boolListAudio = [
-    true,
-    true,
-    true,
-    true,
-    true,
-    true
-  ];
+  static const List<bool> boolListAudio = [true, true, true, true, true, true];
 
   static const List<String> imgList2 = [
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
@@ -59,7 +50,6 @@ class DataTest {
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
     'https://bogotadc.travel/drpl/sites/default/files/2020-09/_A0A3932whm.jpg',
   ];
-
 
   static const List<String> textList = [
     'Parque Nacional Natural Sumapaz',
@@ -127,7 +117,6 @@ class DataTest {
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/Parque-Timiza_RicardoB%C3%A1ez-22.jpg',
     'https://bogotadc.travel/drpl/sites/default/files/2020-10/Outlets-de-las-Am%C3%A9ricas_RicardoB%C3%A1ez-9.jpg',
-
   ];
 
   static const List<String> textCalificadoList = [
@@ -150,4 +139,5 @@ class DataTest {
     '*PRIVACIDAD Y TÉRMINOS'
   ];
 
+  static const List<String> List3 = ['Plan', 'Producto', 'Zona', 'Audioguías'];
 }

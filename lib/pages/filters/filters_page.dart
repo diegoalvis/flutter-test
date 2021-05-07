@@ -274,7 +274,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 height: 100,
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  'CULTURA'.toUpperCase(),
+                  'DESCUBRE BOGOTÁ'.toUpperCase(),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleWhite,
@@ -287,7 +287,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 decoration: BoxDecoration(color: IdtColors.white),
                 child: RichText(
                   text: TextSpan(
-                    text: 'DESCUBRE BOGOTÁ > ',
+                    text: '${viewModel.status.type} > ',
                     style: textTheme.titleBlack,
                     children: <TextSpan>[
                       TextSpan(text: viewModel.status.section, style: textTheme.subTitleBlack)

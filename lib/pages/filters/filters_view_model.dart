@@ -24,6 +24,7 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
       itemsFilter: [],
       placesFilter: [],
       section: '',
+      type: '',
       staggedList: []
     );
   }
@@ -34,15 +35,15 @@ class FiltersViewModel extends ViewModel<FiltersStatus> {
     status = status.copyWith(isLoading: true);
     switch(section) {
       case 'category': {
-        status = status.copyWith(itemsFilter: categories);
+        status = status.copyWith(itemsFilter: categories, type: 'Plan');
       } break;
 
       case 'subcategory': {
-        status = status.copyWith(itemsFilter: subcategories);
+        status = status.copyWith(itemsFilter: subcategories, type: 'Producto');
       }break;
 
       case 'zone': {
-        status = status.copyWith(itemsFilter: zones);
+        status = status.copyWith(itemsFilter: zones, type: 'Zona');
       }break;
 
       default: {

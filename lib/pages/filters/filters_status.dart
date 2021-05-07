@@ -14,14 +14,15 @@ class FiltersStatus extends ViewStatus{
   final List<DataModel> itemsFilter;
   final List<DataModel> placesFilter;
   final String section;
+  final String type;
   final List<StaggeredTile> staggedList;
 
-  FiltersStatus({required this.isLoading, required this.openMenu, required this.openMenuTab, required this.openMenuFilter,
+  FiltersStatus({required this.type,required this.isLoading, required this.openMenu, required this.openMenuTab, required this.openMenuFilter,
     required this.filterSubcategory, required this.filterZone, required this.filterCategory,required this.itemsFilter,
     required this.placesFilter, required this.section, required this.staggedList
   });
 
-  FiltersStatus copyWith({
+  FiltersStatus copyWith({String? type,
     bool? isLoading, bool? openMenu, bool? openMenuTab, bool? openMenuFilter,
     List<DataModel?>? filterSubcategory, List<DataModel?>? filterZone, List<DataModel?>? filterCategory,
     List<DataModel>? itemsFilter, List<DataModel>? placesFilter, String? section, List<StaggeredTile>? staggedList
@@ -37,6 +38,7 @@ class FiltersStatus extends ViewStatus{
       itemsFilter: itemsFilter ?? this.itemsFilter,
       placesFilter: placesFilter ??  this.placesFilter,
       section: section ?? this.section,
+      type: type ?? this.type,
       staggedList: staggedList ?? this.staggedList
     );
   }
