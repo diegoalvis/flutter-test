@@ -128,34 +128,38 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         children: [
           Expanded(
             child: FlatButton(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                        'Todos',
-                        textAlign: TextAlign.center,
-                        style: textTheme.textDetail,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Icon(
-                        Icons.arrow_drop_down_circle_outlined,
-                        color: IdtColors.blue,
-                        size: 30,
-                      ),
-                    )
-                  ],
+              padding: EdgeInsets.symmetric(vertical: 8),
+              color: viewModel.status.openMenuTab
+                  ? IdtColors.blue.withOpacity(0.15)
+                  : IdtColors.white.withOpacity(0.15),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(30),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 8),
-                color: IdtColors.blue.withOpacity(0.15),
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(30),
-                    )),
-                onPressed: viewModel.onpenMenuTab),
+              ),
+              onPressed: viewModel.onpenMenuTab,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                      'Todos',
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Icon(
+                      Icons.arrow_drop_down_circle_outlined,
+                      color: IdtColors.blue,
+                      size: 30,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           Expanded(
               child: OutlineButton(
