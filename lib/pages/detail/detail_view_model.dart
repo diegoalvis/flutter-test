@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -42,8 +44,9 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   void launchCall(String phone) async {
     //Todo
-    print('Lamando desde el icono');
-    launch(phone);
+    print('Lamando desde el icono,');
+    launch("tel: $phone");
+    if (Platform.isIOS) print('Verificar si marca desde un dispositivo real');
   }
 
   void launchMap(String location) async {
