@@ -43,13 +43,31 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   void launchCall(String phone) async {
-    //Todo
-    print('Lamando desde el icono,');
+    print('Llamando desde el Boton,');
     launch("tel: $phone");
     if (Platform.isIOS) print('Verificar si marca desde un dispositivo real');
   }
 
+  Future<String> launchPageWeb(String urlPage) async {
+    String newUrl = '';
+
+    print('Abriendo pagina del Hotel, $urlPage');
+    if (urlPage[0] == 'w') {
+      launch('http://$urlPage');
+      print('Sin protocolo');
+      newUrl = urlPage;
+      print(newUrl);
+    } else {
+      print('Con protocolo');
+      launch(urlPage);
+      newUrl = urlPage.substring(8);
+      print(newUrl);
+    }
+    return newUrl;
+  }
+
   void launchMap(String location) async {
+    print('Abriendo Map');
     String latitude = location.split(", ").first;
     String longitude = location.split(", ").last;
     final double lat = double.parse(latitude);
