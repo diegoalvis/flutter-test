@@ -15,17 +15,10 @@ class LoginService {
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/auth/login');
 
-    String username='maritol';
-    String password='marisol';
-    LoginRequest data=LoginRequest(username, password);
-
-
     final response = await http.post(uri, body: params.toJson() );
 
     try {
       final body = json.decode(response.body);
-      print("response.statusCode");
-      print(response.statusCode);
       switch (response.statusCode) {
         case 200:
           {
@@ -41,6 +34,7 @@ class LoginService {
             return IdtResult.failure(error);
           }
       }
+
     } on StateError catch (err) {
       final error = UnmissableError(err.message, response.statusCode);
 

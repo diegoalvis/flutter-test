@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 
@@ -10,6 +12,9 @@ import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/services.dart';
+import 'package:location/location.dart';
+import 'package:unique_ids/unique_ids.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;
@@ -32,6 +37,61 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: true);
     getUnmissableResponse();
     getEatResponse();
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      _init();
+      print(DateTime.now());
+      getLoc();
+    });
+
+  }
+
+
+  getLoc() async{
+    Location location = Location();
+    LocationData _currentPosition;
+    String _address,_dateTime;
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _currentPosition = await location.getLocation();
+    print(_currentPosition);
+  }
+
+
+  Future<void> _init() async {
+    String? adId;
+    String? uuid;
+
+    try {
+      uuid = await UniqueIds.uuid;
+    } on PlatformException {
+      uuid = 'Failed to create uuid.v1';
+    }
+
+    try {
+      adId = await UniqueIds.adId;
+    } on PlatformException {
+      adId = 'Failed to get adId version.';
+    }
+
+    print(uuid);
   }
 
   void getUnmissableResponse() async {

@@ -13,8 +13,9 @@ class RegisterModel  {
   final String? country;
   final String? apellido;
   final String? reason_trip;
+  final String? message;
 
-  RegisterModel(this.id, this.name, this.country, this.apellido, this.reason_trip);
+  RegisterModel(this.id, this.name, this.country, this.apellido, this.reason_trip,this.message);
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => _$RegisterModelFromJson(json);
 

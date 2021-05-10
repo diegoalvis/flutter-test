@@ -58,7 +58,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-        context.showDialogObservation();
+        context.showDialogObservation('text home');
       }
     });
     super.initState();

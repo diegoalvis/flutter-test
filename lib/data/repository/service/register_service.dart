@@ -11,8 +11,6 @@ import 'package:http/http.dart' as http;
 
 class RegisterService {
   Future<IdtResult<RegisterModel?>>  postRegister(RegisterRequest params) async {
-    print('se imprimen parámetros en el servicio');
-    print(params.toJson());
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/user');
@@ -21,8 +19,6 @@ class RegisterService {
 
     try {
       final body = json.decode(response.body);
-      print("response.statusCode");
-      print(response.statusCode);
       switch (response.statusCode) {
         case 201:
           {
@@ -32,10 +28,8 @@ class RegisterService {
 
         default:
           {
-            print(response.body);
             final error =
-            UnmissableError('Capturar el error', response.statusCode);
-
+            UnmissableError(response.body, response.statusCode);
             return IdtResult.failure(error);
           }
       }
