@@ -30,8 +30,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>(), type),
+      create: (_) => EventsViewModel(locator<IdtRoute>(), locator<ApiInteractor>(), type),
       builder: (context, _) {
         return EventsWidget(optionIndex);
       },
@@ -80,15 +79,18 @@ class _EventsWidgetState extends State<EventsWidget> {
 
     final textTheme = Theme.of(context).textTheme;
 
-    final menu = viewModel.status.openMenu
-        ? Padding(
-            padding: EdgeInsets.only(top: 70),
-            child: IdtMenu(
-              closeMenu: viewModel.closeMenu,
-              optionIndex: widget.optionIndex,
-            ),
-          )
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? Padding(
+              padding: EdgeInsets.only(top: 70),
+              child: IdtMenu(
+                closeMenu: viewModel.closeMenu,
+                optionIndex: widget.optionIndex,
+              ),
+            )
+          : SizedBox.shrink(),
+    );
 
     final menuTap =
         /*viewModel.status.openMenuTab ?
@@ -150,14 +152,11 @@ class _EventsWidgetState extends State<EventsWidget> {
     }
 
     Widget imagesCard(int index, int totalItems, DataModel model) {
-      final String namePlace = model.title ?? '';
       final imageUrl = viewModel.getImageUrl(model);
-
       final isEvent = viewModel.type == SocialEventType.EVENT;
       late String month, dayOfMonth;
       if (isEvent) {
-        final String dateMmmDdd =
-            DateFormat('MMMd', 'es').format(DateTime.parse(model.date!));
+        final String dateMmmDdd = DateFormat('MMMd', 'es').format(DateTime.parse(model.date!));
         month = dateMmmDdd.split(" ").first;
         dayOfMonth = dateMmmDdd.split(" ").last;
       }
@@ -166,7 +165,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         child: Stack(
           children: <Widget>[
             InkWell(
-              onTap: isEvent ? () => viewModel.goDetailSocialPage(model.id.toString(),) : null,//todo hotel & restaurant
+              onTap: () => viewModel.goDetailPage(model.id.toString(), viewModel.type),
               child: ClipRRect(
                 borderRadius:
                     // Validacion para el borde superior izquiero
@@ -204,47 +203,44 @@ class _EventsWidgetState extends State<EventsWidget> {
               right: 0.0,
               child: Container(
                   padding: isEvent
-                      ? EdgeInsets.only(left: 30.0)
+                      ? EdgeInsets.only(left: 5.0)
                       : EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                   child: Row(
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Text(namePlace.toUpperCase(),
+                        child: Text(model.title!.toUpperCase(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: isEvent ? TextAlign.right : TextAlign.center,
                             style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
                       ),
                       isEvent
-                          ? Expanded(
-                              flex: 2,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 3),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    gradient: LinearGradient(colors: IdtGradients.orange),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                    )),
-                                padding: EdgeInsets.symmetric(vertical: 2),
-                                child: Column(
-                                  children: [
-                                    Text(dayOfMonth,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.textButtomWhite.copyWith(
-                                          fontSize: 16,
-                                        )),
-                                    Text(month,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                        style: textTheme.textButtomWhite
-                                            .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
-                                  ],
-                                ),
+                          ? Container(
+                              margin: EdgeInsets.only(left: 3),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  gradient: LinearGradient(colors: IdtGradients.orange),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                  )),
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                              child: Column(
+                                children: [
+                                  Text(dayOfMonth,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.textButtomWhite.copyWith(
+                                        fontSize: 16,
+                                      )),
+                                  Text(month,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.textButtomWhite
+                                          .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
+                                ],
                               ),
                             )
                           : SizedBox.shrink()

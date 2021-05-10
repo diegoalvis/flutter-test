@@ -17,10 +17,7 @@ class ProfileEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileEditViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor>()
-      ),
+      create: (_) => ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return ProfileEditWidget();
       },
@@ -34,7 +31,6 @@ class ProfileEditWidget extends StatefulWidget {
 }
 
 class _ProfileEditWidgetState extends State<ProfileEditWidget> {
-
   final _controllerPassword = TextEditingController();
   final _controllerEmail = TextEditingController();
 
@@ -59,23 +55,24 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           ),
         ),
         child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
-          backgroundColor: IdtColors.transparent,
-          body: _buildProfileEdit(viewModel)
-        ),
+            appBar: IdtAppBar(viewModel.onpenMenu),
+            backgroundColor: IdtColors.transparent,
+            body: _buildProfileEdit(viewModel)),
       ),
     );
   }
 
   Widget _buildProfileEdit(ProfileEditViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu)
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? IdtMenu(closeMenu: viewModel.closeMenu ,)
+          : SizedBox.shrink(),
+    );
+
 
     final KTextFieldInputDecoration = InputDecoration(
-
       contentPadding: EdgeInsets.all(12.0),
       isDense: true,
       hintStyle: textTheme.textButtomWhite,
@@ -111,7 +108,6 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: LayoutBuilder(
             builder: (context, constraint) {
-
               return SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraint.maxHeight),
@@ -126,9 +122,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                              fit: BoxFit.fill
-                            ),
+                                image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                                fit: BoxFit.fill),
                           ),
                           child: Center(
                             child: IconButton(
@@ -137,7 +132,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                 color: IdtColors.white,
                               ),
                               iconSize: 37,
-                              onPressed: () {  },
+                              onPressed: () {},
                             ),
                           ),
                         ),
@@ -146,20 +141,16 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         Text(
                           'Editar Perfil',
-                          style: textTheme.textButtomWhite.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600
-                          ),
+                          style: textTheme.textButtomWhite
+                              .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                         Spacer(
                           flex: 5,
                         ),
                         Text(
                           'Juan Diego rivas Cardona',
-                          style: textTheme.textButtomWhite.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700
-                          ),
+                          style: textTheme.textButtomWhite
+                              .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
                           height: 12,
@@ -174,9 +165,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         TextField(
                           keyboardType: TextInputType.emailAddress,
                           textAlign: TextAlign.center,
-                          style: textTheme.textButtomWhite.copyWith(
-                            fontSize: 16
-                          ),
+                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: _controllerEmail,
                           decoration: KTextFieldInputDecoration,
                         ),
@@ -202,9 +191,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           ),
                           controller: _controllerPassword,
                           decoration: KTextFieldInputDecoration.copyWith(
-                            hintText: 'Contraseña',
-                            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: -3)
-                          ),
+                              hintText: 'Contraseña',
+                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: -3)),
                         ),
                         SizedBox(
                           height: 6,
@@ -232,40 +220,32 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           height: 12,
                         ),
                         TextButton(
-                          child: Text(
-                            'Desactivar mi cuenta',
-                            style: textTheme.textButtomWhite.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700
+                            child: Text(
+                              'Desactivar mi cuenta',
+                              style: textTheme.textButtomWhite
+                                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-
-                          ),
-                          onPressed:  () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => LoginPage()),
-                            );
-                          }
-                        ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginPage()),
+                              );
+                            }),
                         SizedBox(
                           height: 12,
                         ),
                         TextButton(
                             child: Text(
                               'Cerrar Sesión',
-                              style: textTheme.textButtomWhite.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700
-                              ),
-
+                              style: textTheme.textButtomWhite
+                                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed:  () {
+                            onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => LoginPage()),
                               );
-                            }
-                        ),
+                            }),
                         SizedBox(
                           height: 12,
                         ),
@@ -302,4 +282,3 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
     );
   }
 }
-

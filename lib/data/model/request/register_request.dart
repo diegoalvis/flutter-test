@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'register_request.g.dart';
 
 @JsonSerializable()
+//UserRequest??
 class RegisterRequest {
 
   late  String? username;

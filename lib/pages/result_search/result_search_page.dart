@@ -18,17 +18,10 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ResultSearchPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (_) => ResultSearchViewModel(
-        locator<IdtRoute>(),
-        locator<ApiInteractor
-
->()
-      ),
+      create: (_) => ResultSearchViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return ResultSearchWidget();
       },
@@ -42,38 +35,38 @@ class ResultSearchWidget extends StatefulWidget {
 }
 
 class _ResultSearchWidgetState extends State<ResultSearchWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<ResultSearchViewModel>();
 
     return SafeArea(
       child: Scaffold(
-        appBar: IdtAppBar(viewModel.onpenMenu),
-        backgroundColor: IdtColors.white,
-        extendBody: true,
-        floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-        bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: _buildDiscover(viewModel)
-      ),
+          appBar: IdtAppBar(viewModel.onpenMenu),
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+          bottomNavigationBar: viewModel.status.openMenu
+              ? null
+              : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          body: _buildDiscover(viewModel)),
     );
   }
 
   Widget _buildDiscover(ResultSearchViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
-    final menu = viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child:
+          viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
+    );
 
-    Widget gridImagesCol() => (
-
-        ListView.builder(
+    Widget gridImagesCol() => (ListView.builder(
           itemCount: DataTest.imgList.length,
           physics: ScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 50),
           shrinkWrap: true,
-          itemBuilder: (context, index){
+          itemBuilder: (context, index) {
             return Column(
               children: [
                 InkWell(
@@ -89,54 +82,39 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                   ),
                 ),
                 SizedBox(height: 5),
-                Text(
-                    DataTest.textList[index],
-                  style: textTheme.titleBlack.copyWith(
-                    fontSize: 13
-                  )
-                ),
+                Text(DataTest.textList[index], style: textTheme.titleBlack.copyWith(fontSize: 13)),
                 SizedBox(height: 30),
               ],
             );
           },
-        )
-    );
+        ));
 
     return Stack(
       children: [
         SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 35
-              ),
+              SizedBox(height: 35),
               RichText(
                 text: TextSpan(
                   text: 'Resultados para: ',
-                  style: textTheme.titleBlack.copyWith(
-                    fontSize: 18
-                  ),
+                  style: textTheme.titleBlack.copyWith(fontSize: 18),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Naturaleza',
-                      style: textTheme.subTitleBlack.copyWith(
-                        decoration: TextDecoration.underline,
-                        fontSize: 17,
-                        textBaseline: TextBaseline.alphabetic,
-                        decorationThickness: 1.5,
-                        decorationColor: IdtColors.black,
-                      )
-                    )
+                        text: 'Naturaleza',
+                        style: textTheme.subTitleBlack.copyWith(
+                          decoration: TextDecoration.underline,
+                          fontSize: 17,
+                          textBaseline: TextBaseline.alphabetic,
+                          decorationThickness: 1.5,
+                          decorationColor: IdtColors.black,
+                        ))
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30
-              ),
+              SizedBox(height: 30),
               gridImagesCol(),
-              SizedBox(
-                height: 60
-              ),
+              SizedBox(height: 60),
             ],
           ),
         ),
@@ -145,4 +123,3 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/placesdetail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/discover/discover_status.dart';
@@ -73,7 +73,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           categories: categories,
           subcategories: subcategories,
           zones: zones,
-          places: places);
+          places: places
+      );
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);

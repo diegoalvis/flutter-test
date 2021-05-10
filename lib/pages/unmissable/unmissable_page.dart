@@ -73,9 +73,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     final textTheme = Theme.of(context).textTheme;
     final List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
-    final menu = viewModel.status.openMenu
+    final menu = AnimatedSwitcher(duration: Duration(milliseconds: 500), child: viewModel.status.openMenu
         ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: widget.optionIndex,)
-        : SizedBox.shrink();
+        : SizedBox.shrink());
 
     Widget _buttonTap(String label) {
       return Expanded(

@@ -38,8 +38,11 @@ class DiscoverWidget extends StatefulWidget {
 class _DiscoverWidgetState extends State<DiscoverWidget> {
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<DiscoverViewModel>().onInit();
+    });
     final viewModel = context.read<DiscoverViewModel>();
-    viewModel.getDiscoveryData();
+    viewModel.getDiscoveryData();  //se carga la Data de las 4 secciones
     super.initState();
   }
 
@@ -62,20 +65,24 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget _buildDiscover(DiscoverViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    final List<DataModel> _places = viewModel.places;
+    final List<DataModel> _places = viewModel.places; //lugares para la grilla
     final List<DataModel> _categories = viewModel.categories;
     final List<DataModel> _subcategories = viewModel.subcategories;
     final List<DataModel> _zones = viewModel.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    final menu = viewModel.status.openMenu
-        ? IdtMenu(
-            closeMenu: viewModel.closeMenu,
-            optionIndex: 0,
-          )
-        : SizedBox.shrink();
+    final menu = AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: viewModel.status.openMenu
+          ? IdtMenu(
+              closeMenu: viewModel.closeMenu,
+              optionIndex: 0,
+            )
+          : SizedBox.shrink(),
+    );
 
     final menuTap = viewModel.status.openMenuTab
+    //fila de plan, producto, zona
         ? IdtMenuTap(
             closeMenu: viewModel.closeMenuTab,
             listItems: viewModel.status.listOptions,

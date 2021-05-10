@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -10,7 +10,6 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_view_model.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -25,7 +24,7 @@ import '../../app_theme.dart';
 
 class EventDetailPage extends StatelessWidget {
 
-  final DataPlacesSocialDetailModel detail;
+  final DataPlacesDetailModel detail;
 
   EventDetailPage({required this.detail});
 
@@ -45,7 +44,7 @@ class EventDetailPage extends StatelessWidget {
 }
 
 class EventDetailWidget extends StatefulWidget {
-  final DataPlacesSocialDetailModel _detail;
+  final DataPlacesDetailModel _detail;
 
 
   EventDetailWidget(this._detail);
@@ -391,7 +390,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   ),
                   _footerImages(),
                   SizedBox(
-                    height: 15,
+                    height: 80,
                   )
                 ],
               ),

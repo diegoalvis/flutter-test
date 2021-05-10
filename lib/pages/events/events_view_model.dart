@@ -1,6 +1,6 @@
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/places_social_detail_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
@@ -9,6 +9,7 @@ import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/cupertino.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
 
@@ -121,16 +122,44 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  goDetailSocialPage(String id) async {
+  goDetailPage(String id, SocialEventType type) async {
     status = status.copyWith(isLoading: true);
+    final placeByIdResponse;
 
-    final placeEventbyIdResponse = await _interactor.getPlaceSocialById(id);
-    if (placeEventbyIdResponse is IdtSuccess<DataPlacesSocialDetailModel?>) {
-      _route.goEventsDetail(detail: placeEventbyIdResponse.body!);
-    } else {
-      final erroRes = placeEventbyIdResponse as IdtFailure<UnmissableError>;
-      print(erroRes.message);
-      UnimplementedError();
+    switch (type) {
+      case SocialEventType.EVENT:
+        placeByIdResponse = await _interactor.getEventSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goEventDetail(detail: placeByIdResponse.body!);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
+        break;
+      case SocialEventType.SLEEP:
+        placeByIdResponse = await _interactor.getSleepSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goDetail(detail: placeByIdResponse.body!, isHotel: true);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
+        break;
+      case SocialEventType.EAT:
+        placeByIdResponse = await _interactor.getEatSocialById(id);
+        if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
+          _route.goDetail(detail: placeByIdResponse.body!, isHotel: false);
+        } else {
+          final erroRes = placeByIdResponse as IdtFailure<UnmissableError>;
+          print(erroRes.message);
+          UnimplementedError();
+        }
+        status = status.copyWith(isLoading: false);
+        break;
     }
     status = status.copyWith(isLoading: false);
   }
