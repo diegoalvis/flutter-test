@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
+
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/filters/filter_effect.dart';
 import 'package:bogota_app/pages/filters/filters_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -57,11 +62,27 @@ class FiltersWidget extends StatefulWidget {
 }
 
 class _FiltersWidgetState extends State<FiltersWidget> {
+  final scrollController = ScrollController();
+  StreamSubscription<FilterEffect>? _effectSubscription;
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<FiltersViewModel>().onInit(widget._section, widget._categories,
           widget._subcategories, widget._zones, widget._places, widget._item);
+    });
+    final viewModel = context.read<FiltersViewModel>();
+
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is FilterValueControllerScrollEffect) {
+        scrollController.animateTo(
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',textButton: 'aceptar / cerrar');
+      }
     });
   }
 
@@ -128,34 +149,38 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         children: [
           Expanded(
             child: FlatButton(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                        'Todos',
-                        textAlign: TextAlign.center,
-                        style: textTheme.textDetail,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Icon(
-                        Icons.arrow_drop_down_circle_outlined,
-                        color: IdtColors.blue,
-                        size: 30,
-                      ),
-                    )
-                  ],
+              padding: EdgeInsets.symmetric(vertical: 8),
+              color: viewModel.status.openMenuTab
+                  ? IdtColors.blue.withOpacity(0.15)
+                  : IdtColors.white.withOpacity(0.15),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(30),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 8),
-                color: IdtColors.blue.withOpacity(0.15),
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(30),
-                    )),
-                onPressed: viewModel.onpenMenuTab),
+              ),
+              onPressed: viewModel.onpenMenuTab,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                      'Todos',
+                      textAlign: TextAlign.center,
+                      style: textTheme.textDetail,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Icon(
+                      Icons.arrow_drop_down_circle_outlined,
+                      color: IdtColors.blue,
+                      size: 30,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           Expanded(
               child: OutlineButton(

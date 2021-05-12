@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -41,12 +43,31 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   void launchCall(String phone) async {
-    //Todo
-    print('Lamando desde el icono');
-    launch(phone);
+    print('Llamando desde el Boton,');
+    launch("tel: $phone");
+    if (Platform.isIOS) print('Verificar si marca desde un dispositivo real');
+  }
+
+  Future<String> launchPageWeb(String urlPage) async {
+    String newUrl = '';
+
+    print('Abriendo pagina del Hotel, $urlPage');
+    if (urlPage[0] == 'w') {
+      launch('http://$urlPage');
+      print('Sin protocolo');
+      newUrl = urlPage;
+      print(newUrl);
+    } else {
+      print('Con protocolo');
+      launch(urlPage);
+      newUrl = urlPage.substring(8);
+      print(newUrl);
+    }
+    return newUrl;
   }
 
   void launchMap(String location) async {
+    print('Abriendo Map');
     String latitude = location.split(", ").first;
     String longitude = location.split(", ").last;
     final double lat = double.parse(latitude);

@@ -49,18 +49,18 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     final viewModel = context.read<HomeViewModel>();
 
-    _effectSubscription = viewModel.effects.listen((event) {
-      if (event is HomeValueControllerScrollEffect) {
-        scrollController.animateTo(
-            event.next
-                ? scrollController.offset + IdtConstants.itemSize
-                : scrollController.offset - IdtConstants.itemSize,
-            curve: Curves.linear,
-            duration: Duration(milliseconds: event.duration));
-      } else if (event is ShowDialogEffect) {
-        context.showDialogObservation('text home');
-      }
-    });
+    // _effectSubscription = viewModel.effects.listen((event) {
+    //   if (event is HomeValueControllerScrollEffect) {
+    //     scrollController.animateTo(
+    //         event.next
+    //             ? scrollController.offset + IdtConstants.itemSize
+    //             : scrollController.offset - IdtConstants.itemSize,
+    //         curve: Curves.linear,
+    //         duration: Duration(milliseconds: event.duration));
+    //   } else if (event is ShowDialogEffect) {
+    //     context.showDialogObservation(titleDialog: 'Titulo del Dialogo',bodyTextDialog: 'Cuerpo del Dialogo');
+    //   }
+    // });
     super.initState();
   }
 

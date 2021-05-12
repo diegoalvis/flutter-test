@@ -443,7 +443,7 @@ class _DetailWidgetState extends State<DetailWidget> {
             height: 5,
           ),
           _btnGradient(widget._detail.webUrl.toString(),
-              onPress: () => viewModel.launchMap(widget._detail.location!),
+              onPress: () => viewModel.launchPageWeb(widget._detail.webUrl!),
 
               icon: Icons.wifi_tethering_sharp,
               color: IdtColors.blueDark,
