@@ -12,10 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bogota_app/app_theme.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'configure/get_it_locator.dart';
 import 'configure/idt_route.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:bogota_app/data/local/user.dart';
 
