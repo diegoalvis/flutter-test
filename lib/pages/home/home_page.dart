@@ -92,6 +92,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget _buildHome(HomeViewModel viewModel) {
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
     final _route = locator<IdtRoute>();
     void optionSelectedHome(int index,) {
       switch (index) {
@@ -125,7 +127,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       )
           : SizedBox.shrink(),
     );
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [
