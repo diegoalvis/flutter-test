@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
+
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/filters/filter_effect.dart';
 import 'package:bogota_app/pages/filters/filters_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -57,11 +62,27 @@ class FiltersWidget extends StatefulWidget {
 }
 
 class _FiltersWidgetState extends State<FiltersWidget> {
+  final scrollController = ScrollController();
+  StreamSubscription<FilterEffect>? _effectSubscription;
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<FiltersViewModel>().onInit(widget._section, widget._categories,
           widget._subcategories, widget._zones, widget._places, widget._item);
+    });
+    final viewModel = context.read<FiltersViewModel>();
+
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is FilterValueControllerScrollEffect) {
+        scrollController.animateTo(
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',textButton: 'aceptar / cerrar');
+      }
     });
   }
 

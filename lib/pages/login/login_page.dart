@@ -61,12 +61,12 @@ class _LoginWidgetState extends State<LoginWidget> {
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is LoginValueControllerScrollEffect) {
         print('scroll controler');
-        context.showDialogObservation(viewModel.status.message!);
+        context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: viewModel.status.message!,textButton: 'aceptar / cerrar');
       } else if (event is ShowLoginDialogEffect) {
         print('entra a event');
         print(viewModel.status.message!);
         if (viewModel.status.message != null) {
-          context.showDialogObservation(viewModel.status.message!);
+          context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: viewModel.status.message!, textButton: 'aceptar / cerrar');
           viewModel.status.message = null;
         }
       }
