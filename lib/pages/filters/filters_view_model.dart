@@ -70,8 +70,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       return null;
     }).toList();
 
-    addEffect(ShowDialogEffect());
-    print(places.length);
     if (places.length < 1) {
       addEffect(ShowDialogEffect());
     }

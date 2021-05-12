@@ -64,12 +64,10 @@ class FilterService {
 
     try {
       final body = json.decode(response.body);
-      print('pre service');
       print(body);
       switch (response.statusCode) {
         case 200: {
           final entity = ResponseDetailModel.fromJson(body);
-          print('service');
           print(entity.data);
           return IdtResult.success(entity.data);
         }
