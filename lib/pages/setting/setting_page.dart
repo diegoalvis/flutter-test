@@ -52,6 +52,7 @@ class _SettingWidgetState extends State<SettingWidget> {
     final textTheme = Theme.of(context).textTheme;
     bool isSwitched = true;
 
+
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child:

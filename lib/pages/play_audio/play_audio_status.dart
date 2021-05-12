@@ -5,7 +5,7 @@ class PlayAudioStatus extends ViewStatus{
   final bool isLoading;
   final bool modeOffline;
   final bool isOnline;
-  final String urlAudio;
+  late  String urlAudio;
   final String pathAudio;
   final bool isFavorite;
   final String language;

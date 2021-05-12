@@ -33,66 +33,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
   }
 
+
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getUnmissableResponse();
     getEatResponse();
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      _init();
-      print(DateTime.now());
-      getLoc();
-    });
 
   }
 
 
-  getLoc() async{
-    Location location = Location();
-    LocationData _currentPosition;
-    String _address,_dateTime;
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _currentPosition = await location.getLocation();
-    print(_currentPosition);
-  }
-
-
-  Future<void> _init() async {
-    String? adId;
-    String? uuid;
-
-    try {
-      uuid = await UniqueIds.uuid;
-    } on PlatformException {
-      uuid = 'Failed to create uuid.v1';
-    }
-
-    try {
-      adId = await UniqueIds.adId;
-    } on PlatformException {
-      adId = 'Failed to get adId version.';
-    }
-
-    print(uuid);
-  }
 
   void getUnmissableResponse() async {
     final unmissableResponse = await _interactor.getUnmissablePlacesList();

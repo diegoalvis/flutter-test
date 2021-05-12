@@ -6,7 +6,7 @@ class SettingStatus extends ViewStatus{
   final bool isLoading;
   final bool openMenu;
   final bool switchNotification;
-  final bool switchNotification2;
+  late bool switchNotification2;
 
   SettingStatus({required this.titleBar, required this.isLoading, required this.openMenu,
     required this.switchNotification, required this.switchNotification2});

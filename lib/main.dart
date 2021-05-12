@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
@@ -14,7 +15,9 @@ import 'package:bogota_app/app_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'configure/get_it_locator.dart';
 import 'configure/idt_route.dart';
-
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:bogota_app/data/local/user.dart';
 
 void main() async {
 
@@ -27,6 +30,14 @@ void main() async {
   }, (error, stackTrace) {
     // TODO: Captura de errores con Crashlytics
   });
+
+  var path = Directory.current.path;
+  //Hive.init(path);
+  var applicationsDocumentDirectory = await pathProvider.getApplicationDocumentsDirectory();
+  Hive.init(applicationsDocumentDirectory.path);
+  Hive.registerAdapter(PersonAdapter());
+
+  var box = await Hive.openBox<Person>('userdbB');
 }
 
 

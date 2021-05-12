@@ -61,7 +61,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
   final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [
     "Español",
-    "Ingles"
+    "Ingles",
+    "Portugués"
   ];
   late AudioPlayer _player;
 
@@ -70,7 +71,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     try {
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(IdtConstants.audio)));
+      print("widget._detail.audioguia_es!");
+      print(widget._detail.url_audioguia_es!);
+      await _player.setAudioSource(AudioSource.uri(Uri.parse( IdtConstants.url_image +'/' + widget._detail.url_audioguia_es! )));
+      //await _player.setAudioSource(AudioSource.uri(Uri.parse(IdtConstants.audio)));
     } catch (e) {
       // catch load errors: 404, invalid url ...
       print("An error occured $e");
@@ -112,6 +116,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
   Widget build(BuildContext context) {
 
     final viewModel = context.watch<PlayAudioViewModel>();
+    viewModel.status.urlAudio=IdtConstants.url_image + widget._detail.url_audioguia_es!;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

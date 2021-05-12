@@ -48,6 +48,9 @@ dependencies:
   country_state_city_picker: ^1.2.7
   unique_ids: ^2.0.0
   location: ^4.1.1
+  hive: ^2.0.4
+  hive_generator: ^1.1.0
+  app_settings: ^4.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

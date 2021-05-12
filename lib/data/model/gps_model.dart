@@ -7,12 +7,17 @@ part 'gps_model.g.dart';
 @JsonSerializable()
 class GpsModel extends IdtModel {
 
-  final String imei;
-  final String? latitud;
-  final String? longitud;
-  final String? fecha;
+  late String? imei;
+  late String? latitud;
+  late String? longitud;
+  late String? fecha;
+  late String? nombre;
+  late String? apellido;
+  late String? motivo_viaje;
+  late String? pais;
+  late String? ciudad;
 
-  GpsModel({ required this.imei, this.latitud, this.longitud, this.fecha });
+  GpsModel({ this.imei, this.latitud, this.longitud, this.fecha, this.nombre, this.apellido, this.motivo_viaje, this.pais, this.ciudad });
 
   factory GpsModel.fromJson(Map<String, dynamic> json) => _$GpsModelFromJson(json);
 
