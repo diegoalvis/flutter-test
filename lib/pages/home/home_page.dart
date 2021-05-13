@@ -126,7 +126,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: viewModel.status.openMenu
           ? IdtMenu(
               closeMenu: viewModel.closeMenu,
-              optionIndex: 3,
             )
           : SizedBox.shrink(),
     );
