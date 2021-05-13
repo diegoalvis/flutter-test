@@ -130,7 +130,7 @@ class DataTest {
     'DESCUBRE BOGOTÁ',
     'AUDIOGUÍAS',
     '*IMPERDIBLES',
-    'MÁS ALLÁ DE BOGOTÁ',
+    // 'MÁS ALLÁ DE BOGOTÁ',
     'EVENTOS',
     //'RECORRIDOS ESPECIALES',
     'DÓNDE DORMIR',
