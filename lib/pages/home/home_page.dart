@@ -74,6 +74,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
 
+
     return SafeArea(
       child: Scaffold(
           appBar: IdtAppBar(
@@ -92,6 +93,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Widget _buildHome(HomeViewModel viewModel) {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final size = MediaQuery.of(context).size;
 
     final _route = locator<IdtRoute>();
     void optionSelectedHome(
@@ -154,7 +156,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   return GestureDetector(
                       onTap: () => optionSelectedHome(index),
                       child: Container(
-                        height: 130,
+                        height: (size.height-140)/optionsHomeList.length,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(IdtAssets.bogota_dc_travel),
@@ -221,13 +223,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     Colors.yellow,
     Colors.green,
     Colors.lightBlueAccent,
-    Colors.blueAccent
   ];
 
   List<String> optionsHomeList = [
     'Descubre Bogotá',
     'Eventos',
-    'Más allá de Bogotá',
     '¿Dónde comer?',
     '¿Dónde Dormir?'
   ];
