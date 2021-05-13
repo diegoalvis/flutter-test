@@ -137,17 +137,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           physics: ScrollPhysics(),
           child: Column(
             children: [
-              SavedPlaces(
-                  viewModel.status.openSaved,
-                  viewModel.onpenSavedPlaces,
-                  viewModel.status.notSaved,
-                  viewModel.addSavedPLaces,
-                  viewModel.status.seeAll,
-                  viewModel.onTapSeeAll,
-                  viewModel.onChangeScrollController,
-                  scrollController,
-                  viewModel.goDetailPage),
-              SizedBox(height: 25),
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -203,6 +192,17 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
+              SavedPlaces(
+                  viewModel.status.openSaved,
+                  viewModel.onpenSavedPlaces,
+                  viewModel.status.notSaved,
+                  viewModel.addSavedPLaces,
+                  viewModel.status.seeAll,
+                  viewModel.onTapSeeAll,
+                  viewModel.onChangeScrollController,
+                  scrollController,
+                  viewModel.goDetailPage),
+
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,

@@ -118,6 +118,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   )),
               onPressed: viewModel.onpenMenuTab,
               child: Stack(
+                clipBehavior: Clip.none,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

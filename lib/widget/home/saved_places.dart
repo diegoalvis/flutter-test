@@ -263,7 +263,7 @@ class SavedPlaces extends StatelessWidget {
       children: [
         Expanded(
           child: Stack(
-            clipBehavior: Clip.none,
+            clipBehavior: Clip.none,  //evita coratar el icono
             alignment: Alignment.center,
             children: [
               TitleSection('LUGARES GUARDADOS'),
@@ -305,7 +305,6 @@ class SavedPlaces extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: 35),
         _textTitle(textTheme),
         AnimatedCrossFade(
           duration: Duration(milliseconds: 400),
