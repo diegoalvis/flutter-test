@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bogota_app/commons/idt_assets.dart';
-import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -25,7 +24,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return HomeWidget();
       },
@@ -92,6 +92,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget _buildHome(HomeViewModel viewModel) {
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
     final _route = locator<IdtRoute>();
     void optionSelectedHome(int index,) {
       switch (index) {
@@ -125,7 +127,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       )
           : SizedBox.shrink(),
     );
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return Stack(
       children: [

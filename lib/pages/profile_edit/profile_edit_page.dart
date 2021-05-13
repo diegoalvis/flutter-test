@@ -14,31 +14,42 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ProfileEditPage extends StatelessWidget {
+  final String emailUser;
+  late String fullNameUser = '$emailUser $lastName';
+  final String lastName;
+
+  ProfileEditPage(this.emailUser, this.lastName);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return ProfileEditWidget();
+        return ProfileEditWidget(emailUser, fullNameUser);
       },
     );
   }
 }
 
 class ProfileEditWidget extends StatefulWidget {
+  final String _emailUser;
+  final String _fullNameUser;
+
+  ProfileEditWidget(this._emailUser, this._fullNameUser);
+
   @override
   _ProfileEditWidgetState createState() => _ProfileEditWidgetState();
 }
 
 class _ProfileEditWidgetState extends State<ProfileEditWidget> {
-  final _controllerPassword = TextEditingController();
+  final _controllerFullNameUser = TextEditingController();
   final _controllerEmail = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controllerEmail.text = 'juan.rivas@iddt.gov.co';
-    _controllerPassword.text = '123456';
+    _controllerEmail.text = widget._emailUser;
+    _controllerFullNameUser.text = widget._fullNameUser;
   }
 
   @override
@@ -67,16 +78,17 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
-          ? IdtMenu(closeMenu: viewModel.closeMenu ,)
+          ? IdtMenu(
+              closeMenu: viewModel.closeMenu,
+            )
           : SizedBox.shrink(),
     );
-
 
     final KTextFieldInputDecoration = InputDecoration(
       contentPadding: EdgeInsets.all(12.0),
       isDense: true,
       hintStyle: textTheme.textButtomWhite,
-      hintText: 'Nombre de usuario o Email',
+      hintText: 'Nombre de usuario',
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(50.0),
@@ -148,7 +160,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           flex: 5,
                         ),
                         Text(
-                          'Juan Diego rivas Cardona',
+                          widget._fullNameUser,
                           style: textTheme.textButtomWhite
                               .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
                         ),
@@ -166,8 +178,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           keyboardType: TextInputType.emailAddress,
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                          controller: _controllerEmail,
                           decoration: KTextFieldInputDecoration,
+                          controller: _controllerFullNameUser,
                         ),
                         SizedBox(
                           height: 6,
@@ -179,26 +191,20 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         SizedBox(
                           height: 30,
                         ),
+
                         TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          textAlign: TextAlign.start,
-                          style: textTheme.textMenu.copyWith(
-                            color: IdtColors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          controller: _controllerPassword,
+                          textAlign: TextAlign.center,
+                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          controller: _controllerEmail,
                           decoration: KTextFieldInputDecoration.copyWith(
-                              hintText: 'Contraseña',
-                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: -3)),
+                            hintText: 'Email',
+                          ),
                         ),
                         SizedBox(
                           height: 6,
                         ),
                         Text(
-                          'Contraseña',
+                          'Email',
                           style: textTheme.textButtomWhite,
                         ),
                         SizedBox(

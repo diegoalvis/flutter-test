@@ -232,9 +232,9 @@ class IdtRoute {
     );
   }
 
-  goProfileEdit(){
+  goProfileEdit(String emailUser, String lastName){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> ProfileEditPage())
+      MaterialPageRoute(builder: (_)=> ProfileEditPage( emailUser, lastName))
     );
   }
 

@@ -66,6 +66,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Widget _buildProfile(ProfileViewModel viewModel) {
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
     final textTheme = Theme.of(context).textTheme;
 
     final menu = AnimatedSwitcher(
@@ -131,23 +133,25 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 ),
               ),
               SizedBox(
-                height: 12,
+                height: 14,
               ),
               viewModel.status.dataUser == null
                   ? CircularProgressIndicator()
                   : Text(
-                      viewModel.status.dataUser!.name!,
+                      '${viewModel.status.dataUser!.name!} ${viewModel.status.dataUser!.lastName!}',
                       style: textTheme.textButtomWhite
                           .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
                     ),
               SizedBox(
-                height: 12,
+                height: 8,
               ),
               viewModel.status.dataUser == null
                   ? SizedBox.shrink()
                   : Text(
                       viewModel.status.dataUser!.country!,
-                      style: textTheme.textButtomWhite,
+                      style: textTheme.textButtomWhite.copyWith(
+                        fontSize: 12,
+                      ),
                     ),
               Spacer(),
               TextButton(
@@ -173,6 +177,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ],
           ),
         ),
+        loading,
         menu
       ],
     );

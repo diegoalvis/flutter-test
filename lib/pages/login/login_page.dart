@@ -8,6 +8,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/login/login_view_model.dart';
 import 'package:bogota_app/pages/register_user/register_user_page.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -482,6 +483,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
             ),
+
           ],
         ),
       ),

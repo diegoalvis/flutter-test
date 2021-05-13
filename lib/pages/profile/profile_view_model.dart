@@ -11,14 +11,23 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   final ApiInteractor _interactor;
 
   ProfileViewModel(this._route, this._interactor) {
-    status = ProfileStatus(titleBar: 'Recibidos', isLoading: true, openMenu: false, dataUser: null);
+    status = ProfileStatus(
+      titleBar: 'Recibidos',
+      isLoading: true,
+      openMenu: false,
+      dataUser: null,
+
+    );
   }
 
   final int idUserTest = 290;
+  // late String fullNameUser;
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getDataUser(idUserTest.toString());
+    // fullNameUser = '${status.dataUser!.name!} ${status.dataUser!.lastName!}';
+    // print('Nombre completo user: $fullNameUser');
   }
 
   void getDataUser(String id) async {
@@ -28,8 +37,7 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
       print('Email del Usario id $idUserTest:** ${dataUser.body!.name}');
 
       status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
-      print( status.dataUser!.toJson());
-
+      print(status.dataUser!.toJson());
     } else {
       final erroRes = dataUser as IdtFailure<UserDataError>;
       print(erroRes.message);
@@ -46,8 +54,11 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void goProfileEditPage() {
-    _route.goProfileEdit();
+  void goProfileEditPage() async {
+    status = status.copyWith(isLoading: true);
+    //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
+    //status.dataUser!.email!,
+    await _route.goProfileEdit(status.dataUser!.name!,status.dataUser!.lastName!);
   }
 
   void goSettingPage() {
