@@ -24,8 +24,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return HomeWidget();
       },
@@ -84,7 +83,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar:
-          viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
+              viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: _buildHome(viewModel)),
@@ -95,7 +94,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final _route = locator<IdtRoute>();
-    void optionSelectedHome(int index,) {
+    void optionSelectedHome(
+      int index,
+    ) {
       switch (index) {
         case 0:
           _route.goDiscoverUntil();
@@ -113,7 +114,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           _route.goSleeps(index);
           break;
         default:
-        //statements;
+          //statements;
           break;
       }
     }
@@ -122,9 +123,9 @@ class _HomeWidgetState extends State<HomeWidget> {
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
           ? IdtMenu(
-        closeMenu: viewModel.closeMenu,
-        optionIndex: 3,
-      )
+              closeMenu: viewModel.closeMenu,
+              optionIndex: 3,
+            )
           : SizedBox.shrink(),
     );
 
@@ -152,8 +153,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () => optionSelectedHome(index),
-                      child:
-                      Container(
+                      child: Container(
                         height: 130,
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -161,7 +161,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                             fit: BoxFit.fill,
                           ),
                         ),
-                        child: Stack(alignment: AlignmentDirectional.center,
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
                           children: [
                             Container(
                               color: colorsHomeList[index].withOpacity(0.4),
@@ -171,26 +172,29 @@ class _HomeWidgetState extends State<HomeWidget> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(optionsHomeList[index].toUpperCase(),
+                                  Text(
+                                    optionsHomeList[index].toUpperCase(),
                                     style: TextStyle(
                                         color: IdtColors.white,
                                         fontSize: 26,
-                                        fontWeight: FontWeight.bold,shadows: [
-                                      Shadow(
-                                          color: Colors.black.withOpacity(0.9),
-                                          offset: Offset(3, 2),
-                                          blurRadius: 3),
-                                    ]),),
-                                  Icon(Icons.radio_button_on, color: IdtColors.white,),
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                              color: Colors.black.withOpacity(0.9),
+                                              offset: Offset(3, 2),
+                                              blurRadius: 3),
+                                        ]),
+                                  ),
+                                  Icon(
+                                    Icons.radio_button_on,
+                                    color: IdtColors.white,
+                                  ),
                                 ],
                               ),
                             )
                           ],
                         ),
-                      )
-
-
-                  );
+                      ));
                 },
               ),
               // TextButton(
@@ -212,7 +216,13 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  List<Color> colorsHomeList = [Colors.deepOrange,Colors.yellow,Colors.green,Colors.lightBlueAccent,Colors.blueAccent];
+  List<Color> colorsHomeList = [
+    Colors.deepOrange,
+    Colors.yellow,
+    Colors.green,
+    Colors.lightBlueAccent,
+    Colors.blueAccent
+  ];
 
   List<String> optionsHomeList = [
     'Descubre Bogotá',
