@@ -70,8 +70,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       return null;
     }).toList();
 
-    addEffect(ShowDialogEffect());
-    print(places.length);
     if (places.length < 1) {
       addEffect(ShowDialogEffect());
     }
@@ -219,6 +217,10 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       print('Places: ${response.body!.length}');
       if (response.body!.length > 0) {
         status = status.copyWith(placesFilter: response.body!);
+      }else{
+        addEffect(ShowDialogEffect());
+        status = status.copyWith(placesFilter: []);
+
       }
       // TODO: Mostrar mensaje que no hay resultados
 

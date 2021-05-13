@@ -244,7 +244,7 @@ class SavedPlaces extends StatelessWidget {
         Expanded(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-            height: 200,
+            height: 80,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 color: IdtColors.grayBg),
