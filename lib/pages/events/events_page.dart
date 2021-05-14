@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -61,7 +62,7 @@ class _EventsWidgetState extends State<EventsWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           extendBodyBehindAppBar: true,
@@ -76,8 +77,10 @@ class _EventsWidgetState extends State<EventsWidget> {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final String title = viewModel.status.title;
     final String nameFilter = viewModel.status.nameFilter;
-
+    final isEvent = viewModel.type == SocialEventType.EVENT;
     final textTheme = Theme.of(context).textTheme;
+
+
 
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
@@ -92,16 +95,16 @@ class _EventsWidgetState extends State<EventsWidget> {
           : SizedBox.shrink(),
     );
 
-    final menuTap =
-        /*viewModel.status.openMenuTab ?
-      IdtMenuTap(
-        listItems: isEvent ? listMenuEvent : listMenu,
-        closeMenu: viewModel.closeMenuTab,
-        isBlue: true,
-        goFilters: viewModel.closeMenuTab,
-      )
-      :*/
-        SizedBox.shrink();
+    // final menuTap =
+    //     viewModel.status.openMenuTab ?
+    //   IdtMenuTap(
+    //     listItems: isEvent ? viewModel.status.itemsZones : viewModel.status.itemsZones,
+    //     closeMenu: viewModel.closeMenuTab,
+    //     isBlue: true,
+    //     // goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones),
+    //   )
+    //   :
+    //     SizedBox.shrink();
 
     Widget _buttonFilter() {
       return Row(
@@ -116,7 +119,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                   )),
-              onPressed: viewModel.onpenMenuTab,
+              onPressed: viewModel.openMenuTab,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -154,7 +157,6 @@ class _EventsWidgetState extends State<EventsWidget> {
 
     Widget imagesCard(int index, int totalItems, DataModel model) {
       final imageUrl = viewModel.getImageUrl(model);
-      final isEvent = viewModel.type == SocialEventType.EVENT;
       late String month, dayOfMonth;
       if (isEvent) {
         final String dateMmmDdd = DateFormat('MMMd', 'es').format(DateTime.parse(model.date!));
@@ -291,7 +293,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         ),
         loading,
         menu,
-        menuTap,
+        // menuTap,
       ],
     );
   }

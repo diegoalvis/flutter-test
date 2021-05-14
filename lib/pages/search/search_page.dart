@@ -40,7 +40,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),

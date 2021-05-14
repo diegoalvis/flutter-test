@@ -20,6 +20,8 @@ import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
+import 'service/zone_service.dart';
+
 class ApiInteractor {
 
   Future<IdtResult<List<DataModel>?>> getPlacesList(Map params) async {
@@ -40,8 +42,14 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getZoneList() async {
-    final response = await locator<FilterService>().getZones();
+  // Future<IdtResult<List<DataModel>?>> getZoneList() async {
+  //   final response = await locator<FilterService>().getZones();
+  //
+  //   return response;
+  // }
+
+  Future<IdtResult<List<DataModel>?>> getZonesList() async {
+    final response = await locator<ZonesService>().getZones();
 
     return response;
   }

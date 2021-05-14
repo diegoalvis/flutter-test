@@ -61,7 +61,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: IdtAppBar(viewModel.onpenMenu),
+        appBar: IdtAppBar(viewModel.openMenu),
         backgroundColor: IdtColors.white,
         extendBody: true,
         bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),

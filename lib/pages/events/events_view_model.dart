@@ -24,11 +24,13 @@ class EventsViewModel extends ViewModel<EventsStatus> {
         openMenu: false,
         openMenuTab: false,
         itemsPlaces: [],
+        itemsZones: [],
         title: '',
         nameFilter: 'TODOS');
   }
 
   void onInit() async {
+    getZonesResponse();
     late String title, nameFilter;
     switch (type) {
       case SocialEventType.EVENT:
@@ -51,6 +53,21 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       title: title,
       nameFilter: nameFilter,
     );
+    // llamar metodo que obtiene las localidades
+  }
+
+  void getZonesResponse() async {
+    final zonesResponse = await _interactor.getZonesList();
+
+    if (zonesResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsZones: zonesResponse.body); // Status reasignacion
+      print('**Primera localidad: ${status.itemsZones[0]}');
+    } else {
+      final erroRes = EventError as IdtFailure<EventError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void getEventResponse() async {
@@ -96,21 +113,16 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void onpenMenu() {
-    if (status.openMenu == false) {
-      status = status.copyWith(openMenu: true);
-    } else {
-      status = status.copyWith(openMenu: false);
-    }
+  void openMenu() {
+      status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab() {
-    final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick);
+  void openMenuTab() {
+    status = status.copyWith(openMenuTab: !status.openMenuTab);
   }
 
   void closeMenuTab() {

@@ -8,6 +8,7 @@ class EventsStatus extends ViewStatus {
   final String title;
   final String nameFilter;
   late List<DataModel> itemsPlaces;
+  late List<DataModel> itemsZones;
 
   EventsStatus({
     required this.isLoading,
@@ -16,6 +17,7 @@ class EventsStatus extends ViewStatus {
     required this.itemsPlaces,
     required this.title,
     required this.nameFilter,
+    required this.itemsZones,
   });
 
   EventsStatus copyWith({
@@ -23,14 +25,17 @@ class EventsStatus extends ViewStatus {
     bool? openMenu,
     bool? openMenuTab,
     List<DataModel>? itemsPlaces,
+    List<DataModel>? itemsZones,
     String? title,
     String? nameFilter,
+
   }) {
     return EventsStatus(
       isLoading: isLoading ?? this.isLoading,
       openMenu: openMenu ?? this.openMenu,
       openMenuTab: openMenuTab ?? this.openMenuTab,
       itemsPlaces: itemsPlaces ?? this.itemsPlaces,
+      itemsZones: itemsZones ?? this.itemsZones,
       title: title ?? this.title,
       nameFilter: nameFilter ?? this.nameFilter,
     );

@@ -13,11 +13,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final ApiInteractor _interactor;
 
   List<DataModel> places = [];
-
   List<DataModel> categories = [];
-
   List<DataModel> subcategories = [];
-
   List<DataModel> zones = [];
 
   DiscoverViewModel(this._route, this._interactor) {
@@ -33,19 +30,16 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     // TODO
   }
 
-  void onpenMenu() {
-    if (status.openMenu == false) {
-      status = status.copyWith(openMenu: true);
-    } else {
-      status = status.copyWith(openMenu: false);
-    }
+  void openMenu() {
+      status = status.copyWith(openMenu: !status.openMenu);
+
   }
 
   void closeMenu() {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab(List<DataModel> listData, String section, int currentOption) {
+  void openMenuTab(List<DataModel> listData, String section, int currentOption) {
     status = status.copyWith(
         openMenuTab: true, listOptions: listData, section: section, currentOption: currentOption);
   }
@@ -122,7 +116,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
 
-    final resZona = await _interactor.getZoneList();
+    final resZona = await _interactor.getZonesList();
 
     if (resZona is IdtSuccess<List<DataModel>?>) {
       zones = resZona.body!;

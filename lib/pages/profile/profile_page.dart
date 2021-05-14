@@ -58,7 +58,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
         ),
         child: Scaffold(
-            appBar: IdtAppBar(viewModel.onpenMenu),
+            appBar: IdtAppBar(viewModel.openMenu),
             backgroundColor: IdtColors.transparent,
             body: _buildProfile(viewModel)),
       ),

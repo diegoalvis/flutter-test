@@ -66,7 +66,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           ),
         ),
         child: Scaffold(
-            appBar: IdtAppBar(viewModel.onpenMenu),
+            appBar: IdtAppBar(viewModel.openMenu),
             backgroundColor: IdtColors.transparent,
             body: _buildProfileEdit(viewModel)),
       ),

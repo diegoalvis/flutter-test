@@ -21,8 +21,8 @@ class ResultSearchViewModel extends ViewModel<ResultSearchStatus> {
     //TODO
   }
 
-  void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+  void openMenu() {
+    status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {

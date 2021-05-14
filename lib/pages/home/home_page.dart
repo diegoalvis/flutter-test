@@ -78,7 +78,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return SafeArea(
       child: Scaffold(
           appBar: IdtAppBar(
-            viewModel.onpenMenu,
+            viewModel.openMenu,
             backButton: false,
           ),
           backgroundColor: IdtColors.white,

@@ -52,7 +52,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
@@ -209,13 +209,13 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan', () => viewModel.onpenMenuTab(_categories, 'category', 0),
+                    _buttonTap('Plan', () => viewModel.openMenuTab(_categories, 'category', 0),
                         viewModel.status.currentOption == 0),
                     _buttonTap(
                         'Producto',
-                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory', 1),
+                        () => viewModel.openMenuTab(_subcategories, 'subcategory', 1),
                         viewModel.status.currentOption == 1),
-                    _buttonTap('Zona', () => viewModel.onpenMenuTab(_zones, 'zone', 2),
+                    _buttonTap('Zona', () => viewModel.openMenuTab(_zones, 'zone', 2),
                         viewModel.status.currentOption == 2),
                     _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
                   ],
