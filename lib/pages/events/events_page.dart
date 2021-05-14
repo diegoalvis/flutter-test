@@ -101,7 +101,8 @@ class _EventsWidgetState extends State<EventsWidget> {
     //     listItems: isEvent ? viewModel.status.itemsZones : viewModel.status.itemsZones,
     //     closeMenu: viewModel.closeMenuTab,
     //     isBlue: true,
-    //     // goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones),
+    //     goFilters:
+    //          (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones),
     //   )
     //   :
     //     SizedBox.shrink();
