@@ -84,6 +84,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',textButton: 'aceptar / cerrar');
       }
     });
+
+    // // una vez tengas la info la pasas aca
+    // viewModel.onTapButton(index, id, items);
   }
 
   @override

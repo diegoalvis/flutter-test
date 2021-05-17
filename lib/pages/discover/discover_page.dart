@@ -41,8 +41,6 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DiscoverViewModel>().onInit();
     });
-    final viewModel = context.read<DiscoverViewModel>();
-    viewModel.getDiscoveryData();  //se carga la Data de las 4 secciones
     super.initState();
   }
 
@@ -65,10 +63,10 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget _buildDiscover(DiscoverViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    final List<DataModel> _places = viewModel.places; //lugares para la grilla
-    final List<DataModel> _categories = viewModel.categories;
-    final List<DataModel> _subcategories = viewModel.subcategories;
-    final List<DataModel> _zones = viewModel.zones;
+    final List<DataModel> _places = viewModel.status.places; //lugares para la grilla
+    final List<DataModel> _categories = viewModel.status.categories;
+    final List<DataModel> _subcategories = viewModel.status.subcategories;
+    final List<DataModel> _zones = viewModel.status.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final menu = AnimatedSwitcher(

@@ -74,13 +74,17 @@ class _EventsWidgetState extends State<EventsWidget> {
   }
 
   Widget _buildDiscover(EventsViewModel viewModel) {
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final textTheme = Theme.of(context).textTheme;
+
     final String title = viewModel.status.title;
     final String nameFilter = viewModel.status.nameFilter;
     final isEvent = viewModel.type == SocialEventType.EVENT;
-    final textTheme = Theme.of(context).textTheme;
 
+    final List<DataModel> _categories = viewModel.status.categories;
+    final List<DataModel> _subcategories = viewModel.status.subcategories;
+    final List<DataModel> _zones = viewModel.status.zones;
 
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
@@ -95,17 +99,13 @@ class _EventsWidgetState extends State<EventsWidget> {
           : SizedBox.shrink(),
     );
 
-    // final menuTap =
-    //     viewModel.status.openMenuTab ?
-    //   IdtMenuTap(
-    //     listItems: isEvent ? viewModel.status.itemsZones : viewModel.status.itemsZones,
-    //     closeMenu: viewModel.closeMenuTab,
-    //     isBlue: true,
-    //     goFilters:
-    //          (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones),
-    //   )
-    //   :
-    //     SizedBox.shrink();
+    final menuTap = viewModel.status.openMenuTab
+        ? IdtMenuTap(
+            listItems: viewModel.status.zones,
+            closeMenu: viewModel.closeMenuTab,
+            isBlue: true,
+            goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones))
+        : SizedBox.shrink();
 
     Widget _buttonFilter() {
       return Row(
@@ -120,7 +120,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                   )),
-              onPressed: viewModel.openMenuTab,
+              onPressed: () => viewModel.openMenuTab(_zones, 'zone', 2),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -287,14 +287,14 @@ class _EventsWidgetState extends State<EventsWidget> {
               ),
               _buttonFilter(),
               SizedBox(height: 30),
-              gridImagesCol3(viewModel.status.itemsPlaces),
+              gridImagesCol3(viewModel.status.places),
               SizedBox(height: 55),
             ],
           ),
         ),
+        menuTap,
         loading,
         menu,
-        // menuTap,
       ],
     );
   }

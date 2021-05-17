@@ -11,7 +11,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class FilterService {
-  //Este metodo trae los lugares apenas se entra al descubre Bogota
+  //Este metodo trae los lugares apenas se entra al filter Page
   Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
 
     Map<String, dynamic> queryParameters = {};
@@ -87,10 +87,6 @@ class FilterService {
   }
 
   Future<IdtResult<List<DataModel>?>> getCategories() async {
-
-    final queryParameters = {
-      'zone': '23'
-    };
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/category');

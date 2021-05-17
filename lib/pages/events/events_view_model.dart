@@ -6,6 +6,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/event_error.dart';
+import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
@@ -20,17 +21,23 @@ class EventsViewModel extends ViewModel<EventsStatus> {
 
   EventsViewModel(this._route, this._interactor, this.type) {
     status = EventsStatus(
-        isLoading: true,
-        openMenu: false,
-        openMenuTab: false,
-        itemsPlaces: [],
-        itemsZones: [],
-        title: '',
-        nameFilter: 'TODOS');
+      isLoading: true,
+      openMenu: false,
+      openMenuTab: false,
+      title: '',
+      section: '',
+      nameFilter: 'TODOS',
+      places: [],
+      categories: [],
+      subcategories: [],
+      zones: [],
+    );
   }
 
   void onInit() async {
     getZonesResponse();
+    // getDiscoveryData();
+
     late String title, nameFilter;
     switch (type) {
       case SocialEventType.EVENT:
@@ -41,7 +48,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       case SocialEventType.SLEEP:
         title = 'Dónde dormir';
         nameFilter = 'Localidad';
-        getSleepsResponse();
+         getSleepsResponse();
         break;
       case SocialEventType.EAT:
         title = 'Dónde comer';
@@ -57,11 +64,12 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void getZonesResponse() async {
+    status = status.copyWith(isLoading: true);
+
     final zonesResponse = await _interactor.getZonesList();
 
     if (zonesResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsZones: zonesResponse.body); // Status reasignacion
-      print('**Primera localidad: ${status.itemsZones[0]}');
+      status = status.copyWith(zones: zonesResponse.body); // Status reasignacion
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
       print(erroRes.message);
@@ -70,11 +78,36 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: false);
   }
 
+  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
+      List<DataModel> zones) async {
+    status = status.copyWith(isLoading: true);
+    final Map query = {status.section: item.id};
+
+    final response = await _interactor.getPlacesList({});
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      final places = response.body!;
+      _route.goFilters(
+          section: status.section,
+          item: item,
+          categories: categories,
+          subcategories: subcategories,
+          zones: zones,
+          places: places);
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    closeMenuTab();
+    status = status.copyWith(isLoading: false);
+  }
+
   void getEventResponse() async {
     final eventResponse = await _interactor.getEventPlacesList();
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsPlaces: eventResponse.body); // Status reasignacion
+      status = status.copyWith(places: eventResponse.body); // Status reasignacion
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -89,7 +122,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     final sleepResponse = await _interactor.getSleepPlacesList();
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsPlaces: sleepResponse.body); // Status reasignacion
+      status = status.copyWith(places: sleepResponse.body); // Status reasignacion
 
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
@@ -103,7 +136,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     final eatResponse = await _interactor.getEatPlacesList();
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsPlaces: eatResponse.body); // Status reasignacion
+      status = status.copyWith(places: eatResponse.body); // Status reasignacion
 
     } else {
       final erroRes = EventError as IdtFailure<EatError>;
@@ -114,15 +147,20 @@ class EventsViewModel extends ViewModel<EventsStatus> {
   }
 
   void openMenu() {
-      status = status.copyWith(openMenu: !status.openMenu);
+    status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {
     status = status.copyWith(openMenu: false);
   }
 
-  void openMenuTab() {
-    status = status.copyWith(openMenuTab: !status.openMenuTab);
+  void openMenuTab(List<DataModel> listData, String section, int currentOption) {
+    status = status.copyWith(
+      openMenuTab: !status.openMenuTab,
+      zones: listData,
+      section: section,
+      currentOption: currentOption,
+    );
   }
 
   void closeMenuTab() {
