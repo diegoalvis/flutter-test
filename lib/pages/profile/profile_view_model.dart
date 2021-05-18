@@ -21,13 +21,10 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   }
 
   final int idUserTest = 290;
-  // late String fullNameUser;
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getDataUser(idUserTest.toString());
-    // fullNameUser = '${status.dataUser!.name!} ${status.dataUser!.lastName!}';
-    // print('Nombre completo user: $fullNameUser');
   }
 
   void getDataUser(String id) async {

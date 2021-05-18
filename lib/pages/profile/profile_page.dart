@@ -38,8 +38,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<ProfileViewModel>().onInit();
     });
-    final viewModel = context.read<ProfileViewModel>();
-    viewModel.getDataUser('290');
+    // final viewModel = context.read<ProfileViewModel>();
+    // viewModel.getDataUser('290');
     super.initState();
   }
 

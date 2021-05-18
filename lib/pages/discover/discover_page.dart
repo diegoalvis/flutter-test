@@ -74,7 +74,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       child: viewModel.status.openMenu
           ? IdtMenu(
               closeMenu: viewModel.closeMenu,
-              optionIndex: 0,
+              optionIndex: 1,
             )
           : SizedBox.shrink(),
     );

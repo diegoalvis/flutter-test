@@ -158,7 +158,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void goAudioGuidePage() {
-    _route.goAudioGuide(1);
+    _route.goAudioGuide();
     closeMenuTab();
   }
 }

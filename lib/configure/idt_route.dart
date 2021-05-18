@@ -151,7 +151,7 @@ class IdtRoute {
     );
   }
 
-  goAudioGuide(int optionIndex){
+  goAudioGuide(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> AudioGuidePage())
     );

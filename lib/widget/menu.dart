@@ -157,27 +157,30 @@ class IdtMenu extends StatelessWidget {
   void onOptionSelected(int index) {
     switch (index) {
       case 0:
-        _route.goDiscoverUntil();
+        _route.goLogin();
         break;
       case 1:
-        _route.goAudioGuide(index);
+        _route.goDiscoverUntil();
         break;
       case 2:
+        _route.goAudioGuide();
+        break;
+      case 3:
         _route.goUnmissableUntil(index);
         break;
       // case 3:
       //   _route.goHomeRemoveAll();
       //   break;
-      case 3:
+      case 4:
         _route.goEvents(index);
         break;
-      case 4:
+      case 5:
         _route.goSleeps(index);
         break;
-      case 5:
+      case 6:
         _route.goEat(index);
         break;
-      case 6:
+      case 7:
         _route.goSavedPlacesUntil();
         break;
       default:

@@ -78,7 +78,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
 
     final textTheme = Theme.of(context).textTheme;
     final menu = AnimatedSwitcher(      duration: Duration(milliseconds: 500),
-    child:viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 1,) : SizedBox.shrink());
+    child:viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: 2,) : SizedBox.shrink());
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
