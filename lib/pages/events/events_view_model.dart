@@ -83,7 +83,7 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: true);
     final Map query = {status.section: item.id};
 
-    final response = await _interactor.getPlacesList({});
+    final response = await _interactor.getPlacesList(query);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;

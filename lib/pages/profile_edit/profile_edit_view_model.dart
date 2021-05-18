@@ -32,4 +32,9 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     _route.goProfile();
   }
 
+  void goLoginAll() {
+    _route.goLoginAll();
+  }
+
+
 }

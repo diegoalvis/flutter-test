@@ -21,7 +21,6 @@ import 'login_effect.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage();
 
   @override
   Widget build(BuildContext context) {
