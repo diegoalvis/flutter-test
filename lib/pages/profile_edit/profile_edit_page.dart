@@ -247,10 +247,11 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             onPressed: () {
-                              Navigator.push(
+                              viewModel.logOut();
+/*                              Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => LoginPage()),
-                              );
+                              );*/
                             }),
                         SizedBox(
                           height: 12,
