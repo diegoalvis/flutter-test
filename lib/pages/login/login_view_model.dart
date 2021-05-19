@@ -21,15 +21,16 @@ import 'package:unique_ids/unique_ids.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'login_effect.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 
 
-  class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
+  class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
   LoginViewModel(this._route, this._interactor) {
-  status = LoginStatus(
+  status = LoginUserStatus(
   isLoading: true,
   email: '',
   password: '',
@@ -45,7 +46,19 @@ import 'login_effect.dart';
   GpsModel location = GpsModel();
   void onInit() async {
     // TODO
+
   }
+
+  Map<String, dynamic>? _userData;
+  AccessToken? _accessToken;
+  bool _checking = true;
+
+  String prettyPrint(Map json) {
+    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String pretty = encoder.convert(json);
+    return pretty;
+  }
+
 
   void loginResponse(String email, String password) async {
     LoginRequest params = LoginRequest(email, password);
@@ -107,11 +120,12 @@ import 'login_effect.dart';
     await box.put(loginResponse.name, person);
 
     print('datos almacenados del login');
-    print(box.getAt(0)!.id);
-    print(box.get(loginResponse.name)!.audioguias);
+
+    print(box.get(loginResponse.id)!.audioguias);
     print(box.get(loginResponse.name)!.country);
 
   }
+
 
   getLoc() async{
 
@@ -204,6 +218,64 @@ import 'login_effect.dart';
     print('view model username');
     print(username);
     _route.goUserHome();
+  }
+/*
+  Future<void> _checkIfIsLogged() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+    setState(() {
+      _checking = false;
+    });
+    if (accessToken != null) {
+      print("is Logged:::: ${prettyPrint(accessToken.toJson())}");
+      // now you can call to  FacebookAuth.instance.getUserData();
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      print("userData");
+      print(userData['name']);
+      _accessToken = accessToken;
+      setState(() {
+        _userData = userData;
+      });
+    }
+  }
+  */
+
+  Future<void> logOut() async {
+    await FacebookAuth.instance.logOut();
+    _accessToken = null;
+    _userData = null;
+    //setState(() {});
+  }
+
+  void _printCredentials() {
+    print(
+      prettyPrint(_accessToken!.toJson()),
+    );
+  }
+
+  Future<void> login() async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by the fault we request the email and the public profile
+
+    // loginBehavior is only supported for Android devices, for ios it will be ignored
+    // final result = await FacebookAuth.instance.login(
+    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    //   loginBehavior: LoginBehavior
+    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+    // );
+
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+      _printCredentials();
+      // get the user data
+      // by default we get the userId, email,name and picture
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _userData = userData;
+      _route.goHome();
+    } else {
+      print(result.status);
+      print(result.message);
+    }
   }
 
 }

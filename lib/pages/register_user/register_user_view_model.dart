@@ -13,6 +13,7 @@ import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'register_user_status.dart';
 import 'register_user_effect.dart';
@@ -30,6 +31,17 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
       data : null,
     );
   }
+
+  Map<String, dynamic>? _userData;
+  AccessToken? _accessToken;
+  bool _checking = true;
+
+  String prettyPrint(Map json) {
+    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String pretty = encoder.convert(json);
+    return pretty;
+  }
+
 
   void onInit() async {
     // status = status.copyWith(isLoading: true);
@@ -124,4 +136,53 @@ bool _validemessage(RegisterModel registerResponse){
   void onChangeScrollController(bool value) {
     addEffect(RegisterValueControllerScrollEffect(value));
   }
+
+
+
+  Future<void> logOut() async {
+    await FacebookAuth.instance.logOut();
+    _accessToken = null;
+    _userData = null;
+    //setState(() {});
+  }
+
+  void _printCredentials() {
+    print(
+      prettyPrint(_accessToken!.toJson()),
+    );
+  }
+
+  Future<void> login() async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by the fault we request the email and the public profile
+
+    // loginBehavior is only supported for Android devices, for ios it will be ignored
+    // final result = await FacebookAuth.instance.login(
+    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    //   loginBehavior: LoginBehavior
+    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+    // );
+
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+      _printCredentials();
+      // get the user data
+      // by default we get the userId, email,name and picture
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _userData = userData;
+      print("_userData_register");
+      print(_userData);
+
+      RegisterRequest params = RegisterRequest(_userData!['name'],_userData!['name'],_userData!['email'], 'Colombia', _userData!['name'], 'turismo', _userData!['id']);
+
+      status = status.copyWith(data: params );
+      registerResponse();
+
+    } else {
+      print(result.status);
+      print(result.message);
+    }
+  }
+
+
 }

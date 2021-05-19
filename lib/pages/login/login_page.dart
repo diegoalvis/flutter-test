@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -9,6 +10,7 @@ import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
 import 'package:bogota_app/pages/login/login_view_model.dart';
 import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
+import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ import '../../app_theme.dart';
 import 'login_effect.dart';
 
 import 'package:bogota_app/extensions/idt_dialog.dart';
+
 
 class LoginPage extends StatelessWidget {
 
@@ -43,6 +46,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   final passwordController = TextEditingController();
   StreamSubscription<LoginEffect>? _effectSubscription;
 
+
+
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -51,7 +56,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     emailController.addListener(_printLatestValue);
     passwordController.addListener(_printLatestValue);
-
+    //_checkIfIsLogged();
     super.initState();
   }
 
@@ -85,6 +90,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     passwordController.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -420,44 +426,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             Positioned(
                 bottom: 60,
                 left: 50,
-                child: Container(
-                  color: Colors.white,
-                  height: 60,
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        child: Image(image: AssetImage(IdtAssets.facebook)),
-                        width: 40,
-                        height: 40,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        color: Colors.white,
-                        width: 40,
-                        height: 40,
-                        child: Image(
-                          image: AssetImage(IdtAssets.google),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        color: Colors.white,
-                        width: 50,
-                        height: 50,
-                        child: Image(
-                          image: AssetImage(IdtAssets.apple),
-                        ),
-                      )
-                    ],
-                  ),
-                )),
+                child: LoginButtons(logout: viewModel.logOut,login:viewModel.login)),
             Positioned(
               bottom: 10,
               width: size.width,
@@ -489,3 +458,4 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 }
+

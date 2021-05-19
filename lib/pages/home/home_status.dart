@@ -10,12 +10,14 @@ class HomeStatus extends ViewStatus {
   final bool seeAll;
   late List<DataModel> itemsUnmissablePlaces;
   late List<DataModel> itemsEatPlaces;
+  late List<DataModel> itemsbestRatedPlaces;
 
-  HomeStatus( {required this.itemsEatPlaces, required this.itemsUnmissablePlaces,required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
+  HomeStatus( {required this.itemsEatPlaces, required this.itemsUnmissablePlaces, required this.itemsbestRatedPlaces,
+    required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll});
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
-    bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsEatPlaces }) {
+    bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsEatPlaces, List<DataModel>?itemsbestRatedPlaces  }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,
@@ -24,7 +26,8 @@ class HomeStatus extends ViewStatus {
       notSaved: notSaved ?? this.notSaved,
       seeAll: seeAll ?? this.seeAll,
       itemsUnmissablePlaces: itemsUnmissablePlaces ?? this.itemsUnmissablePlaces,
-      itemsEatPlaces: itemsEatPlaces ?? this.itemsEatPlaces
+      itemsEatPlaces: itemsEatPlaces ?? this.itemsEatPlaces,
+        itemsbestRatedPlaces: itemsbestRatedPlaces ?? this.itemsbestRatedPlaces
     );
   }
 }

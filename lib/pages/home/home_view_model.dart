@@ -30,6 +30,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       seeAll: true,
       itemsUnmissablePlaces: [],
       itemsEatPlaces: [],
+      itemsbestRatedPlaces: []
     );
   }
 
@@ -37,7 +38,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getUnmissableResponse();
-    getEatResponse();
+    // getEatResponse();
+    getBestRatedResponse();
 
   }
 
@@ -75,8 +77,24 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
+  void getBestRatedResponse() async {
+    final bestRatedResponse = await _interactor.getBestRatedPlacesList();
+
+    if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsbestRatedPlaces: bestRatedResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = bestRatedResponse as IdtFailure<EatError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
   void openMenu() {
-      status = status.copyWith(openMenu: !status.openMenu);
+    status = status.copyWith(openMenu: !status.openMenu);
 
   }
 
@@ -102,9 +120,25 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onChangeScrollController(bool value) {
     addEffect(HomeValueControllerScrollEffect(300, value));
   }
+ void goDetailPage(String id) async {
+   status = status.copyWith(isLoading: true);
 
-  void goDetailPage() {
-    // _route.goDetail(isHotel: false);
+   final placebyidResponse = await _interactor.getPlaceById(id);
+   print('view model detail page');
+   print(placebyidResponse);
+   if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+     print("model detail");
+     print(placebyidResponse.body!.title);
+     _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+     /// Status reasignacion
+     // status.places.addAll(UnmissableResponse.body)
+   } else {
+     final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
+     print(erroRes.message);
+     UnimplementedError();
+   }
+   status = status.copyWith(isLoading: false);
+
   }
 
   void setLocationUser() async {

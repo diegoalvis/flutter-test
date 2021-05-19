@@ -2,6 +2,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_status.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
@@ -32,9 +33,16 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     _route.goProfile();
   }
 
-  void goLoginAll() {
-    _route.goLoginAll();
+  Future<void> logOut() async {
+    await FacebookAuth.instance.logOut();
+    _route.goLogin();
+    // _accessToken = null;
+    // _userData = null;
+    //setState(() {});
   }
+  // void goLoginAll() {
+  //   _route.goLoginAll();
+  // }
 
 
 }
