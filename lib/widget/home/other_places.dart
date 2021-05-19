@@ -121,7 +121,7 @@ class OtherPlaces extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: 25),
+        SizedBox(height: 35),
         TitleSection('Imperdible en Bogotá'),
         SizedBox(height: 25),
         GridImagesCol2(textTheme, resUnmissable!),

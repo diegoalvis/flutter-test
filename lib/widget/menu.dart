@@ -165,19 +165,19 @@ class IdtMenu extends StatelessWidget {
       case 2:
         _route.goUnmissableUntil(index);
         break;
+      // case 3:
+      //   _route.goHomeRemoveAll();
+      //   break;
       case 3:
-        _route.goHomeRemoveAll();
-        break;
-      case 4:
         _route.goEvents(index);
         break;
-      case 5:
+      case 4:
         _route.goSleeps(index);
         break;
-      case 6:
+      case 5:
         _route.goEat(index);
         break;
-      case 7:
+      case 6:
         _route.goSavedPlacesUntil();
         break;
       default:
