@@ -11,10 +11,12 @@ import 'package:bogota_app/pages/unmissable/unmissable_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -48,7 +50,16 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<UnmissableViewModel>().getUnmissableResponse();});
+
+  }
+  void reload(state){
+  if(state){
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<UnmissableViewModel>().getBestRatedResponse();});
     super.initState();
+  }else{
+    initState();
+  }
   }
 
   @override
@@ -72,12 +83,13 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
   Widget _buildDiscover(UnmissableViewModel viewModel) {
 
     final textTheme = Theme.of(context).textTheme;
-    final List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
+    late List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
     final menu = AnimatedSwitcher(duration: Duration(milliseconds: 500), child: viewModel.status.openMenu
         ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: widget.optionIndex,)
         : SizedBox.shrink());
+    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
-    Widget _buttonTap(String label) {
+    Widget _buttonTap(String label, bool state) {
       return Expanded(
         child: TextButton(
           child: Text(label,
@@ -85,15 +97,17 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: textTheme.subTitleBlack),
-          onPressed: () {},
+          onPressed: () {
+            reload(state);
+          },
         ),
       );
     }
 
     ;
 
-    Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
-          onTap: () =>viewModel.goDetailPage(index.toString()),
+    Widget imagesCard(DataModel item, int index) => (InkWell(
+          onTap: () =>viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -133,7 +147,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           ),
         ));
 
-    Widget gridImagesCol3() => (GridView.count(
+    Widget gridImagesCol3(List<DataModel> dataTap) => (GridView.count(
           shrinkWrap: true,
           physics: ScrollPhysics(),
           crossAxisCount: 2,
@@ -141,11 +155,11 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           mainAxisSpacing: 9,
           //childAspectRatio: 7/6,
           padding: EdgeInsets.symmetric(horizontal: 30),
-          children: _unmissable.asMap().entries.map((entry) {
+          children: dataTap.asMap().entries.map((entry) {
             final int index = entry.key;
             final DataModel value = entry.value;
 
-            return imagesCard(value, index, DataTest.imgList2);
+            return imagesCard(value, index);
           }).toList(),
         ));
 
@@ -175,18 +189,19 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buttonTap('Recomendados'),
-                    _buttonTap('Mejor calificados')
+                    _buttonTap('Recomendados', false),
+                    _buttonTap('Mejor calificados', true)
                   ],
                 ),
               ),
               SizedBox(height: 25),
-              gridImagesCol3(),
+              gridImagesCol3(_unmissable),
               SizedBox(height: 55),
             ],
           ),
         ),
-        menu
+        menu,
+        loading
       ],
     );
   }

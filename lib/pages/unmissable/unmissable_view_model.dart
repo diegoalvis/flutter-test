@@ -19,6 +19,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
       isLoading: true,
       openMenu: false,
       itemsUnmissablePlaces: [],
+      itemsbestRatedPlaces: []
     );
   }
 
@@ -29,6 +30,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   void getUnmissableResponse() async {
+    status = status.copyWith(isLoading: true);
     print('entra unmmisable');
     final unmissableResponse = await _interactor.getUnmissablePlacesList();
 
@@ -40,6 +42,23 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
       print(erroRes.message);
       UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+  void getBestRatedResponse() async {
+    status = status.copyWith(isLoading: true);
+    final bestRatedResponse = await _interactor.getBestRatedPlacesList();
+
+    if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsUnmissablePlaces: bestRatedResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = bestRatedResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
     }
     status = status.copyWith(isLoading: false);
   }
