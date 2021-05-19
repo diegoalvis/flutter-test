@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -124,10 +125,25 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onChangeScrollController(bool value) {
     addEffect(HomeValueControllerScrollEffect(300, value));
   }
- void goDetailPage() {
+ void goDetailPage(String id) async {
+   status = status.copyWith(isLoading: true);
 
-  print('entra a godetail');
-    // _route.goDetail(isHotel: false);
+   final placebyidResponse = await _interactor.getPlaceById(id);
+   print('view model detail page');
+   print(placebyidResponse);
+   if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+     print("model detail");
+     print(placebyidResponse.body!.title);
+     _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+     /// Status reasignacion
+     // status.places.addAll(UnmissableResponse.body)
+   } else {
+     final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
+     print(erroRes.message);
+     UnimplementedError();
+   }
+   status = status.copyWith(isLoading: false);
+
   }
 
   void setLocationUser() async {

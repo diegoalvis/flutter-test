@@ -14,7 +14,7 @@ import 'package:flutter/painting.dart';
 import '../../app_theme.dart';
 
 class OtherPlaces extends StatelessWidget {
-  final VoidCallback onTapCard;
+  final Function(String) onTapCard;
   final VoidCallback goDiscover;
   late List<DataModel>? resUnmissable;
   late List<DataModel>? resFood;
@@ -28,7 +28,8 @@ class OtherPlaces extends StatelessWidget {
       (Center(
         child: InkWell(
          // onTap: onTapCard,
-          onTap: onTapCard,
+        //  onTap: () => print("en ontap"),
+          onTap: () => onTapCard(valueData.id.toString()),
           child: Stack(
             children: <Widget>[
               ClipRRect(
