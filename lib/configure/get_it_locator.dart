@@ -3,6 +3,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/service/audioguide_service.dart';
+import 'package:bogota_app/data/repository/service/bestRated_service.dart';
 import 'package:bogota_app/data/repository/service/event_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/eat_service.dart';
@@ -31,6 +32,7 @@ void setUpLocator() async {
   locator.registerSingleton<SleepService>(SleepService());
   locator.registerSingleton<LoginService>(LoginService());
   locator.registerSingleton<RegisterService>(RegisterService());
+  locator.registerSingleton<BestRatedService>(BestRatedService());
   // locator.registerSingleton<ZoneService>(ZoneService());
 
   /* locator.registerSingletonAsync(() async {

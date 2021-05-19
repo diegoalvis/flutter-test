@@ -202,6 +202,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 goDiscover: viewModel.goDiscoverPage,
                 resUnmissable: viewModel.status.itemsUnmissablePlaces,
                 resFood: viewModel.status.itemsEatPlaces,
+                bestRated: viewModel.status.itemsbestRatedPlaces,
               )
             ],
           ),

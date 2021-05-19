@@ -30,6 +30,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       seeAll: true,
       itemsUnmissablePlaces: [],
       itemsEatPlaces: [],
+      itemsbestRatedPlaces: []
     );
   }
 
@@ -37,7 +38,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onInit() async {
     status = status.copyWith(isLoading: true);
     getUnmissableResponse();
-    getEatResponse();
+    // getEatResponse();
+    getBestRatedResponse();
 
   }
 
@@ -75,6 +77,23 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
+  void getBestRatedResponse() async {
+    final bestRatedResponse = await _interactor.getBestRatedPlacesList();
+
+    if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsbestRatedPlaces: bestRatedResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = bestRatedResponse as IdtFailure<EatError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+
   void onpenMenu() {
     if (status.openMenu == false) {
       status = status.copyWith(openMenu: true);
@@ -105,8 +124,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onChangeScrollController(bool value) {
     addEffect(HomeValueControllerScrollEffect(300, value));
   }
+ void goDetailPage() {
 
-  void goDetailPage() {
+  print('entra a godetail');
     // _route.goDetail(isHotel: false);
   }
 
