@@ -11,6 +11,7 @@ import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/register_user/register_user_effect.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
+import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
@@ -271,7 +272,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50),
                   child: Container(
-                    height: size.height * 0.5,
+                    height: size.height * 0.6,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -418,6 +419,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
                           onPressed: () => _validations(),
                         ),
+                        LoginButtons(logout: viewModel.logOut,login: viewModel.login,),
                         Spacer(),
                         Text(
                           'Oficina de turismo de Bogotá',
@@ -427,7 +429,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                           ),
                         ),
                         SizedBox(
-                          height: 8,
+                          height: 20,
                         )
                       ],
                     ),
@@ -438,6 +440,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             ),
           ),
         ),
+
       ]),
     );
   }

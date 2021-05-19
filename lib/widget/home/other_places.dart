@@ -4,6 +4,8 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/pages/home/home_view_model.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +18,16 @@ class OtherPlaces extends StatelessWidget {
   final VoidCallback goDiscover;
   late List<DataModel>? resUnmissable;
   late List<DataModel>? resFood;
+  late List<DataModel>? bestRated;
 
-  OtherPlaces({required this.onTapCard, required this.goDiscover, this.resUnmissable, this.resFood});
+  OtherPlaces({required this.onTapCard, required this.goDiscover, this.resUnmissable, this.resFood, this.bestRated});
+
 
   Widget ImagesCard(
-          TextTheme textTheme, String item, int index, List res, String name) =>
+          TextTheme textTheme, String item, int index, List res, String name, DataModel valueData) =>
       (Center(
         child: InkWell(
+         // onTap: onTapCard,
           onTap: onTapCard,
           child: Stack(
             children: <Widget>[
@@ -80,7 +85,8 @@ class OtherPlaces extends StatelessWidget {
           final imageUrl = entry.value.image ?? '';
           final String value = IdtConstants.url_image + imageUrl;
           final String namePlace = entry.value.title ?? '';
-          return ImagesCard(textTheme, value, index, listItems, namePlace);
+          final DataModel valueData = entry.value;
+          return ImagesCard(textTheme, value, index, listItems, namePlace, valueData);
         }).toList(),
       ));
 
@@ -124,7 +130,7 @@ class OtherPlaces extends StatelessWidget {
         SizedBox(height: 20),
         TitleSection('Mejor calificado'),
         SizedBox(height: 15),
-        GridImagesCol2(textTheme, resFood!),
+        GridImagesCol2(textTheme, bestRated!),
         SizedBox(height: 55),
       ],
     );
