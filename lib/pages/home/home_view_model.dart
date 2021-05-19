@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';

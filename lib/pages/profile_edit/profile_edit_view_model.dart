@@ -33,16 +33,16 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     _route.goProfile();
   }
 
-  Future<void> logOut() async {
-    await FacebookAuth.instance.logOut();
-    _route.goLogin();
+  // Future<void> logOut() async {
+  //   await FacebookAuth.instance.logOut();
+  //   _route.goLogin();
     // _accessToken = null;
     // _userData = null;
     //setState(() {});
-  }
-  // void goLoginAll() {
-  //   _route.goLoginAll();
   // }
+  void goLoginAll() {
+    _route.goLoginAll();
+  }
 
 
 }

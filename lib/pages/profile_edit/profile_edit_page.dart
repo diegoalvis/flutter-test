@@ -241,7 +241,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: () => viewModel.goLoginAll()),
+                            onPressed: () => viewModel.goLoginAll()
+                        ),
 //                             onPressed: () {
 //                               viewModel.logOut();
 // /*                              Navigator.push(
