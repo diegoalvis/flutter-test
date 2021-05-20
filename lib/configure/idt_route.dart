@@ -50,8 +50,14 @@ class IdtRoute {
   }
 
   goLogin(){
-    return navigatorKey.currentState!.pushReplacement(
+    return navigatorKey.currentState!.push(
         MaterialPageRoute(builder: (_)=> LoginPage())
+    );
+  }
+  goLoginAll(){
+    return navigatorKey.currentState!.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_)=> LoginPage()),
+            (Route<dynamic> route) => false
     );
   }
 
@@ -151,7 +157,7 @@ class IdtRoute {
     );
   }
 
-  goAudioGuide(int optionIndex){
+  goAudioGuide(){
     return navigatorKey.currentState!.push(
       MaterialPageRoute(builder: (_)=> AudioGuidePage())
     );

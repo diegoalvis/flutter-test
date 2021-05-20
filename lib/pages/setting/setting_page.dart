@@ -40,7 +40,7 @@ class _SettingWidgetState extends State<SettingWidget> {
           color: IdtColors.white,
         ),
         child: Scaffold(
-            appBar: IdtAppBar(viewModel.onpenMenu),
+            appBar: IdtAppBar(viewModel.openMenu),
             backgroundColor: Colors.transparent,
             // floatingActionButton: IdtFab(homeSelect: true),
             body: _buildConfigApp(viewModel)),

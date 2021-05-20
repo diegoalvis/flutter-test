@@ -143,16 +143,17 @@ class DataTest {
   ];
 
   static const List<String> List2 = [
+    'REGISTRARSE',
     'DESCUBRE BOGOTÁ',
     'AUDIOGUÍAS',
-    '*IMPERDIBLES',
+    'IMPERDIBLES',
     // 'MÁS ALLÁ DE BOGOTÁ',
     'EVENTOS',
     //'RECORRIDOS ESPECIALES',
     'DÓNDE DORMIR',
     'DÓNDE COMER',
-    '*LUGARES GUARDADOS',
-    '*PRIVACIDAD Y TÉRMINOS'
+    'LUGARES GUARDADOS',
+    'PRIVACIDAD Y TÉRMINOS'
   ];
 
   static const List<String> List3 = ['Plan', 'Producto', 'Zona', 'Audioguías'];

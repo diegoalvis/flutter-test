@@ -26,8 +26,8 @@ class SettingViewModel extends ViewModel<SettingStatus> {
     status.switchNotification2 = await locationUser.serviceEnabled();
   }
 
-  void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+  void openMenu() {
+    status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {

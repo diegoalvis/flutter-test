@@ -41,8 +41,6 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DiscoverViewModel>().onInit();
     });
-    final viewModel = context.read<DiscoverViewModel>();
-    viewModel.getDiscoveryData();  //se carga la Data de las 4 secciones
     super.initState();
   }
 
@@ -52,7 +50,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
@@ -65,10 +63,10 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget _buildDiscover(DiscoverViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    final List<DataModel> _places = viewModel.places; //lugares para la grilla
-    final List<DataModel> _categories = viewModel.categories;
-    final List<DataModel> _subcategories = viewModel.subcategories;
-    final List<DataModel> _zones = viewModel.zones;
+    final List<DataModel> _places = viewModel.status.places; //lugares para la grilla
+    final List<DataModel> _categories = viewModel.status.categories;
+    final List<DataModel> _subcategories = viewModel.status.subcategories;
+    final List<DataModel> _zones = viewModel.status.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final menu = AnimatedSwitcher(
@@ -76,7 +74,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       child: viewModel.status.openMenu
           ? IdtMenu(
               closeMenu: viewModel.closeMenu,
-              optionIndex: 0,
+              optionIndex: 1,
             )
           : SizedBox.shrink(),
     );
@@ -209,13 +207,13 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buttonTap('Plan', () => viewModel.onpenMenuTab(_categories, 'category', 0),
+                    _buttonTap('Plan', () => viewModel.openMenuTab(_categories, 'category', 0),
                         viewModel.status.currentOption == 0),
                     _buttonTap(
                         'Producto',
-                        () => viewModel.onpenMenuTab(_subcategories, 'subcategory', 1),
+                        () => viewModel.openMenuTab(_subcategories, 'subcategory', 1),
                         viewModel.status.currentOption == 1),
-                    _buttonTap('Zona', () => viewModel.onpenMenuTab(_zones, 'zone', 2),
+                    _buttonTap('Zona', () => viewModel.openMenuTab(_zones, 'zone', 2),
                         viewModel.status.currentOption == 2),
                     _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
                   ],

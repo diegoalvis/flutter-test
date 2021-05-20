@@ -95,13 +95,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
+  void openMenu() {
+    status = status.copyWith(openMenu: !status.openMenu);
 
-  void onpenMenu() {
-    if (status.openMenu == false) {
-      status = status.copyWith(openMenu: true);
-    } else {
-      status = status.copyWith(openMenu: false);
-    }
   }
 
   void closeMenu() {

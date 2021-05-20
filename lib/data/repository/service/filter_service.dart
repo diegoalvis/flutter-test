@@ -10,9 +10,8 @@ import 'package:bogota_app/utils/idt_result.dart';
 
 import 'package:http/http.dart' as http;
 
-
 class FilterService {
-
+  //Este metodo trae los lugares apenas se entra al filter Page
   Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
 
     Map<String, dynamic> queryParameters = {};
@@ -86,11 +85,8 @@ class FilterService {
     }
 
   }
-  Future<IdtResult<List<DataModel>?>> getCategories() async {
 
-    final queryParameters = {
-      'zone': '23'
-    };
+  Future<IdtResult<List<DataModel>?>> getCategories() async {
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/category');
@@ -158,11 +154,8 @@ class FilterService {
 
   }
 
+  // Este servicio deberia ser independiente??
   Future<IdtResult<List<DataModel>?>> getZones() async {
-
-    final queryParameters = {
-      'zone': '23'
-    };
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/zone');
@@ -193,40 +186,4 @@ class FilterService {
     }
 
   }
-
-  /*Future<IdtResult<List<DataPlacesModel>?>> getPlaces() async {
-
-    final queryParameters = {
-      'zone': '23'
-    };
-
-    // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/event');
-
-    final response = await http.get(uri);
-
-    try {
-      final body = json.decode(response.body);
-
-      switch (response.statusCode) {
-        case 200: {
-          final entity = PlacesResponse.fromJson(body);
-
-          return IdtResult.success(entity.data);
-        }
-
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
-
-          return IdtResult.failure(error);
-        }
-      }
-
-    } on StateError catch (err) {
-      final error = FilterError(err.message, response.statusCode);
-
-      return IdtResult.failure(error);
-    }
-
-  }*/
 }

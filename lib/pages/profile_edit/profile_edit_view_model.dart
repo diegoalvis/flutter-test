@@ -7,9 +7,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
   final IdtRoute _route;
-  final ApiInteractor
-
- _interactor;
+  final ApiInteractor _interactor;
 
   ProfileEditViewModel(this._route, this._interactor) {
     status = ProfileEditStatus(
@@ -23,8 +21,8 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     //TODO
   }
 
-  void onpenMenu() {
-    status = status.copyWith(openMenu: true);
+  void openMenu() {
+    status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {
@@ -35,13 +33,16 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     _route.goProfile();
   }
 
-  Future<void> logOut() async {
-    await FacebookAuth.instance.logOut();
-    _route.goLogin();
+  // Future<void> logOut() async {
+  //   await FacebookAuth.instance.logOut();
+  //   _route.goLogin();
     // _accessToken = null;
     // _userData = null;
     //setState(() {});
+  // }
+  void goLoginAll() {
+    _route.goLoginAll();
   }
 
-}
 
+}

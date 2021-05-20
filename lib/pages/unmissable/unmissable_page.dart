@@ -68,7 +68,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           bottomNavigationBar:

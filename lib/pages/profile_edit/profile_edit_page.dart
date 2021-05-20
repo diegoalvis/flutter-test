@@ -66,7 +66,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           ),
         ),
         child: Scaffold(
-            appBar: IdtAppBar(viewModel.onpenMenu),
+            appBar: IdtAppBar(viewModel.openMenu),
             backgroundColor: IdtColors.transparent,
             body: _buildProfileEdit(viewModel)),
       ),
@@ -231,12 +231,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => LoginPage()),
-                              );
-                            }),
+                            onPressed: () => viewModel.goLoginAll()),
                         SizedBox(
                           height: 12,
                         ),
@@ -246,13 +241,15 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: () {
-                              viewModel.logOut();
-/*                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => LoginPage()),
-                              );*/
-                            }),
+                            onPressed: () => viewModel.goLoginAll()
+                        ),
+//                             onPressed: () {
+//                               viewModel.logOut();
+// /*                              Navigator.push(
+//                                 context,
+//                                 MaterialPageRoute(builder: (context) => LoginPage()),
+//                               );*/
+//                             }),
                         SizedBox(
                           height: 12,
                         ),

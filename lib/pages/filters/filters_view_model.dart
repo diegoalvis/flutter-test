@@ -118,28 +118,23 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-  void onpenMenu() {
-    if (status.openMenu == false) {
-      status = status.copyWith(openMenu: true, openMenuTab: false, openMenuFilter: false);
-    } else {
-      status = status.copyWith(openMenu: false);
-    }
+  void openMenu() {
+      status = status.copyWith(openMenu: !status.openMenu, openMenuTab: false, openMenuFilter: false);
   }
 
   void closeMenu() {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab() {
-    final bool tapClick = status.openMenuTab;
-    status = status.copyWith(openMenuTab: !tapClick, openMenu: false, openMenuFilter: false);
+  void openMenuTab() {
+    status = status.copyWith(openMenuTab: !status.openMenuTab, openMenu: false, openMenuFilter: false);
   }
 
   void closeMenuTab() {
     status = status.copyWith(openMenuTab: false);
   }
 
-  void onpenMenuFilter() {
+  void openMenuFilter() {
     final bool tapClick = status.openMenuFilter;
     status = status.copyWith(openMenuFilter: !tapClick, openMenu: false, openMenuTab: false);
   }

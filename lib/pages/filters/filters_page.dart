@@ -84,6 +84,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',textButton: 'aceptar / cerrar');
       }
     });
+
+    // // una vez tengas la info la pasas aca
+    // viewModel.onTapButton(index, id, items);
   }
 
   @override
@@ -92,7 +95,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
 
     return SafeArea(
       child: Scaffold(
-          appBar: IdtAppBar(viewModel.onpenMenu),
+          appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
           extendBodyBehindAppBar: true,
@@ -159,7 +162,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                   bottomRight: Radius.circular(30),
                 ),
               ),
-              onPressed: viewModel.onpenMenuTab,
+              onPressed: viewModel.openMenuTab,
               child: Row(
                 children: [
                   Expanded(
@@ -211,7 +214,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                       )),
-                  onPressed: viewModel.onpenMenuFilter))
+                  onPressed: viewModel.openMenuFilter))
         ],
       );
     }

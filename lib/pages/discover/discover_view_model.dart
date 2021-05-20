@@ -12,40 +12,34 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  List<DataModel> places = [];
-
-  List<DataModel> categories = [];
-
-  List<DataModel> subcategories = [];
-
-  List<DataModel> zones = [];
-
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
-        isLoading: false,
-        openMenu: false,
-        openMenuTab: false,
-        listOptions: [],
-        section: '');
+      isLoading: false,
+      openMenu: false,
+      openMenuTab: false,
+      zones: [],
+      subcategories: [],
+      categories: [],
+      places: [],
+      listOptions: [],
+      section: '',
+    );
   }
 
   void onInit() async {
-    // TODO
+    getDiscoveryData();
   }
 
-  void onpenMenu() {
-    if (status.openMenu == false) {
-      status = status.copyWith(openMenu: true);
-    } else {
-      status = status.copyWith(openMenu: false);
-    }
+  void openMenu() {
+      status = status.copyWith(openMenu: !status.openMenu);
+
   }
 
   void closeMenu() {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenMenuTab(List<DataModel> listData, String section, int currentOption) {
+  void openMenuTab(List<DataModel> listData, String section, int currentOption) {
     status = status.copyWith(
         openMenuTab: true, listOptions: listData, section: section, currentOption: currentOption);
   }
@@ -58,7 +52,10 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
+  void goFiltersPage(
+      DataModel item,
+      List<DataModel> categories,
+      List<DataModel> subcategories,
       List<DataModel> zones) async {
     status = status.copyWith(isLoading: true);
     final Map query = {status.section: item.id};
@@ -73,8 +70,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           categories: categories,
           subcategories: subcategories,
           zones: zones,
-          places: places
-      );
+          places: places);
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
@@ -93,7 +89,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resPlaces = await _interactor.getBestRatedPlacesList();
 
     if (resPlaces is IdtSuccess<List<DataModel>?>) {
-      places = resPlaces.body!;
+      status = status.copyWith(places: resPlaces.body!);
     } else {
       isValid = false;
       final erroRes = resPlaces as IdtFailure<FilterError>;
@@ -104,7 +100,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resCategory = await _interactor.getCategoriesList();
 
     if (resCategory is IdtSuccess<List<DataModel>?>) {
-      categories = resCategory.body!;
+      status = status.copyWith(categories: resCategory.body);
     } else {
       isValid = false;
       final erroRes = resCategory as IdtFailure<FilterError>;
@@ -115,7 +111,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resSubcategiry = await _interactor.getSubcategoriesList();
 
     if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
-      subcategories = resSubcategiry.body!;
+      status = status.copyWith(subcategories: resSubcategiry.body);
     } else {
       isValid = false;
       final erroRes = resSubcategiry as IdtFailure<FilterError>;
@@ -123,10 +119,10 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
 
-    final resZona = await _interactor.getZoneList();
+    final resZona = await _interactor.getZonesList();
 
     if (resZona is IdtSuccess<List<DataModel>?>) {
-      zones = resZona.body!;
+      status = status.copyWith(zones: resZona.body);
     } else {
       isValid = false;
       final erroRes = resZona as IdtFailure<FilterError>;
@@ -141,7 +137,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     }
   }
 
-   goDetailPage(String id) async {
+  goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
 
     final placebyidResponse = await _interactor.getPlaceById(id);
@@ -151,6 +147,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       print("model detail");
       print(placebyidResponse.body!.title);
       _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -159,11 +156,10 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
     status = status.copyWith(isLoading: false);
-
   }
 
   void goAudioGuidePage() {
-    _route.goAudioGuide(1);
+    _route.goAudioGuide();
     closeMenuTab();
   }
 }

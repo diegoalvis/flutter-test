@@ -14,6 +14,7 @@ import 'package:bogota_app/data/repository/service/savedPlaces_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
+import 'package:bogota_app/data/repository/service/zone_service.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt.instance;
@@ -36,6 +37,7 @@ void setUpLocator() async {
   locator.registerSingleton<BestRatedService>(BestRatedService());
   locator.registerSingleton<SavedPlacesService>(SavedPlacesService());
   // locator.registerSingleton<ZoneService>(ZoneService());
+  locator.registerSingleton<ZonesService>(ZonesService());
 
   /* locator.registerSingletonAsync(() async {
     final database = Database();
