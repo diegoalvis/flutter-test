@@ -31,7 +31,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       seeAll: true,
       itemsUnmissablePlaces: [],
       itemsEatPlaces: [],
-      itemsbestRatedPlaces: []
+      itemsbestRatedPlaces: [],
+      itemsSavedPlaces: []
     );
   }
 
@@ -107,15 +108,34 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(openMenu: false);
   }
 
-  void onpenSavedPlaces() {
+  void onpenSavedPlaces() async {
+    print('se abre lugares guardados');
     final bool value = status.openSaved;
     status = status.copyWith(openSaved: !value);
+
+    final savedResponse = await _interactor.getSavedPlacesList();
+
+    if (savedResponse is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(itemsSavedPlaces: savedResponse.body); // Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = savedResponse as IdtFailure<EatError>;
+      print(erroRes.message);
+      UnimplementedError();
+      // FoodError();
+      //Todo implementar errores
+    }
+    status = status.copyWith(isLoading: false);
+
 
     //addEffect(ShowDialogEffect());  Dialog de prueba
   }
 
   void addSavedPLaces() {
+    print('se muestran lugares guardados');
+    onpenSavedPlaces();
     status = status.copyWith(notSaved: false);
+
   }
 
   void onTapSeeAll(bool value) {

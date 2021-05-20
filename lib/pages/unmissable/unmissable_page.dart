@@ -100,6 +100,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           onPressed: () {
             reload(state);
           },
+
         ),
       );
     }
@@ -171,7 +172,9 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
               Container(
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
-                decoration: BoxDecoration(color: IdtColors.white),
+                decoration: BoxDecoration(color: IdtColors.white
+
+                ),
                 child: Center(child: TitleSection('IMPERDIBLES')),
               ),
               SizedBox(height: 25),

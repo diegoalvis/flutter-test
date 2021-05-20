@@ -24,7 +24,10 @@ class DataTest {
     false,
     true,
     true,
-    false
+    false,
+    true,
+    false,
+    true
   ];
 
   static const List<String> imgListAudio = [
@@ -71,6 +74,19 @@ class DataTest {
     'Teatro Faenza',
     'Parque central',
     'Parque central',
+    'Parque central',
+    'Parque central',
+    'Parque central',
+    'Parque central',
+    'Parque central',
+    'Parque central',
+    'Parque central',
+
+
+
+
+
+
   ];
 
   static const List<String> textList2 = [

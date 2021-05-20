@@ -2,8 +2,10 @@ import 'dart:core';
 import 'dart:math';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,8 @@ class SavedPlaces extends StatelessWidget {
   final Function(bool) onTapSeeAll;
   final Function(bool) changeSrollController;
   final ScrollController scrollController;
-  final VoidCallback onTapCard;
+  final Function(String) onTapCard;
+  late List<DataModel>? savedPlaces;
 
   SavedPlaces(
       this.openSaved,
@@ -31,7 +34,9 @@ class SavedPlaces extends StatelessWidget {
       this.onTapSeeAll,
       this.changeSrollController,
       this.scrollController,
-      this.onTapCard);
+      this.onTapCard,
+      this.savedPlaces);
+
 
   Widget imagesCard(String image, int index, List<bool> listGuide) =>
       (Container(
@@ -57,7 +62,7 @@ class SavedPlaces extends StatelessWidget {
                     listGuide[index] ? IdtColors.black : IdtColors.transparent,
                     BlendMode.difference),
                 child: Image.network(
-                  image,
+                  IdtConstants.url_image + image,
                   height: 150,
                   width: double.infinity,
                   fit: BoxFit.fill,
@@ -79,74 +84,75 @@ class SavedPlaces extends StatelessWidget {
           BuildContext context,
           TextTheme textTheme,
           List<bool> listGuide,
-          List<String> listImages,
-          List<String> listText) =>
-      InkWell(
-          onTap: onTapCard,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                  height: 220,
-                  margin: EdgeInsets.only(top: 10),
+          List<DataModel> listImages,
+          ) =>
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+              height: 220,
+              margin: EdgeInsets.only(top: 10),
+              color: IdtColors.white,
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: listImages.length,
+                itemExtent: 155,
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () => onTapCard(listImages[index].id.toString()),
+                  child: Column(
+                    children: <Widget>[
+                      imagesCard(listImages[index].image!, index, listGuide),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 20.0),
+                        child: Text(
+                          listImages[index].title!,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: textTheme.grayDetail.copyWith(
+                              fontWeight: FontWeight.w600, fontSize: 13),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )),
+          Positioned(
+            left: 0,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 50, left: 5),
+              child: IconButton(
+                iconSize: 45,
+                alignment: Alignment.centerLeft,
+                icon: Icon(
+                  Icons.play_circle_fill,
                   color: IdtColors.white,
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: listImages.length,
-                    itemExtent: 155,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Column(
-                      children: <Widget>[
-                        imagesCard(listImages[index], index, listGuide),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 20.0),
-                          child: Text(
-                            listText[index],
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: textTheme.grayDetail.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 13),
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
-              Positioned(
-                left: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 50, left: 5),
-                  child: IconButton(
-                    iconSize: 45,
-                    alignment: Alignment.centerLeft,
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                      color: IdtColors.white,
-                    ),
-                    onPressed: () => changeSrollController(false),
-                  ),
                 ),
+                onPressed: () => changeSrollController(false),
               ),
-              Positioned(
-                right: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 50, right: 5),
-                  child: IconButton(
-                    iconSize: 45,
-                    alignment: Alignment.centerRight,
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                      color: IdtColors.white,
-                    ),
-                    onPressed: () => changeSrollController(true),
-                  ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 50, right: 5),
+              child: IconButton(
+                iconSize: 45,
+                alignment: Alignment.centerRight,
+                icon: Icon(
+                  Icons.play_circle_fill,
+                  color: IdtColors.white,
                 ),
+                onPressed: () => changeSrollController(true),
               ),
-            ],
-          ));
+            ),
+          ),
+        ],
+      );
 
   widget_row_buttons(TextTheme textTheme) => (Container(
       height: 45,
@@ -319,8 +325,7 @@ class SavedPlaces extends StatelessWidget {
                           context,
                           textTheme,
                           seeAll ? DataTest.boolList : DataTest.boolListAudio,
-                          seeAll ? DataTest.imgList : DataTest.imgListAudio,
-                          seeAll ? DataTest.textList : DataTest.textListAudio,
+                          (seeAll ? savedPlaces:savedPlaces)!,
                         ),
                         widget_row_buttons(textTheme),
                       ],

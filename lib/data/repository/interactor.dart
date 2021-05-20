@@ -16,6 +16,7 @@ import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
 import 'package:bogota_app/data/repository/service/login_service.dart';
 import 'package:bogota_app/data/repository/service/register_service.dart';
+import 'package:bogota_app/data/repository/service/savedPlaces_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
@@ -76,6 +77,12 @@ class ApiInteractor {
     final response = await locator<BestRatedService>().getBestRated();
     return response;
   }
+
+  Future<IdtResult<List<DataModel>?>> getSavedPlacesList() async {
+    final response = await locator<SavedPlacesService>().getSavedPlaces();
+    return response;
+  }
+
 
   Future<IdtResult<SplashModel>> getSplashInteractor() async {
     final response = await locator<SplashService>().getSplash();

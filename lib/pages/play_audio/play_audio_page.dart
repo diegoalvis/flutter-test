@@ -47,7 +47,8 @@ class PlayAudioPage extends StatelessWidget {
   }
 }
 
-class PlayAudioWidget extends StatefulWidget {
+class PlayAudioWidget extends StatefulWidget
+{
   final DataPlacesDetailModel _detail;
 
   PlayAudioWidget(this._detail);
@@ -57,7 +58,7 @@ class PlayAudioWidget extends StatefulWidget {
   _PlayAudioWidgetState createState() => _PlayAudioWidgetState();
 }
 
-class _PlayAudioWidgetState extends State<PlayAudioWidget> {
+class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProviderStateMixin{
   final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [
     "Español",
@@ -280,11 +281,22 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> {
                           onPressed: _player.play,
                         ),*/
                       ),
+
                       Flexible(
-                        flex: 10,
-                        child: Image(
-                          image: AssetImage(IdtAssets.waves),
-                          fit: BoxFit.fill,
+                        fit: FlexFit.loose,
+                        flex: 10  ,
+                        child: AnimatedSize(
+                          reverseDuration: Duration(seconds: 100),
+                          curve: Curves.linear,
+                          duration: Duration(seconds: 140),
+                          vsync: this,
+                          child: Image(
+                            height: 50,
+                            //width: 200,
+                            color: IdtColors.orange,
+                            image: AssetImage(IdtAssets.waves),
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                       SizedBox(

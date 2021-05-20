@@ -89,7 +89,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
     bool isValid = true;
 
-    final resPlaces = await _interactor.getPlacesList({});
+    //final resPlaces = await _interactor.getPlacesList({});
+    final resPlaces = await _interactor.getBestRatedPlacesList();
 
     if (resPlaces is IdtSuccess<List<DataModel>?>) {
       places = resPlaces.body!;

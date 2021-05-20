@@ -191,7 +191,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
-/*              SavedPlaces(
+             SavedPlaces(
                   viewModel.status.openSaved,
                   viewModel.onpenSavedPlaces,
                   viewModel.status.notSaved,
@@ -200,8 +200,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                   viewModel.onTapSeeAll,
                   viewModel.onChangeScrollController,
                   scrollController,
-                  viewModel.goDetailPage
-              ),*/
+                  viewModel.goDetailPage,
+                  viewModel.status.itemsSavedPlaces
+
+              ),
 
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
