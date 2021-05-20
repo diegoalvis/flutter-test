@@ -124,9 +124,11 @@ class IdtRoute {
     );
   }
 
-  goResultSearch(){
+  goResultSearch({
+    required List<DataModel> results,
+  }){
     return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> ResultSearchPage())
+      MaterialPageRoute(builder: (_)=> ResultSearchPage(results))
     );
   }
 

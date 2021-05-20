@@ -20,7 +20,7 @@ class SavedPlaces extends StatelessWidget {
   final Function(bool) onTapSeeAll;
   final Function(bool) changeSrollController;
   final ScrollController scrollController;
-  final VoidCallback onTapCard;
+  final Function(String) onTapCard;
 
   SavedPlaces(
       this.openSaved,
@@ -82,7 +82,7 @@ class SavedPlaces extends StatelessWidget {
           List<String> listImages,
           List<String> listText) =>
       InkWell(
-          onTap: onTapCard,
+          onTap:()=> onTapCard('22'),
           child: Stack(
             alignment: Alignment.center,
             children: [
