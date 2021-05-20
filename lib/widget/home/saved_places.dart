@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/data_model.dart';
