@@ -173,8 +173,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         ]),
                                   ),
                                   Icon(
-                                    Icons.radio_button_on,
+                                    Icons.navigate_next,
                                     color: IdtColors.white,
+                                    size: 40,
                                   ),
                                 ],
                               ),
