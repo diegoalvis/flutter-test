@@ -116,7 +116,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                   shape:
                       RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                  onPressed: viewModel.goResultSearchPage)
+                  onPressed:
+                  viewModel.goResultSearchPage
+                  // viewModel.goResultSearchPage
+              )
             ],
           ),
         ),

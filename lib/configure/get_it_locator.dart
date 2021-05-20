@@ -10,6 +10,7 @@ import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
 import 'package:bogota_app/data/repository/service/login_service.dart';
 import 'package:bogota_app/data/repository/service/register_service.dart';
+import 'package:bogota_app/data/repository/service/search_service.dart';
 import 'package:bogota_app/data/repository/service/savedPlaces_service.dart';
 import 'package:bogota_app/data/repository/service/sleep_service.dart';
 import 'package:bogota_app/data/repository/service/splash_service.dart';
@@ -38,6 +39,7 @@ void setUpLocator() async {
   locator.registerSingleton<SavedPlacesService>(SavedPlacesService());
   // locator.registerSingleton<ZoneService>(ZoneService());
   locator.registerSingleton<ZonesService>(ZonesService());
+  locator.registerSingleton<SearchService>(SearchService());
 
   /* locator.registerSingletonAsync(() async {
     final database = Database();

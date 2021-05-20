@@ -22,6 +22,7 @@ import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
+import 'service/search_service.dart';
 import 'service/zone_service.dart';
 
 class ApiInteractor {
@@ -78,6 +79,10 @@ class ApiInteractor {
 
   Future<IdtResult<List<DataModel>?>> getEatPlacesList() async {
     final response = await locator<EatService>().getPlacesEat();
+    return response;
+  }
+  Future<IdtResult<List<DataModel>?>> getSearchResultList(Map params) async {
+    final response = await locator<SearchService>().getResultByWord(params);
     return response;
   }
 
