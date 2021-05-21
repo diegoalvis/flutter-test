@@ -12,8 +12,8 @@ class IdtAssets {
   //static const String logo_bogota_black = '$path/logo_bogota_appbar.svg';
   static const String back = '$path/back.svg';
   static const String back_white = '$path/back_white.svg';
-  static const String curve_up = '$path/curve_up_png.png';
-  static const String curve_down = '$path/curve_down_png.png';
+  static const String curve_up = '$path/curva_svg_up.svg';
+  static const String curve_down = '$path/curva_svg_down.svg';
   static const String minus = '$path/minus.svg';
   static const String map = '$path/map.png';
   static const String waves = '$path/waves_sound.png';

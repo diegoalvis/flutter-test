@@ -14,6 +14,7 @@ import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -141,16 +142,26 @@ class _LoginWidgetState extends State<LoginWidget> {
               ],
             ),
             Positioned(
-                top: 400,
+                bottom: 0,
+                child: Container(
+                  height: 200,
+                  width: size.width,
+                  color: Colors.white,)),
+
+            Positioned(
+                top: 480,
                 // bottom: 100,
                 left: 0,
                 right: 0,
                 child: SizedBox(
-                  child: Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.8),
+                  child:
+                  //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.8),
 
-/*                SvgPicture.asset(IdtAssets.curve_up,
-                      color: IdtColors.white, fit: BoxFit.fill),*/
+               SvgPicture.asset(IdtAssets.curve_up,
+                      width: size.width,
+                      color: IdtColors.white, fit: BoxFit.contain),
                 )),
+
             Positioned(
               top: 50.0,
               bottom: 550.0,

@@ -16,6 +16,7 @@ import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -192,16 +193,15 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             fit: BoxFit.fitHeight,
           ),
           Positioned(
-              top: 190,
+              top: 320,
               // bottom: 100,
               left: 0,
               right: 0,
               child: SizedBox(
-                child: Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
-
-/*                SvgPicture.asset(IdtAssets.curve_up,
-                    color: IdtColors.white, fit: BoxFit.fill),*/
-              )),
+              //  child: Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
+              child:  SvgPicture.asset(IdtAssets.curve_up,
+                    color: IdtColors.white, fit: BoxFit.fill),
+              ),),
           Positioned(
             // Logo de bogota
             bottom: size.height / 2 * 0.32,

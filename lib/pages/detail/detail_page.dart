@@ -119,11 +119,14 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
             // curva
-            top: 150,
-            left: 0,
+            top: 260,
+            left: 1,
             right: 0,
             child: SizedBox(
-              child: Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
+              child: SvgPicture.asset(IdtAssets.curve_up,
+                  color: Colors.white, fit: BoxFit.fill)
+
+              //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
             ),
           ),
           Positioned(
@@ -314,16 +317,17 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
               //Curva de abajo
-              bottom: 130,
+              bottom: 260,
               right: 0,
-              left: 0,
-              child: Container(
+              left: -10,
+              child: FittedBox(
                   alignment: Alignment.topCenter,
                   child:
 /*                  Image(image: AssetImage(IdtAssets.curve_down),
                       height: size.height * 0.92
                   ),*/
                       SvgPicture.asset(IdtAssets.curve_down,
+
                           color: Colors.white, fit: BoxFit.fill))),
         ],
       );
