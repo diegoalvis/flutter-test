@@ -44,9 +44,8 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
 
 
   void onInit() async {
-    status = status.copyWith(isLoading: true);
-    // getUnmissableResponse();
-    registerResponse();
+
+    registerResponse( );
     status = status.copyWith(isLoading: false);
   }
   registerResponse( ) async {
