@@ -23,7 +23,7 @@ class SearchService {
       });*/
       // queryParameters[value.keys.first] = value.values.first;
     });
-    print('Parametro: $queryParameters'); //         /util/search?keyword=
+    print('Parametro: $queryParameters');
     final uri = Uri.https(IdtConstants.url_server, '/util/search' ,queryParameters,);
     print(uri);
     final response = await http.get(uri);
@@ -34,7 +34,6 @@ class SearchService {
       switch (response.statusCode) {
         case 200: {
           final entity = ResponseModel.fromJson(body);
-          print(entity.data);
           return IdtResult.success(entity.data);
         }
 

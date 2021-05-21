@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -21,15 +22,16 @@ import '../../app_theme.dart';
 
 class ResultSearchPage extends StatelessWidget {
   final List<DataModel> results;
+  final String keyword;
 
-  ResultSearchPage(this.results);
+  ResultSearchPage(this.results, this.keyword);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ResultSearchViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return ResultSearchWidget(results);
+        return ResultSearchWidget(results, keyword);
       },
     );
   }
@@ -37,9 +39,9 @@ class ResultSearchPage extends StatelessWidget {
 
 class ResultSearchWidget extends StatefulWidget {
   final List<DataModel> _results;
+  String _keyWord;
 
-  ResultSearchWidget(this._results);
-
+  ResultSearchWidget(this._results, this._keyWord);
 
   @override
   _ResultSearchWidgetState createState() => _ResultSearchWidgetState();
@@ -48,13 +50,7 @@ class ResultSearchWidget extends StatefulWidget {
 class _ResultSearchWidgetState extends State<ResultSearchWidget> {
   @override
   void initState() {
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<SearchViewModel>().onInit(widget._results);
-      print(widget._results);
-    });
-
-    // // una vez tengas la info la pasas aca
+    // una vez tengas la info la pasas aca
     // viewModel.onTapButton(index, id, items);
   }
 
@@ -84,8 +80,8 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
           viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
     );
 
-    Widget gridImagesCol() => (ListView.builder(
-          itemCount: DataTest.imgList.length,
+    Widget gridImagesCol(List<DataModel> results) => (ListView.builder(
+          itemCount: results.length,
           physics: ScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 50),
           shrinkWrap: true,
@@ -97,7 +93,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: Image.network(
-                      DataTest.imgList[index],
+                      IdtConstants.url_image + results[index].image.toString(),
                       height: 170.0,
                       width: double.infinity,
                       fit: BoxFit.fill,
@@ -105,7 +101,8 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                   ),
                 ),
                 SizedBox(height: 5),
-                Text(DataTest.textList[index], style: textTheme.titleBlack.copyWith(fontSize: 13)),
+                Text(results[index].title.toString(),
+                    style: textTheme.titleBlack.copyWith(fontSize: 13)),
                 SizedBox(height: 30),
               ],
             );
@@ -124,7 +121,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                   style: textTheme.titleBlack.copyWith(fontSize: 18),
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'Naturaleza',
+                        text: widget._keyWord.capitalize(),
                         style: textTheme.subTitleBlack.copyWith(
                           decoration: TextDecoration.underline,
                           fontSize: 17,
@@ -136,7 +133,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                 ),
               ),
               SizedBox(height: 30),
-              gridImagesCol(),
+              gridImagesCol(widget._results),
               SizedBox(height: 60),
             ],
           ),
@@ -144,5 +141,12 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
         menu
       ],
     );
+  }
+}
+
+//Primera letra de la palabra en Mayuscula
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 }

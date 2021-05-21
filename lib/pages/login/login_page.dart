@@ -22,9 +22,7 @@ import 'login_effect.dart';
 
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
-
 class LoginPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -46,8 +44,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   final passwordController = TextEditingController();
   StreamSubscription<LoginEffect>? _effectSubscription;
 
-
-
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -66,12 +62,18 @@ class _LoginWidgetState extends State<LoginWidget> {
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is LoginValueControllerScrollEffect) {
         print('scroll controler');
-        context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: viewModel.status.message!,textButton: 'aceptar / cerrar');
+        context.showDialogObservation(
+            titleDialog: 'oh oh!\n Algo ha salido mal...',
+            bodyTextDialog: viewModel.status.message!,
+            textButton: 'aceptar / cerrar');
       } else if (event is ShowLoginDialogEffect) {
         print('entra a event');
         print(viewModel.status.message!);
         if (viewModel.status.message != null) {
-          context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: viewModel.status.message!, textButton: 'aceptar / cerrar');
+          context.showDialogObservation(
+              titleDialog: 'oh oh!\n Algo ha salido mal...',
+              bodyTextDialog: viewModel.status.message!,
+              textButton: 'aceptar / cerrar');
           viewModel.status.message = null;
         }
       }
@@ -90,7 +92,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     passwordController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +427,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             Positioned(
                 bottom: 60,
                 left: 50,
-                child: LoginButtons(logout: viewModel.logOut,login:viewModel.login)),
+                child: LoginButtons(logout: viewModel.logOut, login: viewModel.login)),
             Positioned(
               bottom: 10,
               width: size.width,
@@ -451,11 +452,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-

@@ -34,6 +34,8 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
+  final keyWordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SearchViewModel>();
@@ -87,6 +89,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   ),
                   Expanded(
                     child: TextFormField(
+                        controller: keyWordController,
                         textAlign: TextAlign.left,
                         style: TextStyle(color: IdtColors.white, fontSize: 20),
                         keyboardType: TextInputType.streetAddress,
@@ -116,10 +119,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                   shape:
                       RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                  onPressed:
-                  viewModel.goResultSearchPage
+                  onPressed: () => viewModel.goResultSearchPage(keyWordController.text)
                   // viewModel.goResultSearchPage
-              )
+                  )
             ],
           ),
         ),
