@@ -134,6 +134,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         children: [
           SingleChildScrollView(
             child: Stack(
+              alignment: AlignmentDirectional.center,
               children: [
                 Column(
                   children: [
@@ -214,50 +215,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'BIENVENIDO',
-                              style: textTheme.textWhiteShadow
-                                  .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 515,
-                  width: size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Lorem adipiscing elit, sed diam aSDSA dasd ',
-                              style: textTheme.textWhiteShadow
-                                  .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
-                            )
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'BIENVENIDO',
+                            style: textTheme.textWhiteShadow
+                                .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
                     ],
                   ),
                 ),
                 Positioned(
                     bottom: 210,
-                    left: 50,
+
                     child: SizedBox(
                       child: Container(
                         width: 300,
@@ -295,7 +269,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                     )),
                 Positioned(
                     bottom: 320,
-                    left: 30,
                     child: Container(
                       margin: EdgeInsets.all(25),
                       child: RaisedButton(
@@ -322,7 +295,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                     )),
                 Positioned(
                   bottom: 300,
-                  left: 100,
                   child: Container(
                       color: Colors.transparent,
                       width: 200,
@@ -352,34 +324,30 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              child: Text(
-                                '¿Olvidó su contraseña?',
-                                style: textTheme.textWhiteShadow
-                                    .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => RecoverPassPage()),
-                                );
-                              },
-                            )
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            child: Text(
+                              '¿Olvidó su contraseña?',
+                              style: textTheme.textWhiteShadow
+                                  .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RecoverPassPage()),
+                              );
+                            },
+                          )
+                        ],
                       ),
                     ],
                   ),
                 ),
                 Positioned(
                     bottom: 140,
-                    left: 30,
                     child: Container(
                       margin: EdgeInsets.all(25),
                       child: RaisedButton(
@@ -413,26 +381,22 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'O registrate con',
-                              style: textTheme.textDetail.copyWith(
-                                  fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
-                            )
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'O registrate con',
+                            style: textTheme.textDetail.copyWith(
+                                fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+                          )
+                        ],
                       ),
                     ],
                   ),
                 ),
                 Positioned(
                     bottom: 60,
-                    left: 50,
                     child: LoginButtons(logout: viewModel.logOut, login: viewModel.login)),
                 Positioned(
                   bottom: 10,
@@ -441,19 +405,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Oficina de Turismo de Bogotá',
-                              style: textTheme.textDetail.copyWith(
-                                  fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey),
-                            )
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Oficina de Turismo de Bogotá',
+                            style: textTheme.textDetail.copyWith(
+                                fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey),
+                          )
+                        ],
                       ),
                     ],
                   ),
