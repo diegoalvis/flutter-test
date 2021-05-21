@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +7,17 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class LoginButtons extends StatelessWidget {
-
   VoidCallback? login;
   VoidCallback? logout;
 
-  LoginButtons({this.login,this.logout});
+  LoginButtons({this.login, this.logout});
 
   // ignore: empty_constructor_bodies
   @override
   Widget build(BuildContext context) {
-
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     final textTheme = Theme.of(context).textTheme;
+
     return Container(
       color: Colors.white,
       height: 60,
@@ -32,7 +34,7 @@ class LoginButtons extends StatelessWidget {
             ),
             // onTap: _userData != null ? viewModel.logOut : viewModel.login(),
 
-            onTap: 1 == null ? logout:login,
+            onTap: 1 == null ? logout : login,
           ),
           SizedBox(
             width: 8,
@@ -48,14 +50,16 @@ class LoginButtons extends StatelessWidget {
           SizedBox(
             width: 8,
           ),
-          Container(
-            color: Colors.white,
-            width: 50,
-            height: 50,
-            child: Image(
-              image: AssetImage(IdtAssets.apple),
-            ),
-          )
+          isIOS
+              ? Container(
+                  color: Colors.white,
+                  width: 50,
+                  height: 50,
+                  child: Image(
+                    image: AssetImage(IdtAssets.apple),
+                  ),
+                )
+              : SizedBox.shrink()
         ],
       ),
     );

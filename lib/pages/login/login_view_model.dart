@@ -72,6 +72,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
         status = status.copyWith(message: loginResponse.body!.message);
         print(status.message);
         addEffect(ShowLoginDialogEffect(status.message));
+        status = status.copyWith(isLoading: false);
+
       } else {
         print('entra a else');
         _route.goHome();
@@ -92,8 +94,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
       print(erroRes.message);
       UnimplementedError();
       addEffect(ShowLoginDialogEffect(status.message));
+
     }
-    status = status.copyWith(isLoading: false);
   }
 
   _savedata(RegisterModel loginResponse) async {
