@@ -143,7 +143,7 @@ class DataTest {
   ];
 
   static const List<String> List2 = [
-    'REGISTRARSE',
+    'INICIAR SESION',
     'DESCUBRE BOGOTÁ',
     'AUDIOGUÍAS',
     'IMPERDIBLES',
