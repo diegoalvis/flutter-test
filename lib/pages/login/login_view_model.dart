@@ -23,30 +23,23 @@ import 'package:url_launcher/url_launcher.dart';
 import 'login_effect.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-
-
-  class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
+class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
   LoginViewModel(this._route, this._interactor) {
-  status = LoginUserStatus(
-  isLoading: true,
-  email: '',
-  password: '',
-  message: ''
-  );
+    status = LoginUserStatus(isLoading: false, email: '', password: '', message: '');
   }
 
-  String imei='';
-  String latitud='';
-  String longitud='';
+  String imei = '';
+  String latitud = '';
+  String longitud = '';
   String fecha = '';
   Location locationUser = Location();
   GpsModel location = GpsModel();
-  void onInit() async {
-    // TODO
 
+  void onInit() async {
+    status = status.copyWith(isLoading: false);
   }
 
   Map<String, dynamic>? _userData;
@@ -59,8 +52,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
     return pretty;
   }
 
-
   void loginResponse(String email, String password) async {
+    status = status.copyWith(isLoading: true);
     LoginRequest params = LoginRequest(email, password);
     print('params');
     print(params.toJson());
@@ -69,17 +62,17 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
     if (loginResponse is IdtSuccess<RegisterModel?>) {
       print("model login");
       print(loginResponse);
-    //  status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
+      //  status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
-    //  addEffect(ShowLoginDialogEffect());
-      if (loginResponse.body!.message != null){
+      //  addEffect(ShowLoginDialogEffect());
+      if (loginResponse.body!.message != null) {
         print('entra a if');
         print(loginResponse.body!.message);
-      status = status.copyWith(message: loginResponse.body!.message);
-      print(status.message);
-      addEffect(ShowLoginDialogEffect(status.message));
-      }else{
+        status = status.copyWith(message: loginResponse.body!.message);
+        print(status.message);
+        addEffect(ShowLoginDialogEffect(status.message));
+      } else {
         print('entra a else');
         _route.goHome();
         _serviceEn();
@@ -92,9 +85,6 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
         setLocationUser();
         _savedata(loginResponse.body!);
       }
-
-
-
     } else {
       print('se imprime login response');
       print(loginResponse);
@@ -106,16 +96,13 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
     status = status.copyWith(isLoading: false);
   }
 
-  _savedata(RegisterModel loginResponse) async{
+  _savedata(RegisterModel loginResponse) async {
     var box = await Hive.openBox<Person>('userdbB');
 
-  //  var fooBox = await Hive.openBox<List>("userdb");
+    //  var fooBox = await Hive.openBox<List>("userdb");
 
-    var person = Person(
-        name: loginResponse.name,
-        id: loginResponse.id,
-        country: loginResponse.country
-    );
+    var person =
+        Person(name: loginResponse.name, id: loginResponse.id, country: loginResponse.country);
 
     await box.put(loginResponse.name, person);
 
@@ -123,22 +110,18 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
     print(box.get(loginResponse.id)!.audioguias);
     print(box.get(loginResponse.name)!.country);
-
   }
 
-
-  getLoc() async{
-
+  getLoc() async {
     LocationData _currentPosition;
-    String _address,_dateTime;
+    String _address, _dateTime;
     _currentPosition = await locationUser.getLocation();
 
     print(_currentPosition);
-    longitud=_currentPosition.longitude.toString();
-    latitud=_currentPosition.latitude.toString();
-    fecha =_currentPosition.time.toString();
+    longitud = _currentPosition.longitude.toString();
+    latitud = _currentPosition.latitude.toString();
+    fecha = _currentPosition.time.toString();
   }
-
 
   Future<void> _init() async {
     String? adId;
@@ -155,11 +138,12 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
     } on PlatformException {
       adId = 'Failed to get adId version.';
     }
-    location.imei= uuid.toString();
+    location.imei = uuid.toString();
     print(uuid);
-    imei=uuid.toString();
+    imei = uuid.toString();
   }
-  _serviceEn() async{
+
+  _serviceEn() async {
     bool _serviceEnabled;
     _serviceEnabled = await locationUser.serviceEnabled();
     if (!_serviceEnabled) {
@@ -169,8 +153,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
       }
     }
   }
-  _servicePer()async{
 
+  _servicePer() async {
     PermissionStatus _permissionGranted;
     _permissionGranted = await locationUser.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
@@ -179,10 +163,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
         return;
       }
     }
-
   }
-  Future <void> setLocationUser() async  {
 
+  Future<void> setLocationUser() async {
     final GpsModel location = GpsModel(
         imei: 'imei',
         longitud: 'longitud',
@@ -192,23 +175,20 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
         apellido: 'manquillo',
         motivo_viaje: 'turismo',
         pais: 'Colombia',
-        ciudad: 'popayan'
-    );
-  print('setlocationuser');
-  print(location.toJson());
+        ciudad: 'popayan');
+    print('setlocationuser');
+    print(location.toJson());
     final response = await _interactor.postLocationUser(location);
 
     if (response is IdtSuccess<GpsModel?>) {
       final places = response.body!;
       print('Response: ${places.fecha}');
     } else {
-
       final erroRes = response as IdtFailure<GpsError>;
       print(erroRes.message);
       UnimplementedError();
     }
   }
-
 
   void onChangeScrollController(bool value) {
     addEffect(LoginValueControllerScrollEffect(value));
@@ -219,6 +199,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
     print(username);
     _route.goUserHome();
   }
+
 /*
   Future<void> _checkIfIsLogged() async {
     final accessToken = await FacebookAuth.instance.accessToken;
@@ -254,7 +235,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
   }
 
   Future<void> login() async {
-    final LoginResult result = await FacebookAuth.instance.login(); // by the fault we request the email and the public profile
+    final LoginResult result = await FacebookAuth.instance
+        .login(); // by the fault we request the email and the public profile
 
     // loginBehavior is only supported for Android devices, for ios it will be ignored
     // final result = await FacebookAuth.instance.login(
@@ -277,5 +259,4 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
       print(result.message);
     }
   }
-
 }

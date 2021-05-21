@@ -24,7 +24,6 @@ import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
 
 class IdtRoute {
-
   static final IdtRoute _singleton = IdtRoute._internal();
 
   factory IdtRoute() {
@@ -35,101 +34,78 @@ class IdtRoute {
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
-  void popT<T>(T result){
+  void popT<T>(T result) {
     navigatorKey.currentState!.pop<T>(result);
   }
 
-  void pop(){
+  void pop() {
     navigatorKey.currentState!.pop();
   }
 
-  goHome(){
-    return navigatorKey.currentState!.pushReplacement(
-      MaterialPageRoute(builder: (_)=> HomePage())
-    );
+  goHome() {
+    return navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
   }
 
-  goLogin(){
-    return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> LoginPage())
-    );
+  goLogin() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => LoginPage()));
   }
-  goLoginAll(){
+
+  goLoginAll() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_)=> LoginPage()),
-            (Route<dynamic> route) => false
-    );
+        MaterialPageRoute(builder: (_) => LoginPage()), (Route<dynamic> route) => false);
   }
 
-  goRegister(){
-    return navigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(builder: (_)=> RegisterUserPage())
-    );
+  goRegister() {
+    return navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (_) => RegisterUserPage()));
   }
 
-  goRecoverPass(){
-    return navigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(builder: (_)=> RecoverPassPage())
-    );
+  goRecoverPass() {
+    return navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (_) => RecoverPassPage()));
   }
 
-  goHomeRemoveAll(){
+  goHomeRemoveAll() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> HomePage()),
-      (Route<dynamic> route) => false
-    );
+        MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
   }
 
-  goDetail({required bool isHotel, required DataPlacesDetailModel detail}){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> DetailPage(isHotel: isHotel, detail:detail))
-    );
+  goDetail({required bool isHotel, required DataPlacesDetailModel detail}) {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => DetailPage(isHotel: isHotel, detail: detail)));
   }
 
-  goPlayAudio({required DataPlacesDetailModel detail}){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> PlayAudioPage(detail:detail))
-    );
+  goPlayAudio({required DataPlacesDetailModel detail}) {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => PlayAudioPage(detail: detail)));
   }
 
-  goDiscover(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> DiscoverPage())
-    );
+  goDiscover() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => DiscoverPage()));
   }
 
-  goUserHome(){
-    return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> HomePage())
-    );
+  goUserHome() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => HomePage()));
   }
 
-  goDiscoverUntil(){
+  goDiscoverUntil() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> DiscoverPage()),
-      (route) => route.isFirst
-    );
-  } 
-
-  goSearch(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> SearchPage())
-    );
+        MaterialPageRoute(builder: (_) => DiscoverPage()), (route) => route.isFirst);
   }
 
-  goSearchUntil(){
+  goSearch() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => SearchPage()));
+  }
+
+  goSearchUntil() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> SearchPage()),
-      (route) => route.isFirst
-    );
+        MaterialPageRoute(builder: (_) => SearchPage()), (route) => route.isFirst);
   }
 
-  goResultSearch({
-    required List<DataModel> results,
-  }){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> ResultSearchPage(results))
-    );
+  goResultSearch(List<DataModel> results, String keyWord) {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => ResultSearchPage(results, keyWord)));
   }
 
   goFilters({
@@ -139,10 +115,9 @@ class IdtRoute {
     required List<DataModel> categories,
     required List<DataModel> subcategories,
     required List<DataModel> zones,
-  }){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> FiltersPage(section, item, places, categories, subcategories, zones))
-    );
+  }) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)));
   }
 
   goFiltersUntil({
@@ -152,24 +127,20 @@ class IdtRoute {
     required List<DataModel> categories,
     required List<DataModel> subcategories,
     required List<DataModel> zones,
-  }){
+  }) {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> FiltersPage(section, item, places, categories, subcategories, zones)),
-      (route) => route.isFirst
-    );
+        MaterialPageRoute(
+            builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)),
+        (route) => route.isFirst);
   }
 
-  goAudioGuide(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> AudioGuidePage())
-    );
+  goAudioGuide() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => AudioGuidePage()));
   }
 
-  goAudioGuideUntil(){
+  goAudioGuideUntil() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> AudioGuidePage()),
-      (route) => route.isFirst
-    );
+        MaterialPageRoute(builder: (_) => AudioGuidePage()), (route) => route.isFirst);
   }
 
   // goUnmissable(){
@@ -178,81 +149,63 @@ class IdtRoute {
   //   );
   // }
 
-  goUnmissableUntil(int optionIndex){
+  goUnmissableUntil(int optionIndex) {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> UnmissablePage(optionIndex: optionIndex, )),
-      (route) => route.isFirst
-    );
+        MaterialPageRoute(
+            builder: (_) => UnmissablePage(
+                  optionIndex: optionIndex,
+                )),
+        (route) => route.isFirst);
   }
 
-  goEvents(int optionIndex){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EVENT, optionIndex: optionIndex,))
-    );
+  goEvents(int optionIndex) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => EventsPage(
+              type: SocialEventType.EVENT,
+              optionIndex: optionIndex,
+            )));
   }
 
-  goEventDetail({required DataPlacesDetailModel detail}){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> EventDetailPage(detail: detail,))
-    );
+  goEventDetail({required DataPlacesDetailModel detail}) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => EventDetailPage(
+              detail: detail,
+            )));
   }
 
-  goSleeps(int optionIndex){
-    return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex))
-    );
+  goSleeps(int optionIndex) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex)));
   }
 
-  goEat(int optionIndex){
-    return navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_)=> EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex))
-    );
-  }
-  //
-  // goSleepDetail({required DataPlacesDetailModel detail}){
-  //   return navigatorKey.currentState!.push(
-  //       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: true, detail: detail,))
-  //   );
-  // }
-
-  // goEatDetail({required DataPlacesDetailModel detail}){
-  //   return navigatorKey.currentState!.push(
-  //       MaterialPageRoute(builder: (_)=> DetailPage(isHotel: false, detail: detail,))
-  //   );
-  // }
-
-  goSavedPlaces(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> SavedPlacesPage())
-    );
+  goEat(int optionIndex) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex)));
   }
 
-  goSavedPlacesUntil(){
+  goSavedPlaces() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => SavedPlacesPage()));
+  }
+
+  goSavedPlacesUntil() {
     return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_)=> SavedPlacesPage()),
-      (route) => route.isFirst
-    );
+        MaterialPageRoute(builder: (_) => SavedPlacesPage()), (route) => route.isFirst);
   }
 
-  goProfile(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> ProfilePage())
-    );
+  goProfile() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => ProfilePage()));
   }
 
-  goProfileEdit(String emailUser, String lastName){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> ProfileEditPage( emailUser, lastName))
-    );
+  goProfileEdit(String emailUser, String lastName) {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => ProfileEditPage(emailUser, lastName)));
   }
 
-  goSettings(){
-    return navigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (_)=> SettingPage())
-    );
+  goSettings() {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => SettingPage()));
   }
 
-  /*Future<dynamic> goRequestDetail(DataRequestModel dataRequestModel, DataRequestDetailModel requestDetail, DataRequestDetailDocumentsModel filesSolicitude){
+/*Future<dynamic> goRequestDetail(DataRequestModel dataRequestModel, DataRequestDetailModel requestDetail, DataRequestDetailDocumentsModel filesSolicitude){
     return navigatorKey.currentState.push(
         MaterialPageRoute(builder: (_)=> ReqDetailPage(dataRequestModel, requestDetail, filesSolicitude))
     );

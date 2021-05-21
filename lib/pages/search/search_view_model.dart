@@ -8,7 +8,6 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 class SearchViewModel extends ViewModel<SearchStatus> {
-
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
@@ -16,30 +15,29 @@ class SearchViewModel extends ViewModel<SearchStatus> {
     status = SearchStatus(
       isLoading: true,
       openMenu: false,
-      itemsResultSearch: [],
-
     );
   }
 
   void onInit(List<DataModel> results) async {
-    status = status.copyWith(isLoading: true, itemsResultSearch: results);
+    status = status.copyWith(
+      isLoading: true,
+    );
 
     //TODO
   }
 
   void goResultSearchPage(
-      // List<DataModel> results,
+      String keyWord
       ) async {
-    // final Map query = {status.: item.id};
+    final Map query = {'keyword': keyWord};
     status = status.copyWith(isLoading: true);
 
-    final responseSearch = await _interactor.getSearchResultList({'keyword':'iglesia'});
+    final responseSearch = await _interactor.getSearchResultList(query);
 
     if (responseSearch is IdtSuccess<List<DataModel>?>) {
       final results = responseSearch.body!;
-      print(results);
-      _route.goResultSearch(results: results);
 
+      _route.goResultSearch(results, keyWord);
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -62,5 +60,4 @@ class SearchViewModel extends ViewModel<SearchStatus> {
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
-
 }
