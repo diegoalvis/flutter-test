@@ -19,23 +19,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../app_theme.dart';
 
 class EventDetailPage extends StatelessWidget {
-
   final DataPlacesDetailModel detail;
 
   EventDetailPage({required this.detail});
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          EventDetailViewModel(
-              locator<IdtRoute>(),
-              locator<ApiInteractor>()
-          ),
+      create: (_) => EventDetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return EventDetailWidget(detail);
       },
@@ -46,7 +41,6 @@ class EventDetailPage extends StatelessWidget {
 class EventDetailWidget extends StatefulWidget {
   final DataPlacesDetailModel _detail;
 
-
   EventDetailWidget(this._detail);
 
   @override
@@ -54,23 +48,24 @@ class EventDetailWidget extends StatefulWidget {
 }
 
 class _EventDetailWidgetState extends State<EventDetailWidget> {
-
-  late VideoPlayerController _controller;
+  late YoutubePlayerController _controller;
   final _route = locator<IdtRoute>();
-
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-        // widget._detail.video.toString()   //todo
-        // 'https://youtu.be/oKJAeXNLqMY'
-            'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    _controller = YoutubePlayerController(
+      initialVideoId: 'gQDByCdjUXw',
     );
-    _controller.addListener(() {
-      setState(() {});
-    });
-    _controller.setLooping(true);
-    _controller.initialize();
+    // _controller = VideoPlayerController.network(
+    //     // widget._detail.video.toString()   //todo
+    //     // 'https://youtu.be/oKJAeXNLqMY'
+    //         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    // );
+    // _controller.addListener(() {
+    //   setState(() {});
+    // });
+    // _controller.setLooping(true);
+    // _controller.initialize();
 
     super.initState();
   }
@@ -94,18 +89,13 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
           bottomNavigationBar: IdtBottomAppBar(),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           backgroundColor: IdtColors.white,
-          body: _buildEventDetail(viewModel)
-      ),
+          body: _buildEventDetail(viewModel)),
     );
   }
 
   Widget _buildEventDetail(EventDetailViewModel viewModel) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
 
     Widget _btnsPlaces() {
       return Row(
@@ -122,7 +112,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   color: IdtColors.white,
                   size: 50,
                 ),
-                onPressed:()=> viewModel.launchMap(widget._detail.location!),
+                onPressed: () => viewModel.launchMap(widget._detail.location!),
               ),
               SizedBox(
                 width: 120,
@@ -131,9 +121,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: textTheme.textButtomWhite.copyWith(
-                      fontSize: 16
-                  ),
+                  style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                 ),
               )
             ],
@@ -164,41 +152,34 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: textTheme.textButtomWhite.copyWith(
-                      fontSize: 16
-                  ),
+                  style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                 ),
               )
             ],
           )
         ],
       );
-    };
+    }
+
+    ;
 
     Widget _footerImages() {
       return Column(
         children: [
           CarouselSlider(
               options: CarouselOptions(
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  height: 320,
-                  viewportFraction: 0.6
-              ),
-              items: widget._detail.gallery!.map((item) =>
-                  Container(
-                    child: Container(
-                      margin: EdgeInsets.all(5.0),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                          child: Image.network(
-                              IdtConstants.url_image + item,
-                              fit: BoxFit.cover
-                          )
-                      ),
-                    ),
-                  )).toList()
-          ),
+                  autoPlay: true, enlargeCenterPage: true, height: 320, viewportFraction: 0.6),
+              items: widget._detail.gallery!
+                  .map((item) => Container(
+                        child: Container(
+                          margin: EdgeInsets.all(5.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              child:
+                                  Image.network(IdtConstants.url_image + item, fit: BoxFit.cover)),
+                        ),
+                      ))
+                  .toList()),
           SizedBox(height: 25),
           Stack(
             alignment: Alignment.center,
@@ -213,18 +194,14 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               ),
               InkWell(
-                onTap: ()=> viewModel.launchMap(widget._detail.location!),
+                onTap: () => viewModel.launchMap(widget._detail.location!),
                 child: Container(
                   height: size.width * 0.2,
                   width: size.width * 0.2,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(180.0)),
-                      border: Border.all(
-                          color: IdtColors.blueDark.withOpacity(0.8),
-                          width: 2
-                      ),
-                      color: IdtColors.white
-                  ),
+                      border: Border.all(color: IdtColors.blueDark.withOpacity(0.8), width: 2),
+                      color: IdtColors.white),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -257,122 +234,129 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
     Widget _body() {
       final String dateEvent =
-      DateFormat('yMMMMd', 'es').format(DateTime.parse(widget._detail.date!));
+          DateFormat('yMMMMd', 'es').format(DateTime.parse(widget._detail.date!));
       final viewModel = context.watch<EventDetailViewModel>();
 
       return Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                child: Text(
-                  widget._detail.title!,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.textWhiteShadow.copyWith(
-                      fontSize: 35
-                  ),
-                ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            child: Text(
+              widget._detail.title!,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.textWhiteShadow.copyWith(fontSize: 35),
+            ),
+          ),
+          Text(
+            dateEvent.toUpperCase(),
+            maxLines: 1,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: textTheme.textWhiteShadow.copyWith(fontSize: 15),
+          ),
+          SizedBox(
+            height: 35,
+          ),
+          Container(
+            height: 220,
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              child: YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
+                bottomActions: <Widget>[
+                  const SizedBox(width: 14.0),
+                  CurrentPosition(),
+                  const SizedBox(width: 8.0),
+                  ProgressBar(isExpanded: true),
+                  RemainingDuration(),
+                ],
+                aspectRatio: 4 / 3,
+                progressIndicatorColor: Colors.white,
+                onReady: () {
+                  print('Player is ready.');
+                },
               ),
-              Text(
-                dateEvent.toUpperCase(),
+
+              // Stack(
+              //   alignment: Alignment.bottomCenter,
+              //   children: <Widget>[
+              //     VideoPlayer(_controller),
+              //     ClosedCaption(text: _controller.value.caption.text),
+              //     Stack(
+              //       children: <Widget>[
+              //         AnimatedSwitcher(
+              //           duration: Duration(milliseconds: 100),
+              //           reverseDuration: Duration(milliseconds: 700),
+              //           child: _controller.value.isPlaying
+              //               ? SizedBox.shrink()
+              //               : Container(
+              //             color: IdtColors.black.withOpacity(0.5),
+              //             child: Center(
+              //               child: Icon(
+              //                 _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              //                 color: IdtColors.white,
+              //                 size: 100.0,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              //         GestureDetector(
+              //           onTap: () {
+              //             _controller.value.isPlaying ? _controller.pause() : _controller
+              //                 .play();
+              //           },
+              //         ),
+              //       ],
+              //     ),
+              //     VideoProgressIndicator(_controller, allowScrubbing: true),
+              //   ],
+              // ),
+            ),
+          ),
+          SizedBox(
+            height: 35,
+          ),
+          _btnsPlaces(),
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 55),
+            margin: EdgeInsets.only(bottom: 15),
+            child: Text(
+              widget._detail.description!,
+              style: textTheme.textButtomWhite,
+              maxLines: viewModel.status.moreText ? null : 20,
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          TextButton(
+            child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: textTheme.textWhiteShadow.copyWith(
-                    fontSize: 15
-                ),
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              Container(
-                height: 220,
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: <Widget>[
-                      VideoPlayer(_controller),
-                      ClosedCaption(text: _controller.value.caption.text),
-                      Stack(
-                        children: <Widget>[
-                          AnimatedSwitcher(
-                            duration: Duration(milliseconds: 100),
-                            reverseDuration: Duration(milliseconds: 700),
-                            child: _controller.value.isPlaying
-                                ? SizedBox.shrink()
-                                : Container(
-                              color: IdtColors.black.withOpacity(0.5),
-                              child: Center(
-                                child: Icon(
-                                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                  color: IdtColors.white,
-                                  size: 100.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                          GestureDetector(
-                            onTap: () {
-                              _controller.value.isPlaying ? _controller.pause() : _controller
-                                  .play();
-                            },
-                          ),
-                        ],
-                      ),
-                      VideoProgressIndicator(_controller, allowScrubbing: true),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              _btnsPlaces(),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 55),
-                margin: EdgeInsets.only(bottom: 15),
-                child: Text(
-                  widget._detail.description!,
-                  style: textTheme.textButtomWhite,
-                  maxLines: viewModel.status.moreText ? null : 20,
-                  overflow: TextOverflow.fade,
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-              TextButton(
-                child: Text(
-                    viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.textButtomWhite.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-                onPressed: viewModel.readMore,
-              )
-            ],
+                style:
+                    textTheme.textButtomWhite.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+            onPressed: viewModel.readMore,
           )
-      );
+        ],
+      ));
     }
 
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
-              fit: BoxFit.fitHeight,
-            )
-        ),
+          image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
+          fit: BoxFit.fitHeight,
+        )),
         height: size.height,
         width: size.width,
         child: Stack(
@@ -430,8 +414,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
-
