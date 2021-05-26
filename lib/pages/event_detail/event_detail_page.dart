@@ -27,6 +27,7 @@ class EventDetailPage extends StatelessWidget {
   final DataPlacesDetailModel detail;
 
   EventDetailPage({required this.detail});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -53,20 +54,23 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   @override
   void initState() {
+    String videoId;
+    videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString())!;
     _controller = YoutubePlayerController(
-      initialVideoId: 'gQDByCdjUXw',
+      initialVideoId: videoId,
     );
-    // _controller = VideoPlayerController.network(
-    //     // widget._detail.video.toString()   //todo
-    //     // 'https://youtu.be/oKJAeXNLqMY'
-    //         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    // );
-    // _controller.addListener(() {
-    //   setState(() {});
-    // });
-    // _controller.setLooping(true);
-    // _controller.initialize();
 
+    YoutubePlayerController(
+      initialVideoId: 'SiyGLy5TGo0',
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        disableDragSeek: true,
+      ),
+    );
+
+    _controller.addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -261,26 +265,57 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
           SizedBox(
             height: 35,
           ),
-          Container(
-            height: 220,
-            margin: EdgeInsets.symmetric(horizontal: 30),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              child: YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
-                bottomActions: <Widget>[
-                  const SizedBox(width: 14.0),
-                  CurrentPosition(),
-                  const SizedBox(width: 8.0),
-                  ProgressBar(isExpanded: true),
-                  RemainingDuration(),
-                ],
-                aspectRatio: 4 / 3,
-                progressIndicatorColor: Colors.white,
-                onReady: () {
-                  print('Player is ready.');
-                },
+              child: Container(
+                height: 200,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    YoutubePlayer(
+                      controller: _controller,
+                      showVideoProgressIndicator: true,
+                      bottomActions: <Widget>[
+                        const SizedBox(width: 14.0),
+                        CurrentPosition(),
+                        const SizedBox(width: 4.0),
+                        ProgressBar(isExpanded: true),
+                        const SizedBox(width: 4.0),
+                        RemainingDuration(),
+                        const SizedBox(width: 14.0),
+                      ],
+                      aspectRatio: 3 / 3,
+                      progressIndicatorColor: Colors.red,
+                      onReady: () {
+                        print('Player is ready.');
+                      },
+                    ),
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 100),
+                      reverseDuration: Duration(milliseconds: 700),
+                      child: _controller.value.isPlaying
+                          ? SizedBox.shrink()
+                          : Container(
+                              color: IdtColors.black.withOpacity(0.5),
+                              child: Center(
+                                child: Icon(
+                                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                                  color: IdtColors.white,
+                                  size: 60.0,
+                                ),
+                              ),
+                            ),
+                    ),
+                    //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                    GestureDetector(
+                      onTap: () {
+                        _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               // Stack(
