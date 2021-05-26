@@ -158,7 +158,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                 ),
-              )
+              ),
             ],
           )
         ],
@@ -231,7 +231,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
               )
             ],
-          )
+          ),
         ],
       );
     }
@@ -242,213 +242,179 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       final viewModel = context.watch<EventDetailViewModel>();
 
       return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            child: Text(
-              widget._detail.title!,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.textWhiteShadow.copyWith(fontSize: 35),
-            ),
-          ),
-          Text(
-            dateEvent.toUpperCase(),
-            maxLines: 1,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.textWhiteShadow.copyWith(fontSize: 15),
-          ),
-          SizedBox(
-            height: 35,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              child: Container(
-                height: 200,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    YoutubePlayer(
-                      controller: _controller,
-                      showVideoProgressIndicator: true,
-                      bottomActions: <Widget>[
-                        const SizedBox(width: 14.0),
-                        CurrentPosition(),
-                        const SizedBox(width: 4.0),
-                        ProgressBar(isExpanded: true),
-                        const SizedBox(width: 4.0),
-                        RemainingDuration(),
-                        const SizedBox(width: 14.0),
-                      ],
-                      aspectRatio: 3 / 3,
-                      progressIndicatorColor: Colors.red,
-                      onReady: () {
-                        print('Player is ready.');
-                      },
-                    ),
-                    AnimatedSwitcher(
-                      duration: Duration(milliseconds: 100),
-                      reverseDuration: Duration(milliseconds: 700),
-                      child: _controller.value.isPlaying
-                          ? SizedBox.shrink()
-                          : Container(
-                              color: IdtColors.black.withOpacity(0.5),
-                              child: Center(
-                                child: Icon(
-                                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                  color: IdtColors.white,
-                                  size: 60.0,
-                                ),
-                              ),
-                            ),
-                    ),
-                    //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                    GestureDetector(
-                      onTap: () {
-                        _controller.value.isPlaying ? _controller.pause() : _controller.play();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              // Stack(
-              //   alignment: Alignment.bottomCenter,
-              //   children: <Widget>[
-              //     VideoPlayer(_controller),
-              //     ClosedCaption(text: _controller.value.caption.text),
-              //     Stack(
-              //       children: <Widget>[
-              //         AnimatedSwitcher(
-              //           duration: Duration(milliseconds: 100),
-              //           reverseDuration: Duration(milliseconds: 700),
-              //           child: _controller.value.isPlaying
-              //               ? SizedBox.shrink()
-              //               : Container(
-              //             color: IdtColors.black.withOpacity(0.5),
-              //             child: Center(
-              //               child: Icon(
-              //                 _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              //                 color: IdtColors.white,
-              //                 size: 100.0,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              //         GestureDetector(
-              //           onTap: () {
-              //             _controller.value.isPlaying ? _controller.pause() : _controller
-              //                 .play();
-              //           },
-              //         ),
-              //       ],
-              //     ),
-              //     VideoProgressIndicator(_controller, allowScrubbing: true),
-              //   ],
-              // ),
-            ),
-          ),
-          SizedBox(
-            height: 35,
-          ),
-          _btnsPlaces(),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 55),
-            margin: EdgeInsets.only(bottom: 15),
-            child: Text(
-              widget._detail.description!,
-              style: textTheme.textButtomWhite,
-              maxLines: viewModel.status.moreText ? null : 20,
-              overflow: TextOverflow.fade,
-              textAlign: TextAlign.justify,
-            ),
-          ),
-          TextButton(
-            child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
-                maxLines: 1,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              child: Text(
+                widget._detail.title!,
+                maxLines: 2,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style:
-                    textTheme.textButtomWhite.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
-            onPressed: viewModel.readMore,
-          )
-        ],
-      ));
+                style: textTheme.textWhiteShadow.copyWith(fontSize: 35),
+              ),
+            ),
+            Text(
+              dateEvent.toUpperCase(),
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.textWhiteShadow.copyWith(fontSize: 15),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                child: Container(
+                  height: 200,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+                        bottomActions: <Widget>[
+                          const SizedBox(width: 14.0),
+                          CurrentPosition(),
+                          const SizedBox(width: 4.0),
+                          ProgressBar(isExpanded: true),
+                          const SizedBox(width: 4.0),
+                          RemainingDuration(),
+                          const SizedBox(width: 14.0),
+                        ],
+                        aspectRatio: 3 / 3,
+                        progressIndicatorColor: Colors.red,
+                        onReady: () {
+                          print('Player is ready.');
+                        },
+                      ),
+                      AnimatedSwitcher(
+                        duration: Duration(milliseconds: 100),
+                        reverseDuration: Duration(milliseconds: 700),
+                        child: _controller.value.isPlaying
+                            ? SizedBox.shrink()
+                            : Container(
+                                color: IdtColors.black.withOpacity(0.5),
+                                child: Center(
+                                  child: Icon(
+                                    _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                                    color: IdtColors.white,
+                                    size: 60.0,
+                                  ),
+                                ),
+                              ),
+                      ),
+                      //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                      GestureDetector(
+                        onTap: () {
+                          _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            _btnsPlaces(),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 55),
+              margin: EdgeInsets.only(bottom: 15),
+              child: Text(
+                widget._detail.description!,
+                style: textTheme.textButtomWhite,
+                maxLines: viewModel.status.moreText ? null : 20,
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            TextButton(
+              child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.textButtomWhite
+                      .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+              onPressed: viewModel.readMore,
+            )
+          ],
+        ),
+      );
     }
 
     return Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
-          fit: BoxFit.fitHeight,
-        )),
-        height: size.height,
-        width: size.width,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 65,
-                  ),
-                  _body(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  _footerImages(),
-                  SizedBox(
-                    height: 80,
-                  )
-                ],
-              ),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
+        fit: BoxFit.fitHeight,
+      )),
+      height: size.height,
+      width: size.width,
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 65,
+                ),
+                _body(),
+                SizedBox(
+                  height: 30,
+                ),
+                _footerImages(),
+                SizedBox(
+                  height: 80,
+                )
+              ],
             ),
-            Positioned(
-              top: 50,
-              right: -5,
-              left: -15,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 14),
-                    child: IconButton(
-                      autofocus: false,
-                      alignment: Alignment.centerRight,
-                      icon: SvgPicture.asset(
-                        IdtAssets.back,
-                        color: IdtColors.white,
-                      ),
-                      iconSize: 45,
-                      onPressed: _route.pop,
+          ),
+          Positioned(
+            top: 50,
+            right: -5,
+            left: -15,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 14),
+                  child: IconButton(
+                    autofocus: false,
+                    alignment: Alignment.centerRight,
+                    icon: SvgPicture.asset(
+                      IdtAssets.back,
+                      color: IdtColors.white,
                     ),
+                    iconSize: 45,
+                    onPressed: _route.pop,
                   ),
-                  IconButton(
-                    icon: Icon(
-                      viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
-                      color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
-                    ),
-                    padding: EdgeInsets.only(right: 20.0),
-                    iconSize: 35,
-                    onPressed: viewModel.onTapFavorite,
+                ),
+                IconButton(
+                  icon: Icon(
+                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
+                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
                   ),
-                ],
-              ),
+                  padding: EdgeInsets.only(right: 20.0),
+                  iconSize: 35,
+                  onPressed: viewModel.onTapFavorite,
+                ),
+              ],
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
