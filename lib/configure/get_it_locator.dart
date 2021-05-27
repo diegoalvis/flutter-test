@@ -37,7 +37,6 @@ void setUpLocator() async {
   locator.registerSingleton<RegisterService>(RegisterService());
   locator.registerSingleton<BestRatedService>(BestRatedService());
   locator.registerSingleton<SavedPlacesService>(SavedPlacesService());
-  // locator.registerSingleton<ZoneService>(ZoneService());
   locator.registerSingleton<ZonesService>(ZonesService());
   locator.registerSingleton<SearchService>(SearchService());
 
