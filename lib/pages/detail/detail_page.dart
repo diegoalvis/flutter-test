@@ -113,14 +113,14 @@ class _DetailWidgetState extends State<DetailWidget> {
                 IdtConstants.url_image + widget._detail.image!,
                 width: size.width,
                 height: size.height * 0.5,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               )
             ],
           ),
           Positioned(
             // curva
-            top: size.height * 0.333,
-            left: 1,
+            top: size.height * 0.301,
+            left: 0,
             right: 0,
             child: SizedBox(
               child: SvgPicture.asset(IdtAssets.curve_up,
@@ -317,9 +317,9 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
               //Curva de abajo
-              bottom: size.height * 0.333,
+              bottom: size.height * 0.32,
               right: 0,
-              left: -10,
+              left: 0,
               child: FittedBox(
                   alignment: Alignment.topCenter,
                   child:
