@@ -85,8 +85,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
     Widget imagesCard(DataAudioGuideModel item, int index, List listItems) => (
 
       InkWell(
-        onTap: () => viewModel.goDetailPage('190'),
-        //onTap: () => viewModel.goDetailPage(item.id.toString()),
+        //onTap: () => viewModel.goDetailPage('190'),
+        onTap: () => viewModel.goDetailPage(item.id.toString()),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
