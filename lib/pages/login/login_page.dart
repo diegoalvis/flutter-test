@@ -150,12 +150,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                 Positioned(
                     bottom: 0,
                     child: Container(
-                      height: 200,
+                      height: size.height * 0.22,
                       width: size.width,
                       color: Colors.white,)),
 
                 Positioned(
-                    top: 480,
+                    top: size.height * 0.6,
                     // bottom: 100,
                     left: 0,
                     right: 0,
@@ -169,7 +169,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     )),
                 Positioned(
                   top: 50.0,
-                  bottom: 550.0,
+                  bottom: size.height * 0.8,
                   left: 0.0,
                   right: 0.0,
                   child: Center(
@@ -195,7 +195,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Positioned(
-                  bottom: 600,
+                  bottom: size.height * 0.78,
                   width: size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -219,7 +219,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Positioned(
-                  bottom: 540,
+                  bottom: size.height * 0.69,
                   width: size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -240,7 +240,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Positioned(
-                    bottom: 210,
+                    bottom: size.height * 0.28,
                     child: SizedBox(
                       child: Container(
                         width: 300,
@@ -277,7 +277,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     )),
                 Positioned(
-                    bottom: 320,
+                    bottom: size.height * 0.4,
                     child: Container(
                       margin: EdgeInsets.all(25),
                       child: RaisedButton(
@@ -301,7 +301,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           }),
                     )),
                 Positioned(
-                  bottom: 300,
+                  bottom: size.height * 0.38,
                   child: Container(
                       color: Colors.transparent,
                       width: 200,
@@ -325,7 +325,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       )),
                 ),
                 Positioned(
-                  bottom: 280,
+                  bottom: size.height * 0.35,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -353,7 +353,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Positioned(
-                    bottom: 140,
+                    bottom: size.height * 0.2,
                     child: Container(
                       margin: EdgeInsets.all(25),
                       child: RaisedButton(
@@ -381,7 +381,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           }),
                     )),
                 Positioned(
-                  bottom: 140,
+                  bottom: size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -401,7 +401,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Positioned(
-                    bottom: 60,
+                    bottom: size.height * 0.1,
                     child: LoginButtons(logout: viewModel.logOut, login: viewModel.login)),
                 Positioned(
                   bottom: 10,
