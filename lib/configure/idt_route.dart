@@ -22,6 +22,7 @@ import 'package:bogota_app/pages/search/search_page.dart';
 import 'package:bogota_app/pages/setting/setting_page.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IdtRoute {
   static final IdtRoute _singleton = IdtRoute._internal();
@@ -191,6 +192,11 @@ class IdtRoute {
     return navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => SavedPlacesPage()), (route) => route.isFirst);
   }
+
+  goPrivacyAndTerms() {
+    return launch('https://bogotadc.travel/es/politica-tratamiento-datos-personales');
+  }
+
 
   goProfile() {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => ProfilePage()));
