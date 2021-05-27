@@ -193,7 +193,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             fit: BoxFit.fitHeight,
           ),
           Positioned(
-              top: 320,
+              top: size.height / 2 * 0.79,
               // bottom: 100,
               left: 0,
               right: 0,
@@ -227,7 +227,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
             ),
           ),
           Positioned(
-              top: size.height / 2 * 1.05,
+              top: size.height / 2 * 1.02,
               width: size.width,
               child: Column(
                 children: [

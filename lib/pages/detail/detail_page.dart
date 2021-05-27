@@ -119,7 +119,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
             // curva
-            top: 260,
+            top: size.height * 0.333,
             left: 1,
             right: 0,
             child: SizedBox(
@@ -317,7 +317,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
               //Curva de abajo
-              bottom: 260,
+              bottom: size.height * 0.333,
               right: 0,
               left: -10,
               child: FittedBox(
