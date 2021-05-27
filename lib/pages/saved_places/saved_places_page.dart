@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -38,6 +40,11 @@ class SavedPlacesWidget extends StatefulWidget {
 }
 
 class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<SavedPlacesViewModel>().loadSavedPlaces();});
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SavedPlacesViewModel>();
@@ -55,10 +62,11 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   Widget _buildSavedPlaces(SavedPlacesViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
     final _route = locator<IdtRoute>();
+    final List<DataModel> _saved = viewModel.status.itemsSavedPlaces;
 
-    Widget gridImagesCol() {
+    Widget gridImagesCol(List<DataModel> listItems) {
       return ListView.builder(
-          itemCount: DataTest.imgList2.length,
+          itemCount: listItems.length,
           physics: ScrollPhysics(),
           padding: EdgeInsets.symmetric(vertical: 0),
           shrinkWrap: true,
@@ -70,13 +78,13 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: viewModel.goDetailPage,
+                        onTap:()=> viewModel.goDetailPage(listItems[index].id.toString()),
                         child: Row(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5.0),
                               child: Image.network(
-                                DataTest.imgList2[index],
+                                IdtConstants.url_image + listItems[index].image!,
                                 height: 70,
                                 width: 70,
                                 fit: BoxFit.cover,
@@ -85,7 +93,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                             SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                DataTest.textList2[index],
+                                listItems[index].title!,
                                 style: textTheme.textButtomWhite
                                     .copyWith(fontSize: 16),
                                 maxLines: 2,
@@ -145,7 +153,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                     style: textTheme.textButtomWhite.copyWith(fontSize: 12),
                   ),
                 ),
-                gridImagesCol()
+                gridImagesCol(_saved)
               ],
             ),
           ),
