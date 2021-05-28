@@ -303,7 +303,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
   _showAlert(String tittle, String message) {
     context.showDialogObservation(
       titleDialog: tittle,
-      bodyTextDialog: message!,
+      bodyTextDialog: message,
       textButton: 'aceptar / cerrar',
     );
   }
