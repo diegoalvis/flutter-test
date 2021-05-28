@@ -5,6 +5,8 @@ import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
+import 'package:bogota_app/data/model/response_model.dart';
+import 'package:bogota_app/data/model/response_model_reset_password.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/model/user_model.dart';
@@ -22,11 +24,11 @@ import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
+import 'service/reset_password.dart';
 import 'service/search_service.dart';
 import 'service/zone_service.dart';
 
 class ApiInteractor {
-
   Future<IdtResult<List<DataModel>?>> getPlacesList(Map params) async {
     final response = await locator<FilterService>().getPlaces(params);
 
@@ -81,6 +83,7 @@ class ApiInteractor {
     final response = await locator<EatService>().getPlacesEat();
     return response;
   }
+
   Future<IdtResult<List<DataModel>?>> getSearchResultList(Map params) async {
     final response = await locator<SearchService>().getResultByWord(params);
     return response;
@@ -96,7 +99,6 @@ class ApiInteractor {
     return response;
   }
 
-
   Future<IdtResult<SplashModel>> getSplashInteractor() async {
     final response = await locator<SplashService>().getSplash();
 
@@ -108,26 +110,28 @@ class ApiInteractor {
 
     return response;
   }
+
   Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
     final response = await locator<FilterService>().getPlaceById(id);
     return response;
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {
+  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(
+      String id) async {
     final response = await locator<EventService>().getEventSocialById(id);
     return response;
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getSleepSocialById(String id) async {
-      final response = await locator <SleepService>().getSleepSocialById(id);
-      return response;
-  }
-
-  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id) async{
-    final response = await locator <EatService>().getEatSocialById(id);
+  Future<IdtResult<DataPlacesDetailModel?>> getSleepSocialById(
+      String id) async {
+    final response = await locator<SleepService>().getSleepSocialById(id);
     return response;
   }
 
+  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id) async {
+    final response = await locator<EatService>().getEatSocialById(id);
+    return response;
+  }
 
   Future<IdtResult<GpsModel?>> postLocationUser(GpsModel gpsModel) async {
     final response = await locator<GpsService>().setLocationUser(gpsModel);
@@ -143,9 +147,14 @@ class ApiInteractor {
   }
 
   Future<IdtResult<RegisterModel?>> register(RegisterRequest params) async {
-
     final response = await locator<RegisterService>().postRegister(params);
 
+    return response;
+  }
+
+  Future<IdtResult<ResponseResetPasswordModel?>> resetPassword(
+      String email) async {
+    final response = await locator<ResetPasswordService>().resetPassword(email);
     return response;
   }
 

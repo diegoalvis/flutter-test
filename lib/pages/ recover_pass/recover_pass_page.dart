@@ -1,18 +1,15 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
-import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/commons/idt_icons.dart';
+import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
-import 'package:bogota_app/pages/home/home_page.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -224,6 +221,9 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                         height: 10,
                       ),
                       BtnGradient('Restablecer contraseña',
+                            onPressed: () async {
+                          await _recoverPasswordOnPressed();
+                        },
                           colorGradient: IdtGradients.orange,
                           textStyle: textTheme.textButtomWhite.copyWith(
                               fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
@@ -285,6 +285,26 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
           ),
         ),)
       ],
+    );
+  }
+
+  Future<void> _recoverPasswordOnPressed() async {
+     try {
+      final response = await context
+          .read<RecoverPassViewModel>()
+          .recoverPassword(_controllerEmail.text);
+      _showAlert('Notificación',
+          'Se ha enviado un email para recuperar tu contraseña');
+    } catch (e) {
+      _showAlert('oh oh!\n Algo ha salido mal...', "$e");
+    }
+  }
+
+  _showAlert(String tittle, String message) {
+    context.showDialogObservation(
+      titleDialog: tittle,
+      bodyTextDialog: message!,
+      textButton: 'aceptar / cerrar',
     );
   }
 }
