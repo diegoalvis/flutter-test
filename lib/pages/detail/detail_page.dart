@@ -33,7 +33,8 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => DetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          DetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return DetailWidget(isHotel, detail);
       },
@@ -482,9 +483,9 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child: Text(
-                          widget._detail.description ??
+                          removeAllHtmlTags(widget._detail.description ??
                               widget._detail.body ??
-                              'Description o body null',
+                              'Description o body null'),
                           style: textTheme.textDescrip,
                           maxLines: viewModel.status.moreText ? null : 20,
                           overflow: TextOverflow.fade,
@@ -532,5 +533,11 @@ class _DetailWidgetState extends State<DetailWidget> {
             ],
           )),
     );
+  }
+
+  String removeAllHtmlTags(String htmlText) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+    return htmlText.replaceAll(exp, '');
   }
 }
