@@ -22,6 +22,9 @@ class IdtMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final String imageUrl = '';
+        // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
+    final currentUser = 'WA';
 
     final profileWidget = (Container(
         child: Center(
@@ -31,15 +34,16 @@ class IdtMenu extends StatelessWidget {
           Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
-                child: CircleAvatar(
-                  radius: 70.0,
-                  backgroundImage: AssetImage(IdtAssets.profile_photo),
+                  margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
+                  child: CircleAvatar(
+                      foregroundColor: IdtColors.white,
+                      backgroundColor: IdtColors.blue,
+                      backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                      radius: 70.0,
+                      child: imageUrl.isEmpty ? Text(currentUser[0]+currentUser[1], style: TextStyle(fontSize: 50),) : SizedBox.shrink()
 /*                      NetworkImage(
                           'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
-                  backgroundColor: Colors.white,
-                ),
-              ),
+                      )),
               Positioned(
                 top: 5,
                 right: 2,
@@ -65,7 +69,6 @@ class IdtMenu extends StatelessWidget {
     return SingleChildScrollView(
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 2000),
-
         child: Container(
           decoration: BoxDecoration(
             color: IdtColors.white.withOpacity(0.95),
@@ -107,8 +110,8 @@ class IdtMenu extends StatelessWidget {
                         children: [
                           optionIndex == index
                               ? Container(
-                                  decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange, 30,
-                                      Alignment.bottomCenter, Alignment.topCenter),
+                                  decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
+                                      30, Alignment.bottomCenter, Alignment.topCenter),
                                   margin: EdgeInsets.all(10),
                                   height: 30.0,
                                 )
@@ -193,5 +196,3 @@ class IdtMenu extends StatelessWidget {
     closeMenu();
   }
 }
-
-

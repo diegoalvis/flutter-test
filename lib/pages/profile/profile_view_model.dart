@@ -13,7 +13,7 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   ProfileViewModel(this._route, this._interactor) {
     status = ProfileStatus(
       titleBar: 'Recibidos',
-      isLoading: true,
+      isLoading: false,
       openMenu: false,
       dataUser: null,
 
@@ -23,7 +23,6 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   final int idUserTest = 290;
 
   void onInit() async {
-    status = status.copyWith(isLoading: true);
     getDataUser(idUserTest.toString());
   }
 
@@ -56,6 +55,7 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
     //status.dataUser!.email!,
     await _route.goProfileEdit(status.dataUser!.name!,status.dataUser!.lastName!);
+    status = status.copyWith(isLoading: false);
   }
 
   void goSettingPage() {
