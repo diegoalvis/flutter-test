@@ -81,33 +81,33 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
     );
 
     Widget gridImagesCol(List<DataModel> results) => (ListView.builder(
-          itemCount: results.length,
-          physics: ScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 50),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                InkWell(
-                  onTap: viewModel.goDetailPage,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Image.network(
-                      IdtConstants.url_image + results[index].image.toString(),
-                      height: 170.0,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+      itemCount: results.length,
+      physics: ScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: 50),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            InkWell(
+              onTap:() => viewModel.goDetailPage(results[index].id.toString()),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
+                  IdtConstants.url_image + results[index].image.toString(),
+                  height: 170.0,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
                 ),
-                SizedBox(height: 5),
-                Text(results[index].title.toString(),
-                    style: textTheme.titleBlack.copyWith(fontSize: 13)),
-                SizedBox(height: 30),
-              ],
-            );
-          },
-        ));
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(results[index].title.toString(),
+                style: textTheme.titleBlack.copyWith(fontSize: 13)),
+            SizedBox(height: 30),
+          ],
+        );
+      },
+    ));
 
     return Stack(
       children: [

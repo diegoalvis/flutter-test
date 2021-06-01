@@ -1,17 +1,14 @@
-import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/model/gps_model.dart';
-
-import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-
+import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/response_model_reset_password.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
-import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
 import 'recover_pass_status.dart';
 
-class RecoverPassViewModel extends ViewModel<RecoverPassStatus>  {
+class RecoverPassViewModel extends ViewModel<RecoverPassStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
@@ -30,6 +27,20 @@ class RecoverPassViewModel extends ViewModel<RecoverPassStatus>  {
     // getFoodResponse();
   }
 
+  Future<dynamic> recoverPassword(String email) async {
+    print('Enviando a recuperar la contraseña');
+    status = status.copyWith(isLoading: true);
+    final dataUser = await _interactor.resetPassword(email);
+    status = status.copyWith(isLoading: false);
+    if (dataUser is IdtSuccess<ResponseResetPasswordModel?>) {
+      print('Email del Usario. $email');
+      return 'Success';
+    } else {
+      final erroRes = dataUser as IdtFailure<ResponseResetPasswordModel>;
+      print(erroRes.message);
+      throw ("${erroRes.message}");
+    }
+  }
 
   void setLocationUser() async {
 

@@ -31,8 +31,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void openMenu() {
-      status = status.copyWith(openMenu: !status.openMenu);
-
+    status = status.copyWith(openMenu: !status.openMenu);
   }
 
   void closeMenu() {
@@ -52,13 +51,22 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goFiltersPage(
-      DataModel item,
-      List<DataModel> categories,
-      List<DataModel> subcategories,
+  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones) async {
     status = status.copyWith(isLoading: true);
-    final Map query = {status.section: item.id};
+
+    late Map query;
+
+    if (status.section == 'subcategory') {
+      final itemsSubCat = await _interactor.getPlacesSubcategory(item.id);
+
+      if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
+        final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
+        query = {status.section: listIds};
+      }
+    } else {
+      query = {status.section: item.id};
+    }
 
     final response = await _interactor.getPlacesList(query);
 

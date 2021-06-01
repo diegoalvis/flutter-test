@@ -38,8 +38,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<ProfileViewModel>().onInit();
     });
-    // final viewModel = context.read<ProfileViewModel>();
-    // viewModel.getDataUser('290');
+    final viewModel = context.read<ProfileViewModel>();
+    viewModel.getDataUser('290');
     super.initState();
   }
 
@@ -138,7 +138,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               viewModel.status.dataUser == null
                   ? CircularProgressIndicator()
                   : Text(
-                      '${viewModel.status.dataUser!.name!} ${viewModel.status.dataUser!.lastName!}',
+                      '${viewModel.status.dataUser!.name ?? '**Nombre'} ${viewModel.status.dataUser!.lastName!}',
                       style: textTheme.textButtomWhite
                           .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
                     ),

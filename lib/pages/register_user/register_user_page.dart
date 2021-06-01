@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -23,11 +24,14 @@ import '../../app_theme.dart';
 import 'register_user_view_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
+import 'package:http/http.dart' as http;
+
 class RegisterUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RegisterUserViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          RegisterUserViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return RegisterUserWidget();
       },
@@ -41,12 +45,16 @@ class RegisterUserWidget extends StatefulWidget {
 }
 
 class _RegisterUserWidgetState extends State<RegisterUserWidget> {
+  final URL_COUNTRIES_CITYS =
+      'https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.json';
   final _controllerName = TextEditingController();
   final _controllerLastNames = TextEditingController();
   final _controllerEmail = TextEditingController();
   final _controllerPass = TextEditingController();
   final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
+  List<String> countries = [];
+  Map<String, dynamic> countriesComplete = {};
   String dropdownValue = 'Motivo de Viaje';
   String dropdownValueCountry = 'Colombia';
   String countryValue = "";
@@ -75,11 +83,23 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     _controllerConfirmPass.text = '';
 
     final viewModel = context.read<RegisterUserViewModel>();
+
+    chargeCountriesAndCities();
+
     super.initState();
   }
 
+  void chargeCountriesAndCities() {
+    final countriesUrlApi = Uri.parse(URL_COUNTRIES_CITYS);
 
-  _showAlert(){
+    http.read(countriesUrlApi).then((value) {
+      Map<String, dynamic> list = jsonDecode(value);
+      countriesComplete = list;
+      countries = list.entries.map((e) => e.key).toList();
+    });
+  }
+
+  _showAlert() {
     final viewModel = context.read<RegisterUserViewModel>();
 
     _effectSubscription = viewModel.effects.listen((event) {
@@ -109,7 +129,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RegisterUserViewModel>();
-
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -363,8 +382,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 ),
                                 iconSize: 38,
                                 style: textTheme.textButtomWhite.copyWith(
-                                    color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
-                                items: <String>['Colombia', 'Ecuador', 'Estados Unidos', 'Brasil']
+                                    color: IdtColors.grayBtn,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                                items: countries
                                     .map<DropdownMenuItem<String>>((String option) {
                                   return DropdownMenuItem<String>(
                                     child: Text(

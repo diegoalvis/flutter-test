@@ -13,11 +13,9 @@ import 'package:http/http.dart' as http;
 class FilterService {
   //Este metodo trae los lugares apenas se entra al filter Page
   Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
-
     Map<String, dynamic> queryParameters = {};
 
     params.forEach((key, value) {
-
       queryParameters[key] = value;
       /*value.keys.forEach((element) {
         queryParameters[element] = value[element];
@@ -46,14 +44,43 @@ class FilterService {
           return IdtResult.failure(error);
         }
       }
-
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
 
       return IdtResult.failure(error);
     }
-
   }
+
+  Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(String id) async {
+
+    final uri = Uri.https(IdtConstants.url_server, '/subcategory/' +id,);
+
+    final response = await http.get(uri);
+
+    try {
+      final body = json.decode(response.body);
+      print(body);
+      switch (response.statusCode) {
+        case 200: {
+          final entity = ResponseModel.fromJson(body);
+          print(entity.data);
+          return IdtResult.success(entity.data);
+        }
+
+        default: {
+          final error = FilterError('Capturar el error', response.statusCode);
+
+          return IdtResult.failure(error);
+        }
+      }
+    } on StateError catch (err) {
+      final error = FilterError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+  }
+
+
 
   Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
 
@@ -77,17 +104,14 @@ class FilterService {
           return IdtResult.failure(error);
         }
       }
-
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
 
       return IdtResult.failure(error);
     }
-
   }
 
   Future<IdtResult<List<DataModel>?>> getCategories() async {
-
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/category');
 
@@ -97,32 +121,29 @@ class FilterService {
       final body = json.decode(response.body);
 
       switch (response.statusCode) {
-        case 200: {
-          final entity = ResponseModel.fromJson(body);
+        case 200:
+          {
+            final entity = ResponseModel.fromJson(body);
 
-          return IdtResult.success(entity.data);
-        }
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
-
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
 
       return IdtResult.failure(error);
     }
-
   }
 
   Future<IdtResult<List<DataModel>?>> getSubcategories() async {
-
-    final queryParameters = {
-      'zone': '23'
-    };
+    final queryParameters = {'zone': '23'};
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/subcategory');
@@ -133,30 +154,29 @@ class FilterService {
       final body = json.decode(response.body);
 
       switch (response.statusCode) {
-        case 200: {
-          final entity = ResponseModel.fromJson(body);
+        case 200:
+          {
+            final entity = ResponseModel.fromJson(body);
 
-          return IdtResult.success(entity.data);
-        }
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
-
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
 
       return IdtResult.failure(error);
     }
-
   }
 
   // Este servicio deberia ser independiente??
   Future<IdtResult<List<DataModel>?>> getZones() async {
-
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(IdtConstants.url_server, '/zone');
 
@@ -166,24 +186,24 @@ class FilterService {
       final body = json.decode(response.body);
 
       switch (response.statusCode) {
-        case 200: {
-          final entity = ResponseModel.fromJson(body);
+        case 200:
+          {
+            final entity = ResponseModel.fromJson(body);
 
-          return IdtResult.success(entity.data);
-        }
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
-
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
 
       return IdtResult.failure(error);
     }
-
   }
 }

@@ -24,6 +24,7 @@ class SearchService {
       // queryParameters[value.keys.first] = value.values.first;
     });
     print('Parametro: $queryParameters');
+
     final uri = Uri.https(IdtConstants.url_server, '/util/search' ,queryParameters,);
     print(uri);
     final response = await http.get(uri);
