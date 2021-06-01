@@ -34,8 +34,25 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   void onTapFavorite() {
-    final bool value = status.isFavorite;
-    status = status.copyWith(isFavorite: !value);
+/*    final bool value = status.isFavorite;
+    status = status.copyWith(isLoading: true);
+    final favoriteResponse = await _interactor.postFavorite(id);
+    print('view model detail page');
+    print(placebyidResponse);
+    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+      print("model detail");
+      print(placebyidResponse.body!.title);
+      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+
+    status = status.copyWith(isFavorite: !value);*/
   }
 
   void onChangeScrollController(bool value, double width) {

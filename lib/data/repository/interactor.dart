@@ -11,6 +11,7 @@ import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/service/audioguide_service.dart';
 import 'package:bogota_app/data/repository/service/bestRated_service.dart';
 import 'package:bogota_app/data/repository/service/event_service.dart';
+import 'package:bogota_app/data/repository/service/favorite_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
@@ -112,6 +113,15 @@ class ApiInteractor {
     final response = await locator<FilterService>().getPlaceById(id);
     return response;
   }
+
+
+/*
+  Future<IdtResult<DataPlacesDetailModel?>> postFavorite(String id) async {
+    final response = await locator<FavoriteService>().postFavorite(id);
+    return response;
+  }
+*/
+
 
   Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {
     final response = await locator<EventService>().getEventSocialById(id);
