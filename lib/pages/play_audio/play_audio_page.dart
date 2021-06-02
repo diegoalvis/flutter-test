@@ -483,9 +483,12 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                   (position, bufferedPosition) =>
                       PositionData(position, bufferedPosition)),
               builder: (context, snapshot) {
+                double widthPosition = width;
                 final pos = snapshot.data?.position.inSeconds ?? 0;
-                final total = duration.inSeconds;
-                final widthPosition = (pos * width) / total;
+                final total = duration.inSeconds > 0 ? duration.inSeconds : 1;
+                if (snapshot.data != null && pos >= 0 && total >= 0) {
+                  widthPosition = (pos * width) / total;
+                }
 
                 return AnimatedContainerApp(
                   widthPosition,
