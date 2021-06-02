@@ -93,7 +93,8 @@ class _DetailWidgetState extends State<DetailWidget> {
           extendBody: true,
           extendBodyBehindAppBar: true,
           floatingActionButton: IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           backgroundColor: IdtColors.white,
           body: _buildDiscover(viewModel)),
     );
@@ -124,11 +125,11 @@ class _DetailWidgetState extends State<DetailWidget> {
             left: 0,
             right: 0,
             child: SizedBox(
-              child: SvgPicture.asset(IdtAssets.curve_up,
-                  color: Colors.white, fit: BoxFit.fill)
+                child: SvgPicture.asset(IdtAssets.curve_up,
+                    color: Colors.white, fit: BoxFit.fill)
 
-              //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
-            ),
+                //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
+                ),
           ),
           Positioned(
             // rating Starts
@@ -153,8 +154,10 @@ class _DetailWidgetState extends State<DetailWidget> {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         ratingWidget: RatingWidget(
                           full: Icon(IdtIcons.star, color: IdtColors.amber),
-                          half: Icon(IdtIcons.star_half_alt, color: IdtColors.amber),
-                          empty: Icon(IdtIcons.star_empty, color: IdtColors.amber),
+                          half: Icon(IdtIcons.star_half_alt,
+                              color: IdtColors.amber),
+                          empty:
+                              Icon(IdtIcons.star_empty, color: IdtColors.amber),
                         ),
                         onRatingUpdate: (rating) {
                           _newrating = rating;
@@ -166,8 +169,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                         widget._detail.rate == 0
                             ? widget._detail.rate! + '/5'
                             : _newrating.toString(),
-                        style: textTheme.textWhiteShadow
-                            .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                        style: textTheme.textWhiteShadow.copyWith(
+                            fontSize: 15, fontWeight: FontWeight.w600),
                       )
                     ],
                   ),
@@ -237,8 +240,12 @@ class _DetailWidgetState extends State<DetailWidget> {
                         child: IconButton(
                           alignment: Alignment.centerRight,
                           icon: Icon(
-                            viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
-                            color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                            viewModel.status.isFavorite
+                                ? IdtIcons.heart2
+                                : Icons.favorite_border,
+                            color: viewModel.status.isFavorite
+                                ? IdtColors.red
+                                : IdtColors.white,
                           ),
                           iconSize: 30,
                           onPressed: viewModel.onTapFavorite,
@@ -275,7 +282,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                     itemBuilder: (context, index) => Column(
                       children: <Widget>[
                         Image.network(
-                          IdtConstants.url_image + widget._detail.gallery![index],
+                          IdtConstants.url_image +
+                              widget._detail.gallery![index],
                           height: size.height * 0.5,
                           width: size.width,
                           fit: BoxFit.cover,
@@ -294,7 +302,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
-                    onPressed: () => viewModel.onChangeScrollController(false, size.width),
+                    onPressed: () =>
+                        viewModel.onChangeScrollController(false, size.width),
                   ),
                 ),
               ),
@@ -310,7 +319,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
-                    onPressed: () => viewModel.onChangeScrollController(true, size.width),
+                    onPressed: () =>
+                        viewModel.onChangeScrollController(true, size.width),
                   ),
                 ),
               ),
@@ -328,7 +338,6 @@ class _DetailWidgetState extends State<DetailWidget> {
                       height: size.height * 0.92
                   ),*/
                       SvgPicture.asset(IdtAssets.curve_down,
-
                           color: Colors.white, fit: BoxFit.fill))),
         ],
       );
@@ -346,8 +355,8 @@ class _DetailWidgetState extends State<DetailWidget> {
             padding: EdgeInsets.all(0.0),
             child: Container(
               constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-              decoration: StylesMethodsApp()
-                  .decorarStyle(IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
+              decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
+                  30, Alignment.bottomRight, Alignment.topLeft),
               alignment: Alignment.center,
               child: IconButton(
                 icon: Icon(
@@ -371,7 +380,10 @@ class _DetailWidgetState extends State<DetailWidget> {
             child: Container(
                 constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
                 decoration: StylesMethodsApp().decorarStyle(
-                    IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
+                    IdtGradients.blueDark,
+                    30,
+                    Alignment.bottomLeft,
+                    Alignment.topRight),
                 alignment: Alignment.center,
                 child: Icon(
                   IdtIcons.headphones,
@@ -393,14 +405,15 @@ class _DetailWidgetState extends State<DetailWidget> {
     }) {
       //Columna de botonoes para los hoteles
       return RaisedButton(
-        onPressed: onPress ,
+        onPressed: onPress,
         shape: RoundedRectangleBorder(
-            side: BorderSide(color: color, width: 1), borderRadius: BorderRadius.circular(17.0)),
+            side: BorderSide(color: color, width: 1),
+            borderRadius: BorderRadius.circular(17.0)),
         padding: EdgeInsets.all(0),
         child: Container(
             width: size.width * 0.7,
-            decoration: StylesMethodsApp()
-                .decorarStyle(listColors, 17, Alignment.bottomCenter, Alignment.topCenter),
+            decoration: StylesMethodsApp().decorarStyle(
+                listColors, 17, Alignment.bottomCenter, Alignment.topCenter),
             padding: EdgeInsets.symmetric(vertical: 7),
             alignment: Alignment.center,
             child: Row(
@@ -442,14 +455,14 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           _btnGradient(widget._detail.phone.toString(),
               onPress: () => viewModel.launchCall(widget._detail.phone!),
-
-              icon: Icons.phone, color: IdtColors.green, listColors: IdtGradients.green),
+              icon: Icons.phone,
+              color: IdtColors.green,
+              listColors: IdtGradients.green),
           SizedBox(
             height: 5,
           ),
           _btnGradient(widget._detail.webUrl.toString(),
               onPress: () => viewModel.launchPageWeb(widget._detail.webUrl!),
-
               icon: Icons.wifi_tethering_sharp,
               color: IdtColors.blueDark,
               listColors: IdtGradients.blueDark),
@@ -506,19 +519,23 @@ class _DetailWidgetState extends State<DetailWidget> {
                           child: Container(
                             alignment: Alignment.center,
                             height: 60.0,
-                            color: IdtColors.white.withOpacity(viewModel.status.moreText ? 0 : 0.5),
+                            color: IdtColors.white.withOpacity(
+                                viewModel.status.moreText ? 0 : 0.5),
                           ),
                         )),
                       )
                     ],
                   ),
                   TextButton(
-                    child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
+                    child: Text(
+                        viewModel.status.moreText
+                            ? 'MOSTRAR MENOS'
+                            : 'SEGUIR LEYENDO',
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: textTheme.blueDetail
-                            .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+                        style: textTheme.blueDetail.copyWith(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: viewModel.readMore,
                   )
                 ],
