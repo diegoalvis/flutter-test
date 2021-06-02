@@ -7,6 +7,7 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/pages/discover/discover_view_model.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -25,11 +26,11 @@ class UnmissablePage extends StatelessWidget {
   final int? optionIndex;
 
   UnmissablePage({this.optionIndex});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return UnmissableWidget(optionIndex);
       },
@@ -49,18 +50,20 @@ class UnmissableWidget extends StatefulWidget {
 class _UnmissableWidgetState extends State<UnmissableWidget> {
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<UnmissableViewModel>().getUnmissableResponse();});
+      context.read<UnmissableViewModel>().getUnmissableResponse(option: 0);
+    });
+  }
 
-  }
-  void reload(state){
-  if(state){
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<UnmissableViewModel>().getBestRatedResponse();});
-    super.initState();
-  }else{
-    initState();
-  }
-  }
+//** Este metodo no es necesario, ya que se maneja atraves del viewModel, dependienndo del Boton
+  // void reload(state){
+  //     if(state){
+  //     WidgetsBinding.instance!.addPostFrameCallback((_) {
+  //       context.read<UnmissableViewModel>().getBestRatedResponse();});
+  //     super.initState();
+  //  }else{
+  //     initState();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -71,44 +74,56 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
-          bottomNavigationBar:
-              viewModel.status.openMenu ? null : IdtBottomAppBar(),
+          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: _buildDiscover(viewModel)),
     );
   }
 
   Widget _buildDiscover(UnmissableViewModel viewModel) {
-
     final textTheme = Theme.of(context).textTheme;
     late List<DataModel> _unmissable = viewModel.status.itemsUnmissablePlaces;
-    final menu = AnimatedSwitcher(duration: Duration(milliseconds: 500), child: viewModel.status.openMenu
-        ? IdtMenu(closeMenu: viewModel.closeMenu, optionIndex: widget.optionIndex,)
-        : SizedBox.shrink());
+    final menu = AnimatedSwitcher(
+        duration: Duration(milliseconds: 500),
+        child: viewModel.status.openMenu
+            ? IdtMenu(
+                closeMenu: viewModel.closeMenu,
+                optionIndex: widget.optionIndex,
+              )
+            : SizedBox.shrink());
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
-    Widget _buttonTap(String label, bool state) {
+    Widget _buttonTap(
+      String label,
+      bool isSelected,
+      VoidCallback onTap,
+    ) {
       return Expanded(
         child: TextButton(
-          child: Text(label,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.subTitleBlack),
-          onPressed: () {
-            reload(state);
-          },
-
+          child: Column(
+            children: [
+              Text(label,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.subTitleBlack),
+              isSelected
+                  ? Container(
+                      height: 5,
+                      width: 50,
+                      color: Colors.black,
+                    )
+                  : SizedBox.shrink()
+            ],
+          ),
+          onPressed: onTap,
         ),
       );
     }
 
-    ;
-
     Widget imagesCard(DataModel item, int index) => (InkWell(
-          onTap: () =>viewModel.goDetailPage(item.id.toString()),
+          onTap: () => viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -135,14 +150,12 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                     child: Text(item.title!.toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style:
-                            textTheme.textWhiteShadow.copyWith(fontSize: 11))),
+                        style: textTheme.textWhiteShadow.copyWith(fontSize: 11))),
               ),
             ],
           ),
@@ -172,9 +185,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
               Container(
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
-                decoration: BoxDecoration(color: IdtColors.white
-
-                ),
+                decoration: BoxDecoration(color: IdtColors.white),
                 child: Center(child: TitleSection('IMPERDIBLES')),
               ),
               SizedBox(height: 25),
@@ -188,13 +199,24 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
               ),
               Padding(
                 padding: EdgeInsets.only(right: 24, left: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buttonTap('Recomendados', false),
-                    _buttonTap('Mejor calificados', true)
-                  ],
+                child: Container(
+                  height: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buttonTap(
+                        'Recomendados',
+                        viewModel.status.currentOption == 0,
+                        () => viewModel.getUnmissableResponse(option: 0),
+                      ),
+                      _buttonTap(
+                        'Mejor calificados',
+                        viewModel.status.currentOption == 1,
+                        () => viewModel.getBestRatedResponse(option: 1),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 25),

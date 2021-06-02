@@ -34,6 +34,11 @@ class ApiInteractor {
 
     return response;
   }
+  Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(String id) async {
+    final response = await locator<FilterService>().getPlaceSubcategories(id);
+
+    return response;
+  }
 
   Future<IdtResult<List<DataModel>?>> getCategoriesList() async {
     final response = await locator<FilterService>().getCategories();
