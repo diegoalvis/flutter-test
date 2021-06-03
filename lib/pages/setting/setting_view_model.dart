@@ -4,12 +4,10 @@ import 'package:bogota_app/pages/setting/setting_status.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:location/location.dart';
+
 class SettingViewModel extends ViewModel<SettingStatus> {
-
   final IdtRoute _route;
-  final ApiInteractor
-
- _interactor;
+  final ApiInteractor _interactor;
 
   SettingViewModel(this._route, this._interactor) {
     status = SettingStatus(
@@ -38,19 +36,13 @@ class SettingViewModel extends ViewModel<SettingStatus> {
     status = status.copyWith(switchNotification: value);
   }
 
-  void changeNotification2(bool value) async {
-    print('ubicación');
-
+  void changeLocationPermissions(bool value) async {
     status = status.copyWith(switchNotification2: value);
     AppSettings.openLocationSettings();
-    bool _serviceEnabled = await locationUser.serviceEnabled();
-    if(_serviceEnabled){
-      status = status.copyWith(switchNotification2: false);
-    }else{
-      status = status.copyWith(switchNotification2: true);
-    }
+  }
 
-
+  void changeLocationValue(bool value) async {
+    status = status.copyWith(switchNotification2: value);
   }
 
   // void goProfileEditPage() {

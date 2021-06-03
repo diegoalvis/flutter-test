@@ -17,6 +17,7 @@ class IdtMenuFilter extends StatelessWidget {
   final List<DataModel?> filter1;
   final List<DataModel?> filter2;
   final List<DataModel?> filter3;
+  final String typeFilter;
   final Function(int, int, List<DataModel>) tapButton;
 
   IdtMenuFilter({
@@ -29,6 +30,7 @@ class IdtMenuFilter extends StatelessWidget {
     required this.filter2,
     required this.filter3,
     required this.tapButton,
+    required this.typeFilter,
   });
 
   @override
@@ -148,6 +150,22 @@ class IdtMenuFilter extends StatelessWidget {
     }
 
 
+    List<Widget> listFilters = [];
+
+    if (typeFilter != 'Zona') {
+  listFilters.add(_filter(
+        listZones, IdtColors.blue, IdtGradients.blue, 'Búsqueda por zona', 2));
+    }
+
+    if (typeFilter != 'Producto') {
+      listFilters.add(_filter(listSubcategories, IdtColors.orange, IdtGradients.orange,
+          'Búsqueda específica', 1));
+    }
+    if (typeFilter != 'Plan') {
+    listFilters.add(_filter(listCategories, IdtColors.green, IdtGradients.green,
+        'Descubre Bogotá', 3));
+    }
+
     return SingleChildScrollView(
       physics: ScrollPhysics(),
       child: Column(
@@ -162,17 +180,14 @@ class IdtMenuFilter extends StatelessWidget {
                 color: IdtColors.orange,
                 size: 35,
               ),
-              onPressed: closeMenu
-            ),
+              onPressed: closeMenu),
           ),
           SizedBox(
             height: 10,
           ),
           Column(
             children: [
-              _filter(listSubcategories, IdtColors.orange, IdtGradients.orange, 'Busqueda específica', 1),
-              _filter(listZones, IdtColors.blue, IdtGradients.blue, 'Busqueda por zona', 2),
-              _filter(listCategories, IdtColors.green, IdtGradients.green, 'Descubre Bogotá', 3),
+              ...listFilters,
               SizedBox(
                 height: 15,
               ),

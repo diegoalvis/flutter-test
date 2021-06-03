@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -8,6 +10,7 @@ import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -16,7 +19,8 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          SettingViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SettingWidget();
       },
@@ -29,7 +33,26 @@ class SettingWidget extends StatefulWidget {
   _SettingWidgetState createState() => _SettingWidgetState();
 }
 
-class _SettingWidgetState extends State<SettingWidget> {
+class _SettingWidgetState extends State<SettingWidget>
+    with WidgetsBindingObserver {
+  bool verifiedLocation = false;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.paused:
+        verifiedLocation = false;
+        setState(() {});
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SettingViewModel>();
@@ -52,12 +75,20 @@ class _SettingWidgetState extends State<SettingWidget> {
     final textTheme = Theme.of(context).textTheme;
     bool isSwitched = true;
 
-
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
-      child:
-          viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
+      child: viewModel.status.openMenu
+          ? IdtMenu(closeMenu: viewModel.closeMenu)
+          : SizedBox.shrink(),
     );
+
+    if (verifiedLocation == false) {
+      Location location = new Location();
+      location.serviceEnabled().then((value) {
+        viewModel.changeLocationValue(value);
+      });
+      verifiedLocation = true;
+    }
 
     return Stack(
       children: [
@@ -134,7 +165,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                       activeToggleColor: IdtColors.green,
                       inactiveColor: IdtColors.white,
                       inactiveToggleColor: IdtColors.grayBtn.withOpacity(0.9),
-                      onToggle: viewModel.changeNotification2,
+                      onToggle: viewModel.changeLocationPermissions,
                     ),
                   ],
                 ),
