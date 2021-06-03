@@ -219,8 +219,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       );
     }
 
-    Widget imagesCard(String item, int index, List listItems, namePlace) => (InkWell(
-          onTap: viewModel.goDetailPage,
+    Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
+          onTap: () => viewModel.goDetailPage(item.id),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -238,7 +238,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                   width: double.infinity,
                   height: double.infinity,
                   child: Image.network(
-                    item,
+                    IdtConstants.url_image + item.image.toString(),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -259,7 +259,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 right: 0.0,
                 child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                    child: Text(namePlace.toUpperCase(),
+                    child: Text(item.title.toString().toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -278,11 +278,13 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             staggeredTiles: viewModel.status.staggedList,
             children: listItems.asMap().entries.map((entry) {
               final int index = entry.key;
-              final imageUrl = entry.value.image ?? '';
-              final String value = IdtConstants.url_image + imageUrl;
-              final String namePlace = entry.value.title ?? '';
+              // final imageUrl = entry.value.image ?? '';
+              // final String img = IdtConstants.url_image + imageUrl;
+              // final String namePlace = entry.value.title ?? '';
 
-              return imagesCard(value, index, listItems, namePlace);
+              final DataModel value = entry.value;
+
+              return imagesCard(value, index, listItems,);
             }).toList(),
             mainAxisSpacing: 8.0,
             crossAxisSpacing: 3.0,

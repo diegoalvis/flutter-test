@@ -15,6 +15,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+import '../../data/model/request/register_request.dart';
 import 'register_user_status.dart';
 import 'register_user_effect.dart';
 
@@ -45,12 +46,18 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
 
   void onInit() async {
 
-    registerResponse( );
+    // registerResponse( );
     status = status.copyWith(isLoading: false);
   }
-  registerResponse( ) async {
+  registerResponse( String name, String username, String mail, String country, String lastName, String reasonTrip, String password) async {
     status = status.copyWith(isLoading: true);
-    final registerResponse = await _interactor.register(status.data!);
+    RegisterRequest params = RegisterRequest(
+      // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
+        name, username, mail,country, lastName, reasonTrip, password
+    );
+    print(params.toJson());
+    final registerResponse = await _interactor.register(params);
+
 
     if (registerResponse is IdtSuccess<RegisterModel?>) {
       final messageExist = _validemessage(registerResponse.body!);
@@ -175,7 +182,7 @@ bool _validemessage(RegisterModel registerResponse){
       RegisterRequest params = RegisterRequest(_userData!['name'],_userData!['name'],_userData!['email'], 'Colombia', _userData!['name'], 'turismo', _userData!['id']);
 
       status = status.copyWith(data: params );
-      registerResponse();
+      // registerResponse();
 
     } else {
       print(result.status);
