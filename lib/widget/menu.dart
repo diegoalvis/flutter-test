@@ -22,9 +22,9 @@ class IdtMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final String imageUrl = '';
-        // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
-    final currentUser = 'WA';
+    final String imageUrl =
+        'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
+    final currentUser = 'MA';
 
     final profileWidget = (Container(
         child: Center(

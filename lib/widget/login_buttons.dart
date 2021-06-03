@@ -6,7 +6,7 @@ import '../app_theme.dart';
 
 class LoginButtons extends StatelessWidget {
 
-  VoidCallback? login;
+  Function(int)? login;
   VoidCallback? logout;
 
 
@@ -34,18 +34,21 @@ class LoginButtons extends StatelessWidget {
             ),
             // onTap: _userData != null ? viewModel.logOut : viewModel.login(),
 
-            onTap: 1 == null ? logout : login,
+            onTap:()=> login!(1),
           ),
           SizedBox(
             width: 8,
           ),
-          Container(
-            color: Colors.white,
-            width: 40,
-            height: 40,
-            child: Image(
-              image: AssetImage(IdtAssets.google),
+          InkWell(
+            child: Container(
+              color: Colors.white,
+              width: 40,
+              height: 40,
+              child: Image(
+                image: AssetImage(IdtAssets.google),
+              ),
             ),
+            onTap:()=> 2 == null ? logout : login!(2),
           ),
           SizedBox(
             width: 8,
