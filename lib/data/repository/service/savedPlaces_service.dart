@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -8,13 +9,16 @@ import 'package:bogota_app/data/model/response_detail_model.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class SavedPlacesService {
   Future<IdtResult<List<DataModel>?>> getSavedPlaces() async {
 
+    var box = await Hive.openBox<Person>('userdbB');
+
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/user/${55}/places');
+    final uri = Uri.https(IdtConstants.url_server, '/user/${box.getAt(0)!.id.toString()}/places');
 
     final response = await http.get(uri);
 

@@ -250,7 +250,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                                 : IdtColors.white,
                           ),
                           iconSize: 30,
-                          onPressed: viewModel.onTapFavorite,
+                          onPressed: () =>viewModel.onTapFavorite(widget._detail.id),
                         ),
                       ),
                     ],

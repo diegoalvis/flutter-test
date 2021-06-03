@@ -1,5 +1,6 @@
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
@@ -123,12 +124,10 @@ class ApiInteractor {
   }
 
 
-/*
-  Future<IdtResult<DataPlacesDetailModel?>> postFavorite(String id) async {
-    final response = await locator<FavoriteService>().postFavorite(id);
+  Future<IdtResult<FavoriteModel?>> postFavorite(String idplace) async {
+    final response = await locator<FavoriteService>().postFavorite(idplace);
     return response;
   }
-*/
 
 
   Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {

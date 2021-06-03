@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -33,26 +34,28 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     _route.goPlayAudio(detail: _detail);
   }
 
-  void onTapFavorite() {
-/*    final bool value = status.isFavorite;
+  onTapFavorite(String idplace) async {
+   late bool value = status.isFavorite;
+   print("idplace");
+   print(idplace);
     status = status.copyWith(isLoading: true);
-    final favoriteResponse = await _interactor.postFavorite(id);
-    print('view model detail page');
-    print(placebyidResponse);
-    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+    final favoriteResponse = await _interactor.postFavorite(idplace);
+    if (favoriteResponse is IdtSuccess<FavoriteModel?>) {
       print("model detail");
-      print(placebyidResponse.body!.title);
-      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      print(favoriteResponse.body!.message);
+     // _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
-    } else {
+    } /* else {
       final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
       print(erroRes.message);
       UnimplementedError();
-    }
+    }*/
     status = status.copyWith(isLoading: false);
 
-    status = status.copyWith(isFavorite: !value);*/
+    status = status.copyWith(isFavorite: !value);
+    print("boll value favorite");
+    print(status.isFavorite);
   }
 
   void onChangeScrollController(bool value, double width) {

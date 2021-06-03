@@ -4,6 +4,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/repository/service/audioguide_service.dart';
 import 'package:bogota_app/data/repository/service/bestRated_service.dart';
 import 'package:bogota_app/data/repository/service/event_service.dart';
+import 'package:bogota_app/data/repository/service/favorite_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
@@ -39,6 +40,7 @@ void setUpLocator() async {
   locator.registerSingleton<SavedPlacesService>(SavedPlacesService());
   locator.registerSingleton<ZonesService>(ZonesService());
   locator.registerSingleton<SearchService>(SearchService());
+  locator.registerSingleton<FavoriteService>(FavoriteService());
 
   /* locator.registerSingletonAsync(() async {
     final database = Database();
