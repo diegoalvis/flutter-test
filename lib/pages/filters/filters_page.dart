@@ -144,6 +144,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             filter2: viewModel.status.filterZone,
             filter3: viewModel.status.filterCategory,
             tapButton: viewModel.onTapButton,
+            typeFilter: viewModel.status.type,
           )
         : SizedBox.shrink();
 
