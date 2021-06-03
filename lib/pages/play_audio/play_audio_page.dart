@@ -53,12 +53,14 @@ class PlayAudioWidget extends StatefulWidget {
 class _PlayAudioWidgetState extends State<PlayAudioWidget>
     with SingleTickerProviderStateMixin {
   final _route = locator<IdtRoute>();
-  final List<String> _dropdownValues = ["Español", "Ingles", "Portugués"];
+  final List<String> _dropdownValues = [];
   late AudioPlayer _player;
 
   Future<void> _init() async {
+    _filldropdown(widget._detail);
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
+
     try {
       print("widget._detail.audioguia_es!");
       print(widget._detail.url_audioguia_es!);
@@ -67,6 +69,19 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     } catch (e) {
       print("An error occured $e");
     }
+  }
+  _filldropdown(DataPlacesDetailModel _detail){
+    if(_detail.url_audioguia_es != ''){
+      _dropdownValues.insert(0, "Español");
+    }
+    if(_detail.url_audioguia_en != ''){
+      _dropdownValues.insert(1, "Inglés");
+    }
+    if(_detail.url_audioguia_pt != ''){
+      _dropdownValues.insert(2, "Portugués");
+    }
+
+    print("_dropdownValues $_dropdownValues");
   }
 
   @override

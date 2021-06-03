@@ -236,7 +236,16 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     );
   }
 
-  Future<void> login() async {
+  login (int state){
+    if (state==1){
+      loginFacebook();
+    }else{
+     // loginGoogle();
+    }
+
+  }
+
+  Future<void> loginFacebook() async {
     final LoginResult result = await FacebookAuth.instance
         .login(); // by the fault we request the email and the public profile
 
