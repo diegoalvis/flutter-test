@@ -16,61 +16,87 @@ import '../app_theme.dart';
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
   final int? optionIndex;
-  var box = await Hive.openBox<Person>('userdbB');
 
   IdtMenu({required this.closeMenu, this.optionIndex});
 
   final _route = locator<IdtRoute>();
 
   @override
-  Widget build(BuildContext context) async{
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final String imageUrl = '';
-        // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
+    // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
 
-    var nameUser = box.getAt(0)!.name.toString();
+    Future<String> nameUser() async {
+      var box = await Hive.openBox<Person>('userdbB');
+      var nameUser = box.getAt(0)!.name.toString();
+      return nameUser[0];
+    }
 
-    final currentUser = nameUser[0];
-
-    final profileWidget = (Container(
-        child: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
+    profileWidget(BuildContext context) => (Container(
+            child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                  margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
-                  child: CircleAvatar(
-                      foregroundColor: IdtColors.white,
-                      backgroundColor: IdtColors.blue,
-                      backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-                      radius: 70.0,
-                      child: imageUrl.isEmpty ? Text(currentUser[0]+currentUser[1], style: TextStyle(fontSize: 50),) : SizedBox.shrink()
+              Stack(
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
+                      child: FutureBuilder(
+                          future: nameUser(),
+                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                        if (!snapshot.hasData) {
+                          // while data is loading:
+                          print(snapshot);
+                          return Center(
+                            child: CircleAvatar(
+                                foregroundColor: IdtColors.white,
+                                backgroundColor: IdtColors.blue,
+                                backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                                radius: 70.0,
+                                /*                      NetworkImage(
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                            ),
+                          );
+                        } else {
+                            print(snapshot);
+                          return CircleAvatar(
+                              foregroundColor: IdtColors.white,
+                              backgroundColor: IdtColors.blue,
+                              backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                              radius: 70.0,
+                              child: imageUrl.isEmpty
+                                  ? Text(
+                                      snapshot.data.toString().toUpperCase(),
+                                      style: TextStyle(fontSize: 50),
+                                    )
+                                  : SizedBox.shrink()
 /*                      NetworkImage(
-                          'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
-                      )),
-              Positioned(
-                top: 5,
-                right: 2,
-                child: Container(
-                  child: IconButton(
-                    onPressed: () async {
-                      await _route.goProfile();
-                      closeMenu();
-                    },
-                    icon: Icon(
-                      IdtIcons.engrane,
-                      size: 27,
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                              );
+                        }
+                      })),
+                  Positioned(
+                    top: 5,
+                    right: 2,
+                    child: Container(
+                      child: IconButton(
+                        onPressed: () async {
+                          await _route.goProfile();
+                          closeMenu();
+                        },
+                        icon: Icon(
+                          IdtIcons.engrane,
+                          size: 27,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  )
+                ],
               )
             ],
-          )
-        ],
-      ),
-    )));
+          ),
+        )));
 
     return SingleChildScrollView(
       child: AnimatedSwitcher(
@@ -98,7 +124,7 @@ class IdtMenu extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              profileWidget,
+              profileWidget(context),
               ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
