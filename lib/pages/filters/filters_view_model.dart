@@ -1,4 +1,5 @@
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
@@ -244,7 +245,24 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     }
   }
 
-  void goDetailPage() {
-    // _route.goDetail(isHotel: false, id: '278');
+  goDetailPage(String id) async{
+    status = status.copyWith(isLoading: true);
+
+    final placebyidResponse = await _interactor.getPlaceById(id);
+    print('view model detail page');
+    print(placebyidResponse);
+    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+      print("model detail");
+      print(placebyidResponse.body!.title);
+      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = placebyidResponse as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 }
