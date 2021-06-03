@@ -57,7 +57,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   Map<String, dynamic> countriesComplete = {};
   String dropdownValue = 'Motivo de Viaje';
   String dropdownValueCountry = 'Colombia';
-  String countryValue = "";
   String stateValue = "";
   String cityValue = "";
   String address = "";
@@ -70,17 +69,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       context.read<RegisterUserViewModel>().onInit();
     });
 
-     countryValue = "";
      stateValue = "";
      cityValue = "";
      address = "";
 
-    _controllerEmail.text = '';
-    _controllerName.text = '';
-    _controllerLastNames.text = '';
-    _controllerEmail.text = '';
-    _controllerPass.text = '';
-    _controllerConfirmPass.text = '';
+    // _controllerEmail.text = '';
+    // _controllerName.text = '';
+    // _controllerLastNames.text = '';
+    // _controllerEmail.text = '';
+    // _controllerPass.text = '';
+    // _controllerConfirmPass.text = '';
 
     final viewModel = context.read<RegisterUserViewModel>();
 
@@ -144,14 +142,20 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
-    RegisterRequest params = RegisterRequest(_controllerName.text,_controllerName.text, _controllerEmail.text, 'Colombia', _controllerLastNames.text, 'turismo', _controllerPass.text);
+    // RegisterRequest params = RegisterRequest(
+    //     // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
+    //     _controllerName.text,_controllerName.text, _controllerEmail.text, 'Colombia', _controllerLastNames.text, 'turismo', _controllerPass.text
+    // );
 
 
     _register()  {
       print('register user page');
-      print(params.reason_trip);
-      viewModel.status.data=params;
-      context.read<RegisterUserViewModel>().registerResponse();
+      // print(params.reason_trip);
+      // print(params.toJson());
+      // viewModel.status.data = params;
+      context.read<RegisterUserViewModel>().registerResponse(
+          _controllerName.text,_controllerName.text, _controllerEmail.text,
+          dropdownValueCountry, _controllerLastNames.text, dropdownValue, _controllerPass.text);
       _showAlert();
     }
 
