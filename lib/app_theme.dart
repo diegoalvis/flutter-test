@@ -56,9 +56,12 @@ extension GFilesAttributes on TextTheme{
   );
 
   TextStyle get textDescrip => bodyText1!.copyWith(
-    color: IdtColors.grayText,
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
+      color: IdtColors.grayText,
+      fontSize: 16,
+      height: 1.25,
+      fontWeight: FontWeight.w300,
+      letterSpacing: 0.45,
+      fontFamily: 'Museo Sans',
   );
 
   TextStyle get textWhiteShadow => bodyText1!.copyWith(

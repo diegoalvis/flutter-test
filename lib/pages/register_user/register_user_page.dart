@@ -21,6 +21,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
+import 'countries.dart';
+import 'register_user_effect.dart';
 import 'register_user_view_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
@@ -54,9 +56,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
   List<String> countries = [];
-  Map<String, dynamic> countriesComplete = {};
+  List<String> citiesFilterByCountry = [];
+  Map<String, List<String>> countriesComplete = {};
   String dropdownValue = 'Motivo de Viaje';
   String dropdownValueCountry = 'Colombia';
+  var dropdownValueCity;
+  String countryValue = "";
   String stateValue = "";
   String cityValue = "";
   String address = "";
@@ -88,13 +93,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   }
 
   void chargeCountriesAndCities() {
-    final countriesUrlApi = Uri.parse(URL_COUNTRIES_CITYS);
-
-    http.read(countriesUrlApi).then((value) {
-      Map<String, dynamic> list = jsonDecode(value);
-      countriesComplete = list;
-      countries = list.entries.map((e) => e.key).toList();
-    });
+    Map<String, List<String>> list = DataUtil.countries;
+    countriesComplete = list;
+    countries = list.entries.map((e) => e.key).toList();
+    _chargeCitiesByCountry();
   }
 
   _showAlert() {
@@ -265,11 +267,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                   SizedBox(
                     height: 1,
                   ),
-                  Text(
-                    'Lorem adipiscing elít. sed diam domummy',
-                    style: textTheme.textDetail.copyWith(fontSize: 15),
-                    textAlign: TextAlign.center,
-                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -297,7 +294,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Container(
-                        height: size.height * 0.6,
+                        height: size.height * 0.7,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -403,6 +400,50 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 onChanged: (String? newCountryValue) {
                                   setState(() {
                                     dropdownValueCountry = newCountryValue!;
+                                        _chargeCitiesByCountry();
+                                      });
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Container(
+                                  height: 38,
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(left: 20),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: IdtColors.gray),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text('Ciudad'),
+                                    isDense: true,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down_outlined,
+                                      color: IdtColors.grayBtn,
+                                    ),
+                                    iconSize: 38,
+                                    style: textTheme.textButtomWhite.copyWith(
+                                        color: IdtColors.grayBtn,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                    items: citiesFilterByCountry
+                                        .map<DropdownMenuItem<String>>(
+                                            (String option) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          '$option',
+                                          // style: textTheme.textDetail,
+                                        ),
+                                        value: option,
+                                      );
+                                    }).toList(),
+                                    value: dropdownValueCity,
+                                    onChanged: (String? newCountryValue) {
+                                      setState(() {
+                                        dropdownValueCity = newCountryValue!;
                                   });
                                 },
                               ),
@@ -473,5 +514,17 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         ],
       ),
     );
+  }
+  // Carga listado de paises según sea el país seleccionado
+  void _chargeCitiesByCountry() {
+    citiesFilterByCountry.clear();
+    countriesComplete.forEach((key, value) {
+      if (key == dropdownValueCountry) {
+        citiesFilterByCountry = value;
+        citiesFilterByCountry = citiesFilterByCountry.toSet().toList();
+        print(citiesFilterByCountry);
+        dropdownValueCity = null;
+      }
+    });
   }
 }
