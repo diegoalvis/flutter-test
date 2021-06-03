@@ -103,6 +103,8 @@ class _DetailWidgetState extends State<DetailWidget> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
+    print("widget._detail.url_audioguia_es");
+    print(widget._detail.url_audioguia_es);
     double _newrating = 0;
 
     Widget _header() {
@@ -284,6 +286,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     ),
                   )),
               Positioned(
+                bottom: size.height * 1/6,
                 left: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5),
@@ -291,7 +294,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     iconSize: 45,
                     alignment: Alignment.centerLeft,
                     icon: Icon(
-                      Icons.play_circle_fill,
+                      Icons.navigate_before,
                       color: IdtColors.white,
                     ),
                     onPressed: () => viewModel.onChangeScrollController(false, size.width),
@@ -300,6 +303,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
               Positioned(
                 //flecha derecha
+                bottom: size.height * 1/6,
                 right: 0,
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
@@ -307,7 +311,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     iconSize: 45,
                     alignment: Alignment.centerRight,
                     icon: Icon(
-                      Icons.play_circle_fill,
+                      Icons.navigate_next_rounded,
                       color: IdtColors.white,
                     ),
                     onPressed: () => viewModel.onChangeScrollController(true, size.width),
@@ -363,7 +367,8 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             width: 10,
           ),
-          RaisedButton(
+      (widget._detail.url_audioguia_es !=''  || widget._detail.url_audioguia_en !='' || widget._detail.url_audioguia_pt !='')
+          ? RaisedButton(
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: IdtColors.blue, width: 1),
                 borderRadius: BorderRadius.circular(80.0)),
@@ -379,7 +384,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   size: 40,
                 )),
             onPressed: () => viewModel.goPlayAudioPage(_detail),
-          )
+          ):SizedBox.shrink(),
         ],
       );
     }
@@ -466,9 +471,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           child: Column(
             children: [
               _header(),
-              SizedBox(
-                height: 30,
-              ),
+
               widget._isHotel ? _btnsHotel() : _btnsPlaces(widget._detail),
               SizedBox(
                 height: 30,
