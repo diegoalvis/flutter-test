@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -11,6 +12,7 @@ import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -34,12 +36,14 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget> {
   @override
-  void initState() {
+  void initState() async{
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<ProfileViewModel>().onInit();
     });
     final viewModel = context.read<ProfileViewModel>();
-    viewModel.getDataUser('290');
+    var box = await Hive.openBox<Person>('userdbB');
+    var idUser = box.getAt(0)!.id.toString();
+    viewModel.getDataUser(idUser);
     super.initState();
   }
 

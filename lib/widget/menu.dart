@@ -4,27 +4,33 @@ import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../app_theme.dart';
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
   final int? optionIndex;
+  var box = await Hive.openBox<Person>('userdbB');
 
   IdtMenu({required this.closeMenu, this.optionIndex});
 
   final _route = locator<IdtRoute>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) async{
     final textTheme = Theme.of(context).textTheme;
     final String imageUrl = '';
         // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
-    final currentUser = 'WA';
+
+    var nameUser = box.getAt(0)!.name.toString();
+
+    final currentUser = nameUser[0];
 
     final profileWidget = (Container(
         child: Center(
