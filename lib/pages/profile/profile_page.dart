@@ -36,14 +36,10 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget> {
   @override
-  void initState() async{
+  void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<ProfileViewModel>().onInit();
     });
-    final viewModel = context.read<ProfileViewModel>();
-    var box = await Hive.openBox<Person>('userdbB');
-    var idUser = box.getAt(0)!.id.toString();
-    viewModel.getDataUser(idUser);
     super.initState();
   }
 
