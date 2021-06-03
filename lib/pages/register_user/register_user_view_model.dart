@@ -14,22 +14,27 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/admin/directory_v1.dart';
 
 import '../../data/model/request/register_request.dart';
 import 'register_user_status.dart';
 import 'register_user_effect.dart';
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
+import 'package:googleapis/people/v1.dart';
 
 
-class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, RegisterEffect>  {
+
+
+class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, RegisterEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-
 
 
   RegisterUserViewModel(this._route, this._interactor) {
     status = RegisterUserStatus(
       isLoading: false,
-      data : null,
+      data: null,
     );
   }
 
@@ -43,17 +48,29 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
     return pretty;
   }
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[PeopleServiceApi.contactsReadonlyScope],
+  );
+  GoogleSignInAccount? _currentUser;
+  String? _contactText;
 
   void onInit() async {
-
     // registerResponse( );
     status = status.copyWith(isLoading: false);
   }
-  registerResponse( String name, String username, String mail, String country, String lastName, String reasonTrip, String password) async {
+
+  registerResponse(String name, String username, String mail, String country,
+      String lastName, String reasonTrip, String password) async {
     status = status.copyWith(isLoading: true);
     RegisterRequest params = RegisterRequest(
       // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
-        name, username, mail,country, lastName, reasonTrip, password
+        name,
+        username,
+        mail,
+        country,
+        lastName,
+        reasonTrip,
+        password
     );
     print(params.toJson());
     final registerResponse = await _interactor.register(params);
@@ -61,15 +78,14 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
 
     if (registerResponse is IdtSuccess<RegisterModel?>) {
       final messageExist = _validemessage(registerResponse.body!);
-      if (messageExist ){
+      if (messageExist) {
         status = status.copyWith(message: registerResponse.body!.message);
         print(status.message);
         status = status.copyWith(isLoading: false);
         addEffect(ShowRegisterDialogEffect(status.message));
-      }else{
+      } else {
         _route.goHome();
       }
-
     } else {
       final erroRes = registerResponse as IdtFailure<RegisterModel?>;
       UnimplementedError();
@@ -81,20 +97,20 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
     status = status.copyWith(isLoading: false);
   }
 
-bool _validemessage(RegisterModel registerResponse){
-      Map<String, dynamic> data = registerResponse.toJson();
-      if (data.containsKey('message') && data['message'] != null){
-        return true;
-      }
-      return false;
-}
-  void setLocationUser() async {
+  bool _validemessage(RegisterModel registerResponse) {
+    Map<String, dynamic> data = registerResponse.toJson();
+    if (data.containsKey('message') && data['message'] != null) {
+      return true;
+    }
+    return false;
+  }
 
+  void setLocationUser() async {
     final GpsModel location = GpsModel(
-      imei: '999',
-      longitud: '-78.229',
-      latitud: '2.3666',
-      fecha: '03/19/21'
+        imei: '999',
+        longitud: '-78.229',
+        latitud: '2.3666',
+        fecha: '03/19/21'
     );
     final response = await _interactor.postLocationUser(location);
 
@@ -108,13 +124,12 @@ bool _validemessage(RegisterModel registerResponse){
     }
   }
 
-  bool validatePassword(String pass, String confirmPass){
-
+  bool validatePassword(String pass, String confirmPass) {
     print('valida');
-    if(pass==confirmPass){
+    if (pass == confirmPass) {
       return true;
     }
-    else{
+    else {
       addEffect(ShowRegisterDialogEffect(status.message));
       return false;
     }
@@ -127,7 +142,6 @@ bool _validemessage(RegisterModel registerResponse){
     if (value.length == 0) {
       addEffect(ShowRegisterDialogEffect(status.message));
       return "El correo es necesario";
-
     } else if (!regExp.hasMatch(value)) {
       addEffect(ShowRegisterDialogEffect(status.message));
       return "Correo invalido";
@@ -136,13 +150,12 @@ bool _validemessage(RegisterModel registerResponse){
   }
 
   void goDiscoverPage() {
-      _route.goDiscover();
+    _route.goDiscover();
   }
 
   void onChangeScrollController(bool value) {
     addEffect(RegisterValueControllerScrollEffect(value));
   }
-
 
 
   Future<void> logOut() async {
@@ -158,8 +171,51 @@ bool _validemessage(RegisterModel registerResponse){
     );
   }
 
-  Future<void> login() async {
-    final LoginResult result = await FacebookAuth.instance.login(); // by the fault we request the email and the public profile
+  login(int state) async {
+    print("state");
+    print(state);
+    switch (state) {
+      case 1:
+        registerFacebook();
+        break;
+      case 2:
+
+        registerGoogle();
+        return;
+      default:
+        break;
+    }
+  }
+  Future<User> register_Google() async {
+    GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email',"https://www.googleapis.com/auth/userinfo.profile"]);
+    await googleSignIn.signIn();
+   var id = googleSignIn.clientId;
+print("client id $id");
+
+    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+
+        _currentUser = account;
+        print("_currentUser!.id");
+        print(_currentUser!.id);
+
+
+    });
+
+
+    User user = User(
+        email: googleSignIn.currentUser!.email,
+        name: googleSignIn.currentUser!.displayName,
+        profilePicURL: googleSignIn.currentUser!.photoUrl,
+
+    );
+
+    print(user.name);
+    return user;
+  }
+
+  Future<void> registerFacebook() async {
+    final LoginResult result = await FacebookAuth.instance
+        .login(); // by the fault we request the email and the public profile
 
     // loginBehavior is only supported for Android devices, for ios it will be ignored
     // final result = await FacebookAuth.instance.login(
@@ -179,9 +235,16 @@ bool _validemessage(RegisterModel registerResponse){
       print("_userData_register");
       print(_userData);
 
-      RegisterRequest params = RegisterRequest(_userData!['name'],_userData!['name'],_userData!['email'], 'Colombia', _userData!['name'], 'turismo', _userData!['id']);
+      RegisterRequest params = RegisterRequest(
+          _userData!['name'],
+          _userData!['name'],
+          _userData!['email'],
+          'Colombia',
+          _userData!['name'],
+          'turismo',
+          _userData!['id']);
 
-      status = status.copyWith(data: params );
+      status = status.copyWith(data: params);
       // registerResponse();
 
     } else {
@@ -190,5 +253,72 @@ bool _validemessage(RegisterModel registerResponse){
     }
   }
 
+  Future<void> registerGoogle() async {
+    print("register google");
 
+    try {
+      await _googleSignIn.signIn();
+      await initgoogle();
+      _route.goHome();
+    } catch (error) {
+      print(error);
+
+      //  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+    }
+  }
+
+
+
+  Future <void> initgoogle() async {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      _currentUser = account;
+
+      if (_currentUser != null) {
+        _handleGetContact();
+      }
+    });
+    _googleSignIn.signInSilently();
+  }
+
+  Future<void> _handleGetContact() async {
+      _contactText = 'Loading contact info...';
+
+
+    final PeopleServiceApi peopleApi =
+    PeopleServiceApi((await _googleSignIn.authenticatedClient())!);
+    final ListConnectionsResponse response =
+    await peopleApi.people.connections.list(
+      'people/me',
+      personFields: 'names',
+    );
+
+    final String? firstNamedContactName =
+    _pickFirstNamedContact(response.connections);
+
+      if (firstNamedContactName != null) {
+        _contactText = 'I see you know $firstNamedContactName!';
+      } else {
+        _contactText = 'No contacts to display.';
+      }
+  }
+
+  String? _pickFirstNamedContact(List<Person>? connections) {
+    return connections
+        ?.firstWhere(
+          (Person person) => person.names != null,
+    )
+        .names
+        ?.firstWhere(
+          (Name name) => name.displayName != null,
+    )
+        .displayName;
+  }
+
+}
+
+class User {
+  String? email;
+  String? name;
+  String? profilePicURL;
+  User({this.email, this.name ,this.profilePicURL});
 }

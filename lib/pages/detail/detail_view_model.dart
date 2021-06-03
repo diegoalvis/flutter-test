@@ -38,7 +38,6 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
    late bool value = status.isFavorite;
    print("idplace");
    print(idplace);
-    status = status.copyWith(isLoading: true);
     final favoriteResponse = await _interactor.postFavorite(idplace);
     if (favoriteResponse is IdtSuccess<FavoriteModel?>) {
       print("model detail");

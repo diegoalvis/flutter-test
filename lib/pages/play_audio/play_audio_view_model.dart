@@ -96,6 +96,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
   void selectLanguage(Object? value) {
     status = status.copyWith(language: value.toString());
+
   }
 
 }
