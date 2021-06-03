@@ -4,7 +4,7 @@ part  'user.g.dart';
 
 @HiveType(typeId: 1)
 class Person {
-  Person({  this.name, this.id, this.country, this.apellido, this.audioguias});
+  Person({  this.name, this.id, this.country, this.apellido, this.audioguias, this.audios});
 
   @HiveField(0)
   String? name;
@@ -16,6 +16,8 @@ class Person {
   String? apellido;
   @HiveField(4)
   List<String>? audioguias;
+  @HiveField(5)
+  Map? audios;
 
   @override
   String toString() {

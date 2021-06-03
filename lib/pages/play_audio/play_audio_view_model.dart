@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -63,7 +64,29 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     print('File descargado: $file');
     if (await file.exists()) {
       status = status.copyWith(pathAudio: file.path);
+      _savedata(status.pathAudio);
     }
+
+  }
+
+  _savedata(String file) async {
+    var box = await Hive.openBox<Person>('userdbB');
+    //  var fooBox = await Hive.openBox<List>("userdb");
+    List <String> _audios =[];
+
+    _audios.add(file.toString());
+
+
+    var details = new Map();
+    details['Usrname'] = 'admin';
+    details['Password'] = 'admin@123';
+
+    var person = Person(audioguias: _audios, audios: details );
+    await box.putAt(0, person);
+
+    print('desde audioguías');
+
+    print(box.getAt(0)!.id);
   }
 
   void onTapFavorite() {
