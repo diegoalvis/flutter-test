@@ -129,27 +129,63 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         Spacer(
                           flex: 3,
                         ),
-                        Container(
-                          height: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                                fit: BoxFit.fill),
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.camera_alt,
-                                color: IdtColors.white,
-                              ),
-                              iconSize: 37,
-                              onPressed: () {},
+                        Stack(
+                          alignment: AlignmentDirectional.centerEnd,
+                          children: [
+                            FutureBuilder(
+                              future: viewModel.getNameUser(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (!snapshot.hasData) {
+                                  // while data is loading:
+                                  print(snapshot);
+                                  return Center(
+                                    child: CircleAvatar(
+                                      foregroundColor: IdtColors.white,
+                                      backgroundColor: IdtColors.blue,
+                                      radius: 70.0,
+                                      child: Center(
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.camera_alt,
+                                            color: IdtColors.white,
+                                          ),
+                                          iconSize: 37,
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  print(snapshot);
+                                  return CircleAvatar(
+                                    foregroundColor: IdtColors.white,
+                                    backgroundColor: IdtColors.blue,
+                                    radius: 70.0,
+                                    child: Text(
+                                      snapshot.data.toString()[0].toUpperCase(),
+                                      style: TextStyle(fontSize: 50),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                          ),
+                            Positioned(
+                              bottom: 3,
+                              child: Container(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.camera_alt,
+                                    color: IdtColors.white,
+                                  ),
+                                  iconSize: 37,
+                                  onPressed: () {},
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 30,
                         ),
                         Text(
                           'Editar Perfil',
@@ -241,8 +277,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: () => viewModel.goLoginAll()
-                        ),
+                            onPressed: () => viewModel.goLoginAll()),
 //                             onPressed: () {
 //                               viewModel.logOut();
 // /*                              Navigator.push(

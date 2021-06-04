@@ -72,11 +72,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Widget _buildProfile(ProfileViewModel viewModel) {
-    Future<String> getNameUser() async {
-
-      var box = await Hive.openBox<Person>('userdbB');
-      return box.getAt(0)!.name.toString();
-    }
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final textTheme = Theme.of(context).textTheme;
@@ -136,7 +131,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               ),
               Center(
                 child: FutureBuilder(
-                  future: getNameUser(),
+                  future: viewModel.getNameUser(),
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (!snapshot.hasData) {
                       // while data is loading:
@@ -146,8 +141,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           foregroundColor: IdtColors.white,
                           backgroundColor: IdtColors.blue,
                           radius: 70.0,
-                          /*                      NetworkImage(
-                              'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                         ),
                       );
                     } else {

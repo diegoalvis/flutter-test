@@ -25,6 +25,14 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
 
   void onInit() async {
     getDataUser();
+
+
+  }
+
+  Future<String> getNameUser() async {
+
+    var box = await Hive.openBox<Person>('userdbB');
+    return box.getAt(0)!.name.toString();
   }
 
   void getDataUser() async {
