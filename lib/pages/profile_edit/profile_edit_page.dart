@@ -15,10 +15,11 @@ import '../../app_theme.dart';
 
 class ProfileEditPage extends StatelessWidget {
   final String emailUser;
-  late String fullNameUser = '$emailUser $lastName';
+  late String fullNameUser = '$nameUser $lastName';
+  final String nameUser;
   final String lastName;
 
-  ProfileEditPage(this.emailUser, this.lastName);
+  ProfileEditPage(this.emailUser,this.nameUser, this.lastName);
 
   @override
   Widget build(BuildContext context) {
@@ -278,13 +279,6 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             onPressed: () => viewModel.goLoginAll()),
-//                             onPressed: () {
-//                               viewModel.logOut();
-// /*                              Navigator.push(
-//                                 context,
-//                                 MaterialPageRoute(builder: (context) => LoginPage()),
-//                               );*/
-//                             }),
                         SizedBox(
                           height: 12,
                         ),

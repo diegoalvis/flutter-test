@@ -202,9 +202,9 @@ class IdtRoute {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => ProfilePage()));
   }
 
-  goProfileEdit(String emailUser, String lastName) {
+  goProfileEdit(String emailUser,nameUser, String lastName) {
     return navigatorKey.currentState!
-        .push(MaterialPageRoute(builder: (_) => ProfileEditPage(emailUser, lastName)));
+        .push(MaterialPageRoute(builder: (_) => ProfileEditPage(emailUser,nameUser, lastName)));
   }
 
   goSettings() {

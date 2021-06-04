@@ -36,12 +36,15 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   }
 
   void getDataUser() async {
+
     var box = await Hive.openBox<Person>('userdbB');
     var idUser = box.getAt(0)!.id.toString();
     print('obteniendo datos del Usuario');
+
     final dataUser = await _interactor.getDataUser(idUser);
+
     if (dataUser is IdtSuccess<UserModel?>) {
-      print('Email del Usario id $idUser:** ${dataUser.body!.name}');
+      print('Email del Usario id $idUser:** name:${dataUser.body!.name}, Email:${dataUser.body!.email}');
 
       status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
       print(status.dataUser!.toJson());
@@ -65,7 +68,9 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     status = status.copyWith(isLoading: true);
     //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
     //status.dataUser!.email!,
-    await _route.goProfileEdit(status.dataUser!.name!,status.dataUser!.lastName!);
+    print(status.dataUser!.toJson());
+    print(status.dataUser!.toString());
+    await _route.goProfileEdit(status.dataUser!.email!,status.dataUser!.name!,status.dataUser!.lastName!);
     status = status.copyWith(isLoading: false);
   }
 
