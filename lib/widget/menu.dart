@@ -4,10 +4,12 @@ import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../app_theme.dart';
 
@@ -21,50 +23,84 @@ class IdtMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final String imageUrl =
-        'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
-    final currentUser = 'MA';
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
+    final String imageUrl = '';
+    // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
 
-    final profileWidget = (Container(
-        child: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
-                  child: CircleAvatar(
-                      foregroundColor: IdtColors.white,
-                      backgroundColor: IdtColors.blue,
-                      backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-                      radius: 70.0,
-                      child: imageUrl.isEmpty ? Text(currentUser[0]+currentUser[1], style: TextStyle(fontSize: 50),) : SizedBox.shrink()
+    Future<String> getNameUser() async {
+
+      var box = await Hive.openBox<Person>('userdbB');
+      return box.getAt(0)!.name.toString();
+    }
+
+    profileWidget(BuildContext context) =>
+        (Container(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
+                        child: FutureBuilder(
+                          future: getNameUser(),
+                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                            if (!snapshot.hasData) {
+                              // while data is loading:
+                              print(snapshot);
+                              return Center(
+                                child: CircleAvatar(
+                                  foregroundColor: IdtColors.white,
+                                  backgroundColor: IdtColors.blue,
+                                  radius: 70.0,
+                                  /*                      NetworkImage(
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                                ),
+                              );
+                            } else {
+                              print(snapshot);
+                              return CircleAvatar(
+                                  foregroundColor: IdtColors.white,
+                                  backgroundColor: IdtColors.blue,
+                                  backgroundImage: imageUrl.isNotEmpty
+                                      ? NetworkImage(imageUrl)
+                                      : null,
+                                  radius: 70.0,
+                                  child: imageUrl.isEmpty
+                                      ? Text(
+                                    snapshot.data.toString()[0].toUpperCase(),
+                                    style: TextStyle(fontSize: 50),
+                                  )
+                                      : SizedBox.shrink()
 /*                      NetworkImage(
-                          'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
-                      )),
-              Positioned(
-                top: 5,
-                right: 2,
-                child: Container(
-                  child: IconButton(
-                    onPressed: () async {
-                      await _route.goProfile();
-                      closeMenu();
-                    },
-                    icon: Icon(
-                      IdtIcons.engrane,
-                      size: 27,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    )));
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                              );
+                            }
+                          },),),
+                      Positioned(
+                        top: 5,
+                        right: 2,
+                        child: Container(
+                          child: IconButton(
+                            onPressed: () async {
+                              await _route.goProfile();
+                              closeMenu();
+                            },
+                            icon: Icon(
+                              IdtIcons.engrane,
+                              size: 27,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )));
 
     return SingleChildScrollView(
       child: AnimatedSwitcher(
@@ -92,7 +128,7 @@ class IdtMenu extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              profileWidget,
+              profileWidget(context),
               ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -110,16 +146,16 @@ class IdtMenu extends StatelessWidget {
                         children: [
                           optionIndex == index
                               ? Container(
-                                  decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
-                                      30, Alignment.bottomCenter, Alignment.topCenter),
-                                  margin: EdgeInsets.all(10),
-                                  height: 30.0,
-                                )
+                            decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
+                                30, Alignment.bottomCenter, Alignment.topCenter),
+                            margin: EdgeInsets.all(10),
+                            height: 30.0,
+                          )
                               : Container(
-                                  color: IdtColors.transparent,
-                                  margin: EdgeInsets.all(10),
-                                  height: 30.0,
-                                ),
+                            color: IdtColors.transparent,
+                            margin: EdgeInsets.all(10),
+                            height: 30.0,
+                          ),
                           Positioned(
                             top: 1,
                             right: 5,
@@ -171,9 +207,9 @@ class IdtMenu extends StatelessWidget {
       case 3:
         _route.goUnmissableUntil(index);
         break;
-      // case 3:
-      //   _route.goHomeRemoveAll();
-      //   break;
+    // case 3:
+    //   _route.goHomeRemoveAll();
+    //   break;
       case 4:
         _route.goEvents(index);
         break;
@@ -190,7 +226,7 @@ class IdtMenu extends StatelessWidget {
         _route.goPrivacyAndTerms();
         break;
       default:
-        //statements;
+      //statements;
         break;
     }
     closeMenu();
