@@ -104,7 +104,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     //  var fooBox = await Hive.openBox<List>("userdb");
 
     var person =
-        Person(name: loginResponse.name, id: loginResponse.id, country: loginResponse.country);
+        Person(name: loginResponse.name, apellido:loginResponse.apellido, id: loginResponse.id, country: loginResponse.country);
 
     await box.put(loginResponse.name, person);
 

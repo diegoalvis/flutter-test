@@ -18,8 +18,13 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ProfilePage extends StatelessWidget {
+
+
+  ProfilePage();
+
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => ProfileViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
@@ -35,6 +40,7 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
+
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -66,6 +72,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Widget _buildProfile(ProfileViewModel viewModel) {
+    Future<String> getNameUser() async {
+
+      var box = await Hive.openBox<Person>('userdbB');
+      return box.getAt(0)!.name.toString();
+    }
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final textTheme = Theme.of(context).textTheme;
@@ -79,6 +90,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           : SizedBox.shrink(),
     );
 
+                    String  imageUrl = '';
     Widget _elevationButtonCustom(String dataText) {
       return ElevatedButton(
         child: Row(
@@ -122,15 +134,42 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               Spacer(
                 flex: 2,
               ),
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
+              Center(
+                child: FutureBuilder(
+                  future: getNameUser(),
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (!snapshot.hasData) {
+                      // while data is loading:
+                      print(snapshot);
+                      return Center(
+                        child: CircleAvatar(
+                          foregroundColor: IdtColors.white,
+                          backgroundColor: IdtColors.blue,
+                          radius: 70.0,
+                          /*                      NetworkImage(
+                              'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                        ),
+                      );
+                    } else {
+                      print(snapshot);
+                      return CircleAvatar(
+                          foregroundColor: IdtColors.white,
+                          backgroundColor: IdtColors.blue,
+                          backgroundImage: imageUrl.isNotEmpty
+                              ? NetworkImage(imageUrl)
+                              : null,
+                          radius: 70.0,
+                          child: imageUrl.isEmpty
+                              ? Text(
+                            snapshot.data.toString()[0].toUpperCase(),
+                            style: TextStyle(fontSize: 50),
+                          )
+                              : SizedBox.shrink()
+/*                      NetworkImage(
+                              'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                      );
+                    }
+                  },),
               ),
               SizedBox(
                 height: 14,

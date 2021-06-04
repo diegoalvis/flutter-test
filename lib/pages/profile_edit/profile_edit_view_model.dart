@@ -29,9 +29,9 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void goProfilePage() {
-    _route.goProfile();
-  }
+  // void goProfilePage() {
+  //   _route.goProfile();
+  // }
 
   // Future<void> logOut() async {
   //   await FacebookAuth.instance.logOut();
