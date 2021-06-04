@@ -12,6 +12,7 @@ import 'package:bogota_app/pages/login/login_status.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   final ApiInteractor _interactor;
 
   LoginViewModel(this._route, this._interactor) {
-    status = LoginUserStatus(isLoading: false, email: '', password: '', message: '');
+    status =
+        LoginUserStatus(isLoading: false, email: '', password: '', message: '');
   }
 
   String imei = '';
@@ -73,7 +75,6 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
         print(status.message);
         addEffect(ShowLoginDialogEffect(status.message));
         status = status.copyWith(isLoading: false);
-
       } else {
         print('entra a else');
         _route.goHome();
@@ -94,7 +95,6 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
       print(erroRes.message);
       UnimplementedError();
       addEffect(ShowLoginDialogEffect(status.message));
-
     }
   }
 
@@ -103,15 +103,15 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
 
     //  var fooBox = await Hive.openBox<List>("userdb");
 
-    var person =
-        Person(name: loginResponse.name, apellido:loginResponse.apellido, id: loginResponse.id, country: loginResponse.country);
+    var person = Person(
+        name: loginResponse.name,
+        id: loginResponse.id,
+        country: loginResponse.country);
 
     await box.put(loginResponse.name, person);
+    BoxDataSesion.pushToBox(person);
 
-    print('datos almacenados del login');
-
-    print(box.get(loginResponse.id)!.audioguias);
-    print(box.get(loginResponse.name)!.country);
+    print('✅ datos almacenados del login');
   }
 
   getLoc() async {
@@ -236,13 +236,12 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     );
   }
 
-  login (int state){
-    if (state==1){
+  login(int state) {
+    if (state == 1) {
       loginFacebook();
-    }else{
-     // loginGoogle();
+    } else {
+      // loginGoogle();
     }
-
   }
 
   Future<void> loginFacebook() async {

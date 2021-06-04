@@ -38,7 +38,6 @@ class SavedPlaces extends StatelessWidget {
       this.onTapCard,
       this.savedPlaces);
 
-
   Widget imagesCard(String image, int index, List<bool> listGuide) =>
       (Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -82,11 +81,11 @@ class SavedPlaces extends StatelessWidget {
       ));
 
   Widget SliderImages(
-          BuildContext context,
-          TextTheme textTheme,
-          List<bool> listGuide,
-          List<DataModel> listImages,
-          ) =>
+    BuildContext context,
+    TextTheme textTheme,
+    List<bool> listGuide,
+    List<DataModel> listImages,
+  ) =>
       Stack(
         alignment: Alignment.center,
         children: [
@@ -270,7 +269,7 @@ class SavedPlaces extends StatelessWidget {
       children: [
         Expanded(
           child: Stack(
-            clipBehavior: Clip.none,  //evita coratar el icono
+            clipBehavior: Clip.none, //evita coratar el icono
             alignment: Alignment.center,
             children: [
               TitleSection('LUGARES GUARDADOS'),
@@ -326,7 +325,7 @@ class SavedPlaces extends StatelessWidget {
                           context,
                           textTheme,
                           seeAll ? DataTest.boolList : DataTest.boolListAudio,
-                          (seeAll ? savedPlaces:savedPlaces)!,
+                          (seeAll ? savedPlaces : savedPlaces)!,
                         ),
                         widget_row_buttons(textTheme),
                       ],

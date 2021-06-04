@@ -7,6 +7,7 @@ import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/login/login_page.dart';
 import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:bogota_app/pages/splash/splash_page.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,6 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:bogota_app/data/local/user.dart';
 
 void main() async {
-
   setUpLocator();
   await locator.allReady();
 
@@ -33,16 +33,15 @@ void main() async {
 
   var path = Directory.current.path;
   //Hive.init(path);
-  var applicationsDocumentDirectory = await pathProvider.getApplicationDocumentsDirectory();
+  var applicationsDocumentDirectory =
+      await pathProvider.getApplicationDocumentsDirectory();
   Hive.init(applicationsDocumentDirectory.path);
   Hive.registerAdapter(PersonAdapter());
 
-  var box = await Hive.openBox<Person>('userdbB');
+  BoxDataSesion();
 }
 
-
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();

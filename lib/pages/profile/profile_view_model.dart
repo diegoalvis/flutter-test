@@ -5,8 +5,8 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile/profile_status.dart';
 import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:hive/hive.dart';
 
 class ProfileViewModel extends ViewModel<ProfileStatus> {
   final IdtRoute _route;
@@ -14,22 +14,20 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
 
   ProfileViewModel(this._route, this._interactor) {
     status = ProfileStatus(
-      titleBar: 'Recibidos',
+      titleBar: 'Recibizdos',
       isLoading: false,
       openMenu: false,
       dataUser: null,
-
     );
   }
-
 
   void onInit() async {
     getDataUser();
   }
 
   void getDataUser() async {
-    var box = await Hive.openBox<Person>('userdbB');
-    var idUser = box.getAt(0)!.id.toString();
+    final Person? person = await BoxDataSesion.getFromBox();
+    var idUser = person!.id.toString();
     print('obteniendo datos del Usuario');
     final dataUser = await _interactor.getDataUser(idUser);
     if (dataUser is IdtSuccess<UserModel?>) {
@@ -57,7 +55,8 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     status = status.copyWith(isLoading: true);
     //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
     //status.dataUser!.email!,
-    await _route.goProfileEdit(status.dataUser!.name!,status.dataUser!.lastName!);
+    await _route.goProfileEdit(
+        status.dataUser!.name!, status.dataUser!.lastName!);
     status = status.copyWith(isLoading: false);
   }
 
