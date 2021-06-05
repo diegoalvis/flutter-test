@@ -31,10 +31,8 @@ class IdtMenu extends StatelessWidget {
 
     Future<String> getNameUser() async {
       //TODO
-      var box = await Hive.openBox<Person>('userdbB');
-      return box.getAt(0)!.name.toString();
-      // final Person? person = await BoxDataSesion.getFromBox();
-      // return person!.name.toString();
+      final Person? person = await BoxDataSesion.getFromBox();
+      return person!.name.toString();
     }
 
     profileWidget(BuildContext context) => (Container(

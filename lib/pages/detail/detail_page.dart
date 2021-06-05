@@ -238,22 +238,20 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 15.0),
-                        child: BoxDataSesion.isLoggedIn
-                            ? IconButton(
-                                alignment: Alignment.centerRight,
-                                icon: Icon(
-                                  viewModel.status.isFavorite
-                                      ? IdtIcons.heart2
-                                      : Icons.favorite_border,
-                                  color: viewModel.status.isFavorite
-                                      ? IdtColors.red
-                                      : IdtColors.white,
-                                ),
-                                iconSize: 30,
-                                onPressed: () =>
-                                    viewModel.onTapFavorite(widget._detail.id),
-                              )
-                            : Container(),
+                        child: IconButton(
+                          alignment: Alignment.centerRight,
+                          icon: Icon(
+                            viewModel.status.isFavorite
+                                ? IdtIcons.heart2
+                                : Icons.favorite_border,
+                            color: viewModel.status.isFavorite
+                                ? IdtColors.red
+                                : IdtColors.white,
+                          ),
+                          iconSize: 30,
+                          onPressed: () =>
+                              viewModel.onTapFavorite(widget._detail.id),
+                        ),
                       ),
                     ],
                   ),
