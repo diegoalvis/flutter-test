@@ -9,6 +9,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/discover/discover_view_model.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_view_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -30,7 +31,8 @@ class UnmissablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          UnmissableViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return UnmissableWidget(optionIndex);
       },
@@ -74,9 +76,11 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
           appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
           extendBody: true,
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+          bottomNavigationBar:
+              viewModel.status.openMenu ? null : IdtBottomAppBar(),
           floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           body: _buildDiscover(viewModel)),
     );
   }
@@ -92,7 +96,8 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 optionIndex: widget.optionIndex,
               )
             : SizedBox.shrink());
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     Widget _buttonTap(
       String label,
@@ -132,30 +137,35 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 child: Image.network(
                   IdtConstants.url_image + item.image!,
                   height: 250,
-                  fit: BoxFit.fill,
+                  width: 250,
+                  fit: BoxFit.cover,
                 ),
               ),
               Positioned(
                 top: 8,
                 right: 10,
-                child: Container(
-                    child: Icon(
-                  Icons.favorite_border,
-                  color: IdtColors.white,
-                  size: 20,
-                )),
+                child: BoxDataSesion.isLoggedIn == true
+                    ? Container(
+                        child: Icon(
+                        Icons.favorite_border,
+                        color: IdtColors.white,
+                        size: 20,
+                      ))
+                    : Container(),
               ),
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                     child: Text(item.title!.toUpperCase(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: textTheme.textWhiteShadow.copyWith(fontSize: 11))),
+                        style:
+                            textTheme.textWhiteShadow.copyWith(fontSize: 11))),
               ),
             ],
           ),

@@ -81,12 +81,6 @@ class DataTest {
     'Parque central',
     'Parque central',
     'Parque central',
-
-
-
-
-
-
   ];
 
   static const List<String> textList2 = [
@@ -142,19 +136,28 @@ class DataTest {
     'Sendero Quebrada Las Delicias'
   ];
 
-  static const List<String> List2 = [
-    'INICIAR SESION',
-    'DESCUBRE BOGOTÁ',
-    'AUDIOGUÍAS',
-    'IMPERDIBLES',
-    // 'MÁS ALLÁ DE BOGOTÁ',
-    'EVENTOS',
-    //'RECORRIDOS ESPECIALES',
-    'DÓNDE DORMIR',
-    'DÓNDE COMER',
-    'LUGARES GUARDADOS',
-    'PRIVACIDAD Y TÉRMINOS'
-  ];
+  static List<String> List2(bool isLogged) {
+    List<String> menu = [];
+    if (isLogged == false) {
+      menu.add('INICIAR SESION');
+    }
+    menu = [
+      ...menu,
+      ...[
+        'DESCUBRE BOGOTÁ',
+        'AUDIOGUÍAS',
+        'IMPERDIBLES',
+        // 'MÁS ALLÁ DE BOGOTÁ',
+        'EVENTOS',
+        //'RECORRIDOS ESPECIALES',
+        'DÓNDE DORMIR',
+        'DÓNDE COMER',
+        'LUGARES GUARDADOS',
+        'PRIVACIDAD Y TÉRMINOS'
+      ]
+    ];
+    return menu;
+  }
 
   static const List<String> List3 = ['Plan', 'Producto', 'Zona', 'Audioguías'];
 }

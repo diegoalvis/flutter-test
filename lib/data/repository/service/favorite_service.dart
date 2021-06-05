@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -11,25 +10,22 @@ import 'package:bogota_app/data/model/response/favorite_response.dart';
 import 'package:bogota_app/data/model/response_gps_model.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import 'package:http/http.dart' as http;
 
-
 class FavoriteService {
-
   Future<IdtResult<FavoriteModel?>> postFavorite(String idplace) async {
+    final Person? person = BoxDataSesion.getFromBox();
 
-    var box = await Hive.openBox<Person>('userdbB');
-
-    FavoriteRequest fav = FavoriteRequest(box.getAt(0)!.id.toString(), idplace);
+    FavoriteRequest fav = FavoriteRequest(person?.id!.toString(), idplace);
     //FavoriteRequest fav = FavoriteRequest("290", idplace);
     print("fav");
     print(fav.toJson());
 
     final uri = Uri.https(IdtConstants.url_server, '/util/favorite/');
-
 
     final response = await http.post(uri, body: fav.toJson());
 
@@ -39,20 +35,21 @@ class FavoriteService {
       print(body);
 
       switch (response.statusCode) {
-        case 200: {
-          final entity = FavoriteResponse.fromJson(body);
+        case 200:
+          {
+            final entity = FavoriteResponse.fromJson(body);
 
-          return IdtResult.success(entity.data);
-        }
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          print(response.body);
-          final error = GpsError('Capturar el error', response.statusCode);
+        default:
+          {
+            print(response.body);
+            final error = GpsError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
-
     } on StateError catch (err) {
       print(response.body);
       final error = GpsError(err.message, response.statusCode);
