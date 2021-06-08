@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -147,10 +148,15 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 child: BoxDataSesion.isLoggedIn == true
                     ? Container(
                         child: Icon(
-                        Icons.favorite_border,
-                        color: IdtColors.white,
-                        size: 20,
-                      ))
+                          item.isFavorite == true
+                              ? IdtIcons.heart2
+                              : Icons.favorite_border,
+                          color: item.isFavorite == true
+                              ? IdtColors.red
+                              : IdtColors.white,
+                          size: 20,
+                        ),
+                      )
                     : Container(),
               ),
               Positioned(

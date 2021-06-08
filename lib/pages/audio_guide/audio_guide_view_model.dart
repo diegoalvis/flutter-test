@@ -1,4 +1,5 @@
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -27,10 +28,28 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
 
   void getAudioGuideResponse() async {
     final audioguideResponse = await _interactor.getAudioGuidesList();
-
     if (audioguideResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
       print("model");
       print(audioguideResponse.body![0].audioguia_es);
+      status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
+
+      // Actualización de lugares guardados/favoritos
+      final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+      if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+        List places = savedPlaces.body!;
+        audioguideResponse.body!.map((audioguide) {
+          try {
+            final DataModel lugarIsFavoriteSaved =
+                places.firstWhere((element) => element.id == audioguide.id);
+            if (lugarIsFavoriteSaved != null) {
+              audioguide.isFavorite = true;
+            }
+          } catch (e) {
+            audioguide.isFavorite = false;
+          }
+          return audioguide;
+        }).toList();
+      }
       status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
 
       /// Status reasignacion

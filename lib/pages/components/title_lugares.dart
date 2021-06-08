@@ -2,16 +2,15 @@ import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/pages/components/gradientIcon.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/widget/style_method.dart';
-class Title_Lugares extends StatelessWidget{
 
-  final stylemethod= StylesMethodsApp();
+class Title_Lugares extends StatelessWidget {
+  final stylemethod = StylesMethodsApp();
   final ic = GradientIcon();
-
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return   SliverToBoxAdapter(
+    return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.only(top: 15.0, bottom: 0),
         color: Colors.white,
@@ -39,46 +38,42 @@ class Title_Lugares extends StatelessWidget{
             ),
             Expanded(
                 child: IconButton(
-                  // iconSize: 40,
-                  //   mouseCursor: ,
-                  color: Colors.transparent,
-                  alignment: Alignment.centerRight,
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      // shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: IdtGradients.green,
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(100.0)),
-                    child: Container(
-                      child: ic.gradientIcon(
-                        Icons.remove,
-                        25.0,
-                        LinearGradient(
-                          colors: <Color>[
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
+              // iconSize: 40,
+              //   mouseCursor: ,
+              color: Colors.transparent,
+              alignment: Alignment.centerRight,
+              icon: Container(
+                decoration: BoxDecoration(
+                    // shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: IdtGradients.green,
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(100.0)),
+                child: Container(
+                  child: ic.gradientIcon(
+                    Icons.remove,
+                    25.0,
+                    LinearGradient(
+                      colors: <Color>[
+                        Colors.white,
+                        Colors.white,
+                        Colors.white,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                   ),
-                  onPressed: () {
+                ),
+              ),
+              onPressed: () {
 // do something
-                  },
-                )),
+              },
+            )),
           ],
         ),
       ),
     );
-
   }
-
-
-
 }
