@@ -81,12 +81,6 @@ class DataTest {
     'Parque central',
     'Parque central',
     'Parque central',
-
-
-
-
-
-
   ];
 
   static const List<String> textList2 = [
@@ -142,19 +136,28 @@ class DataTest {
     'Sendero Quebrada Las Delicias'
   ];
 
-  static const List<String> List2 = [
-    'INICIAR SESION',
-    'DESCUBRE BOGOTÁ',
-    'AUDIOGUÍAS',
-    'IMPERDIBLES',
-    // 'MÁS ALLÁ DE BOGOTÁ',
-    'EVENTOS',
-    //'RECORRIDOS ESPECIALES',
-    'DÓNDE DORMIR',
-    'DÓNDE COMER',
-    'LUGARES GUARDADOS',
-    'PRIVACIDAD Y TÉRMINOS'
-  ];
+  static List<Map<String, dynamic>> List2(bool isLogged) {
+    List<Map<String, dynamic>> menu = [];
+    if (isLogged == false) {
+      menu.add(
+        {'title': 'INICIAR SESION', 'value': 'login'},
+      );
+    }
+    menu = [
+      ...menu,
+      ...[
+        {'title': 'DESCUBRE BOGOTÁ', 'value': 'discoverUntil'},
+        {'title': 'AUDIOGUÍAS', 'value': 'audioGuide'},
+        {'title': 'IMPERDIBLES', 'value': 'unmissableUntil'},
+        {'title': 'EVENTOS', 'value': 'events'},
+        {'title': 'DÓNDE DORMIR', 'value': 'sleeps'},
+        {'title': 'DÓNDE COMER', 'value': 'eat'},
+        {'title': 'LUGARES GUARDADOS', 'value': 'savedPlacesUntil'},
+        {'title': 'PRIVACIDAD Y TÉRMINOS', 'value': 'savedPlacesUntil'},
+      ]
+    ];
+    return menu;
+  }
 
   static const List<String> List3 = ['Plan', 'Producto', 'Zona', 'Audioguías'];
 }

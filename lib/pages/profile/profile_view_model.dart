@@ -5,6 +5,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile/profile_status.dart';
 import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:hive/hive.dart';
 
@@ -18,22 +19,27 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
       isLoading: false,
       openMenu: false,
       dataUser: null,
-
     );
   }
-
 
   void onInit() async {
     getDataUser();
   }
 
-  void getDataUser() async {
+  Future<String> getNameUser() async {
     var box = await Hive.openBox<Person>('userdbB');
-    var idUser = box.getAt(0)!.id.toString();
+    return box.getAt(0)!.name.toString();
+  }
+
+  void getDataUser() async {
+    final Person? person = await BoxDataSesion.getFromBox();
+    var idUser = person!.id.toString();
+
     print('obteniendo datos del Usuario');
     final dataUser = await _interactor.getDataUser(idUser);
     if (dataUser is IdtSuccess<UserModel?>) {
-      print('Email del Usario id $idUser:** ${dataUser.body!.name}');
+      print(
+          'Email del Usario id $idUser:** name:${dataUser.body!.name}, Email:${dataUser.body!.email}');
 
       status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
       print(status.dataUser!.toJson());
@@ -57,7 +63,8 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
     status = status.copyWith(isLoading: true);
     //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
     //status.dataUser!.email!,
-    await _route.goProfileEdit(status.dataUser!.name!,status.dataUser!.lastName!);
+    await _route.goProfileEdit(status.dataUser!.email!, status.dataUser!.name!,
+        status.dataUser!.lastName!);
     status = status.copyWith(isLoading: false);
   }
 

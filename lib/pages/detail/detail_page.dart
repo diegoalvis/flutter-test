@@ -12,6 +12,7 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_view_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -104,8 +105,6 @@ class _DetailWidgetState extends State<DetailWidget> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
-    print("widget._detail.url_audioguia_es");
-    print(widget._detail.url_audioguia_es);
     double _newrating = 0;
 
     Widget _header() {
@@ -123,7 +122,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           ),
           Positioned(
             // curva
-            top: size.height * 0.320,
+            top: size.height * 0.301,
             left: 0,
             right: 0,
             child: SizedBox(
@@ -250,7 +249,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                                 : IdtColors.white,
                           ),
                           iconSize: 30,
-                          onPressed: () =>viewModel.onTapFavorite(widget._detail.id),
+                          onPressed: () =>
+                              viewModel.onTapFavorite(widget._detail.id),
                         ),
                       ),
                     ],
@@ -294,7 +294,6 @@ class _DetailWidgetState extends State<DetailWidget> {
                     ),
                   )),
               Positioned(
-                bottom: size.height * 1/6,
                 left: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5),
@@ -302,7 +301,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     iconSize: 45,
                     alignment: Alignment.centerLeft,
                     icon: Icon(
-                      Icons.navigate_before,
+                      Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
                     onPressed: () =>
@@ -312,7 +311,6 @@ class _DetailWidgetState extends State<DetailWidget> {
               ),
               Positioned(
                 //flecha derecha
-                bottom: size.height * 1/6,
                 right: 0,
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
@@ -320,7 +318,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     iconSize: 45,
                     alignment: Alignment.centerRight,
                     icon: Icon(
-                      Icons.navigate_next_rounded,
+                      Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
                     onPressed: () =>
@@ -376,8 +374,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             width: 10,
           ),
-      (widget._detail.url_audioguia_es !=''  || widget._detail.url_audioguia_en !='' || widget._detail.url_audioguia_pt !='')
-          ? RaisedButton(
+          RaisedButton(
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: IdtColors.blue, width: 1),
                 borderRadius: BorderRadius.circular(80.0)),
@@ -396,7 +393,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                   size: 40,
                 )),
             onPressed: () => viewModel.goPlayAudioPage(_detail),
-          ):SizedBox.shrink(),
+          )
         ],
       );
     }
@@ -484,7 +481,9 @@ class _DetailWidgetState extends State<DetailWidget> {
           child: Column(
             children: [
               _header(),
-
+              SizedBox(
+                height: 30,
+              ),
               widget._isHotel ? _btnsHotel() : _btnsPlaces(widget._detail),
               SizedBox(
                 height: 30,
