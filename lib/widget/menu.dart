@@ -26,8 +26,7 @@ class IdtMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final String imageUrl = '';
-    // 'https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg';
-    final currentUser = 'WA';
+    // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg';
 
     Future<String> getNameUser() async {
       //TODO
@@ -43,20 +42,22 @@ class IdtMenu extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
-                        top: 15, right: 30, left: 30, bottom: 5),
+                    margin: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 5),
                     child: FutureBuilder(
                       future: getNameUser(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
+                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         if (!snapshot.hasData) {
                           // while data is loading:
                           print(snapshot);
                           return Center(
                             child: CircleAvatar(
-                              foregroundColor: IdtColors.white,
+                              foregroundColor: Colors.white,
                               backgroundColor: IdtColors.blue,
                               radius: 70.0,
+                              child: Icon(
+                                Icons.person,
+                                size: 70,
+                              ),
                               /*                      NetworkImage(
                             'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                             ),
@@ -66,9 +67,7 @@ class IdtMenu extends StatelessWidget {
                           return CircleAvatar(
                               foregroundColor: IdtColors.white,
                               backgroundColor: IdtColors.blue,
-                              backgroundImage: imageUrl.isNotEmpty
-                                  ? NetworkImage(imageUrl)
-                                  : null,
+                              backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
                               radius: 70.0,
                               child: imageUrl.isEmpty
                                   ? Text(
@@ -76,6 +75,8 @@ class IdtMenu extends StatelessWidget {
                                       style: TextStyle(fontSize: 50),
                                     )
                                   : SizedBox.shrink()
+                              // NetworkImage(
+                              // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
 /*                      NetworkImage(
                             'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                               );
@@ -150,11 +151,8 @@ class IdtMenu extends StatelessWidget {
                         children: [
                           optionIndex == index
                               ? Container(
-                                  decoration: StylesMethodsApp().decorarStyle(
-                                      IdtGradients.orange,
-                                      30,
-                                      Alignment.bottomCenter,
-                                      Alignment.topCenter),
+                                  decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
+                                      30, Alignment.bottomCenter, Alignment.topCenter),
                                   margin: EdgeInsets.all(10),
                                   height: 30.0,
                                 )
