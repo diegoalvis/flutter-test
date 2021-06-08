@@ -374,7 +374,10 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             width: 10,
           ),
-          RaisedButton(
+          (widget._detail.url_audioguia_es != '' ||
+              widget._detail.url_audioguia_en != '' ||
+              widget._detail.url_audioguia_pt != '')
+              ? RaisedButton(
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: IdtColors.blue, width: 1),
                 borderRadius: BorderRadius.circular(80.0)),
@@ -382,10 +385,7 @@ class _DetailWidgetState extends State<DetailWidget> {
             child: Container(
                 constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
                 decoration: StylesMethodsApp().decorarStyle(
-                    IdtGradients.blueDark,
-                    30,
-                    Alignment.bottomLeft,
-                    Alignment.topRight),
+                    IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
                 alignment: Alignment.center,
                 child: Icon(
                   IdtIcons.headphones,
@@ -394,7 +394,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                 )),
             onPressed: () => viewModel.goPlayAudioPage(_detail),
           )
-        ],
+              : SizedBox.shrink()        ],
       );
     }
 
