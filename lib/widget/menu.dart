@@ -144,7 +144,7 @@ class IdtMenu extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: 10),
                     child: GestureDetector(
                       onTap: () {
-                        onOptionSelected(index);
+                        onOptionSelected(listMenu[index], index);
                       },
                       child: Stack(
                         children: [
@@ -171,7 +171,7 @@ class IdtMenu extends StatelessWidget {
                                 margin: EdgeInsets.all(10),
                                 height: 30.0,
                                 alignment: Alignment.center,
-                                child: Text(' ${listMenu[index]}',
+                                child: Text(' ${listMenu[index]['title']}',
                                     style: textTheme.textMenu.copyWith(
                                       // fontSize: 19,
                                       color: optionIndex == index
@@ -200,36 +200,36 @@ class IdtMenu extends StatelessWidget {
     );
   }
 
-  void onOptionSelected(int index) {
-    switch (index) {
-      case 0:
+  void onOptionSelected(Map<String, dynamic> item, int index) {
+    switch (item['value']) {
+      case 'login':
         _route.goLogin();
         break;
-      case 1:
+      case 'discoverUntil':
         _route.goDiscoverUntil();
         break;
-      case 2:
+      case 'audioGuide':
         _route.goAudioGuide();
         break;
-      case 3:
+      case 'unmissableUntil':
         _route.goUnmissableUntil(index);
         break;
       // case 3:
       //   _route.goHomeRemoveAll();
       //   break;
-      case 4:
+      case 'events':
         _route.goEvents(index);
         break;
-      case 5:
+      case 'sleeps':
         _route.goSleeps(index);
         break;
-      case 6:
+      case 'eat':
         _route.goEat(index);
         break;
-      case 7:
+      case 'savedPlacesUntil':
         _route.goSavedPlacesUntil();
         break;
-      case 8:
+      case 'savedPlacesUntil':
         _route.goPrivacyAndTerms();
         break;
       default:
