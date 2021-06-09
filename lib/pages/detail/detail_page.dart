@@ -105,6 +105,8 @@ class _DetailWidgetState extends State<DetailWidget> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
+    print("widget._detail.url_audioguia_es");
+    print(widget._detail.url_audioguia_es);
     double _newrating = 0;
 
     Widget _header() {
@@ -238,20 +240,22 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 15.0),
-                        child: IconButton(
-                          alignment: Alignment.centerRight,
-                          icon: Icon(
-                            viewModel.status.isFavorite
-                                ? IdtIcons.heart2
-                                : Icons.favorite_border,
-                            color: viewModel.status.isFavorite
-                                ? IdtColors.red
-                                : IdtColors.white,
-                          ),
-                          iconSize: 30,
-                          onPressed: () =>
-                              viewModel.onTapFavorite(widget._detail.id),
-                        ),
+                        child: BoxDataSesion.isLoggedIn
+                            ? IconButton(
+                                alignment: Alignment.centerRight,
+                                icon: Icon(
+                                  viewModel.status.isFavorite
+                                      ? IdtIcons.heart2
+                                      : Icons.favorite_border,
+                                  color: viewModel.status.isFavorite
+                                      ? IdtColors.red
+                                      : IdtColors.white,
+                                ),
+                                iconSize: 30,
+                                onPressed: () =>
+                                    viewModel.onTapFavorite(widget._detail.id),
+                              )
+                            : Container(),
                       ),
                     ],
                   ),
@@ -294,6 +298,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     ),
                   )),
               Positioned(
+                bottom: size.height * 1/6,
                 left: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5),

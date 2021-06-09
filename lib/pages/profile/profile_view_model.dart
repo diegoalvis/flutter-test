@@ -19,8 +19,10 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
       isLoading: false,
       openMenu: false,
       dataUser: null,
+
     );
   }
+
 
   void onInit() async {
     getDataUser();
@@ -34,12 +36,10 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   void getDataUser() async {
     final Person? person = await BoxDataSesion.getFromBox();
     var idUser = person!.id.toString();
-
     print('obteniendo datos del Usuario');
     final dataUser = await _interactor.getDataUser(idUser);
     if (dataUser is IdtSuccess<UserModel?>) {
-      print(
-          'Email del Usario id $idUser:** name:${dataUser.body!.name}, Email:${dataUser.body!.email}');
+      print('Email del Usario id $idUser:** ${dataUser.body!.name}');
 
       status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
       print(status.dataUser!.toJson());

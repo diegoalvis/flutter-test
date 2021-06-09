@@ -51,6 +51,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     final viewModel = context.watch<ProfileViewModel>();
 
     return SafeArea(
@@ -71,7 +72,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 
+
   Widget _buildProfile(ProfileViewModel viewModel) {
+
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final textTheme = Theme.of(context).textTheme;
@@ -87,6 +90,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
                     String  imageUrl = '';
     Widget _elevationButtonCustom(String dataText) {
+
       return ElevatedButton(
         child: Row(
           mainAxisSize: MainAxisSize.min,
