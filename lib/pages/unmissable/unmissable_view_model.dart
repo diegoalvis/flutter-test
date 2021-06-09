@@ -26,15 +26,41 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
     // TODO
   }
 
-  void getUnmissableResponse({ int? option}) async {
-    status = status.copyWith(isLoading: true,currentOption: 0);
+  void getUnmissableResponse({int? option}) async {
+    status = status.copyWith(isLoading: true, currentOption: 0);
     print('entra unmmisable');
-    final unmissableResponse = await _interactor.getUnmissablePlacesList();
+    final IdtResult<List<DataModel>?> unmissableResponse =
+        await _interactor.getUnmissablePlacesList();
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
       print(unmissableResponse.body![0].title);
-      status =
-          status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      status = status.copyWith(
+          itemsUnmissablePlaces:
+              unmissableResponse.body); // Status reasignacion
+
+      // Actualización de lugares guardados/favoritos
+      try {
+        final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+        if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+          List places = savedPlaces.body!;
+          unmissableResponse.body!.map((unmissable) {
+            try {
+              final DataModel lugarIsFavoriteSaved =
+                  places.firstWhere((element) => element.id == unmissable.id);
+              if (lugarIsFavoriteSaved != null) {
+                unmissable.isFavorite = true;
+              }
+            } catch (e) {
+              unmissable.isFavorite = false;
+            }
+            return unmissable;
+          }).toList();
+        }
+        status = status.copyWith(
+            isLoading: false, itemsUnmissablePlaces: unmissableResponse.body);
+      } catch (e) {
+        // Permite fluir el flujo en caso de error
+      }
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
@@ -44,13 +70,13 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void getBestRatedResponse({ int? option}) async {
+  void getBestRatedResponse({int? option}) async {
     status = status.copyWith(isLoading: true, currentOption: 1);
     final bestRatedResponse = await _interactor.getBestRatedPlacesList();
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
-      status =
-          status.copyWith(itemsUnmissablePlaces: bestRatedResponse.body); // Status reasignacion
+      status = status.copyWith(
+          itemsUnmissablePlaces: bestRatedResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = bestRatedResponse as IdtFailure<UnmissableError>;

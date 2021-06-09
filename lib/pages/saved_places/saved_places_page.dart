@@ -42,7 +42,8 @@ class SavedPlacesWidget extends StatefulWidget {
 class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<SavedPlacesViewModel>().loadSavedPlaces();});
+      context.read<SavedPlacesViewModel>().loadSavedPlaces();
+    });
   }
 
   @override
@@ -78,13 +79,15 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap:()=> viewModel.goDetailPage(listItems[index].id.toString()),
+                        onTap: () => viewModel
+                            .goDetailPage(listItems[index].id.toString()),
                         child: Row(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5.0),
                               child: Image.network(
-                                IdtConstants.url_image + listItems[index].image!,
+                                IdtConstants.url_image +
+                                    listItems[index].image!,
                                 height: 70,
                                 width: 70,
                                 fit: BoxFit.cover,
