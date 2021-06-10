@@ -142,9 +142,15 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       print(snapshot);
                       return Center(
                         child: CircleAvatar(
-                          foregroundColor: IdtColors.white,
+                          foregroundColor: Colors.white,
                           backgroundColor: IdtColors.blue,
                           radius: 70.0,
+                          child: Icon(
+                            Icons.person,
+                            size: 70,
+                          ),
+                          /*                      NetworkImage(
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                         ),
                       );
                     } else {
@@ -152,9 +158,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       return CircleAvatar(
                           foregroundColor: IdtColors.white,
                           backgroundColor: IdtColors.blue,
-                          backgroundImage: imageUrl.isNotEmpty
-                              ? NetworkImage(imageUrl)
-                              : null,
+                          backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
                           radius: 70.0,
                           child: imageUrl.isEmpty
                               ? Text(
@@ -162,8 +166,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             style: TextStyle(fontSize: 50),
                           )
                               : SizedBox.shrink()
+                        // NetworkImage(
+                        // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
 /*                      NetworkImage(
-                              'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
+                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                       );
                     }
                   },),
