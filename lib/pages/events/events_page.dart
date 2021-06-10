@@ -80,8 +80,8 @@ class _EventsWidgetState extends State<EventsWidget> {
     final String nameFilter = viewModel.status.nameFilter;
     final isEvent = viewModel.type == SocialEventType.EVENT;
 
-    final List<DataModel> _categories = viewModel.status.categories;
-    final List<DataModel> _subcategories = viewModel.status.subcategories;
+    // final List<DataModel> _categories = viewModel.status.categories;
+    // final List<DataModel> _subcategories = viewModel.status.subcategories;
     final List<DataModel> _zones = viewModel.status.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
@@ -104,7 +104,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             listItems: viewModel.status.zones,
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
-            goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones))
+            goFilters: (item) => viewModel.filtersForZones(item,viewModel.status.section ))
         : SizedBox.shrink();
 
     Widget _buttonFilter() {
@@ -120,7 +120,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                   )),
-              onPressed: () => viewModel.openMenuTab(_zones, 'zone', 2),
+              onPressed: () => viewModel.openMenuTab(_zones,),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
