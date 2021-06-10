@@ -99,8 +99,6 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   }
 
   _savedata(RegisterModel loginResponse) async {
-    var box = await Hive.openBox<Person>('userdbB');
-
     //  var fooBox = await Hive.openBox<List>("userdb");
 
     var person = Person(
@@ -108,8 +106,26 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
         id: loginResponse.id,
         country: loginResponse.country);
 
-    await box.put(loginResponse.name, person);
-    BoxDataSesion.pushToBox(person);
+   bool valideUser = await BoxDataSesion.existInBox(person);
+   print("validación de usuario $valideUser");
+
+    var currentUser = CurrentUser(
+      id_user: loginResponse.id
+    );
+
+   if (valideUser==false){
+    int indexbox=  await BoxDataSesion.addToBox(person);
+    currentUser.id_db= indexbox;
+     BoxDataSesion.pushToBoxCurrentU(currentUser);
+   }else{
+     int index = await BoxDataSesion.getIndex(person);
+     currentUser.id_db= index;
+     BoxDataSesion.pushToBoxCurrentU(currentUser);
+   }
+
+    //await box.put(loginResponse.name, person);
+    //BoxDataSesion.pushToBox(person);
+
 
     print('✅ datos almacenados del login');
   }

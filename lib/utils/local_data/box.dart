@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 
 class BoxDataSesion {
   static late Box<Person> box;
+  static late Box<CurrentUser> boxCurrentUser;
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
 
@@ -12,6 +13,7 @@ class BoxDataSesion {
 
   BoxDataSesion._internal() {
     boxSession().then((value) => box = value);
+    boxSessionCurr().then((value) => boxCurrentUser = value);
   }
 
   static Future<Box<Person>> boxSession() async {
@@ -27,18 +29,81 @@ class BoxDataSesion {
     }
     return box;
   }
+  static Future<Box<CurrentUser>> boxSessionCurr() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxCurrentUser = await Hive.openBox('currentuserdbB');
+      print("✅ Box cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxCurrentUser;
+  }
 
-  static void pushToBox(dynamic value) async {
-    await box.put(0, value);
+  static void pushToBox(dynamic value, int key) async {
+    await box.put(key, value);
     print('✔ Se registra 0 con valor $value');
   }
 
-  static Person? getFromBox() {
-    final Person? value = box.get(0);
+  static Future<int> addToBox(dynamic value) async {
+
+   var result= await box.add(value);
+    print('✔ Se agrega usuario  valor $value');
+    var filteredUsers = box.values
+        .where((Person) => Person.id == value)
+        .toList();
+
+    print(filteredUsers.asMap());
+
+    return result;
+  }
+
+  static Person? getFromBox(int index) {
+    final Person? value = box.get(index);
     print('✔ Se recupera con 0 el valor $value');
     print(value);
     return value;
   }
+
+  static Future<bool> existInBox(Person value) async {
+    print("Person.id ${value}");
+    bool exist= false;
+    var filteredUsers = box.values
+        .where((Person) => Person.id == value.id)
+        .toList();
+    print(filteredUsers.asMap());
+
+    if (filteredUsers.length >0){
+      return !exist;
+    }
+    else{
+      return exist;
+    }
+
+  }
+  static Future<int> getIndex(Person value) async{
+    var allUsers = box.values.toList();
+    print('allusers $allUsers');
+    final index = allUsers.indexWhere((element) =>
+    element.id == value.id);
+    return index;
+  }
+
+/*  static Future<int> getListAudios(int index) async{
+
+    final Person? person = await BoxDataSesion.getFromBox(index);
+
+    var person = getFromBox(index);
+    var allUsers = box.values.toList();
+    print('allusers $allUsers');
+    final index = allUsers.indexWhere((element) =>
+    element.id == value.id);
+    return index;
+  }*/
+
 
   static bool get isLoggedIn {
     final Person? value = box.get(0);
@@ -51,4 +116,21 @@ class BoxDataSesion {
     box.deleteFromDisk();
     print("=== 🧹Box limpiada === ");
   }
+//*********Para el usuario actual***************
+
+  static void pushToBoxCurrentU(CurrentUser value) async {
+
+    await boxCurrentUser.put(0, value);
+    print('✔ Se registra current user con valor ${value}');
+    print('✔ Se registra current user con valor de usuario ${value.id_user}');
+    print('✔ Se registra current user con valor de usuario ${value.id_db}');
+  }
+
+  static CurrentUser? getCurrentUser() {
+    final CurrentUser? value = boxCurrentUser.get(0);
+    print('devuelve usuario actual ${value!.id_user}');
+    return value;
+  }
+
+
 }

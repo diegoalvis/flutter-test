@@ -34,7 +34,9 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   }
 
   void getDataUser() async {
-    final Person? person = await BoxDataSesion.getFromBox();
+
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+    final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
     var idUser = person!.id.toString();
     print('obteniendo datos del Usuario');
     final dataUser = await _interactor.getDataUser(idUser);

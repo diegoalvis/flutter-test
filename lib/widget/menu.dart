@@ -30,7 +30,9 @@ class IdtMenu extends StatelessWidget {
 
     Future<String> getNameUser() async {
       //TODO
-      final Person? person = await BoxDataSesion.getFromBox();
+      CurrentUser user = BoxDataSesion.getCurrentUser()!;
+
+      final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
       return person!.name.toString();
     }
 

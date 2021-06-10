@@ -12,7 +12,8 @@ import 'package:http/http.dart' as http;
 
 class SavedPlacesService {
   Future<IdtResult<List<DataModel>?>> getSavedPlaces() async {
-    final Person? person = await BoxDataSesion.getFromBox();
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+    final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
 
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
     final uri = Uri.https(

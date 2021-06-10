@@ -2,6 +2,7 @@ import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_status.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:hive/hive.dart';
@@ -33,8 +34,10 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
   Future<String> getNameUser() async {
 
-    var box = await Hive.openBox<Person>('userdbB');
-    return box.getAt(0)!.name.toString();
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+    final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
+
+    return person!.name.toString();
   }
 
   // void goProfilePage() {

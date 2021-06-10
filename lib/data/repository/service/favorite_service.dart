@@ -18,7 +18,9 @@ import 'package:http/http.dart' as http;
 
 class FavoriteService {
   Future<IdtResult<FavoriteModel?>> postFavorite(String idplace) async {
-    final Person? person = BoxDataSesion.getFromBox();
+
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+    final Person? person = BoxDataSesion.getFromBox(user.id_db!);
 
     FavoriteRequest fav = FavoriteRequest(person?.id!.toString(), idplace);
     //FavoriteRequest fav = FavoriteRequest("290", idplace);

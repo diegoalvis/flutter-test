@@ -37,6 +37,7 @@ void main() async {
       await pathProvider.getApplicationDocumentsDirectory();
   Hive.init(applicationsDocumentDirectory.path);
   Hive.registerAdapter(PersonAdapter());
+  Hive.registerAdapter(CurrentUserAdapter());
 
   BoxDataSesion();
 }

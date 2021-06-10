@@ -59,21 +59,32 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     if (await file.exists()) {
       status = status.copyWith(pathAudio: file.path);
     }
+    _savedata(file.path);
+
   }
 
   _savedata(String file) async {
-    List<String> _audios = [];
+    List<Map> _audios = [];
 
-    _audios.add(file.toString());
+    //_audios.add(file.toString());
 
-    var details = new Map();
-    details['Usrname'] = 'admin';
-    details['Password'] = 'admin@123';
+    var details = Map();
+    details['id_audio'] = 'id_audio_';
+    details['path_audio'] = file.toString();
 
-    var person = Person(audioguias: _audios, audios: details);
-    BoxDataSesion.pushToBox(person);
+    _audios.add(details);
 
-    print('✅ desde audioguías');
+   // var person = Person(audioguias: _audios, audios: details);
+   // BoxDataSesion.pushToBox(person);
+
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+
+    Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+
+    var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, audioguias: _audios);
+
+    BoxDataSesion.pushToBox(personUpdated, user.id_db!);
+    print('✅ desde audioguías ${personUpdated.audioguias}');
   }
 
   void onTapFavorite() {
