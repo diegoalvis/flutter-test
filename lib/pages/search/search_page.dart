@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/search/search_effect.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/pages/search/search_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -17,6 +21,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class SearchPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -35,6 +40,30 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   final keyWordController = TextEditingController();
+  final scrollController = ScrollController();
+  StreamSubscription<SearchEffect>? _effectSubscription;
+
+  @override
+  void initState() {
+    final viewModel = context.read<SearchViewModel>();
+
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is SearchValueControllerScrollEffect) {
+        scrollController.animateTo(
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada \n\n Intentalo de nuevo!',textButton: 'aceptar / cerrar');
+      }
+    });
+
+    // // una vez tengas la info la pasas aca
+    // viewModel.onTapButton(index, id, items);
+  }
+
 
   @override
   Widget build(BuildContext context) {

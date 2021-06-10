@@ -174,6 +174,16 @@ class IdtRoute {
             )));
   }
 
+  updateEventsZones({
+    required DataModel item,
+    // required List<DataModel> places,
+    required List<DataModel> zones,
+  }) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => EventsPage(type: SocialEventType.SLEEP,)));
+  }
+
+
   goSleeps(int optionIndex) {
     return navigatorKey.currentState!.push(MaterialPageRoute(
         builder: (_) => EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex)));

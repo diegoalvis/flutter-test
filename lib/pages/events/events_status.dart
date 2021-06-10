@@ -10,8 +10,6 @@ class EventsStatus extends ViewStatus {
   final String nameFilter;
   final int currentOption;
   final List<DataModel> places;
-  final List<DataModel> categories;
-  final List<DataModel> subcategories;
   late List<DataModel> zones;
 
 
@@ -24,8 +22,6 @@ class EventsStatus extends ViewStatus {
     required this.nameFilter,
     this.currentOption = -1,
     required this.places,
-    required this.categories,
-    required this.subcategories,
     required this.zones,
   });
 
@@ -39,8 +35,6 @@ class EventsStatus extends ViewStatus {
     String? nameFilter,
 
     List<DataModel>? places,
-    List<DataModel>? categories,
-    List<DataModel>? subcategories,
     List<DataModel>? zones,
   }) {
     return EventsStatus(
@@ -52,8 +46,6 @@ class EventsStatus extends ViewStatus {
       title: title ?? this.title,
       nameFilter: nameFilter ?? this.nameFilter,
       places: places ?? this.places,
-      categories: categories ?? this.categories,
-      subcategories: subcategories ?? this.subcategories,
       zones: zones ?? this.zones,
     );
   }

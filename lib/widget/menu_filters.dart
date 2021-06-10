@@ -52,6 +52,7 @@ class IdtMenuFilter extends StatelessWidget {
 
   SingleChildScrollView _buildBody(TextTheme textTheme) {
 
+
     Widget _filter (List<DataModel> listItems, Color color, List<Color> gradient, String title, int id){
 
       final styleApp =  StylesMethodsApp().decorarStyle(
@@ -189,7 +190,7 @@ class IdtMenuFilter extends StatelessWidget {
             children: [
               ...listFilters,
               SizedBox(
-                height: 15,
+                height: 100,
               ),
               Container(
                 margin: EdgeInsets.all(1),

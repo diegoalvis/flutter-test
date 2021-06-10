@@ -10,11 +10,12 @@ import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:flutter/cupertino.dart';
+
+import 'events_effect.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
 
-class EventsViewModel extends ViewModel<EventsStatus> {
+class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   final SocialEventType type;
@@ -26,38 +27,39 @@ class EventsViewModel extends ViewModel<EventsStatus> {
       openMenuTab: false,
       title: '',
       section: '',
-      nameFilter: 'TODOS',
+      nameFilter: 'Localidad',
       places: [],
-      categories: [],
-      subcategories: [],
       zones: [],
     );
   }
 
   void onInit() async {
     getZonesResponse();
-    // getDiscoveryData();
 
-    late String title, nameFilter;
+    late String title, nameFilter, section;
     switch (type) {
       case SocialEventType.EVENT:
         title = 'Evento';
         nameFilter = 'Todos';
+        section = 'event';
         getEventResponse();
         break;
       case SocialEventType.SLEEP:
         title = 'Dónde dormir';
+        section = 'hotel';
         nameFilter = 'Localidad';
-         getSleepsResponse();
+        getSleepsResponse();
         break;
       case SocialEventType.EAT:
         title = 'Dónde comer';
+        section = 'food';
         nameFilter = 'Localidad';
         getEatResponse();
     }
     status = status.copyWith(
       isLoading: true,
       title: title,
+      section: section,
       nameFilter: nameFilter,
     );
     // llamar metodo que obtiene las localidades
@@ -78,22 +80,16 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
-      List<DataModel> zones) async {
+  void filtersForZones(DataModel item, String section) async {
     status = status.copyWith(isLoading: true);
-    final Map query = {status.section: item.id};
 
-    final response = await _interactor.getPlacesList(query);
+    final Map query = {'zone' : item.id};
+    // print('1. $query');
 
+    final response = await _interactor.getPlaceEventForLocation(query, section);
     if (response is IdtSuccess<List<DataModel>?>) {
-      final places = response.body!;
-      _route.goFilters(
-          section: status.section,
-          item: item,
-          categories: categories,
-          subcategories: subcategories,
-          zones: zones,
-          places: places);
+      status = status.copyWith(places: response.body); // Status reasignacion
+
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
@@ -101,6 +97,9 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     }
     closeMenuTab();
     status = status.copyWith(isLoading: false);
+    if (status.places.length < 1) {
+      addEffect(ShowDialogEffect());
+    }
   }
 
   void getEventResponse() async {
@@ -154,12 +153,15 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void openMenuTab(List<DataModel> listData, String section, int currentOption) {
+  void openMenuTab(
+    List<DataModel> listData,
+    // String section, int currentOption
+  ) {
     status = status.copyWith(
       openMenuTab: !status.openMenuTab,
       zones: listData,
-      section: section,
-      currentOption: currentOption,
+      // section: section,
+      // currentOption: currentOption,
     );
   }
 

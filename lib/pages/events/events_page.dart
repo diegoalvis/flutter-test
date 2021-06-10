@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:bogota_app/widget/menu_tap.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
+
 import 'package:intl/intl.dart';
+import 'package:bogota_app/pages/events/events_effect.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -21,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
+import 'events_effect.dart';
 
 class EventsPage extends StatelessWidget {
   final SocialEventType type;
@@ -49,10 +53,26 @@ class EventsWidget extends StatefulWidget {
 }
 
 class _EventsWidgetState extends State<EventsWidget> {
+  final scrollController = ScrollController();
+  StreamSubscription<EventsEffect>? _effectSubscription;
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<EventsViewModel>().onInit();
+    });
+    final viewModel = context.read<EventsViewModel>();
+
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is EventsValueControllerScrollEffect) {
+        scrollController.animateTo(
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la localidad especificada',textButton: 'aceptar / cerrar');
+      }
     });
   }
 
@@ -80,8 +100,8 @@ class _EventsWidgetState extends State<EventsWidget> {
     final String nameFilter = viewModel.status.nameFilter;
     final isEvent = viewModel.type == SocialEventType.EVENT;
 
-    final List<DataModel> _categories = viewModel.status.categories;
-    final List<DataModel> _subcategories = viewModel.status.subcategories;
+    // final List<DataModel> _categories = viewModel.status.categories;
+    // final List<DataModel> _subcategories = viewModel.status.subcategories;
     final List<DataModel> _zones = viewModel.status.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
@@ -104,7 +124,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             listItems: viewModel.status.zones,
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
-            goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones))
+            goFilters: (item) => viewModel.filtersForZones(item,viewModel.status.section ))
         : SizedBox.shrink();
 
     Widget _buttonFilter() {
@@ -120,7 +140,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                   )),
-              onPressed: () => viewModel.openMenuTab(_zones, 'zone', 2),
+              onPressed: () => viewModel.openMenuTab(_zones,),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
