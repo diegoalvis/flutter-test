@@ -10,11 +10,12 @@ import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:flutter/cupertino.dart';
+
+import 'events_effect.dart';
 
 enum SocialEventType { EVENT, SLEEP, EAT }
 
-class EventsViewModel extends ViewModel<EventsStatus> {
+class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   final SocialEventType type;
@@ -96,6 +97,9 @@ class EventsViewModel extends ViewModel<EventsStatus> {
     }
     closeMenuTab();
     status = status.copyWith(isLoading: false);
+    if (status.places.length < 1) {
+      addEffect(ShowDialogEffect());
+    }
   }
 
   void getEventResponse() async {

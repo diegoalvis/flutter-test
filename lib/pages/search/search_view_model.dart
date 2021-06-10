@@ -1,13 +1,13 @@
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/search/search_effect.dart';
 import 'package:bogota_app/pages/search/search_status.dart';
-import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/search_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 
-class SearchViewModel extends ViewModel<SearchStatus> {
+class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
@@ -37,9 +37,14 @@ class SearchViewModel extends ViewModel<SearchStatus> {
     if (responseSearch is IdtSuccess<List<DataModel>?>) {
       final results = responseSearch.body!;
 
-      _route.goResultSearch(results, keyWord);
+      if (results.isEmpty){
+        addEffect(ShowDialogEffect());
+      } else  {
+        _route.goResultSearch(results, keyWord);
+      }
 
-      // status.places.addAll(UnmissableResponse.body)
+
+
     } else {
       final erroRes = responseSearch as IdtFailure<SearchError>;
       print(erroRes.message);
