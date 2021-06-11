@@ -7,7 +7,7 @@ class EventsStatus extends ViewStatus {
   final bool openMenuTab;
   final String title;
   final String section;
-  final String nameFilter;
+  late final String nameFilter;
   final int currentOption;
   final List<DataModel> places;
   late List<DataModel> zones;

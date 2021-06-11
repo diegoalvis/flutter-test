@@ -247,51 +247,48 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                 child: Container(
                   color: IdtColors.transparent,
                   alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        height: 50,
-                        color: IdtColors.transparent,
-                        child: Padding(
+                  child: Padding(
+                    padding:EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
                           padding: EdgeInsets.only(left: 0),
                           child: IconButton(
-                            autofocus: false,
-                            color: IdtColors.red,
-                            alignment: Alignment.centerRight,
                             icon: SvgPicture.asset(
-                              IdtAssets.back_white,
-                              color: IdtColors.white,
-                              height: 70.0,
+                              IdtAssets.back,
+                              color: IdtColors.black.withOpacity(0.9),
                             ),
-                            iconSize: 60,
+                            iconSize: 52,
+                            padding: EdgeInsets.only(left: 10, bottom: 4),
+                            alignment: Alignment.bottomCenter,
                             onPressed: _route.pop,
-                          ),
+                          )
+                          ,
                         ),
-                      ),
-                      Container(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 14.0),
-                          child: IconButton(
-                            autofocus: false,
-                            color: IdtColors.transparent,
-                            alignment: Alignment.centerRight,
-                            icon: Icon(
-                              Icons.share,
-                              color: IdtColors.white,
-                              size: 40.0,
+                        Container(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 14.0),
+                            child: IconButton(
+                              autofocus: false,
+                              color: IdtColors.transparent,
+                              alignment: Alignment.centerRight,
+                              icon: Icon(
+                                Icons.share,
+                                color: IdtColors.white,
+                                size: 40.0,
+                              ),
+                              onPressed: () {
+                                print("Share");
+                                Share.share(
+                                    "Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
+                              },
                             ),
-                            onPressed: () {
-                              print("Share");
-                              Share.share(
-                                  "Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
-                            },
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
