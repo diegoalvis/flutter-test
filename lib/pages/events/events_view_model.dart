@@ -86,9 +86,11 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     final Map query = {'zone' : item.id};
     // print('1. $query');
 
+
     final response = await _interactor.getPlaceEventForLocation(query, section);
     if (response is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: response.body); // Status reasignacion
+      status = status.copyWith(nameFilter: item.title!);
 
     } else {
       final erroRes = response as IdtFailure<FilterError>;
