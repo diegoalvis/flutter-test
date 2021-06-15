@@ -45,13 +45,24 @@ class _SplashWidgetState extends State<SplashWidget> {
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: viewModel.status.imgSplash != null
-                  ? NetworkImage(viewModel.status.imgSplash!)
-                  : AssetImage(IdtAssets.splash) as ImageProvider,
+              image: AssetImage(IdtAssets.splash),
               fit: BoxFit.cover,
             ),
           ),
         ),
+        viewModel.status.imgSplash != null
+            ? AnimatedSwitcher(
+                duration: Duration(seconds: 3),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(viewModel.status.imgSplash!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
         Positioned(
           top: 10.0,
           bottom: 10.0,
@@ -61,10 +72,7 @@ class _SplashWidgetState extends State<SplashWidget> {
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(0, 0, 0, 0),
-                    Color.fromARGB(0, 0, 0, 0)
-                  ],
+                  colors: [Color.fromARGB(0, 0, 0, 0), Color.fromARGB(0, 0, 0, 0)],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ),
