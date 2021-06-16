@@ -31,6 +31,7 @@ class DetailPage extends StatelessWidget {
 
   DetailPage({this.isHotel = false, required this.detail});
 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -46,6 +47,7 @@ class DetailPage extends StatelessWidget {
 class DetailWidget extends StatefulWidget {
   final bool _isHotel;
   final DataPlacesDetailModel _detail;
+
 
   DetailWidget(this._isHotel, this._detail);
 
@@ -379,9 +381,11 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             width: 10,
           ),
-          (widget._detail.url_audioguia_es != '' ||
-              widget._detail.url_audioguia_en != '' ||
-              widget._detail.url_audioguia_pt != '')
+          (
+              widget._detail.url_audioguia_es != '' && widget._detail.url_audioguia_es != null ||
+              widget._detail.url_audioguia_en != '' && widget._detail.url_audioguia_en != null ||
+              widget._detail.url_audioguia_pt != '' && widget._detail.url_audioguia_pt != null
+          )
               ? RaisedButton(
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: IdtColors.blue, width: 1),
