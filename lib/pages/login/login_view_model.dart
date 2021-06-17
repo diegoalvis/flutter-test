@@ -16,6 +16,7 @@ import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:location/location.dart';
 import 'package:unique_ids/unique_ids.dart';
@@ -53,6 +54,16 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     String pretty = encoder.convert(json);
     return pretty;
   }
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+  GoogleSignInAccount? _currentUser;
+  String _contactText = '';
 
   void loginResponse(String email, String password) async {
     status = status.copyWith(isLoading: true);
@@ -252,13 +263,47 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     );
   }
 
-  login(int state) {
-    if (state == 1) {
-      loginFacebook();
-    } else {
-      // loginGoogle();
+  login(int state) async {
+    print("state");
+    print(state);
+    switch (state) {
+      case 1:
+        await loginFacebook();
+        break;
+      case 2:
+        await _handleSignIn();
+        return;
+      default:
+        break;
     }
   }
+
+
+  _handleSignIn()  {
+    try {
+      _googleSignIn.signIn();
+      loginWithGoogle();
+
+    } catch (error) {
+      print(error);
+    }
+  }
+  loginWithGoogle(){
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      _currentUser = account;
+      print("current user$_currentUser");
+      if (_currentUser != null) {
+        print("hay datos");
+        GoogleSignInAccount? user = _currentUser;
+        loginResponse(user?.email ?? 'Nombre por defecto', '12345');
+        // _handleGetContact(_currentUser!);
+      }
+    });
+
+    _handleSignOut();
+
+  }
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   Future<void> loginFacebook() async {
     final LoginResult result = await FacebookAuth.instance
