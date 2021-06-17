@@ -31,7 +31,7 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
     if (audioguideResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
       print("model");
       print(audioguideResponse.body![0].audioguia_es);
-      status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
+      status = status.copyWith(itemsAudioGuide: audioguideResponse.body, isLoading: false);
 
       // Actualización de lugares guardados/favoritos
       final dynamic savedPlaces = await _interactor.getSavedPlacesList();

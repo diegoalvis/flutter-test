@@ -6,7 +6,6 @@ part 'places_detail_model.g.dart';
 
 @JsonSerializable()
 class DataPlacesDetailModel extends IdtModel {
-
   final String id;
   final String? title;
   final String? body;
@@ -37,10 +36,30 @@ class DataPlacesDetailModel extends IdtModel {
   //@JsonKey(name: 'audioguia_es')
   //final String? urlAudioguia;
 
-  DataPlacesDetailModel( {required this.id,this.description,this.coverImage, this.seoImage, this.webUrl, this.date, this.video, this.phone, this.place,  this.title,this.body, this.image,this.url_audioguia_es,this.url_audioguia_en,this.url_audioguia_pt, this.rate, this.location,
-    this.address, this.gallery, this.ids_subcategories});
+  DataPlacesDetailModel(
+      {required this.id,
+      this.description,
+      this.coverImage,
+      this.seoImage,
+      this.webUrl,
+      this.date,
+      this.video,
+      this.phone,
+      this.place,
+      this.title,
+      this.body,
+      this.image,
+      this.url_audioguia_es,
+      this.url_audioguia_en,
+      this.url_audioguia_pt,
+      this.rate,
+      this.location,
+      this.address,
+      this.gallery,
+      this.ids_subcategories});
 
-  factory DataPlacesDetailModel.fromJson(Map<String, dynamic> json) => _$DataPlacesDetailModelFromJson(json);
+  factory DataPlacesDetailModel.fromJson(Map<String, dynamic> json) =>
+      _$DataPlacesDetailModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataPlacesDetailModelToJson(this);
 }
