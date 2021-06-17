@@ -50,17 +50,23 @@ class EventDetailWidget extends StatefulWidget {
 class _EventDetailWidgetState extends State<EventDetailWidget> {
   late YoutubePlayerController _controller;
   final _route = locator<IdtRoute>();
+  bool conVideo = false;
 
   @override
   void initState() {
-    String videoId;
-    videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString())!;
+    // if (widget._detail.video != null){
+    //   conVideo = true;
+    //
+    // }
+
+      String? videoId = YoutubePlayer.convertUrlToId('https://www.youtube.com/watch?v=oKJAeXNLqMY&ab_channel=IDTBogota')!;
+    // videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString())!;
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
     );
 
     YoutubePlayerController(
-      initialVideoId: 'SiyGLy5TGo0',
+      initialVideoId: '',
       flags: YoutubePlayerFlags(
         autoPlay: true,
         disableDragSeek: true,
@@ -117,10 +123,11 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
                 onPressed: () => viewModel.launchMap(widget._detail.location!),
               ),
+              SizedBox(height: 10,),
               SizedBox(
                 width: 120,
                 child: Text(
-                  widget._detail.place!,
+                  widget._detail.place ?? 'Localidad del evento',
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -148,6 +155,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   print('LLamando, fallando en la llamada?!!');
                 },
               ),
+              SizedBox(height: 10,),
+
               SizedBox(
                 width: 120,
                 child: Text(
@@ -163,8 +172,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
         ],
       );
     }
-
-    ;
 
     Widget _footerImages() {
       return Column(
@@ -268,7 +275,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                child: Container(
+                child: conVideo  ?
+                Container(
                   height: 200,
                   child: Stack(
                     alignment: Alignment.bottomCenter,
@@ -315,7 +323,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                       ),
                     ],
                   ),
-                ),
+                )
+                :SizedBox.shrink(),
               ),
             ),
             SizedBox(
@@ -329,7 +338,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               padding: EdgeInsets.symmetric(horizontal: 55),
               margin: EdgeInsets.only(bottom: 15),
               child: Text(
-                widget._detail.description!,
+                widget._detail.description ??
+                    'Esta seccion da informacion relacionada del evento una descripcion al usuario',
                 style: textTheme.textButtomWhite,
                 maxLines: viewModel.status.moreText ? null : 20,
                 overflow: TextOverflow.fade,
@@ -352,7 +362,9 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
     return Container(
       decoration: BoxDecoration(
+          color: Colors.black,
           image: DecorationImage(
+        colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
         image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
         fit: BoxFit.fitHeight,
       )),
