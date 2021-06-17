@@ -131,6 +131,10 @@ class BoxDataSesion {
     print('devuelve usuario actual ${value!.id_user}');
     return value;
   }
-
+  static void clearBoxCurrentUser() {
+    boxCurrentUser.delete(0);
+    //boxCurrentUser.deleteFromDisk();
+    print("=== 🧹Box Current USer limpiada === ");
+  }
 
 }
