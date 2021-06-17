@@ -50,20 +50,19 @@ class EventDetailWidget extends StatefulWidget {
 class _EventDetailWidgetState extends State<EventDetailWidget> {
   late YoutubePlayerController _controller;
   final _route = locator<IdtRoute>();
-  bool conVideo = false;
+  bool conVideo = true;
 
   @override
   void initState() {
-    // if (widget._detail.video != null){
-    //   conVideo = true;
-    //
-    // }
 
-      String? videoId = YoutubePlayer.convertUrlToId('https://www.youtube.com/watch?v=oKJAeXNLqMY&ab_channel=IDTBogota')!;
-    // videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString())!;
+    String? videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString());
     _controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: videoId ?? '',
     );
+
+    if (widget._detail.video.toString() == '') {
+      conVideo = false;
+    }
 
     YoutubePlayerController(
       initialVideoId: '',
@@ -123,7 +122,9 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                 ),
                 onPressed: () => viewModel.launchMap(widget._detail.location!),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 width: 120,
                 child: Text(
@@ -155,8 +156,9 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   print('LLamando, fallando en la llamada?!!');
                 },
               ),
-              SizedBox(height: 10,),
-
+              SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 width: 120,
                 child: Text(
@@ -275,56 +277,60 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                child: conVideo  ?
-                Container(
-                  height: 200,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      YoutubePlayer(
-                        controller: _controller,
-                        showVideoProgressIndicator: true,
-                        bottomActions: <Widget>[
-                          const SizedBox(width: 14.0),
-                          CurrentPosition(),
-                          const SizedBox(width: 4.0),
-                          ProgressBar(isExpanded: true),
-                          const SizedBox(width: 4.0),
-                          RemainingDuration(),
-                          const SizedBox(width: 14.0),
-                        ],
-                        aspectRatio: 3 / 3,
-                        progressIndicatorColor: Colors.red,
-                        onReady: () {
-                          print('Player is ready.');
-                        },
-                      ),
-                      AnimatedSwitcher(
-                        duration: Duration(milliseconds: 100),
-                        reverseDuration: Duration(milliseconds: 700),
-                        child: _controller.value.isPlaying
-                            ? SizedBox.shrink()
-                            : Container(
-                                color: IdtColors.black.withOpacity(0.5),
-                                child: Center(
-                                  child: Icon(
-                                    _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                    color: IdtColors.white,
-                                    size: 60.0,
-                                  ),
-                                ),
-                              ),
-                      ),
-                      //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                      GestureDetector(
-                        onTap: () {
-                          _controller.value.isPlaying ? _controller.pause() : _controller.play();
-                        },
-                      ),
-                    ],
-                  ),
-                )
-                :SizedBox.shrink(),
+                child: conVideo
+                    ? Container(
+                        height: 200,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            YoutubePlayer(
+                              controller: _controller,
+                              showVideoProgressIndicator: true,
+                              bottomActions: <Widget>[
+                                const SizedBox(width: 14.0),
+                                CurrentPosition(),
+                                const SizedBox(width: 4.0),
+                                ProgressBar(isExpanded: true),
+                                const SizedBox(width: 4.0),
+                                RemainingDuration(),
+                                const SizedBox(width: 14.0),
+                              ],
+                              aspectRatio: 3 / 3,
+                              progressIndicatorColor: Colors.red,
+                              onReady: () {
+                                print('Player is ready.');
+                              },
+                            ),
+                            AnimatedSwitcher(
+                              duration: Duration(milliseconds: 100),
+                              reverseDuration: Duration(milliseconds: 700),
+                              child: _controller.value.isPlaying
+                                  ? SizedBox.shrink()
+                                  : Container(
+                                      color: IdtColors.black.withOpacity(0.5),
+                                      child: Center(
+                                        child: Icon(
+                                          _controller.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                          color: IdtColors.white,
+                                          size: 60.0,
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                            //_controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                            GestureDetector(
+                              onTap: () {
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
             ),
             SizedBox(
@@ -364,10 +370,10 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       decoration: BoxDecoration(
           color: Colors.black,
           image: DecorationImage(
-        colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
-        image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
-        fit: BoxFit.fitHeight,
-      )),
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+            image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
+            fit: BoxFit.fitHeight,
+          )),
       height: size.height,
       width: size.width,
       child: Stack(
