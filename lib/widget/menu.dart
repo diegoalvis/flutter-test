@@ -229,7 +229,7 @@ class IdtMenu extends StatelessWidget {
       case 'savedPlacesUntil':
         _route.goSavedPlacesUntil();
         break;
-      case 'savedPlacesUntil':
+      case 'privacyAndTerms':
         _route.goPrivacyAndTerms();
         break;
       default:

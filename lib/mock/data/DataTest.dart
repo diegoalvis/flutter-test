@@ -159,7 +159,7 @@ class DataTest {
         {'title': 'DÓNDE DORMIR', 'value': 'sleeps'},
         {'title': 'DÓNDE COMER', 'value': 'eat'},
         {'title': 'LUGARES GUARDADOS', 'value': 'savedPlacesUntil'},
-        {'title': 'PRIVACIDAD Y TÉRMINOS', 'value': 'savedPlacesUntil'},
+        {'title': 'PRIVACIDAD Y TÉRMINOS', 'value': 'privacyAndTerms'},
       ]
     ];
     return menu;
