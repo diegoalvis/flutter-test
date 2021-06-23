@@ -76,6 +76,11 @@ class _DetailWidgetState extends State<DetailWidget> {
       }
     });
 
+    // Verificación si es favorito o no, o que onda.
+    viewModel.isFavorite(widget._detail.id).then((value) {
+      viewModel.status = viewModel.status.copyWith(isFavorite: value);
+    });
+
     super.initState();
   }
 
@@ -88,7 +93,8 @@ class _DetailWidgetState extends State<DetailWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DetailViewModel>();
-
+    
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
