@@ -22,6 +22,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'dart:math';
 
 import '../../app_theme.dart';
 
@@ -31,12 +32,10 @@ class DetailPage extends StatelessWidget {
 
   DetailPage({this.isHotel = false, required this.detail});
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          DetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => DetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return DetailWidget(isHotel, detail);
       },
@@ -48,7 +47,6 @@ class DetailWidget extends StatefulWidget {
   final bool _isHotel;
   final DataPlacesDetailModel _detail;
 
-
   DetailWidget(this._isHotel, this._detail);
 
   @override
@@ -58,6 +56,7 @@ class DetailWidget extends StatefulWidget {
 class _DetailWidgetState extends State<DetailWidget> {
   final scrollController = ScrollController();
   StreamSubscription<DetailEffect>? _effectSubscription;
+  final randomFloatNumber = Random().nextDouble() * (5 - 2) + 2;
 
   @override
   void initState() {
@@ -102,8 +101,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           extendBody: true,
           extendBodyBehindAppBar: true,
           floatingActionButton: IdtFab(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           backgroundColor: IdtColors.white,
           body: _buildDiscover(viewModel)),
     );
@@ -126,7 +124,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                 IdtConstants.url_image + widget._detail.image!,
                 width: size.width,
                 height: size.height * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               )
             ],
           ),
@@ -136,15 +134,14 @@ class _DetailWidgetState extends State<DetailWidget> {
             left: 0,
             right: 0,
             child: SizedBox(
-                child: SvgPicture.asset(IdtAssets.curve_up,
-                    color: Colors.white, fit: BoxFit.fill)
+                child: SvgPicture.asset(IdtAssets.curve_up, color: Colors.white, fit: BoxFit.fill)
 
                 //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
                 ),
           ),
           Positioned(
             // rating Starts
-            bottom: 100,
+            bottom: 120,
             width: size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -157,7 +154,11 @@ class _DetailWidgetState extends State<DetailWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       RatingBar(
-                        initialRating: 0,
+                        // initialRating: 4.3,
+
+                        itemSize: 30,
+                        glowColor: IdtColors.orange,
+                        initialRating: randomFloatNumber,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -165,10 +166,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         ratingWidget: RatingWidget(
                           full: Icon(IdtIcons.star, color: IdtColors.amber),
-                          half: Icon(IdtIcons.star_half_alt,
-                              color: IdtColors.amber),
-                          empty:
-                              Icon(IdtIcons.star_empty, color: IdtColors.amber),
+                          half: Icon(IdtIcons.star_half_alt, color: IdtColors.amber),
+                          empty: Icon(IdtIcons.star_empty, color: IdtColors.amber),
                         ),
                         onRatingUpdate: (rating) {
                           _newrating = rating;
@@ -177,11 +176,12 @@ class _DetailWidgetState extends State<DetailWidget> {
                         },
                       ),
                       Text(
-                        widget._detail.rate == 0
-                            ? widget._detail.rate! + '/5'
+                        widget._detail.rate == '' || widget._detail.rate == '0'
+                            // ? widget._detail.rate! + '/5'
+                            ? randomFloatNumber.toStringAsFixed(1) + '/5'
                             : _newrating.toString(),
-                        style: textTheme.textWhiteShadow.copyWith(
-                            fontSize: 15, fontWeight: FontWeight.w600),
+                        style: textTheme.textWhiteShadow
+                            .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
                       )
                     ],
                   ),
@@ -255,13 +255,11 @@ class _DetailWidgetState extends State<DetailWidget> {
                                   viewModel.status.isFavorite
                                       ? IdtIcons.heart2
                                       : Icons.favorite_border,
-                                  color: viewModel.status.isFavorite
-                                      ? IdtColors.red
-                                      : IdtColors.white,
+                                  color:
+                                      viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
                                 ),
                                 iconSize: 30,
-                                onPressed: () =>
-                                    viewModel.onTapFavorite(widget._detail.id),
+                                onPressed: () => viewModel.onTapFavorite(widget._detail.id),
                               )
                             : Container(),
                       ),
@@ -296,8 +294,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     itemBuilder: (context, index) => Column(
                       children: <Widget>[
                         Image.network(
-                          IdtConstants.url_image +
-                              widget._detail.gallery![index],
+                          IdtConstants.url_image + widget._detail.gallery![index],
                           height: size.height * 0.5,
                           width: size.width,
                           fit: BoxFit.cover,
@@ -306,7 +303,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                     ),
                   )),
               Positioned(
-                bottom: size.height * 1/6,
+                bottom: size.height * 1 / 6,
                 left: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5),
@@ -317,8 +314,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
-                    onPressed: () =>
-                        viewModel.onChangeScrollController(false, size.width),
+                    onPressed: () => viewModel.onChangeScrollController(false, size.width),
                   ),
                 ),
               ),
@@ -334,8 +330,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Icons.play_circle_fill,
                       color: IdtColors.white,
                     ),
-                    onPressed: () =>
-                        viewModel.onChangeScrollController(true, size.width),
+                    onPressed: () => viewModel.onChangeScrollController(true, size.width),
                   ),
                 ),
               ),
@@ -370,8 +365,8 @@ class _DetailWidgetState extends State<DetailWidget> {
             padding: EdgeInsets.all(0.0),
             child: Container(
               constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-              decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
-                  30, Alignment.bottomRight, Alignment.topLeft),
+              decoration: StylesMethodsApp()
+                  .decorarStyle(IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
               alignment: Alignment.center,
               child: IconButton(
                 icon: Icon(
@@ -387,29 +382,29 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             width: 10,
           ),
-          (
-              widget._detail.url_audioguia_es != '' && widget._detail.url_audioguia_es != null ||
-              widget._detail.url_audioguia_en != '' && widget._detail.url_audioguia_en != null ||
-              widget._detail.url_audioguia_pt != '' && widget._detail.url_audioguia_pt != null
-          )
+          (widget._detail.url_audioguia_es != '' && widget._detail.url_audioguia_es != null ||
+                  widget._detail.url_audioguia_en != '' &&
+                      widget._detail.url_audioguia_en != null ||
+                  widget._detail.url_audioguia_pt != '' && widget._detail.url_audioguia_pt != null)
               ? RaisedButton(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(color: IdtColors.blue, width: 1),
-                borderRadius: BorderRadius.circular(80.0)),
-            padding: EdgeInsets.all(0.0),
-            child: Container(
-                constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                decoration: StylesMethodsApp().decorarStyle(
-                    IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
-                alignment: Alignment.center,
-                child: Icon(
-                  IdtIcons.headphones,
-                  color: IdtColors.white,
-                  size: 40,
-                )),
-            onPressed: () => viewModel.goPlayAudioPage(_detail),
-          )
-              : SizedBox.shrink()        ],
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(color: IdtColors.blue, width: 1),
+                      borderRadius: BorderRadius.circular(80.0)),
+                  padding: EdgeInsets.all(0.0),
+                  child: Container(
+                      constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                      decoration: StylesMethodsApp().decorarStyle(
+                          IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        IdtIcons.headphones,
+                        color: IdtColors.white,
+                        size: 40,
+                      )),
+                  onPressed: () => viewModel.goPlayAudioPage(_detail),
+                )
+              : SizedBox.shrink()
+        ],
       );
     }
 
@@ -424,13 +419,12 @@ class _DetailWidgetState extends State<DetailWidget> {
       return RaisedButton(
         onPressed: onPress,
         shape: RoundedRectangleBorder(
-            side: BorderSide(color: color, width: 1),
-            borderRadius: BorderRadius.circular(17.0)),
+            side: BorderSide(color: color, width: 1), borderRadius: BorderRadius.circular(17.0)),
         padding: EdgeInsets.all(0),
         child: Container(
             width: size.width * 0.7,
-            decoration: StylesMethodsApp().decorarStyle(
-                listColors, 17, Alignment.bottomCenter, Alignment.topCenter),
+            decoration: StylesMethodsApp()
+                .decorarStyle(listColors, 17, Alignment.bottomCenter, Alignment.topCenter),
             padding: EdgeInsets.symmetric(vertical: 7),
             alignment: Alignment.center,
             child: Row(
@@ -497,7 +491,7 @@ class _DetailWidgetState extends State<DetailWidget> {
             children: [
               _header(),
               SizedBox(
-                height: 30,
+                height: 0,
               ),
               widget._isHotel ? _btnsHotel() : _btnsPlaces(widget._detail),
               SizedBox(
@@ -536,23 +530,19 @@ class _DetailWidgetState extends State<DetailWidget> {
                           child: Container(
                             alignment: Alignment.center,
                             height: 60.0,
-                            color: IdtColors.white.withOpacity(
-                                viewModel.status.moreText ? 0 : 0.5),
+                            color: IdtColors.white.withOpacity(viewModel.status.moreText ? 0 : 0.5),
                           ),
                         )),
                       )
                     ],
                   ),
                   TextButton(
-                    child: Text(
-                        viewModel.status.moreText
-                            ? 'MOSTRAR MENOS'
-                            : 'SEGUIR LEYENDO',
+                    child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: textTheme.blueDetail.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                        style: textTheme.blueDetail
+                            .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: viewModel.readMore,
                   )
                 ],
