@@ -135,6 +135,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   }
 
+  showMessagePasswordLength(String text){
+    context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: text, textButton: 'aceptar / cerrar');
+  }
+
     showSnack(String title, {Function? onPressed, int? duration}) {
     final snackbar = SnackBar(
         duration: Duration(seconds: duration ?? 2),
@@ -216,8 +220,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         if(_controllerPass.text.length >=8 ){
           return _register();
         }else{
-           viewModel.status.message="La contraseña debe incluir al menos 8 caracteres alfanuméricos";
-        return _showAlert();
+          showMessagePasswordLength("La contraseña debe incluir al menos 8 caracteres alfanuméricos");
         }
       }else{
         viewModel.status.message="Las contraseñas no coinciden";
