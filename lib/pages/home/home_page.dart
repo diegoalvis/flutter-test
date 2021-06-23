@@ -6,6 +6,7 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_view_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
@@ -152,7 +153,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           alignment: AlignmentDirectional.center,
                           children: [
                             Container(
-                              color: colorsHomeList[index].withOpacity(0.4),
+                              color: DataTest.colorsHomeList[index].withOpacity(0.4),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -189,7 +190,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
-             SavedPlaces(
+              SavedPlaces(
                   viewModel.status.openSaved,
                   viewModel.onpenSavedPlaces,
                   viewModel.status.notSaved,
@@ -199,9 +200,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   viewModel.onChangeScrollController,
                   scrollController,
                   viewModel.goDetailPage,
-                  viewModel.status.itemsSavedPlaces
-
-              ),
+                  viewModel.status.itemsSavedPlaces),
 
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
@@ -218,13 +217,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       ],
     );
   }
-
-  List<Color> colorsHomeList = [
-    Colors.deepOrange,
-    Colors.yellow,
-    Colors.green,
-    Colors.lightBlueAccent,
-  ];
 
   List<String> optionsHomeList = ['Descubre Bogotá', 'Eventos', '¿Dónde comer?', '¿Dónde Dormir?'];
 }

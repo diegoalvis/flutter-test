@@ -19,7 +19,7 @@ class ProfileEditPage extends StatelessWidget {
   final String nameUser;
   final String lastName;
 
-  ProfileEditPage(this.emailUser,this.nameUser, this.lastName);
+  ProfileEditPage(this.emailUser, this.nameUser, this.lastName);
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +45,46 @@ class ProfileEditWidget extends StatefulWidget {
 class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   final _controllerFullNameUser = TextEditingController();
   final _controllerEmail = TextEditingController();
+  bool changeText = false;
+
+  void cancelChangeDataUser() {
+    String fullNameOriginal = widget._fullNameUser;
+    String emailOriginal = widget._emailUser;
+    setState(() {
+      _controllerEmail.text = emailOriginal;
+      _controllerFullNameUser.text = fullNameOriginal;
+      changeText = false;
+    });
+  }
+
+  void saveChangeDataUser() {
+    setState(() {
+    changeText = false;
+
+    });
+  }
+
+  void _changeValueController() {
+    setState(() {
+      changeText = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _controllerEmail.text = widget._emailUser;
+    _controllerEmail.addListener(_changeValueController);
+
     _controllerFullNameUser.text = widget._fullNameUser;
+    _controllerFullNameUser.addListener(_changeValueController);
+  }
+
+  @override
+  void dispose() {
+    _controllerEmail.dispose();
+    _controllerFullNameUser.dispose();
+    super.dispose();
   }
 
   @override
@@ -144,16 +178,16 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                       foregroundColor: IdtColors.white,
                                       backgroundColor: IdtColors.blue,
                                       radius: 70.0,
-                                      child: Center(
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.camera_alt,
-                                            color: IdtColors.white,
-                                          ),
-                                          iconSize: 37,
-                                          onPressed: () {},
-                                        ),
-                                      ),
+                                      // child: Center(
+                                      //   child: IconButton(
+                                      //     icon: Icon(
+                                      //       Icons.camera_alt,
+                                      //       color: IdtColors.white,
+                                      //     ),
+                                      //     iconSize: 37,
+                                      //     onPressed: () {},
+                                      //   ),
+                                      // ),
                                     ),
                                   );
                                 } else {
@@ -228,7 +262,6 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         SizedBox(
                           height: 30,
                         ),
-
                         TextField(
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
@@ -290,26 +323,36 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
             },
           ),
         ),
-        Positioned(
-          top: 12,
-          left: 10,
-          right: 10,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(
-                Icons.close,
-                size: 40,
-                color: IdtColors.white,
-              ),
-              Icon(
-                Icons.check,
-                size: 40,
-                color: IdtColors.white,
-              ),
-            ],
-          ),
-        ),
+        changeText
+            ? Positioned(
+                top: 40,
+                left: 30,
+                right: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          size: 40,
+                          color: IdtColors.white,
+                        ),
+                        onPressed: () {
+                          cancelChangeDataUser();
+                        }),
+                    IconButton(
+                        icon: Icon(
+                          Icons.check,
+                          size: 40,
+                          color: IdtColors.white,
+                        ),
+                        onPressed: () {
+                          saveChangeDataUser();
+                        }),
+                  ],
+                ),
+              )
+            : SizedBox.shrink(),
         menu
       ],
     );

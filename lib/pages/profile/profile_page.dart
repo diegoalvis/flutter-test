@@ -18,13 +18,10 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ProfilePage extends StatelessWidget {
-
-
   ProfilePage();
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
       create: (_) => ProfileViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
@@ -40,7 +37,6 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
-
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -51,7 +47,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<ProfileViewModel>();
 
     return SafeArea(
@@ -72,9 +67,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     );
   }
 
-
   Widget _buildProfile(ProfileViewModel viewModel) {
-
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     final textTheme = Theme.of(context).textTheme;
@@ -88,9 +81,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           : SizedBox.shrink(),
     );
 
-                    String  imageUrl = '';
+    String imageUrl = '';
     Widget _elevationButtonCustom(String dataText) {
-
       return ElevatedButton(
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -162,17 +154,18 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           radius: 70.0,
                           child: imageUrl.isEmpty
                               ? Text(
-                            snapshot.data.toString()[0].toUpperCase(),
-                            style: TextStyle(fontSize: 50),
-                          )
+                                  snapshot.data.toString()[0].toUpperCase(),
+                                  style: TextStyle(fontSize: 50),
+                                )
                               : SizedBox.shrink()
-                        // NetworkImage(
-                        // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
+                          // NetworkImage(
+                          // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
 /*                      NetworkImage(
                             'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
-                      );
+                          );
                     }
-                  },),
+                  },
+                ),
               ),
               SizedBox(
                 height: 14,

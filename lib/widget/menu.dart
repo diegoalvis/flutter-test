@@ -86,22 +86,24 @@ class IdtMenu extends StatelessWidget {
                       },
                     ),
                   ),
-                  Positioned(
-                    top: 5,
-                    right: 2,
-                    child: Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          await _route.goProfile();
-                          closeMenu();
-                        },
-                        icon: Icon(
-                          IdtIcons.engrane,
-                          size: 27,
-                        ),
-                      ),
-                    ),
-                  )
+                  BoxDataSesion.isLoggedIn
+                      ? Positioned(
+                          top: 5,
+                          right: 2,
+                          child: Container(
+                            child: IconButton(
+                              onPressed: () async {
+                                await _route.goProfile();
+                                closeMenu();
+                              },
+                              icon: Icon(
+                                IdtIcons.engrane,
+                                size: 27,
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink()
                 ],
               )
             ],

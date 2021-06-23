@@ -138,7 +138,6 @@ class ApiInteractor {
 
 
   Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {
-
     final response = await locator<EventService>().getEventSocialById(id);
     return response;
   }

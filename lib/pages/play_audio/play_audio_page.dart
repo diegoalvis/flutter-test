@@ -189,10 +189,11 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                       .toList(),
                   isExpanded: false,
                   iconSize: 30,
-                  underline: SizedBox.shrink(),
+                  
+                  underline: Container(height: 2,color: IdtColors.white,),
                   value: viewModel.status.language,
                   iconEnabledColor: IdtColors.white,
-                  dropdownColor: IdtColors.black.withOpacity(0.95),
+                  dropdownColor: IdtColors.black.withOpacity(0.4),
                   style: textTheme.titleGray,
                   hint: Text('Selecciona'),
                   onChanged: viewModel.selectLanguage,

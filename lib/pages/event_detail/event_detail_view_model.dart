@@ -32,8 +32,8 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
   }
 
  void launchMap(String location) async {
-    String latitude = location.split(", ").first;
-    String longitude = location.split(", ").last;
+    String longitude = location.split(", ").first;
+    String latitude = location.split(", ").last;
     final double lat = double.parse(latitude);
     final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
