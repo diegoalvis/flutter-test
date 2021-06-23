@@ -53,7 +53,7 @@ class PlayAudioWidget extends StatefulWidget {
 class _PlayAudioWidgetState extends State<PlayAudioWidget>
     with SingleTickerProviderStateMixin {
   final _route = locator<IdtRoute>();
-  final List<String> _dropdownValues = [];
+  final List<String> _dropdownValues = ['asd','asdasd', 'asdasd'];
   late AudioPlayer _player;
 
   Future<void> _init() async {
@@ -189,7 +189,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                       .toList(),
                   isExpanded: false,
                   iconSize: 30,
-                  underline: SizedBox.shrink(),
+                  
+                  underline: Container(height: 2,color: IdtColors.white,),
                   value: viewModel.status.language,
                   iconEnabledColor: IdtColors.white,
                   dropdownColor: IdtColors.black.withOpacity(0.95),
