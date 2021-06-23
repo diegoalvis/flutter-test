@@ -96,7 +96,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
                   IdtConstants.url_image + results[index].image.toString(),
                   height: 170.0,
                   width: double.infinity,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

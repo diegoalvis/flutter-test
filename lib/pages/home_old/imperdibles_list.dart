@@ -180,8 +180,6 @@ class _HorizontalAndVerticalListViewState
                                 : Container(),
                       ],
                     ),
-                    //     Image.network(imgList[index], fit: BoxFit.fill, width: 1000.0,height: 150,),
-
                     Container(
                       height: 48,
                       decoration: BoxDecoration(

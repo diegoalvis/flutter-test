@@ -65,7 +65,7 @@ class SavedPlaces extends StatelessWidget {
                   IdtConstants.url_image + image,
                   height: 150,
                   width: double.infinity,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -125,14 +125,17 @@ class SavedPlaces extends StatelessWidget {
             left: 0,
             child: Padding(
               padding: EdgeInsets.only(bottom: 50, left: 5),
-              child: IconButton(
-                iconSize: 45,
-                alignment: Alignment.centerLeft,
-                icon: Icon(
-                  Icons.play_circle_fill,
-                  color: IdtColors.white,
+              child: Transform.rotate(
+                angle: 3.1416,
+                child: IconButton(
+                  iconSize: 45,
+                  alignment: Alignment.centerLeft,
+                  icon: Icon(
+                    Icons.play_circle_fill,
+                    color: IdtColors.white,
+                  ),
+                  onPressed: () => changeSrollController(false),
                 ),
-                onPressed: () => changeSrollController(false),
               ),
             ),
           ),
