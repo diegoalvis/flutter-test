@@ -18,6 +18,11 @@ class FilterService {
   Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
     Map<String, dynamic> queryParameters = {};
 
+    params.forEach((key, value) {
+      queryParameters[key] = value;
+    });
+
+
     await getAllParams(params, queryParameters);
     print('Parametro: $queryParameters');
     final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
