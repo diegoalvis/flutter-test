@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -55,6 +56,26 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     status = status.copyWith(isFavorite: !value);
     print("boll value favorite");
     print(status.isFavorite);
+  }
+
+  Future<bool> isFavorite(String id) async {
+    bool isFavorite = false;
+    // Actualización de lugares guardados/favoritos
+    final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+    if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+      List places = savedPlaces.body!;
+
+      try {
+        final DataModel lugarIsFavoriteSaved =
+            places.firstWhere((element) => element.id == id);
+        if (lugarIsFavoriteSaved != null) {
+          isFavorite = true;
+        }
+      } catch (e) {
+        isFavorite = false;
+      }
+    }
+    return isFavorite;
   }
 
   void onChangeScrollController(bool value, double width) {

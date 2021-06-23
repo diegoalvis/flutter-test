@@ -79,7 +79,7 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
         GoogleSignInAccount? user = _currentUser;
         registerResponse(user?.displayName ?? 'Nombre por defecto', user?.displayName ?? 'Nombre por defecto',
             user?.email ?? 'Nombre por defecto', 'Colombia',
-            user?.displayName ?? 'Nombre por defecto', 'Turismo', '12345');
+            user?.displayName ?? 'Nombre por defecto', 'Turismo', '12345', (){});
        // _handleGetContact(_currentUser!);
       }
     });
@@ -181,7 +181,7 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
     }
 
     registerResponse(String name , String username, String mail, String country,
-        String lastName, String reasonTrip, String password) async {
+        String lastName, String reasonTrip, String password, Function onSuccess) async {
       status = status.copyWith(isLoading: true);
       RegisterRequest params = RegisterRequest(
         // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
@@ -206,7 +206,11 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
           addEffect(ShowRegisterDialogEffect(status.message));
         } else {
           _savedata(registerResponse.body!);
-          _route.goHome();
+          onSuccess();
+          Future.delayed(Duration(seconds: 3)).then((value) {
+            status = status.copyWith(isLoading: false);
+            _route.goHome();
+          });
         }
       } else {
         final erroRes = registerResponse as IdtFailure<RegisterModel?>;
@@ -215,8 +219,9 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
         status = status.copyWith(message: errorMail['error']['mail']);
         print(status.message);
         addEffect(ShowRegisterDialogEffect(status.message));
+        status = status.copyWith(isLoading: false);
       }
-      status = status.copyWith(isLoading: false);
+      
     }
 
   _savedata(RegisterModel loginResponse) async {
