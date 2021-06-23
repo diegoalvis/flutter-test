@@ -66,7 +66,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   String cityValue = "";
   String address = "";
   StreamSubscription<RegisterEffect>? _effectSubscription;
-
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
   @override
   void initState() {
 
@@ -88,8 +89,22 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     final viewModel = context.read<RegisterUserViewModel>();
 
     chargeCountriesAndCities();
-
+   _validatePassword(_controllerPass);
+    _validatePassword(_controllerConfirmPass);
     super.initState();
+  }
+
+  _validatePassword(TextEditingController controller) {
+    controller.addListener(() {
+      if (!RegExp(r'^[a-zA-Z0-9]*$').hasMatch(controller.text)) {
+        showSnack('Solo se permiten caracteres \n alfanuméricos', onPressed: null, duration: null);
+        final text = controller.text;
+        controller.text =
+            text.replaceAll(new RegExp(r'(?![a-zA-Z0-9]).'), '');
+        controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: controller.text.length));
+      }
+    });
   }
 
   void chargeCountriesAndCities() {
@@ -118,6 +133,29 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       }
     });
 
+  }
+
+  showMessagePasswordLength(String text){
+    context.showDialogObservation(titleDialog: 'oh oh!\n Algo ha salido mal...',bodyTextDialog: text, textButton: 'aceptar / cerrar');
+  }
+
+    showSnack(String title, {Function? onPressed, int? duration}) {
+    final snackbar = SnackBar(
+        duration: Duration(seconds: duration ?? 2),
+        action: SnackBarAction(
+          onPressed: onPressed == null ? () {} : onPressed(),
+          label: 'Cerrar',
+        ),
+        content: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ));
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      snackbar,
+    );
   }
 
   @override
@@ -149,6 +187,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     //     _controllerName.text,_controllerName.text, _controllerEmail.text, 'Colombia', _controllerLastNames.text, 'turismo', _controllerPass.text
     // );
 
+    _onSuccessRegister() {
+      context.showDialogObservation(titleDialog: 'Éxito',bodyTextDialog: 'Cuenta creada exitosamente!', textButton: 'aceptar / cerrar', onPressed: (){
+        _route.goHome();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+      });
+    }
 
     _register()  {
       print('register user page');
@@ -157,7 +201,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       // viewModel.status.data = params;
       context.read<RegisterUserViewModel>().registerResponse(
           _controllerName.text,_controllerName.text, _controllerEmail.text,
-          dropdownValueCountry, _controllerLastNames.text, dropdownValue, _controllerPass.text);
+          dropdownValueCountry, _controllerLastNames.text, dropdownValue, _controllerPass.text, _onSuccessRegister);
       _showAlert();
     }
 
@@ -168,8 +212,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         viewModel.status.message=validationResult;
        return _showAlert();
       }
+
+
+      
       if(viewModel.validatePassword(_controllerPass.text,_controllerConfirmPass.text)){
-        return _register();
+
+        if(_controllerPass.text.length >=8 ){
+          return _register();
+        }else{
+          showMessagePasswordLength("La contraseña debe incluir al menos 8 caracteres alfanuméricos");
+        }
       }else{
         viewModel.status.message="Las contraseñas no coinciden";
         return _showAlert();
@@ -277,7 +329,9 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     }
 
 
-    return Scaffold(
+  return ScaffoldMessenger(
+    key: scaffoldMessengerKey,
+    child: Scaffold(
       body: Stack(
         children: [
           CustomScrollView(
@@ -466,7 +520,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               controller: _controllerPass,
                               obscureText: true,
                               decoration: KTextFieldDecoration.copyWith(hintText: 'Contraseña'),
-
                             ),
                             SizedBox(
                               height: 8,
@@ -503,15 +556,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         ),
                       ),
                     ),
-
+  
                   ],
                 ),
               ),
             ),
-
+  
           ]),
           loading
         ],
+      ),
       ),
     );
   }
