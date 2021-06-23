@@ -9,9 +9,11 @@ extension IdtDialog on BuildContext {
   void showDialogObservation(
       {required String titleDialog,
       required String bodyTextDialog,
-      String textButton: 'aceptar / cerrar'}) {
+      String textButton: 'aceptar / cerrar',
+      Function? onPressed,
+      }) {
     final textTheme = Theme.of(this).textTheme;
-    final VoidCallback? onPressed;
+    
     final _route = locator<IdtRoute>();
 
     showDialog(
@@ -55,7 +57,10 @@ extension IdtDialog on BuildContext {
                           textButton.toUpperCase(),
                           style: TextStyle(fontWeight: FontWeight.w900),
                         ),
-                        onPressed: _route.pop,
+                        onPressed: onPressed ==null ?  _route.pop : (){
+                          onPressed();
+                          _route.pop();
+                        },
                       ),
                     ],
                   )
