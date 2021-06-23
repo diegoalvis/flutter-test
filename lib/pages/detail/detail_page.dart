@@ -307,20 +307,24 @@ class _DetailWidgetState extends State<DetailWidget> {
                 left: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: 5),
-                  child: IconButton(
-                    iconSize: 45,
-                    alignment: Alignment.centerLeft,
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                      color: IdtColors.white,
+                  child: Transform.rotate(
+                    angle: 3.1416,
+                    child: IconButton(
+                      iconSize: 45,
+                      alignment: Alignment.centerLeft,
+                      icon: Icon(
+                        Icons.play_circle_fill,
+                        color: IdtColors.white,
+                      ),
+                      onPressed: () => viewModel.onChangeScrollController(false, size.width),
                     ),
-                    onPressed: () => viewModel.onChangeScrollController(false, size.width),
                   ),
                 ),
               ),
               Positioned(
                 //flecha derecha
                 right: 0,
+                bottom: size.height * 1 / 6,
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
                   child: IconButton(
