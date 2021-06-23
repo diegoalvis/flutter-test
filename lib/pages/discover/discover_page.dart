@@ -146,7 +146,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                   child: Image.network(
                     IdtConstants.url_image + item.image!,
                     height: 200,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

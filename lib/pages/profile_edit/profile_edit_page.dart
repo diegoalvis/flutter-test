@@ -178,16 +178,6 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                       foregroundColor: IdtColors.white,
                                       backgroundColor: IdtColors.blue,
                                       radius: 70.0,
-                                      // child: Center(
-                                      //   child: IconButton(
-                                      //     icon: Icon(
-                                      //       Icons.camera_alt,
-                                      //       color: IdtColors.white,
-                                      //     ),
-                                      //     iconSize: 37,
-                                      //     onPressed: () {},
-                                      //   ),
-                                      // ),
                                     ),
                                   );
                                 } else {
@@ -204,19 +194,19 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                                 }
                               },
                             ),
-                            Positioned(
-                              bottom: 3,
-                              child: Container(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.camera_alt,
-                                    color: IdtColors.white,
-                                  ),
-                                  iconSize: 37,
-                                  onPressed: () {},
-                                ),
-                              ),
-                            )
+                            // Positioned(
+                            //   bottom: 3,
+                            //   child: Container(
+                            //     child: IconButton(
+                            //       icon: Icon(
+                            //         Icons.camera_alt,
+                            //         color: IdtColors.white,
+                            //       ),
+                            //       iconSize: 37,
+                            //       onPressed: () {},
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                         SizedBox(
