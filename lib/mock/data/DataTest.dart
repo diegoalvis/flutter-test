@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class DataTest {
   DataTest._();
 
@@ -140,6 +142,13 @@ class DataTest {
     'El Templo de San Francisco',
     'Biblioteca Luis Ángel Arango',
     'Sendero Quebrada Las Delicias'
+  ];
+
+  static const List<Color> colorsHomeList = [
+    Colors.deepOrange,
+    Colors.yellow,
+    Colors.green,
+    Colors.lightBlueAccent,
   ];
 
   static List<Map<String, dynamic>> List2(bool isLogged) {
