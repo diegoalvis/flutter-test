@@ -10,6 +10,7 @@ import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
@@ -114,14 +115,14 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             fit: BoxFit.cover,
           ),
           Positioned(
-              top: 250,
+              top: 325,
               // bottom: 100,
-              left: -12,
+              //sleft: 0,
               right: 0,
               child: SizedBox(
-                child: Image(image: AssetImage(IdtAssets.curve_up),
-                    height: size.height * 0.8
-                ),
+                child: SvgPicture.asset(IdtAssets.curve_up,
+                    width: size.width,
+                    color: IdtColors.white, fit: BoxFit.contain)
 
 /*                SvgPicture.asset(IdtAssets.curve_up,
                     color: IdtColors.white, fit: BoxFit.fill),*/
@@ -230,43 +231,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                       SizedBox(
                         height: 16,
                       ),
-                      Text('o recuperar a través de',
-                          style: textTheme.textDetail.copyWith(fontSize: 14, color: IdtColors.gray)),
-                      Positioned(
-                          bottom: 60,
-                          left: 50,
-                          child: Container(
-                            color: Colors.white,
-                            height: 60,
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(color: Colors.white,
-                                  child: Image(image:AssetImage(IdtAssets.facebook)),
-                                  width: 40,
-                                  height: 40,
-                                ),
-                                SizedBox(width: 8,),
-                                Container(color: Colors.white,
-                                  width: 40,
-                                  height: 40,
-                                  child: Image(
-                                    image:AssetImage(IdtAssets.google),
-                                  ),
 
-                                ),
-                                SizedBox(width: 8,),
-                                Container(color: Colors.white,
-                                  width: 50,
-                                  height: 50,
-                                  child: Image(
-                                    image:AssetImage(IdtAssets.apple),
-                                  ),
-
-                                )
-                              ],),
-                          )),
 
                       Text('Oficina de turismo de Bogotá',
                           style: textTheme.textDetail.copyWith(
