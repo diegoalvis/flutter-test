@@ -200,7 +200,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                   viewModel.onChangeScrollController,
                   scrollController,
                   viewModel.goDetailPage,
-                  viewModel.status.itemsSavedPlaces),
+                  viewModel.status.itemsSavedPlaces,
+                  viewModel.status.itemAudiosSavedPlaces,
+                  viewModel.status.listBoolAudio,
+                  viewModel.status.listBoolAll,
+
+                    ),
 
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,

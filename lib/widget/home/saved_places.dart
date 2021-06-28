@@ -6,6 +6,7 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/widget/title_section.dart';
@@ -24,7 +25,11 @@ class SavedPlaces extends StatelessWidget {
   final Function(bool) changeSrollController;
   final ScrollController scrollController;
   final Function(String) onTapCard;
-  late List<DataModel>? savedPlaces;
+  late List<DataAudioGuideModel>? savedPlaces;
+  late List<DataAudioGuideModel>? audioSavedPlaces;
+  late List<bool> listBoolAudio;
+  late List<bool> listBoolAll;
+
 
   SavedPlaces(
       this.openSaved,
@@ -36,7 +41,11 @@ class SavedPlaces extends StatelessWidget {
       this.changeSrollController,
       this.scrollController,
       this.onTapCard,
-      this.savedPlaces);
+      this.savedPlaces,
+      this.audioSavedPlaces,
+      this.listBoolAudio,
+      this.listBoolAll
+      );
 
   Widget imagesCard(String image, int index, List<bool> listGuide) =>
       (Container(
@@ -84,7 +93,7 @@ class SavedPlaces extends StatelessWidget {
     BuildContext context,
     TextTheme textTheme,
     List<bool> listGuide,
-    List<DataModel> listImages,
+    List<DataAudioGuideModel> listImages,
   ) =>
       Stack(
         alignment: Alignment.center,
@@ -312,6 +321,7 @@ class SavedPlaces extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
+
     return Column(
       children: [
         _textTitle(textTheme),
@@ -327,8 +337,8 @@ class SavedPlaces extends StatelessWidget {
                         SliderImages(
                           context,
                           textTheme,
-                          seeAll ? DataTest.boolList : DataTest.boolListAudio,
-                          (seeAll ? savedPlaces : savedPlaces)!,
+                          seeAll ? listBoolAll : listBoolAudio,
+                          (seeAll ? savedPlaces : audioSavedPlaces)!,
                         ),
                         widget_row_buttons(textTheme),
                       ],

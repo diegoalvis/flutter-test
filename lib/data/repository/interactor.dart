@@ -108,7 +108,7 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getSavedPlacesList() async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getSavedPlacesList() async {
     final response = await locator<SavedPlacesService>().getSavedPlaces();
     return response;
   }

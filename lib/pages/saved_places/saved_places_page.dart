@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -63,9 +64,9 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   Widget _buildSavedPlaces(SavedPlacesViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
     final _route = locator<IdtRoute>();
-    final List<DataModel> _saved = viewModel.status.itemsSavedPlaces;
+    final List<DataAudioGuideModel> _saved = viewModel.status.itemsSavedPlaces;
 
-    Widget gridImagesCol(List<DataModel> listItems) {
+    Widget gridImagesCol(List<DataAudioGuideModel> listItems) {
       return ListView.builder(
           itemCount: listItems.length,
           physics: ScrollPhysics(),

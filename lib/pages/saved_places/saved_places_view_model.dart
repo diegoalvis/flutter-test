@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -40,7 +41,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   void loadSavedPlaces() async {
     final savedResponse = await _interactor.getSavedPlacesList();
 
-    if (savedResponse is IdtSuccess<List<DataModel>?>) {
+    if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
 
       List<bool> list = List.filled(savedResponse.body!.length, false);
       status = status.copyWith(listSwitch: list);

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
@@ -32,7 +34,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       itemsUnmissablePlaces: [],
       itemsEatPlaces: [],
       itemsbestRatedPlaces: [],
-      itemsSavedPlaces: []
+      itemsSavedPlaces: [],
+      itemAudiosSavedPlaces:[],
+      listBoolAudio: [],
+      listBoolAll: []
     );
   }
 
@@ -43,6 +48,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // getEatResponse();
     getBestRatedResponse();
 
+    onpenSavedPlaces();
   }
 
 
@@ -107,13 +113,35 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onpenSavedPlaces() async {
     print('se abre lugares guardados');
     final bool value = status.openSaved;
+
     status = status.copyWith(openSaved: !value);
 
     final savedResponse = await _interactor.getSavedPlacesList();
 
-    if (savedResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsSavedPlaces: savedResponse.body); // Status reasignacion
-      // status.places.addAll(UnmissableResponse.body)
+    if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
+      if(savedResponse.body!.length>0){
+        //hay lugares guardados
+        status = status.copyWith(notSaved: false);
+      }
+      status = status.copyWith(itemsSavedPlaces: savedResponse.body);// Status reasignacion
+      print(savedResponse.body!.where((f) => f.audioguia_es != null).toList());
+      status = status.copyWith(itemAudiosSavedPlaces: savedResponse.body!.where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||f.audioguia_en != null && f.audioguia_en != '' || f.audioguia_pt != null && f.audioguia_pt != '')).toList()); //filtro audios
+      List<bool> listAudio = [];
+      List<bool> listAll = [];
+      for(final f in savedResponse.body!) {
+        //
+        if (f.audioguia_es != null && f.audioguia_es != '' ||
+            f.audioguia_en != null && f.audioguia_en != '' ||
+            f.audioguia_pt != null && f.audioguia_pt != '') {
+          listAudio.add(true);
+          print(listAudio);
+          listAll.add(true);
+        } else {
+          listAll.add(false);
+        }
+      }
+      status = status.copyWith(listBoolAudio: listAudio); //filtro audios
+      status = status.copyWith(listBoolAll: listAll);
     } else {
       final erroRes = savedResponse as IdtFailure<EatError>;
       print(erroRes.message);
@@ -129,10 +157,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void addSavedPLaces() {
     print('se muestran lugares guardados');
-    onpenSavedPlaces();
+    //onpenSavedPlaces();
     status = status.copyWith(notSaved: false);
 
   }
+
 
   void onTapSeeAll(bool value) {
     status = status.copyWith(seeAll: value);

@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/model/response/audioguides_response.dart';
 
 import 'package:bogota_app/data/model/response/places_response.dart';
 
@@ -11,7 +13,7 @@ import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:http/http.dart' as http;
 
 class SavedPlacesService {
-  Future<IdtResult<List<DataModel>?>> getSavedPlaces() async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getSavedPlaces() async {
     CurrentUser user = BoxDataSesion.getCurrentUser()!;
     final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
 
@@ -27,7 +29,7 @@ class SavedPlacesService {
       switch (response.statusCode) {
         case 200:
           {
-            final entity = PlacesResponse.fromJson(body);
+            final entity = AudioGuidesResponse.fromJson(body);
             return IdtResult.success(entity.data);
           }
 
