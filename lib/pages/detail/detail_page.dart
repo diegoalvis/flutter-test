@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -92,7 +93,6 @@ class _DetailWidgetState extends State<DetailWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DetailViewModel>();
-    
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -245,11 +245,10 @@ class _DetailWidgetState extends State<DetailWidget> {
                           },
                         ),
                       ),
-                      Container(
+                    BoxDataSesion.isLoggedIn ? Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 15.0),
-                        child: BoxDataSesion.isLoggedIn
-                            ? IconButton(
+                        child: IconButton(
                                 alignment: Alignment.centerRight,
                                 icon: Icon(
                                   viewModel.status.isFavorite
@@ -261,8 +260,8 @@ class _DetailWidgetState extends State<DetailWidget> {
                                 iconSize: 30,
                                 onPressed: () => viewModel.onTapFavorite(widget._detail.id),
                               )
-                            : Container(),
-                      ),
+                            ,
+                      ): SizedBox.shrink(),
                     ],
                   ),
                 )

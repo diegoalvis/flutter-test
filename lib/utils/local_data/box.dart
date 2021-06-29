@@ -106,9 +106,20 @@ class BoxDataSesion {
 
 
   static bool get isLoggedIn {
-    final Person? value = box.get(0);
-    print('✔ Se verifica si logueado ${value != null}');
-    return value != null;
+    late bool value;
+    late var data=null;
+    try {
+      data = getCurrentUser();
+      print("data $data");
+      if(data != null || data != ''){
+        value= true;
+      }
+    }catch(e){
+      print("catch $data");
+      value = false;
+    };
+    print("value $value");
+    return value;
   }
 
   static void clearBox() {
