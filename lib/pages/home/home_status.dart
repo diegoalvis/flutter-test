@@ -9,6 +9,7 @@ class HomeStatus extends ViewStatus {
   final bool openSaved;
   final bool notSaved;
   final bool seeAll;
+  late List imagesMenu;
   late List<DataModel> itemsUnmissablePlaces;
   late List<DataModel> itemsEatPlaces;
   late List<DataModel> itemsbestRatedPlaces;
@@ -17,12 +18,13 @@ class HomeStatus extends ViewStatus {
   late List<bool> listBoolAudio;
   late List<bool> listBoolAll;
 
-  HomeStatus( {required this.itemsEatPlaces, required this.itemsUnmissablePlaces, required this.itemsbestRatedPlaces,
+
+  HomeStatus( {required this.imagesMenu,required this.itemsEatPlaces, required this.itemsUnmissablePlaces, required this.itemsbestRatedPlaces,
     required this.itemsSavedPlaces, required this.itemAudiosSavedPlaces,
     required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll, required this.listBoolAudio, required this.listBoolAll});
 
-  HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,
+  HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,List? imagesMenu,
     bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsEatPlaces, List<DataModel>?itemsbestRatedPlaces ,
   List<DataAudioGuideModel>? itemsSavedPlaces, List<DataAudioGuideModel>? itemAudiosSavedPlaces,
   List<bool>? listBoolAudio,List<bool>? listBoolAll}) {
@@ -33,6 +35,7 @@ class HomeStatus extends ViewStatus {
       openSaved: openSaved ?? this.openSaved,
       notSaved: notSaved ?? this.notSaved,
       seeAll: seeAll ?? this.seeAll,
+      imagesMenu: imagesMenu ?? this.imagesMenu,
       itemsUnmissablePlaces: itemsUnmissablePlaces ?? this.itemsUnmissablePlaces,
       itemsEatPlaces: itemsEatPlaces ?? this.itemsEatPlaces,
       itemsbestRatedPlaces: itemsbestRatedPlaces ?? this.itemsbestRatedPlaces,

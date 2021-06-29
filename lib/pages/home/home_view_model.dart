@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/data/model/menu_images_model.dart';
 
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -11,8 +13,11 @@ import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
+import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
+import 'package:bogota_app/utils/errors/menu_images_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
+import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +30,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
+      imagesMenu: [],
       titleBar: 'Recibidos',
       isLoading: false,
       openMenu: false,
@@ -47,11 +53,24 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     getUnmissableResponse();
     // getEatResponse();
     getBestRatedResponse();
+    getImagesMenu();
 
     onpenSavedPlaces();
   }
 
+  void getImagesMenu() async {
+    final response = await _interactor.getImagesMenu();
 
+    if (response is IdtSuccess<MenuImagesModel>) {
+      status = status.copyWith(imagesMenu: response.body.menu);
+
+    } else {
+
+      final erroRes = response as IdtFailure<MenuImagesError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+  }
 
 
   void getUnmissableResponse() async {
@@ -113,7 +132,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void onpenSavedPlaces() async {
     print('se abre lugares guardados');
     final bool value = status.openSaved;
-
     status = status.copyWith(openSaved: !value);
 
     final savedResponse = await _interactor.getSavedPlacesList();

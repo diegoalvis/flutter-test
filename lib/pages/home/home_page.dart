@@ -147,7 +147,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                         height: (size.height - 140) / optionsHomeList.length,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(IdtAssets.bogota_dc_travel),
+                            image: viewModel.status.imagesMenu.length != 0
+                                ? NetworkImage(IdtConstants.url_image +
+                                        viewModel.status.imagesMenu[index]
+                                            .replaceAll(' ', ''))
+                                : AssetImage(IdtAssets.bogota_dc_travel) as ImageProvider,
                             fit: BoxFit.fill,
                           ),
                         ),
