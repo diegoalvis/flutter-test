@@ -5,6 +5,7 @@ import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
+import 'package:bogota_app/data/model/menu_images_model.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
 import 'package:bogota_app/data/model/response_model.dart';
 import 'package:bogota_app/data/model/response_model_reset_password.dart';
@@ -26,6 +27,7 @@ import 'package:bogota_app/data/repository/service/splash_service.dart';
 import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
+import 'service/menu_images_service.dart';
 import 'service/reset_password.dart';
 import 'service/search_service.dart';
 import 'service/zone_service.dart';
@@ -115,6 +117,12 @@ class ApiInteractor {
 
   Future<IdtResult<SplashModel>> getSplashInteractor() async {
     final response = await locator<SplashService>().getSplash();
+
+    return response;
+  }
+
+  Future<IdtResult<MenuImagesModel>> getImagesMenu() async {
+    final response = await locator<MenuImagesService>().getMenuImages();
 
     return response;
   }

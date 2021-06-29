@@ -9,6 +9,7 @@ import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/data/repository/service/eat_service.dart';
 import 'package:bogota_app/data/repository/service/gps_service.dart';
 import 'package:bogota_app/data/repository/service/login_service.dart';
+import 'package:bogota_app/data/repository/service/menu_images_service.dart';
 import 'package:bogota_app/data/repository/service/register_service.dart';
 import 'package:bogota_app/data/repository/service/reset_password.dart';
 import 'package:bogota_app/data/repository/service/search_service.dart';
@@ -27,6 +28,7 @@ void setUpLocator() async {
   locator.registerSingleton<FilterService>(FilterService());
   locator.registerSingleton<GpsService>(GpsService());
   locator.registerSingleton<SplashService>(SplashService());
+  locator.registerSingleton<MenuImagesService>(MenuImagesService());
 
   locator.registerSingleton<UnmissableService>(UnmissableService());
   locator.registerSingleton<EatService>(EatService());
