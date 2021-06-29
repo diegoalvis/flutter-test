@@ -10,6 +10,7 @@ import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_view_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -50,18 +51,19 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     final viewModel = context.read<HomeViewModel>();
 
-    // _effectSubscription = viewModel.effects.listen((event) {
-    //   if (event is HomeValueControllerScrollEffect) {
-    //     scrollController.animateTo(
-    //         event.next
-    //             ? scrollController.offset + IdtConstants.itemSize
-    //             : scrollController.offset - IdtConstants.itemSize,
-    //         curve: Curves.linear,
-    //         duration: Duration(milliseconds: event.duration));
-    //   } else if (event is ShowDialogEffect) {
-    //     context.showDialogObservation(titleDialog: 'Titulo del Dialogo',bodyTextDialog: 'Cuerpo del Dialogo');
-    //   }
-    // });
+     _effectSubscription = viewModel.effects.listen((event) {
+       if (event is HomeValueControllerScrollEffect) {
+         print(event.next);
+         scrollController.animateTo(
+            event.next
+                 ? scrollController.offset + IdtConstants.itemSize
+                 : scrollController.offset - IdtConstants.itemSize,
+             curve: Curves.linear,
+             duration: Duration(milliseconds: event.duration));
+       } else if (event is ShowDialogEffect) {
+         context.showDialogObservation(titleDialog: 'Titulo del Dialogo',bodyTextDialog: 'Cuerpo del Dialogo');
+       }
+    });
     super.initState();
   }
 
@@ -190,7 +192,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
-              SavedPlaces(
+              BoxDataSesion.isLoggedIn?SavedPlaces(
                   viewModel.status.openSaved,
                   viewModel.onpenSavedPlaces,
                   viewModel.status.notSaved,
@@ -204,8 +206,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   viewModel.status.itemAudiosSavedPlaces,
                   viewModel.status.listBoolAudio,
                   viewModel.status.listBoolAll,
-
-                    ),
+                    ):SizedBox.shrink(),
 
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,

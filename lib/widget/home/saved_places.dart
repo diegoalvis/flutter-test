@@ -133,7 +133,7 @@ class SavedPlaces extends StatelessWidget {
           Positioned(
             left: 0,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 50, left: 5),
+              padding: EdgeInsets.only(bottom: 50, left: 2),
               child: Transform.rotate(
                 angle: 3.1416,
                 child: IconButton(
@@ -326,7 +326,10 @@ class SavedPlaces extends StatelessWidget {
       children: [
         _textTitle(textTheme),
         AnimatedCrossFade(
-          duration: Duration(milliseconds: 400),
+          firstCurve: Curves.easeOut,
+          secondCurve: Curves.easeIn,
+          sizeCurve: Curves.bounceOut,
+          duration: Duration(milliseconds: 500),
           firstChild: Column(
             children: [
               SizedBox(height: 12),

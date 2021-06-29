@@ -168,7 +168,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void onChangeScrollController(bool value) {
-    addEffect(HomeValueControllerScrollEffect(300, value));
+    addEffect(HomeValueControllerScrollEffect(200, value));
   }
  void goDetailPage(String id) async {
    status = status.copyWith(isLoading: true);
