@@ -29,10 +29,10 @@ class SplashViewModel extends ViewModel<SplashStatus> {
 
     if (response is IdtSuccess<SplashModel>) {
       status = status.copyWith(imgSplash: IdtConstants.url_image + response.body.background.toString());
-      await Future.delayed(Duration (seconds: 3));
+      await Future.delayed(Duration (seconds: 5));
       _route.goHome();
     } else {
-      await Future.delayed(Duration (seconds: 3));
+      await Future.delayed(Duration (seconds: 5));
       _route.goHome();
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);

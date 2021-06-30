@@ -51,18 +51,19 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     final viewModel = context.read<HomeViewModel>();
 
-     _effectSubscription = viewModel.effects.listen((event) {
-       if (event is HomeValueControllerScrollEffect) {
-         print(event.next);
-         scrollController.animateTo(
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is HomeValueControllerScrollEffect) {
+        print(event.next);
+        scrollController.animateTo(
             event.next
-                 ? scrollController.offset + IdtConstants.itemSize
-                 : scrollController.offset - IdtConstants.itemSize,
-             curve: Curves.linear,
-             duration: Duration(milliseconds: event.duration));
-       } else if (event is ShowDialogEffect) {
-         context.showDialogObservation(titleDialog: 'Titulo del Dialogo',bodyTextDialog: 'Cuerpo del Dialogo');
-       }
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+        context.showDialogObservation(
+            titleDialog: 'Titulo del Dialogo', bodyTextDialog: 'Cuerpo del Dialogo');
+      }
     });
     super.initState();
   }
@@ -146,21 +147,20 @@ class _HomeWidgetState extends State<HomeWidget> {
                       child: Container(
                         height: (size.height - 140) / optionsHomeList.length,
                         decoration: BoxDecoration(
+                          color: viewModel.status.imagesMenu.length != 0
+                              ? DataTest.colorsHomeList[index].withOpacity(0.7)
+                              : null,
                           image: DecorationImage(
                             image: viewModel.status.imagesMenu.length != 0
                                 ? NetworkImage(IdtConstants.url_image +
-                                        viewModel.status.imagesMenu[index]
-                                            .replaceAll(' ', ''))
-                                : AssetImage(IdtAssets.bogota_dc_travel) as ImageProvider,
+                                    viewModel.status.imagesMenu[index].replaceAll(' ', ''))
+                                : AssetImage(IdtAssets.curve_down) as ImageProvider,
                             fit: BoxFit.fill,
                           ),
                         ),
                         child: Stack(
                           alignment: AlignmentDirectional.center,
                           children: [
-                            Container(
-                              color: DataTest.colorsHomeList[index].withOpacity(0.4),
-                            ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Row(
@@ -196,21 +196,23 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
-              BoxDataSesion.isLoggedIn?SavedPlaces(
-                  viewModel.status.openSaved,
-                  viewModel.onpenSavedPlaces,
-                  viewModel.status.notSaved,
-                  viewModel.addSavedPLaces,
-                  viewModel.status.seeAll,
-                  viewModel.onTapSeeAll,
-                  viewModel.onChangeScrollController,
-                  scrollController,
-                  viewModel.goDetailPage,
-                  viewModel.status.itemsSavedPlaces,
-                  viewModel.status.itemAudiosSavedPlaces,
-                  viewModel.status.listBoolAudio,
-                  viewModel.status.listBoolAll,
-                    ):SizedBox.shrink(),
+              BoxDataSesion.isLoggedIn
+                  ? SavedPlaces(
+                      viewModel.status.openSaved,
+                      viewModel.onpenSavedPlaces,
+                      viewModel.status.notSaved,
+                      viewModel.addSavedPLaces,
+                      viewModel.status.seeAll,
+                      viewModel.onTapSeeAll,
+                      viewModel.onChangeScrollController,
+                      scrollController,
+                      viewModel.goDetailPage,
+                      viewModel.status.itemsSavedPlaces,
+                      viewModel.status.itemAudiosSavedPlaces,
+                      viewModel.status.listBoolAudio,
+                      viewModel.status.listBoolAll,
+                    )
+                  : SizedBox.shrink(),
 
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
