@@ -169,7 +169,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
               style: textTheme.textWhiteShadow.copyWith(fontSize: 25),
             ),
           ),
-          OutlineButton(
+          _dropdownValues.length<1? OutlineButton(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
                 decoration: BoxDecoration(
@@ -206,7 +206,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
               borderSide: BorderSide(color: IdtColors.white, width: 1),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
-              onPressed: () {}),
+              onPressed: () {}):SizedBox.shrink(),
           SizedBox(
             height: 20,
           ),
