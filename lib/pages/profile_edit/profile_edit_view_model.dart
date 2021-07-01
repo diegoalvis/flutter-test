@@ -53,7 +53,7 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
   // }
   void goLoginAll() {
     BoxDataSesion.clearBoxCurrentUser();
-    _route.goLoginAll();
+    _route.goHome();
   }
 
 
