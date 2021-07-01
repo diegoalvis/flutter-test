@@ -70,14 +70,15 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
       print("An error occured $e");
     }
   }
-  _filldropdown(DataPlacesDetailModel _detail){
-    if(_detail.url_audioguia_es != ''){
+
+  _filldropdown(DataPlacesDetailModel _detail) {
+    if (_detail.url_audioguia_es != '') {
       _dropdownValues.insert(0, "Español");
     }
-    if(_detail.url_audioguia_en != ''){
+    if (_detail.url_audioguia_en != '') {
       _dropdownValues.insert(1, "Inglés");
     }
-    if(_detail.url_audioguia_pt != ''){
+    if (_detail.url_audioguia_pt != '') {
       _dropdownValues.insert(2, "Portugués");
     }
 
@@ -189,8 +190,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                       .toList(),
                   isExpanded: false,
                   iconSize: 30,
-                  
-                  underline: Container(height: 2,color: IdtColors.white,),
+                  underline: Container(
+                    height: 2,
+                    color: IdtColors.white,
+                  ),
                   value: viewModel.status.language,
                   iconEnabledColor: IdtColors.white,
                   dropdownColor: IdtColors.black.withOpacity(0.4),
@@ -249,7 +252,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                   color: IdtColors.transparent,
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding:EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,8 +268,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                             padding: EdgeInsets.only(left: 10, bottom: 4),
                             alignment: Alignment.bottomCenter,
                             onPressed: _route.pop,
-                          )
-                          ,
+                          ),
                         ),
                         Container(
                           child: Padding(
@@ -339,9 +341,15 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                         BoxConstraints constraints) {
                                   print("--- ${MediaQuery.of(context).size}");
                                   print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.58)}");
-                                  widget.sizeContainer =
-                                      MediaQuery.of(context).size.width / 1.58;
+                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  if (MediaQuery.of(context).size.width < 390) {
+                                    widget.sizeContainer =
+                                        MediaQuery.of(context).size.width / 2;
+                                  } else {
+                                    widget.sizeContainer =
+                                        MediaQuery.of(context).size.width /
+                                            1.65;
+                                  }
                                   return Container(
                                     child: AnimatedContainerApp(
                                         widget.sizeContainer,
@@ -377,9 +385,16 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                         BoxConstraints constraints) {
                                   print("--- ${MediaQuery.of(context).size}");
                                   print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.58)}");
-                                  widget.sizeContainer =
-                                      MediaQuery.of(context).size.width / 1.58;
+                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  if (MediaQuery.of(context).size.width < 390) {
+                                    widget.sizeContainer =
+                                        MediaQuery.of(context).size.width / 2;
+                                  } else {
+                                    widget.sizeContainer =
+                                        MediaQuery.of(context).size.width /
+                                            1.65;
+                                  }
+
                                   return Container(
                                     child: PositionDuration(
                                       AnimatedContainerApp(
@@ -722,6 +737,13 @@ class _SeekBarState extends State<SeekBar> {
 
   @override
   Widget build(BuildContext context) {
+    double cohefIndicator = 1.1; // Ayuda a ubicar el slider a un aproximado de su posición
+    if (widget.width < 200) {
+      cohefIndicator = 1.2;
+    } else {
+      cohefIndicator = 1.1;
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 0,
@@ -731,7 +753,7 @@ class _SeekBarState extends State<SeekBar> {
         horizontal: 0,
         vertical: 0,
       ),
-      width: widget.width * 1.1,
+      width: widget.width * cohefIndicator,
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
