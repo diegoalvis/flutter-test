@@ -8,9 +8,10 @@ class LoginButtons extends StatelessWidget {
 
   Function(int)? login;
   VoidCallback? logout;
+  VoidCallback? alert;
 
 
-  LoginButtons({this.login,this.logout});
+  LoginButtons({this.login,this.logout, this.alert});
 
   // ignore: empty_constructor_bodies
   @override

@@ -404,7 +404,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
                 Positioned(
                     bottom: size.height * 0.1,
-                    child: LoginButtons(logout: viewModel.logOut, login: viewModel.login)),
+                    child: LoginButtons(logout: viewModel.logOut, login: viewModel.login, alert:_showAlert())),
                 Positioned(
                   bottom: 10,
                   child: Column(

@@ -540,7 +540,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                   fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
                               onPressed: () => _validations(),
                             ),
-                            LoginButtons(logout: viewModel.logOut,login: viewModel.login,),
+                            LoginButtons(logout: viewModel.logOut,login: viewModel.login, alert:_showAlert() ),
                             Spacer(),
                             Text(
                               'Oficina de turismo de Bogotá',
