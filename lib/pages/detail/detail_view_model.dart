@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -62,11 +63,11 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     bool isFavorite = false;
     // Actualización de lugares guardados/favoritos
     final dynamic savedPlaces = await _interactor.getSavedPlacesList();
-    if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+    if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
       List places = savedPlaces.body!;
 
       try {
-        final DataModel lugarIsFavoriteSaved =
+        final DataAudioGuideModel lugarIsFavoriteSaved =
             places.firstWhere((element) => element.id == id);
         if (lugarIsFavoriteSaved != null) {
           isFavorite = true;
@@ -76,7 +77,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
       }
     }
     return isFavorite;
-  }
+    }
 
   void onChangeScrollController(bool value, double width) {
     addEffect(DetailControllerScrollEffect(300, width, value));
