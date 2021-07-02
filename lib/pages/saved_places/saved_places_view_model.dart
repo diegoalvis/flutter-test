@@ -50,15 +50,34 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
       Person person = BoxDataSesion.getFromBox(user.id_db!)!;
 
       print("savedResponse.body!.length ${savedResponse.body!.length}");
-
+      var index =0;
       for(final f in savedResponse.body!) {
-          for (final e in person.audioguias!){
-            if (e![(int.parse(f.id!)).toString()] != null ) {
-              listAudio.add(true);
-            }else{
-              listAudio.add(false);
+        print("entra a for");
+        print(person.audioguias);
+
+
+        try{
+          print("person.audioguias! ${person.audioguias!}");
+          if(person.audioguias! != null){
+            for (final e in person.audioguias!){
+              if (e![(int.parse(f.id!)).toString()] != null ) {
+                listAudio.add(true);
+              }else{
+/*              if(listAudio[index]== true){
+              }else{
+                listAudio.add(false);
+              }*/
+                listAudio.add(false);
+              }
+              index = index +1;
             }
           }
+        }
+        catch(e) {
+          listAudio = List.filled(savedResponse.body!.length, false);
+          print(listAudio.length);
+        }
+
       }
       print(listAudio);
 
