@@ -59,16 +59,19 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
     final viewModel = context.watch<ResultSearchViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          bottomNavigationBar: viewModel.status.openMenu
-              ? null
-              : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            bottomNavigationBar: viewModel.status.openMenu
+                ? null
+                : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 

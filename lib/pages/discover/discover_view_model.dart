@@ -170,4 +170,15 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     _route.goAudioGuide();
     closeMenuTab();
   }
+
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
 }

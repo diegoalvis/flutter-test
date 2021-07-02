@@ -62,11 +62,14 @@ class _SettingWidgetState extends State<SettingWidget>
         decoration: BoxDecoration(
           color: IdtColors.white,
         ),
-        child: Scaffold(
-            appBar: IdtAppBar(viewModel.openMenu),
-            backgroundColor: Colors.transparent,
-            // floatingActionButton: IdtFab(homeSelect: true),
-            body: _buildConfigApp(viewModel)),
+        child: WillPopScope(
+            onWillPop: viewModel.offMenuBack,
+          child: Scaffold(
+              appBar: IdtAppBar(viewModel.openMenu),
+              backgroundColor: Colors.transparent,
+              // floatingActionButton: IdtFab(homeSelect: true),
+              body: _buildConfigApp(viewModel)),
+        ),
       ),
     );
   }

@@ -45,7 +45,19 @@ class SettingViewModel extends ViewModel<SettingStatus> {
     status = status.copyWith(switchNotification2: value);
   }
 
-  // void goProfileEditPage() {
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
+
+
+// void goProfileEditPage() {
   //   _route.goProfileEdit();
   // }
 

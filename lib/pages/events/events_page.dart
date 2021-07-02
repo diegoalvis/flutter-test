@@ -81,15 +81,18 @@ class _EventsWidgetState extends State<EventsWidget> {
     final viewModel = context.watch<EventsViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 

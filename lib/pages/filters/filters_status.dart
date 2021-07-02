@@ -16,6 +16,7 @@ class FiltersStatus extends ViewStatus{
   final String section;
   final String type;
   final List<StaggeredTile> staggedList;
+  final bool shouldPop = true;
 
   FiltersStatus({required this.type,required this.isLoading, required this.openMenu, required this.openMenuTab, required this.openMenuFilter,
     required this.filterSubcategory, required this.filterZone, required this.filterCategory,required this.itemsFilter,

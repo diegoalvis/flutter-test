@@ -78,10 +78,6 @@ class IdtMenu extends StatelessWidget {
                                       style: TextStyle(fontSize: 50),
                                     )
                                   : SizedBox.shrink()
-                              // NetworkImage(
-                              // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
-/*                      NetworkImage(
-                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                               );
                         }
                       },

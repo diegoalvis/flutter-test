@@ -43,7 +43,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       itemsSavedPlaces: [],
       itemAudiosSavedPlaces:[],
       listBoolAudio: [],
-      listBoolAll: []
+      listBoolAll: [],
     );
   }
 
@@ -122,7 +122,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void openMenu() {
     status = status.copyWith(openMenu: !status.openMenu);
-
   }
 
   void closeMenu() {
@@ -221,6 +220,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       final erroRes = response as IdtFailure<GpsError>;
       print(erroRes.message);
       UnimplementedError();
+    }
+  }
+
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
     }
   }
 

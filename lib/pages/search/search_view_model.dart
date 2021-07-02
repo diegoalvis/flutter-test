@@ -65,4 +65,16 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
   void onTapDrawer(String type) async {
     status = status.copyWith(isLoading: true);
   }
+
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
+
 }

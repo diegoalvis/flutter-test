@@ -64,6 +64,7 @@ class FiltersWidget extends StatefulWidget {
 class _FiltersWidgetState extends State<FiltersWidget> {
   final scrollController = ScrollController();
   StreamSubscription<FilterEffect>? _effectSubscription;
+
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -81,7 +82,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',textButton: 'aceptar / cerrar');
+        context.showDialogObservation(
+            titleDialog: 'Sin resultados',
+            bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',
+            textButton: 'aceptar / cerrar');
       }
     });
 
@@ -94,15 +98,18 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     final viewModel = context.watch<FiltersViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 
@@ -285,7 +292,11 @@ class _FiltersWidgetState extends State<FiltersWidget> {
 
               final DataModel value = entry.value;
 
-              return imagesCard(value, index, listItems,);
+              return imagesCard(
+                value,
+                index,
+                listItems,
+              );
             }).toList(),
             mainAxisSpacing: 8.0,
             crossAxisSpacing: 3.0,
