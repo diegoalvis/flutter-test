@@ -14,7 +14,9 @@ import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/admin/directory_v1.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../app_theme.dart';
 
@@ -47,16 +49,27 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DiscoverViewModel>();
-
-    return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+    
+    return VisibilityDetector(
+      key: Key('discover-page-visible'),
+      onVisibilityChanged: (visibilityInfo) {
+        var visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100) {
+          // context.read<DiscoverViewModel>().onInit();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            bottomNavigationBar:
+                viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 

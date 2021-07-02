@@ -21,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../app_theme.dart';
 
@@ -71,8 +72,16 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<UnmissableViewModel>();
-
-    return SafeArea(
+    // VisibilityDetector Esta funcionalidad permitiria conocer si la pantalla se tapo con algo
+    // por ejemplo con otra pantalla, al regresar actualice la pantalla por si dio corazón en el detalle 
+    return VisibilityDetector(
+      key: Key('unnmisable-page-visible'),
+      onVisibilityChanged: (visibilityInfo) {
+        var visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100) {
+          context.read<UnmissableViewModel>().onInit();
+        }
+      },
       child: Scaffold(
           appBar: IdtAppBar(viewModel.openMenu),
           backgroundColor: IdtColors.white,
@@ -128,7 +137,14 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
       );
     }
 
-    Widget imagesCard(DataModel item, int index) => (InkWell(
+    Widget imagesCard(DataModel item, int index) => (
+      
+      GestureDetector(
+          onDoubleTap: BoxDataSesion.isLoggedIn
+              ? () {
+                  viewModel.onTapFavorite(item.id.toString());
+                }
+              : null,
           onTap: () => viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
@@ -146,16 +162,18 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
                 top: 8,
                 right: 10,
                 child: BoxDataSesion.isLoggedIn == true
-                    ? Container(
-                        child: Icon(
+                    ? IconButton(
+                        alignment: Alignment.centerRight,
+                        icon: Icon(
                           item.isFavorite == true
                               ? IdtIcons.heart2
                               : Icons.favorite_border,
                           color: item.isFavorite == true
                               ? IdtColors.red
                               : IdtColors.white,
-                          size: 20,
                         ),
+                        iconSize: 20,
+                        onPressed: () => viewModel.onTapFavorite(item.id),
                       )
                     : Container(),
               ),
