@@ -4,14 +4,15 @@ import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/login/login_page.dart';
+import 'package:bogota_app/pages/profile/profile_view_model.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_view_model.dart';
+import 'package:bogota_app/pages/profile_edit/profile_effect.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/menu.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../app_theme.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class ProfileEditPage extends StatelessWidget {
   final String emailUser;
@@ -46,7 +47,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   final _controllerFullNameUser = TextEditingController();
   final _controllerEmail = TextEditingController();
   bool changeText = false;
-
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
   void cancelChangeDataUser() {
     String fullNameOriginal = widget._fullNameUser;
     String emailOriginal = widget._emailUser;
@@ -100,10 +102,13 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
             end: Alignment.topCenter,
           ),
         ),
-        child: Scaffold(
-            appBar: IdtAppBar(viewModel.openMenu),
-            backgroundColor: IdtColors.transparent,
-            body: _buildProfileEdit(viewModel)),
+        child: ScaffoldMessenger(
+          key: scaffoldMessengerKey,
+          child: Scaffold(
+              appBar: IdtAppBar(viewModel.openMenu),
+              backgroundColor: IdtColors.transparent,
+              body: _buildProfileEdit(viewModel)),
+        ),
       ),
     );
   }
@@ -291,7 +296,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: () => viewModel.goLoginAll()),
+                            onPressed: ()=>_deactivateAccount(viewModel) ),
                         SizedBox(
                           height: 12,
                         ),
@@ -346,5 +351,34 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
         menu
       ],
     );
+  }
+
+  showSnack(String title, {Function? onPressed, int? duration}) async {
+      await Flushbar(
+      blockBackgroundInteraction: true,
+      isDismissible: false,
+      title: 'Atención!',
+      message: title,
+      duration: Duration(seconds: 5),
+      onTap: (_){
+        if(onPressed!= null){
+          onPressed();
+        }
+      },
+    ).show(context);
+  }
+
+  _deactivateAccount(ProfileEditViewModel viewModel) async {
+    try {
+      bool response = await viewModel.deleteUser();
+      if (response == true) {
+        await showSnack("Cuenta eliminada exitosamente", onPressed: viewModel.goLoginAll);
+        viewModel.goLoginAll();
+      } else {
+        await showSnack("Hubo un error, intenta nuevamente");
+      }
+    } catch (e) {
+      await showSnack("Hubo un error, intenta nuevamente");
+    }
   }
 }

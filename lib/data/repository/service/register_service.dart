@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:bogota_app/data/model/data_as_message_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
+import 'package:bogota_app/data/model/response/delete_user_response.dart';
 import 'package:bogota_app/data/model/response/places_response.dart';
 import 'package:bogota_app/data/model/response/register_response.dart';
 import 'package:bogota_app/data/model/response_user_model.dart';
@@ -55,6 +57,35 @@ class RegisterService {
         case 200:
           {
             final entity = ResponseUserModel.fromJson(body);
+            return IdtResult.success(entity.data);
+          }
+
+        default:
+          {
+            print(response.body);
+            final error =
+            UnmissableError('Capturar el error', response.statusCode);
+
+            return IdtResult.failure(error);
+          }
+      }
+    } on StateError catch (err) {
+      final error = UnmissableError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+  }
+
+  Future<IdtResult<DataAsMessageModel?>>  deleteUser(int id) async {
+    final uri = Uri.https(IdtConstants.url_server, '/user/$id');
+    final response = await http.delete(uri);
+
+    try {
+      final body = json.decode(response.body);
+      switch (response.statusCode) {
+        case 200:
+          {
+            final entity = DeleteUserResponse.fromJson(body);
             return IdtResult.success(entity.data);
           }
 

@@ -50,7 +50,8 @@ class _HomeState extends State<Home> {
   int currentTab = 2; /// indica la vista actual
   //
   final PageStorageBucket bucket = PageStorageBucket();
-
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
   var home_selected = BoxDecoration(
       shape: BoxShape.circle,
       gradient: LinearGradient(colors: [
@@ -73,7 +74,9 @@ class _HomeState extends State<Home> {
     print("widget.i2");
     print(widget.newscreen);
 
-    return Scaffold(
+    return ScaffoldMessenger(
+      key: scaffoldMessengerKey,
+        child: Scaffold(
       extendBody: true,
       //  primary: true,
       // backgroundColor: Colors.blue,
@@ -194,6 +197,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       //    resizeToAvoidBottomInset: true,
+    ),
     );
   }
 }
