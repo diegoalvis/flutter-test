@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -361,26 +362,37 @@ class _DetailWidgetState extends State<DetailWidget> {
         // row botonoes ubicacion y audio
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(color: IdtColors.orange, width: 1),
-                borderRadius: BorderRadius.circular(80.0)),
-            padding: EdgeInsets.all(0.0),
-            child: Container(
-              constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-              decoration: StylesMethodsApp()
-                  .decorarStyle(IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
-              alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(
-                  IdtIcons.mappin,
-                  color: IdtColors.white,
-                  size: 45,
+          Column(
+            children: [
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: IdtColors.orange, width: 1),
+                    borderRadius: BorderRadius.circular(80.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                  decoration: StylesMethodsApp()
+                      .decorarStyle(IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    icon: Icon(
+                      IdtIcons.mappin,
+                      color: IdtColors.white,
+                      size: 40,
+                    ),
+                    onPressed: () => viewModel.launchMap(widget._detail.location!),
+                  ),
                 ),
-                onPressed: () => viewModel.launchMap(widget._detail.location!),
+                onPressed: () {},
               ),
-            ),
-            onPressed: () {},
+              AutoSizeText(
+                  'Ubicacion',
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  maxFontSize: 13,
+                  minFontSize: 10,
+                  style: textTheme.textDetail)
+            ],
           ),
           SizedBox(
             width: 10,
@@ -389,24 +401,38 @@ class _DetailWidgetState extends State<DetailWidget> {
                   widget._detail.url_audioguia_en != '' &&
                       widget._detail.url_audioguia_en != null ||
                   widget._detail.url_audioguia_pt != '' && widget._detail.url_audioguia_pt != null)
-              ? RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(color: IdtColors.blue, width: 1),
-                      borderRadius: BorderRadius.circular(80.0)),
-                  padding: EdgeInsets.all(0.0),
-                  child: Container(
-                      constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                      decoration: StylesMethodsApp().decorarStyle(
-                          IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        IdtIcons.headphones,
-                        color: IdtColors.white,
-                        size: 40,
-                      )),
-                  onPressed: () => viewModel.goPlayAudioPage(_detail),
-                )
+              ? Column(
+
+                children: [
+
+                  RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: IdtColors.blue, width: 1),
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Container(
+                          constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                          decoration: StylesMethodsApp().decorarStyle(
+                              IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            IdtIcons.headphones,
+                            color: IdtColors.white,
+                            size: 40,
+                          )),
+                      onPressed: () => viewModel.goPlayAudioPage(_detail),
+                    ),
+                  AutoSizeText(
+                      'Audioguia',
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      maxFontSize: 13,
+                      minFontSize: 10,
+                      style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
+                ],
+              )
               : SizedBox.shrink()
+
         ],
       );
     }
