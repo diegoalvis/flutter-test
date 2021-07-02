@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -7,6 +8,7 @@ import 'package:bogota_app/pages/saved_places/saved_places_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 
 class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
@@ -42,9 +44,26 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
     final savedResponse = await _interactor.getSavedPlacesList();
 
     if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
+      List<bool> listAudio=[];
+      CurrentUser user = BoxDataSesion.getCurrentUser()!;
+      print("user.id_db! ${user.id_db!}");
+      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+
+      print("savedResponse.body!.length ${savedResponse.body!.length}");
+
+      for(final f in savedResponse.body!) {
+          for (final e in person.audioguias!){
+            if (e![(int.parse(f.id!)).toString()] != null ) {
+              listAudio.add(true);
+            }else{
+              listAudio.add(false);
+            }
+          }
+      }
+      print(listAudio);
 
       List<bool> list = List.filled(savedResponse.body!.length, false);
-      status = status.copyWith(listSwitch: list);
+      status = status.copyWith(listSwitch: listAudio);
 
       status = status.copyWith(itemsSavedPlaces: savedResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)

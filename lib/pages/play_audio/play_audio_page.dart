@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
@@ -8,12 +9,15 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/play_audio.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +27,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:share/share.dart';
-
 import '../../app_theme.dart';
 
 class PlayAudioPage extends StatelessWidget {
@@ -56,16 +59,17 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
   final List<String> _dropdownValues = [];
   late AudioPlayer _player;
 
+
+
   Future<void> _init() async {
     _filldropdown(widget._detail);
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
 
     try {
-      print("widget._detail.audioguia_es!");
-      print(widget._detail.url_audioguia_es!);
       await _player.setAudioSource(AudioSource.uri(Uri.parse(
           IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
+
     } catch (e) {
       print("An error occured $e");
     }
@@ -88,7 +92,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
   @override
   void initState() {
     super.initState();
-    final viewModel = context.read<PlayAudioViewModel>();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<PlayAudioViewModel>().onInit();
+    });
+
     _player = AudioPlayer();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -99,6 +106,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
 
   @override
   void dispose() {
+
     _player.dispose();
     super.dispose();
   }
@@ -108,7 +116,59 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     final viewModel = context.watch<PlayAudioViewModel>();
     viewModel.status.urlAudio =
         IdtConstants.url_image + widget._detail.url_audioguia_es!;
+    viewModel.status.idAudio= widget._detail.id;
 
+    validateFromLocal(){
+      CurrentUser user = BoxDataSesion.getCurrentUser()!;
+      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+
+        try{
+          for (final e in person.audioguias!){
+            print(viewModel.status.idAudio);
+            if (e![(viewModel.status.idAudio)] != null ) {
+              viewModel.status.modeOffline = true;
+            }
+          }
+        }catch(e){
+
+        }
+
+
+    }
+    validateFromLocal();
+    loadAudioFromBox() async {
+      try {
+        print("_connectionStatus.toString() ${viewModel.status.connectionStatus}");
+        print("widget._detail.audioguia_es!");
+        print(widget._detail.url_audioguia_es!);
+        if(viewModel.status.connectionStatus == ConnectivityResult.none){
+          CurrentUser user = BoxDataSesion.getCurrentUser()!;
+          print("user.id_db! ${user.id_db!}");
+          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+          print("person.audioguias! ${person.audioguias!}");
+          print("widget._detail.id ${widget._detail.id}");
+          for (final e in person.audioguias!){
+            print(e![(int.parse(widget._detail.id)).toString()] );
+            if (e![(int.parse(widget._detail.id)).toString()] != null ) {
+              print("entra");
+              print("entra ${e[(int.parse(widget._detail.id)).toString()]}");
+              await _player.setAudioSource(AudioSource.uri(Uri.file((e[(int.parse(widget._detail.id)).toString()]).toString())));
+            }
+          }
+
+/*        List selectedUsers = person.audioguias!.map((audio) {
+          if((widget._detail.id).contains(audio[(widget._detail.id)])) return audio;
+          //return null;
+        }).toList();*/
+
+          // print("selectedUsers $selectedUsers");
+        }
+
+      } catch (e) {
+        print("An error occured $e");
+      }
+    }
+   // loadAudioFromBox();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
