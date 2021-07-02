@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -266,12 +267,15 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                    child: Text(item.title.toString().toUpperCase(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: textTheme.textWhiteShadow.copyWith(fontSize: 11))),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                  child: AutoSizeText(
+                    item.title!.toUpperCase(),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    minFontSize: 10,
+                    style: textTheme.textWhiteShadow,
+                  ),
+                ),
               ),
             ],
           ),
