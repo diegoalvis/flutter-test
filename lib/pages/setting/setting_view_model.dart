@@ -49,4 +49,7 @@ class SettingViewModel extends ViewModel<SettingStatus> {
   //   _route.goProfileEdit();
   // }
 
+  void goActivity() {
+    _route.goActivity();
+  }
 }

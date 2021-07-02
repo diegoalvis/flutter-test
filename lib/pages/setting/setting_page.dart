@@ -110,13 +110,16 @@ class _SettingWidgetState extends State<SettingWidget>
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 0),
-                alignment: Alignment.centerLeft,
-                height: 45,
-                child: Text(
-                  'Tu actividad',
-                  style: textTheme.optionsGray,
+              InkWell(
+                onTap: ()=>viewModel.goActivity(),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 0),
+                  alignment: Alignment.centerLeft,
+                  height: 45,
+                  child: Text(
+                    'Tu actividad',
+                    style: textTheme.optionsGray,
+                  ),
                 ),
               ),
               Container(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
@@ -11,6 +12,7 @@ import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_status.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,17 +39,18 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   onTapFavorite(String idplace) async {
-   late bool value = status.isFavorite;
-   print("idplace");
-   print(idplace);
+    late bool value = status.isFavorite;
+    print("idplace");
+    print(idplace);
     final favoriteResponse = await _interactor.postFavorite(idplace);
     if (favoriteResponse is IdtSuccess<FavoriteModel?>) {
       print("model detail");
       print(favoriteResponse.body!.message);
-     // _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      // _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
-    } /* else {
+    }
+    /* else {
       final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
       print(erroRes.message);
       UnimplementedError();
@@ -77,7 +80,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
       }
     }
     return isFavorite;
-    }
+  }
 
   void onChangeScrollController(bool value, double width) {
     addEffect(DetailControllerScrollEffect(300, width, value));
@@ -119,5 +122,31 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     } else {
       throw 'Error al lanzar la url: $url';
     }
+  }
+
+  pushPlaceVisitedStorageLocal(DataPlacesDetailModel placeNew) async {
+    try {
+      List<dynamic> list = [];
+      CurrentUser? user = BoxDataSesion.getCurrentUser()!;
+      if (user.id_user != null) {
+        list = BoxDataSesion.getListActivity(user.id_user!);
+        // buscar el lugar a ver si ya antes estaba, para removerlo y ponerlo de primero
+        final index = list.indexWhere((element) => element.id == placeNew.id);
+        if (index != -1) {
+          print("Ya existia, se reacomoda lugar en posición 🤷‍♂️");
+          list.removeAt(index);
+          list.add(placeNew);
+        } else {
+          // Si ya esta lleno max=30, entonces remueve el primer elemento agregado,  y se suma el nuevo favorito
+          // de primero
+          if (list.length == 30) {
+            list.removeAt(0);
+          }
+          list.add(placeNew);
+        }
+
+        BoxDataSesion.pushToActivity(user.id_user!, list);
+      }
+    } catch (e) {}
   }
 }

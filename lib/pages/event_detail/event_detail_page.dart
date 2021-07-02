@@ -418,15 +418,6 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                     onPressed: _route.pop,
                   ),
                 ),
-                IconButton(
-                  icon: Icon(
-                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
-                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
-                  ),
-                  padding: EdgeInsets.only(right: 20.0),
-                  iconSize: 35,
-                  onPressed: viewModel.onTapFavorite,
-                ),
               ],
             ),
           ),
