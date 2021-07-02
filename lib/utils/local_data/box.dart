@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 class BoxDataSesion {
   static late Box<Person> box;
   static late Box<CurrentUser> boxCurrentUser;
+  static late Box<RememberMe> boxRememberMe;
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
 
@@ -14,6 +15,7 @@ class BoxDataSesion {
   BoxDataSesion._internal() {
     boxSession().then((value) => box = value);
     boxSessionCurr().then((value) => boxCurrentUser = value);
+    boxSessionRem().then((value) => boxRememberMe = value);
   }
 
   static Future<Box<Person>> boxSession() async {
@@ -41,6 +43,21 @@ class BoxDataSesion {
       print("========================= ");
     }
     return boxCurrentUser;
+  }
+
+
+  static Future<Box<RememberMe>> boxSessionRem() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxRememberMe = await Hive.openBox('rememberMedB');
+      print("✅ Box rememberMedB cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX rememberMedB === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxRememberMe;
   }
 
   static void pushToBox(dynamic value, int key) async {
@@ -148,4 +165,30 @@ class BoxDataSesion {
     print("=== 🧹Box Current USer limpiada === ");
   }
 
+  //********************Para recordar Usuario**********************//
+  static Future<int> addToRememberBox(dynamic value) async {
+
+    var result= await boxRememberMe.add(value);
+    print('✔ Se agrega usuario  valor $value');
+    return result;
+  }
+
+  static RememberMe? getFromRememberBox(int index) {
+    final RememberMe? value = boxRememberMe.get(index);
+    print('✔ Se recupera con 0 el valor $value');
+    print(value);
+    return value;
+  }
+
+  static  pushToRememberBox(dynamic value, int index) async {
+    await boxRememberMe.putAt(index, value);
+    print('✔ Se registra 0 con valor $value');
+    return value;
+  }
+
+  static void   clearBoxRememberMe() {
+    boxRememberMe.deleteAll(boxRememberMe.keys);
+    //boxCurrentUser.deleteFromDisk();
+    print("=== 🧹Box Remember me limpiada === ");
+  }
 }

@@ -31,7 +31,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
 
   LoginViewModel(this._route, this._interactor) {
     status =
-        LoginUserStatus(isLoading: false, email: '', password: '', message: '');
+        LoginUserStatus(isLoading: false, email: '', password: '', message: '', rememberMe: false);
   }
 
   String imei = '';
@@ -65,6 +65,11 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
 
+  void rememberMe(){
+    status = status.copyWith(rememberMe: !(status.rememberMe!));
+    print(status.rememberMe);
+  }
+
   void loginResponse(String email, String password) async {
     status = status.copyWith(isLoading: true);
     LoginRequest params = LoginRequest(email, password);
@@ -97,7 +102,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
           getLoc();
         });
         setLocationUser();
-        _savedata(loginResponse.body!);
+        _savedata(loginResponse.body!, email, password);
       }
     } else {
       print('se imprime login response');
@@ -109,7 +114,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     }
   }
 
-  _savedata(RegisterModel loginResponse) async {
+  _savedata(RegisterModel loginResponse, String email, String password) async {
     //  var fooBox = await Hive.openBox<List>("userdb");
 
     var person = Person(
@@ -132,6 +137,16 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
      int index = await BoxDataSesion.getIndex(person);
      currentUser.id_db= index;
      BoxDataSesion.pushToBoxCurrentU(currentUser);
+   }
+
+   if(status.rememberMe!){
+     var rememberUser = RememberMe(
+         email: email,
+         password: password,
+         state: status.rememberMe!
+     );
+     var result=  await BoxDataSesion.addToRememberBox(rememberUser);
+     print("rememeber User $result");
    }
 
     //await box.put(loginResponse.name, person);

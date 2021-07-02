@@ -38,6 +38,7 @@ void main() async {
   Hive.init(applicationsDocumentDirectory.path);
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(CurrentUserAdapter());
+  Hive.registerAdapter(RememberMeAdapter());
 
   BoxDataSesion();
 }

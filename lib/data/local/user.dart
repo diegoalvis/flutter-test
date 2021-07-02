@@ -4,6 +4,22 @@ part  'user.g.dart';
 
 
 @HiveType(typeId: 0)
+class RememberMe{
+  RememberMe({ required this.email,required this.password, required this.state});
+  @HiveField(0)
+  String email;
+  @HiveField(1)
+  String password;
+  @HiveField(2)
+  bool state;
+
+  @override
+  String toString() {
+    return '$email: $password';
+  }
+}
+
+@HiveType(typeId: 1)
 class CurrentUser{
   CurrentUser({ this.id_user, this.id_db});
   @HiveField(0)
@@ -18,7 +34,7 @@ class CurrentUser{
 }
 
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class Person {
   Person({  this.name, this.id, this.country, this.apellido, this.audioguias, this.audios});
 

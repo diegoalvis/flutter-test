@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -45,18 +46,31 @@ class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   StreamSubscription<LoginEffect>? _effectSubscription;
+  bool rememberMe= false;
+
 
   @override
-  void initState() {
+  initState() {
     BoxDataSesion();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<LoginViewModel>().onInit();
     });
-
+    _loadDataRemember();
     emailController.addListener(_printLatestValue);
     passwordController.addListener(_printLatestValue);
     //_checkIfIsLogged();
     super.initState();
+  }
+  _loadDataRemember() async {
+    RememberMe? remember = await BoxDataSesion.getFromRememberBox(0);
+    if(remember!.state){
+      emailController.text= remember!.email;
+      passwordController.text= remember!.password;
+      final viewModel = context.read<LoginViewModel>();
+      viewModel.status.rememberMe=remember!.state;
+      print("viewModel.status.rememberMe ${viewModel.status.rememberMe}");
+    }
+
   }
 
   _showAlert() {
@@ -312,10 +326,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.radio_button_off_rounded,
-                            color: Colors.white,
-                            size: 15,
+                          InkWell(
+                            child: Icon(
+                              viewModel.status.rememberMe!?Icons.radio_button_checked:Icons.radio_button_off_rounded,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            onTap:()=> viewModel.rememberMe(),
                           ),
                           SizedBox(
                             width: 6,

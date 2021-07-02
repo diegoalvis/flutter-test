@@ -14,9 +14,9 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
   ProfileEditViewModel(this._route, this._interactor) {
     status = ProfileEditStatus(
-      titleBar: 'Recibidos',
-      isLoading: true,
-      openMenu: false
+        titleBar: 'Recibidos',
+        isLoading: true,
+        openMenu: false
     );
   }
 
@@ -33,7 +33,6 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
   }
 
   Future<String> getNameUser() async {
-
     CurrentUser user = BoxDataSesion.getCurrentUser()!;
     final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
 
@@ -47,14 +46,28 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
   // Future<void> logOut() async {
   //   await FacebookAuth.instance.logOut();
   //   _route.goLogin();
-    // _accessToken = null;
-    // _userData = null;
-    //setState(() {});
+  // _accessToken = null;
+  // _userData = null;
+  //setState(() {});
   // }
-  void goLoginAll() {
+  Future<void> goLoginAll() async {
     BoxDataSesion.clearBoxCurrentUser();
+
+    try{
+      RememberMe? remember = await BoxDataSesion.getFromRememberBox(0);
+      print("valores recuperados para cerrar sesión ${remember!.state}, ${remember!.email}");
+      if(remember!.state == true){
+
+      }
+    }catch(e){
+      BoxDataSesion.clearBoxRememberMe();
+    }
+
+
     _route.goHome();
   }
+
+
 
 
 }
