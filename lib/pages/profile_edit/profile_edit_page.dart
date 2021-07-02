@@ -100,10 +100,13 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
             end: Alignment.topCenter,
           ),
         ),
-        child: Scaffold(
-            appBar: IdtAppBar(viewModel.openMenu),
-            backgroundColor: IdtColors.transparent,
-            body: _buildProfileEdit(viewModel)),
+        child: WillPopScope(
+          onWillPop: viewModel.offMenuBack,
+          child: Scaffold(
+              appBar: IdtAppBar(viewModel.openMenu),
+              backgroundColor: IdtColors.transparent,
+              body: _buildProfileEdit(viewModel)),
+        ),
       ),
     );
   }

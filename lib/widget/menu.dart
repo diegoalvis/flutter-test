@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../app_theme.dart';
+import 'NFMarquee.dart';
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
@@ -77,10 +78,6 @@ class IdtMenu extends StatelessWidget {
                                       style: TextStyle(fontSize: 50),
                                     )
                                   : SizedBox.shrink()
-                              // NetworkImage(
-                              // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),
-/*                      NetworkImage(
-                            'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg'),*/
                               );
                         }
                       },
@@ -170,17 +167,20 @@ class IdtMenu extends StatelessWidget {
                             right: 5,
                             left: 5,
                             child: Container(
-                                margin: EdgeInsets.all(10),
-                                height: 30.0,
-                                alignment: Alignment.center,
-                                child: Text(' ${listMenu[index]['title']}',
-                                    style: textTheme.textMenu.copyWith(
-                                      // fontSize: 19,
-                                      color: optionIndex == index
-                                          ? IdtColors.white.withOpacity(0.8)
-                                          : IdtColors.gray.withOpacity(0.8),
-                                    ))),
-                          )
+                              margin: EdgeInsets.all(10),
+                              height: 30.0,
+                              alignment: Alignment.center,
+                              child: NFMarquee(
+                                text: ' ${listMenu[index]['title']}',
+                                style: textTheme.textMenu.copyWith(
+                                  color: optionIndex == index
+                                      ? IdtColors.white.withOpacity(0.8)
+                                      : IdtColors.gray.withOpacity(0.8),
+                                ),
+                                fontSize: 19,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

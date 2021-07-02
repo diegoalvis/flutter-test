@@ -67,6 +67,16 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
     _route.goHome();
   }
 
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
 
 
 

@@ -75,4 +75,14 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
   void goSettingPage() {
     _route.goSettings();
   }
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
 }

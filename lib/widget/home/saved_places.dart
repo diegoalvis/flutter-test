@@ -284,7 +284,10 @@ class SavedPlaces extends StatelessWidget {
             clipBehavior: Clip.none, //evita coratar el icono
             alignment: Alignment.center,
             children: [
-              TitleSection('LUGARES GUARDADOS'),
+              Padding(
+                padding: const EdgeInsets.only(right:8.0),
+                child: TitleSection('LUGARES GUARDADOS'),
+              ),
               Positioned(
                 right: 12,
                 child: openSaved

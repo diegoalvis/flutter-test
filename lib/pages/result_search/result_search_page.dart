@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -59,16 +60,19 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
     final viewModel = context.watch<ResultSearchViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          bottomNavigationBar: viewModel.status.openMenu
-              ? null
-              : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            bottomNavigationBar: viewModel.status.openMenu
+                ? null
+                : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 
@@ -101,8 +105,15 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
               ),
             ),
             SizedBox(height: 5),
-            Text(results[index].title.toString(),
-                style: textTheme.titleBlack.copyWith(fontSize: 13)),
+            AutoSizeText(
+              results[index].title.toString(),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              maxFontSize: 13,
+              minFontSize: 12,
+              style: textTheme.titleBlack,
+            )
+            ,
             SizedBox(height: 30),
           ],
         );

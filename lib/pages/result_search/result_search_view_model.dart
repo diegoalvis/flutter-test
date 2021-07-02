@@ -54,4 +54,14 @@ class ResultSearchViewModel extends ViewModel<ResultSearchStatus> {
     status = status.copyWith(isLoading: false);
   }
 
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
 }

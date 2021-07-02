@@ -56,16 +56,19 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
     final viewModel = context.watch<AudioGuideViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          bottomNavigationBar:
-              viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+          onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            bottomNavigationBar:
+                viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 

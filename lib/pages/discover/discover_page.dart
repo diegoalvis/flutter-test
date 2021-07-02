@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -48,15 +49,21 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<DiscoverViewModel>();
 
-    return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+    return WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+      child: SafeArea(
+        child: WillPopScope(
+            onWillPop: viewModel.offMenuBack,
+          child: Scaffold(
+              appBar: IdtAppBar(viewModel.openMenu),
+              backgroundColor: IdtColors.white,
+              extendBody: true,
+              bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+              floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              body: _buildDiscover(viewModel)),
+        ),
+      ),
     );
   }
 
@@ -80,7 +87,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     );
 
     final menuTap = viewModel.status.openMenuTab
-    //fila de plan, producto, zona
+        //fila de plan, producto, zona
         ? IdtMenuTap(
             closeMenu: viewModel.closeMenuTab,
             listItems: viewModel.status.listOptions,
@@ -96,11 +103,11 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         child: Column(
           children: [
             TextButton(
-              child: Text(label,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.subTitleBlack),
+              child: AutoSizeText(
+                label,
+                style: textTheme.subTitleBlack,
+                maxLines: 1,
+              ),
               onPressed: onTap,
             ),
             isSelected
@@ -155,12 +162,15 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                    child: Text(item.title!.toUpperCase(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: textTheme.textWhiteShadow.copyWith(fontSize: 11))),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                  child: AutoSizeText(
+                    item.title!.toUpperCase(),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    minFontSize: 10,
+                    style: textTheme.textWhiteShadow,
+                  ),
+                ),
               ),
             ],
           ),
@@ -203,7 +213,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 25),
+                padding: EdgeInsets.only(right: 15),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

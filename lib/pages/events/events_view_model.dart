@@ -233,4 +233,15 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     }
     return IdtConstants.url_image + (imageUrl ?? ''); //hay alguna imagen por defecto?
   }
+
+  Future<bool> offMenuBack()async {
+    bool? shouldPop = true;
+
+    if (status.openMenu) {
+      openMenu();
+      return !shouldPop;
+    } else {
+      return shouldPop;
+    }
+  }
 }

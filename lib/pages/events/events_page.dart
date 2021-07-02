@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
@@ -55,6 +56,7 @@ class EventsWidget extends StatefulWidget {
 class _EventsWidgetState extends State<EventsWidget> {
   final scrollController = ScrollController();
   StreamSubscription<EventsEffect>? _effectSubscription;
+
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -71,7 +73,10 @@ class _EventsWidgetState extends State<EventsWidget> {
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la localidad especificada',textButton: 'aceptar / cerrar');
+        context.showDialogObservation(
+            titleDialog: 'Sin resultados',
+            bodyTextDialog: 'No se han encotrado resultados para la localidad especificada',
+            textButton: 'aceptar / cerrar');
       }
     });
   }
@@ -81,15 +86,18 @@ class _EventsWidgetState extends State<EventsWidget> {
     final viewModel = context.watch<EventsViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(viewModel.openMenu),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-          bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildDiscover(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(viewModel.openMenu),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+            bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 
@@ -124,7 +132,7 @@ class _EventsWidgetState extends State<EventsWidget> {
             listItems: viewModel.status.zones,
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
-            goFilters: (item) => viewModel.filtersForZones(item,viewModel.status.section ))
+            goFilters: (item) => viewModel.filtersForZones(item, viewModel.status.section))
         : SizedBox.shrink();
 
     Widget _buttonFilter() {
@@ -140,7 +148,9 @@ class _EventsWidgetState extends State<EventsWidget> {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(30),
                   )),
-              onPressed: () => viewModel.openMenuTab(_zones,),
+              onPressed: () => viewModel.openMenuTab(
+                _zones,
+              ),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -233,11 +243,13 @@ class _EventsWidgetState extends State<EventsWidget> {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Text(model.title!.toUpperCase(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: isEvent ? TextAlign.right : TextAlign.center,
-                            style: textTheme.textWhiteShadow.copyWith(fontSize: 11)),
+                        child: AutoSizeText(
+                          model.title!.toUpperCase(),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          minFontSize: 10,
+                          style: textTheme.textWhiteShadow,
+                        ),
                       ),
                       isEvent
                           ? Container(

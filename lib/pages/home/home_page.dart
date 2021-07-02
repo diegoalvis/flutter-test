@@ -82,18 +82,21 @@ class _HomeWidgetState extends State<HomeWidget> {
     final viewModel = context.watch<HomeViewModel>();
 
     return SafeArea(
-      child: Scaffold(
-          appBar: IdtAppBar(
-            viewModel.openMenu,
-            backButton: false,
-          ),
-          backgroundColor: IdtColors.white,
-          extendBody: true,
-          bottomNavigationBar:
-              viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
-          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: _buildHome(viewModel)),
+      child: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            appBar: IdtAppBar(
+              viewModel.openMenu,
+              backButton: false,
+            ),
+            backgroundColor: IdtColors.white,
+            extendBody: true,
+            bottomNavigationBar:
+                viewModel.status.openMenu ? null : IdtBottomAppBar(discoverSelect: false),
+            floatingActionButton: viewModel.status.openMenu ? null : IdtFab(homeSelect: true),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            body: _buildHome(viewModel)),
+      ),
     );
   }
 

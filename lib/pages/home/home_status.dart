@@ -22,12 +22,13 @@ class HomeStatus extends ViewStatus {
   HomeStatus( {required this.imagesMenu,required this.itemsEatPlaces, required this.itemsUnmissablePlaces, required this.itemsbestRatedPlaces,
     required this.itemsSavedPlaces, required this.itemAudiosSavedPlaces,
     required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
-    required this.notSaved, required this.seeAll, required this.listBoolAudio, required this.listBoolAll});
+    required this.notSaved, required this.seeAll, required this.listBoolAudio, required this.listBoolAll,
+  });
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,List? imagesMenu,
     bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsEatPlaces, List<DataModel>?itemsbestRatedPlaces ,
   List<DataAudioGuideModel>? itemsSavedPlaces, List<DataAudioGuideModel>? itemAudiosSavedPlaces,
-  List<bool>? listBoolAudio,List<bool>? listBoolAll}) {
+  List<bool>? listBoolAudio,List<bool>? listBoolAll,}) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,
@@ -42,7 +43,7 @@ class HomeStatus extends ViewStatus {
       itemsSavedPlaces: itemsSavedPlaces ??this.itemsSavedPlaces,
       itemAudiosSavedPlaces: itemAudiosSavedPlaces?? this.itemAudiosSavedPlaces,
       listBoolAudio: listBoolAudio??this.listBoolAudio,
-      listBoolAll: listBoolAll??this.listBoolAll
+      listBoolAll: listBoolAll??this.listBoolAll,
     );
   }
 }

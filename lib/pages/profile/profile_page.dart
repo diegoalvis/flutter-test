@@ -59,10 +59,13 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             end: Alignment.topCenter,
           ),
         ),
-        child: Scaffold(
-            appBar: IdtAppBar(viewModel.openMenu),
-            backgroundColor: IdtColors.transparent,
-            body: _buildProfile(viewModel)),
+        child: WillPopScope(
+            onWillPop: viewModel.offMenuBack,
+              child: Scaffold(
+              appBar: IdtAppBar(viewModel.openMenu),
+              backgroundColor: IdtColors.transparent,
+              body: _buildProfile(viewModel)),
+        ),
       ),
     );
   }
