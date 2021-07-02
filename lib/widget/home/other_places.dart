@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -58,13 +59,21 @@ class OtherPlaces extends StatelessWidget {
                 child: Container(
                   padding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  child: Text(
+                  child: AutoSizeText(
                     name,
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
+                    minFontSize: 11,
+                    maxFontSize: 12,
                     style: textTheme.textWhiteShadow,
-                  ),
+                  )
+                  // Text(
+                  //   name,
+                  //   maxLines: 2,
+                  //   overflow: TextOverflow.ellipsis,
+                  //   textAlign: TextAlign.center,
+                  //   style: textTheme.textWhiteShadow,
+                  // ),
                 ),
               ),
             ],
@@ -83,9 +92,9 @@ class OtherPlaces extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         children: listItems.asMap().entries.map((entry) {
           final int index = entry.key;
-          final imageUrl = entry.value.image ?? '';
+          final imageUrl = entry.value.image!;
           final String value = IdtConstants.url_image + imageUrl;
-          final String namePlace = entry.value.title ?? '';
+          final String namePlace = entry.value.title!;
           final DataModel valueData = entry.value;
           return ImagesCard(textTheme, value, index, listItems, namePlace, valueData);
         }).toList(),
