@@ -67,8 +67,25 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     await session.configure(AudioSessionConfiguration.speech());
 
     try {
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
+
+    //  await _player.setAudioSource(AudioSource.uri(Uri.parse(
+          //IdtConstants.url_image + '/' +
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      print("connectivityResult $connectivityResult");
+
+      if(connectivityResult == ConnectivityResult.none){
+        CurrentUser user = BoxDataSesion.getCurrentUser()!;
+        print("user.id_db! ${user.id_db!}");
+        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+        print("person.audioguias![0][(widget._detail.id).toString()] ${person.audioguias![0][(widget._detail.id).toString()]}");
+
+        await _player.setAudioSource(AudioSource.uri(Uri.file((person.audioguias![0][(widget._detail.id).toString()]))));
+
+      }else{
+        await _player.setAudioSource(AudioSource.uri(Uri.parse(
+            IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
+      }
+
 
     } catch (e) {
       print("An error occured $e");
@@ -136,39 +153,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
 
     }
     validateFromLocal();
-    loadAudioFromBox() async {
-      try {
-        print("_connectionStatus.toString() ${viewModel.status.connectionStatus}");
-        print("widget._detail.audioguia_es!");
-        print(widget._detail.url_audioguia_es!);
-        if(viewModel.status.connectionStatus == ConnectivityResult.none){
-          CurrentUser user = BoxDataSesion.getCurrentUser()!;
-          print("user.id_db! ${user.id_db!}");
-          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-          print("person.audioguias! ${person.audioguias!}");
-          print("widget._detail.id ${widget._detail.id}");
-          for (final e in person.audioguias!){
-            print(e![(int.parse(widget._detail.id)).toString()] );
-            if (e![(int.parse(widget._detail.id)).toString()] != null ) {
-              print("entra");
-              print("entra ${e[(int.parse(widget._detail.id)).toString()]}");
-              await _player.setAudioSource(AudioSource.uri(Uri.file((e[(int.parse(widget._detail.id)).toString()]).toString())));
-            }
-          }
 
-/*        List selectedUsers = person.audioguias!.map((audio) {
-          if((widget._detail.id).contains(audio[(widget._detail.id)])) return audio;
-          //return null;
-        }).toList();*/
 
-          // print("selectedUsers $selectedUsers");
-        }
-
-      } catch (e) {
-        print("An error occured $e");
-      }
-    }
-   // loadAudioFromBox();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
