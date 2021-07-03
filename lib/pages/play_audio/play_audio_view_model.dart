@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -30,7 +31,8 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
         isFavorite: false,
         language: 'Español',
         idAudio: '',
-        connectionStatus: ConnectivityResult.none
+        connectionStatus: ConnectivityResult.none,
+
     );
   }
 
@@ -43,7 +45,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    loadAudioFromBox();
+   // loadAudioFromBox();
     // TODO
   }
   @override
@@ -143,9 +145,9 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
   _savedata(String file) async {
     List<Map> _audios = [];
+    List<DataAudioGuideModel> detailsData = [];
 
     //_audios.add(file.toString());
-
     var details = Map();
 /*    details['id_audio'] = status.idAudio;
     details['path_audio'] = file.toString();*/
@@ -153,7 +155,12 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
     print("detalle ${details['128']}");
     _audios.add(details);
+    print("status.detalleSaved ${status.detalleSaved!.toJson()}");
+    detailsData.add(status.detalleSaved!);
+    print(status.detalleSaved!.id);
+    //detailsData.add(status.detalleSaved!);
 
+    print("detailsData $detailsData");
    // var person = Person(audioguias: _audios, audios: details);
    // BoxDataSesion.pushToBox(person);
 
@@ -161,7 +168,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     print("user.id_db! ${user.id_db!}");
     Person person = BoxDataSesion.getFromBox(user.id_db!)!;
 
-    var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, audioguias: _audios);
+    var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, audioguias: _audios, detalle: detailsData);
 
     BoxDataSesion.pushToBox(personUpdated, user.id_db!);
     print('✅ desde audioguías ${personUpdated.audioguias}');

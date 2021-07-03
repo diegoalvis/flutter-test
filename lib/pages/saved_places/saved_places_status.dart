@@ -1,5 +1,6 @@
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/view_model.dart';
 
 class SavedPlacesStatus extends ViewStatus{

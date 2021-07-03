@@ -9,6 +9,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:connectivity/connectivity.dart';
 
 import 'splash_status.dart';
 
@@ -25,18 +26,27 @@ class SplashViewModel extends ViewModel<SplashStatus> {
   }
 
   void getSplash() async {
-    final response = await _interactor.getSplashInteractor();
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    print("connectivityResult $connectivityResult");
 
-    if (response is IdtSuccess<SplashModel>) {
-      status = status.copyWith(imgSplash: IdtConstants.url_image + response.body.background.toString());
-      await Future.delayed(Duration (seconds: 5));
-      _route.goHome();
-    } else {
-      await Future.delayed(Duration (seconds: 5));
-      _route.goHome();
-      final erroRes = response as IdtFailure<FilterError>;
-      print(erroRes.message);
-      UnimplementedError();
+    if(connectivityResult != ConnectivityResult.none){
+      final response = await _interactor.getSplashInteractor();
+
+      if (response is IdtSuccess<SplashModel>) {
+        status = status.copyWith(imgSplash: IdtConstants.url_image + response.body.background.toString());
+        await Future.delayed(Duration (seconds: 5));
+        _route.goHome();
+      } else {
+        await Future.delayed(Duration (seconds: 5));
+        _route.goHome();
+        final erroRes = response as IdtFailure<FilterError>;
+        print(erroRes.message);
+        UnimplementedError();
+      }
     }
+    else{
+      _route.goSavedPlaces();
+    }
+
   }
 }
