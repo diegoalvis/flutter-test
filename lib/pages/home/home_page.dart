@@ -173,21 +173,37 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: NFMarquee(
-                                      text: optionsHomeList[index].toUpperCase(),
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
+                                    child: AutoSizeText(
+                                      optionsHomeList[index].toUpperCase(),
+                                      maxFontSize: 26,
+                                      minFontSize: 22,
                                       style: TextStyle(
-                                          color: IdtColors.white,
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                                color: Colors.black.withOpacity(0.9),
-                                                offset: Offset(3, 2),
-                                                blurRadius: 3),
-                                          ]),
+                                        color: IdtColors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                              color: Colors.black.withOpacity(0.9),
+                                              offset: Offset(3, 2),
+                                              blurRadius: 3),
+                                        ],
+                                      ),
                                     ),
+
+                                    // NFMarquee(
+                                    //   text: optionsHomeList[index].toUpperCase(),
+                                    //   fontSize: 26,
+                                    //   fontWeight: FontWeight.bold,
+                                    //   style: TextStyle(
+                                    //       color: IdtColors.white,
+                                    //       fontSize: 26,
+                                    //       fontWeight: FontWeight.bold,
+                                    //       shadows: [
+                                    //         Shadow(
+                                    //             color: Colors.black.withOpacity(0.9),
+                                    //             offset: Offset(3, 2),
+                                    //             blurRadius: 3),
+                                    //       ]),
+                                    // ),
                                   ),
                                   Icon(
                                     Icons.navigate_next,
