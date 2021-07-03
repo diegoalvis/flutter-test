@@ -10,6 +10,7 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
@@ -75,18 +76,17 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
 
       if(connectivityResult == ConnectivityResult.none){
         CurrentUser user = BoxDataSesion.getCurrentUser()!;
-        print("user.id_db! ${user.id_db!}");
-        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-        print("person.audioguias![0][(widget._detail.id).toString()] ${person.audioguias![0][(widget._detail.id).toString()]}");
+        if (user.id_db != null){
+          print("user.id_db! ${user.id_db!}");
+          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+          print("person.audioguias![0][(widget._detail.id).toString()] ${person.audioguias![0][(widget._detail.id).toString()]}");
+          await _player.setAudioSource(AudioSource.uri(Uri.file((person.audioguias![0][(widget._detail.id).toString()]))));
 
-        await _player.setAudioSource(AudioSource.uri(Uri.file((person.audioguias![0][(widget._detail.id).toString()]))));
-
+        }
       }else{
         await _player.setAudioSource(AudioSource.uri(Uri.parse(
             IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
       }
-
-
     } catch (e) {
       print("An error occured $e");
     }
@@ -134,12 +134,14 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     viewModel.status.urlAudio =
         IdtConstants.url_image + widget._detail.url_audioguia_es!;
     viewModel.status.idAudio= widget._detail.id;
+    DataAudioGuideModel data = DataAudioGuideModel(id: widget._detail.id, title: widget._detail.title, image: widget._detail.image );
+    viewModel.status.detalleSaved= data;
 
     validateFromLocal(){
-      CurrentUser user = BoxDataSesion.getCurrentUser()!;
-      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
 
         try{
+          CurrentUser user = BoxDataSesion.getCurrentUser()!;
+          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
           for (final e in person.audioguias!){
             print(viewModel.status.idAudio);
             if (e![(viewModel.status.idAudio)] != null ) {
@@ -149,7 +151,6 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
         }catch(e){
 
         }
-
 
     }
     validateFromLocal();

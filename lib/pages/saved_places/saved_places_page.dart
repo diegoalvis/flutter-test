@@ -86,7 +86,12 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5.0),
-                              child: Image.network(
+                              child: (listItems[index]!.image! == null)? Image.asset(
+                                IdtAssets.profile_photo,
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
+                              ):Image.network(
                                 IdtConstants.url_image +
                                     listItems[index].image!,
                                 height: 70,

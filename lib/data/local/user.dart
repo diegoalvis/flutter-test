@@ -1,4 +1,5 @@
 
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:hive/hive.dart';
 part  'user.g.dart';
 
@@ -36,7 +37,7 @@ class CurrentUser{
 
 @HiveType(typeId: 2)
 class Person {
-  Person({  this.name, this.id, this.country, this.apellido, this.audioguias, this.audios});
+  Person({  this.name, this.id, this.country, this.apellido, this.audioguias, this.audios, this.detalle});
 
   @HiveField(0)
   String? name;
@@ -50,6 +51,8 @@ class Person {
   List<Map>? audioguias;
   @HiveField(5)
   Map? audios;
+  @HiveField(6)
+  List<DataAudioGuideModel>? detalle;
 
   @override
   String toString() {
