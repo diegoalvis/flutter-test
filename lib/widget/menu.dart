@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -77,8 +78,7 @@ class IdtMenu extends StatelessWidget {
                                       snapshot.data.toString()[0].toUpperCase(),
                                       style: TextStyle(fontSize: 50),
                                     )
-                                  : SizedBox.shrink()
-                              );
+                                  : SizedBox.shrink());
                         }
                       },
                     ),
@@ -170,14 +170,16 @@ class IdtMenu extends StatelessWidget {
                               margin: EdgeInsets.all(10),
                               height: 30.0,
                               alignment: Alignment.center,
-                              child: NFMarquee(
-                                text: ' ${listMenu[index]['title']}',
+                              child: AutoSizeText(
+                                '${listMenu[index]['title']}',
                                 style: textTheme.textMenu.copyWith(
                                   color: optionIndex == index
                                       ? IdtColors.white.withOpacity(0.8)
                                       : IdtColors.gray.withOpacity(0.8),
                                 ),
-                                fontSize: 19,
+                                maxLines: 1,
+                                maxFontSize: 19,
+                                minFontSize: 16,
                               ),
                             ),
                           ),
