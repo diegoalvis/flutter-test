@@ -148,30 +148,43 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     List<DataAudioGuideModel> detailsData = [];
 
     //_audios.add(file.toString());
-    var details = Map();
+    Map<String, dynamic> details =  Map<String, dynamic>();
 /*    details['id_audio'] = status.idAudio;
     details['path_audio'] = file.toString();*/
-    details[status.idAudio]=file.toString();
+    details['id']=status.idAudio;
+    details['title']=(status.detalleSaved! as DataAudioGuideModel).title;
+    details['image']=(status.detalleSaved! as DataAudioGuideModel).image;
+    details['audioguia_es']=status.pathAudio;
+    details['audioguia_en']=status.pathAudio;
+    details['audioguia_pt']=status.pathAudio;
 
     print("detalle ${details['128']}");
-    _audios.add(details);
+    // _audios.add(details);
     print("status.detalleSaved ${status.detalleSaved!.toJson()}");
-    detailsData.add(status.detalleSaved!);
-    print(status.detalleSaved!.id);
+    // detailsData.add(status.detalleSaved!);
+    // print(status.detalleSaved!.id);
     //detailsData.add(status.detalleSaved!);
 
     print("detailsData $detailsData");
    // var person = Person(audioguias: _audios, audios: details);
    // BoxDataSesion.pushToBox(person);
-
+try{
     CurrentUser user = BoxDataSesion.getCurrentUser()!;
     print("user.id_db! ${user.id_db!}");
     Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+    List<DataAudioGuideModel> detailOfPerson = person.detalle ?? [];
 
-    var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, audioguias: _audios, detalle: detailsData);
+    final index = detailOfPerson.indexWhere((element) => element.id == details['id']);
+    if(index == -1){
+      detailOfPerson.add(DataAudioGuideModel.fromJson(details));
+    }
+    var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, audioguias: _audios, detalle: detailOfPerson);
 
     BoxDataSesion.pushToBox(personUpdated, user.id_db!);
     print('✅ desde audioguías ${personUpdated.audioguias}');
+}catch(e){
+print(e);
+}
   }
 
   void onTapFavorite() {
