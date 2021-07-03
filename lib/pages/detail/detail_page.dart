@@ -65,6 +65,9 @@ class _DetailWidgetState extends State<DetailWidget> {
     print('detail page');
     final viewModel = context.read<DetailViewModel>();
     //  viewModel.getPlaceByIdResponse(widget.id);
+    
+    // Se guarda en la actividad reciente
+    viewModel.pushPlaceVisitedStorageLocal(widget._detail);
 
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is DetailControllerScrollEffect) {
@@ -94,7 +97,7 @@ class _DetailWidgetState extends State<DetailWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DetailViewModel>();
-    
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

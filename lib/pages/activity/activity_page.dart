@@ -1,11 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/model/data_model.dart';
-import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
+import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/discover/discover_view_model.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/pages/activity/activity_view_model.dart';
+import 'package:bogota_app/pages/profile/profile_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
@@ -15,69 +15,61 @@ import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/admin/directory_v1.dart';
 import 'package:provider/provider.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../app_theme.dart';
 
-class DiscoverPage extends StatelessWidget {
+class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => DiscoverViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          ActivityViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return DiscoverWidget();
+        return ActivityWidget();
       },
     );
   }
 }
 
-class DiscoverWidget extends StatefulWidget {
+class ActivityWidget extends StatefulWidget {
   @override
-  _DiscoverWidgetState createState() => _DiscoverWidgetState();
+  _ActivityWidgetState createState() => _ActivityWidgetState();
 }
 
-class _DiscoverWidgetState extends State<DiscoverWidget> {
+class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DiscoverViewModel>().onInit();
+      context.read<ActivityViewModel>().onInit();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<DiscoverViewModel>();
-
-    return WillPopScope(
-        onWillPop: viewModel.offMenuBack,
-      child: SafeArea(
-        child: WillPopScope(
-            onWillPop: viewModel.offMenuBack,
-          child: Scaffold(
-              appBar: IdtAppBar(viewModel.openMenu),
-              backgroundColor: IdtColors.white,
-              extendBody: true,
-              bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
-              floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              body: _buildDiscover(viewModel)),
-        ),
-      ),
+    final viewModel = context.watch<ActivityViewModel>();
+    viewModel.getPlacesVisitedStorageLocal();
+    return SafeArea(
+      child: Scaffold(
+          appBar: IdtAppBar(viewModel.openMenu),
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          bottomNavigationBar:
+              viewModel.status.openMenu ? null : IdtBottomAppBar(),
+          floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: _buildDiscover(viewModel)),
     );
   }
 
-  Widget _buildDiscover(DiscoverViewModel viewModel) {
+  Widget _buildDiscover(ActivityViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
-
-    final List<DataModel> _places = viewModel.status.places; //lugares para la grilla
-    final List<DataModel> _categories = viewModel.status.categories;
-    final List<DataModel> _subcategories = viewModel.status.subcategories;
-    final List<DataModel> _zones = viewModel.status.zones;
-
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final List<DataPlacesDetailModel> _places =
+        viewModel.status.detail; //lugares para la grilla
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
@@ -93,7 +85,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         ? IdtMenuTap(
             closeMenu: viewModel.closeMenuTab,
             listItems: viewModel.status.listOptions,
-            goFilters: (item) => viewModel.goFiltersPage(item, _categories, _subcategories, _zones))
+            goFilters: (item) {})
         : SizedBox.shrink();
 
     Widget _buttonTap(
@@ -105,11 +97,11 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         child: Column(
           children: [
             TextButton(
-              child: AutoSizeText(
-                label,
-                style: textTheme.subTitleBlack,
-                maxLines: 1,
-              ),
+              child: Text(label,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.subTitleBlack),
               onPressed: onTap,
             ),
             isSelected
@@ -124,7 +116,8 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       );
     }
 
-    Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
+    Widget imagesCard(DataPlacesDetailModel item, int index, List listItems) =>
+        (InkWell(
           onTap: () => viewModel.goDetailPage(item.id.toString()),
           child: Stack(
             alignment: Alignment.center,
@@ -140,16 +133,25 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                             ? BorderRadius.only(topRight: Radius.circular(15))
 
                             // Validaciones para el borde inferior izquiero
-                            : (index == (listItems.length - 3) && index % 3 == 0)
-                                ? BorderRadius.only(bottomLeft: Radius.circular(15))
-                                : (index == (listItems.length - 2) && index % 3 == 0)
-                                    ? BorderRadius.only(bottomLeft: Radius.circular(15))
-                                    : (index == (listItems.length - 1) && index % 3 == 0)
-                                        ? BorderRadius.only(bottomLeft: Radius.circular(15))
+                            : (index == (listItems.length - 3) &&
+                                    index % 3 == 0)
+                                ? BorderRadius.only(
+                                    bottomLeft: Radius.circular(15))
+                                : (index == (listItems.length - 2) &&
+                                        index % 3 == 0)
+                                    ? BorderRadius.only(
+                                        bottomLeft: Radius.circular(15))
+                                    : (index == (listItems.length - 1) &&
+                                            index % 3 == 0)
+                                        ? BorderRadius.only(
+                                            bottomLeft: Radius.circular(15))
 
                                         // Validacion para el borde inferior derecho
-                                        : (index == (listItems.length - 1) && (index + 1) % 3 == 0)
-                                            ? BorderRadius.only(bottomRight: Radius.circular(15))
+                                        : (index == (listItems.length - 1) &&
+                                                (index + 1) % 3 == 0)
+                                            ? BorderRadius.only(
+                                                bottomRight:
+                                                    Radius.circular(15))
                                             : BorderRadius.circular(0.0),
                 child: SizedBox(
                   child: Image.network(
@@ -164,15 +166,14 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                  child: AutoSizeText(
-                    item.title!.toUpperCase(),
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    minFontSize: 10,
-                    style: textTheme.textWhiteShadow,
-                  ),
-                ),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                    child: Text(item.title!.toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style:
+                            textTheme.textWhiteShadow.copyWith(fontSize: 11))),
               ),
             ],
           ),
@@ -188,7 +189,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
           padding: EdgeInsets.symmetric(horizontal: 10),
           children: _places.asMap().entries.map((entry) {
             final int index = entry.key;
-            final DataModel value = entry.value;
+            final DataPlacesDetailModel value = entry.value;
 
             return imagesCard(value, index, _places);
           }).toList(),
@@ -203,7 +204,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(color: IdtColors.white),
-                child: Center(child: TitleSection('DESCUBRE BOGOTÁ')),
+                child: Center(child: TitleSection('ACTIVIDAD RECIENTE')),
               ),
               SizedBox(height: 25),
               Padding(
@@ -212,23 +213,6 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                   color: IdtColors.black,
                   height: 2,
                   thickness: 1,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buttonTap('Plan', () => viewModel.openMenuTab(_categories, 'category', 0),
-                        viewModel.status.currentOption == 0),
-                    _buttonTap(
-                        'Producto',
-                        () => viewModel.openMenuTab(_subcategories, 'subcategory', 1),
-                        viewModel.status.currentOption == 1),
-                    _buttonTap('Zona', () => viewModel.openMenuTab(_zones, 'zone', 2),
-                        viewModel.status.currentOption == 2),
-                    _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
-                  ],
                 ),
               ),
               SizedBox(height: 15),

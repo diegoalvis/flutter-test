@@ -1,4 +1,5 @@
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/data_as_message_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
@@ -7,6 +8,7 @@ import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
 import 'package:bogota_app/data/model/menu_images_model.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
+import 'package:bogota_app/data/model/response/delete_user_response.dart';
 import 'package:bogota_app/data/model/response_model.dart';
 import 'package:bogota_app/data/model/response_model_reset_password.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
@@ -183,6 +185,12 @@ class ApiInteractor {
   Future<IdtResult<ResponseResetPasswordModel?>> resetPassword(
       String email) async {
     final response = await locator<ResetPasswordService>().resetPassword(email);
+    return response;
+  }
+
+  Future<IdtResult<DataAsMessageModel?>> deleteUser(
+      int id) async {
+    final response = await locator<RegisterService>().deleteUser(id);
     return response;
   }
 

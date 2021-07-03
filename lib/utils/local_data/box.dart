@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:hive/hive.dart';
 
 class BoxDataSesion {
   static late Box<Person> box;
   static late Box<CurrentUser> boxCurrentUser;
   static late Box<RememberMe> boxRememberMe;
+  static late Box<dynamic> boxActivity;
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
 
@@ -16,6 +20,7 @@ class BoxDataSesion {
     boxSession().then((value) => box = value);
     boxSessionCurr().then((value) => boxCurrentUser = value);
     boxSessionRem().then((value) => boxRememberMe = value);
+    boxActivityA().then((value) => boxActivity = value);
   }
 
   static Future<Box<Person>> boxSession() async {
@@ -31,6 +36,7 @@ class BoxDataSesion {
     }
     return box;
   }
+
   static Future<Box<CurrentUser>> boxSessionCurr() async {
     try {
       print("=== Cargando BOX === ");
@@ -66,12 +72,10 @@ class BoxDataSesion {
   }
 
   static Future<int> addToBox(dynamic value) async {
-
-   var result= await box.add(value);
+    var result = await box.add(value);
     print('✔ Se agrega usuario  valor $value');
-    var filteredUsers = box.values
-        .where((Person) => Person.id == value)
-        .toList();
+    var filteredUsers =
+        box.values.where((Person) => Person.id == value).toList();
 
     print(filteredUsers.asMap());
 
@@ -87,25 +91,22 @@ class BoxDataSesion {
 
   static Future<bool> existInBox(Person value) async {
     print("Person.id ${value}");
-    bool exist= false;
-    var filteredUsers = box.values
-        .where((Person) => Person.id == value.id)
-        .toList();
+    bool exist = false;
+    var filteredUsers =
+        box.values.where((Person) => Person.id == value.id).toList();
     print(filteredUsers.asMap());
 
-    if (filteredUsers.length >0){
+    if (filteredUsers.length > 0) {
       return !exist;
-    }
-    else{
+    } else {
       return exist;
     }
-
   }
-  static Future<int> getIndex(Person value) async{
+
+  static Future<int> getIndex(Person value) async {
     var allUsers = box.values.toList();
     print('allusers $allUsers');
-    final index = allUsers.indexWhere((element) =>
-    element.id == value.id);
+    final index = allUsers.indexWhere((element) => element.id == value.id);
     return index;
   }
 
@@ -121,20 +122,20 @@ class BoxDataSesion {
     return index;
   }*/
 
-
   static bool get isLoggedIn {
     late bool value;
-    late var data=null;
+    late var data = null;
     try {
       data = getCurrentUser();
       print("data $data");
-      if(data != null || data != ''){
-        value= true;
+      if (data != null || data != '') {
+        value = true;
       }
-    }catch(e){
+    } catch (e) {
       print("catch $data");
       value = false;
-    };
+    }
+    ;
     print("value $value");
     return value;
   }
@@ -147,7 +148,6 @@ class BoxDataSesion {
 //*********Para el usuario actual***************
 
   static void pushToBoxCurrentU(CurrentUser value) async {
-
     await boxCurrentUser.put(0, value);
     print('✔ Se registra current user con valor ${value}');
     print('✔ Se registra current user con valor de usuario ${value.id_user}');
@@ -159,6 +159,7 @@ class BoxDataSesion {
     print('devuelve usuario actual ${value!.id_user}');
     return value;
   }
+
   static void clearBoxCurrentUser() {
     boxCurrentUser.delete(0);
     //boxCurrentUser.deleteFromDisk();
@@ -190,5 +191,35 @@ class BoxDataSesion {
     boxRememberMe.deleteAll(boxRememberMe.keys);
     //boxCurrentUser.deleteFromDisk();
     print("=== 🧹Box Remember me limpiada === ");
+  }
+
+  static Future<Box<List<DataPlacesDetailModel>>> boxActivityA() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxActivity = await Hive.openBox('boxActivity');
+      print("✅ Box de activity cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX activity === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxActivity as Box<List<DataPlacesDetailModel>>;
+  }
+
+  static void pushToActivity(dynamic key, List<dynamic> value) {
+    boxActivity.put(key, jsonEncode(value));
+    print('✅ Se registra $key con valor ${jsonEncode(value)}');
+  }
+
+  static List<DataPlacesDetailModel> getListActivity(int idUser) {
+    if (boxActivity.get(idUser) != null) {
+      final s = boxActivity.get(idUser);
+      final decode = jsonDecode(s);
+      List<dynamic> value = (decode) as List<dynamic>;
+      List<DataPlacesDetailModel> resp = value.map((e) => DataPlacesDetailModel.fromJson(e)).toList();
+      return resp;
+    }
+    return [];
   }
 }

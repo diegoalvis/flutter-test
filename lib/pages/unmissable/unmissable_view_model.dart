@@ -1,4 +1,6 @@
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -41,11 +43,11 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
       // Actualización de lugares guardados/favoritos
       try {
         final dynamic savedPlaces = await _interactor.getSavedPlacesList();
-        if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+        if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
           List places = savedPlaces.body!;
           unmissableResponse.body!.map((unmissable) {
             try {
-              final DataModel lugarIsFavoriteSaved =
+              final DataAudioGuideModel lugarIsFavoriteSaved =
                   places.firstWhere((element) => element.id == unmissable.id);
               if (lugarIsFavoriteSaved != null) {
                 unmissable.isFavorite = true;
@@ -134,4 +136,17 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
     }
   }
 
+  onTapFavorite(String idplace) async {
+    late int value = status.itemsUnmissablePlaces.indexWhere((element) => element.id == idplace);
+    print("idplace");
+    print(idplace);
+    final favoriteResponse = await _interactor.postFavorite(idplace);
+    if (favoriteResponse is IdtSuccess<FavoriteModel?>) {
+      print(favoriteResponse.body!.message);
+    }
+
+    status = status.copyWith(isLoading: false);
+    status.itemsUnmissablePlaces[value].isFavorite = !status.itemsUnmissablePlaces[value].isFavorite!;
+    status = status.copyWith(itemsUnmissablePlaces: status.itemsUnmissablePlaces);
+  }
 }

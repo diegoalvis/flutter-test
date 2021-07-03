@@ -1,13 +1,17 @@
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/data_as_message_model.dart';
+import 'package:bogota_app/data/model/response/delete_user_response.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_status.dart';
+import 'package:bogota_app/pages/profile_edit/profile_effect.dart';
+import 'package:bogota_app/utils/errors/error_model.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:hive/hive.dart';
 
-class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
+
+class ProfileEditViewModel extends  EffectsViewModel<ProfileEditStatus, ProfileEditEffect>  {
 
   final IdtRoute _route;
   final ApiInteractor _interactor;
@@ -80,4 +84,19 @@ class ProfileEditViewModel extends ViewModel<ProfileEditStatus> {
 
 
 
+  Future<bool> deleteUser() async {
+    status = status.copyWith(isLoading: true);
+    CurrentUser user = BoxDataSesion.getCurrentUser()!;
+    final deleteResponse = await _interactor.deleteUser(user.id_user!);
+  
+    if (deleteResponse is IdtSuccess<DataAsMessageModel?>) {
+      return true;
+    } else {
+      final erroRes = deleteResponse as IdtFailure<ErrorModel>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+    return false;
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
+import 'package:bogota_app/pages/activity/activity_page.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_page.dart';
 import 'package:bogota_app/pages/detail/detail_page.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
@@ -215,6 +216,11 @@ class IdtRoute {
   goProfileEdit(String emailUser,nameUser, String lastName) {
     return navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (_) => ProfileEditPage(emailUser,nameUser, lastName)));
+  }
+
+  goActivity() {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => ActivityPage()));
   }
 
   goSettings() {
