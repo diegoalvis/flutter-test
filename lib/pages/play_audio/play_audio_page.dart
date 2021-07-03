@@ -136,10 +136,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     viewModel.status.idAudio= widget._detail.id;
 
     validateFromLocal(){
-      CurrentUser user = BoxDataSesion.getCurrentUser()!;
-      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
 
         try{
+          CurrentUser user = BoxDataSesion.getCurrentUser()!;
+          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
           for (final e in person.audioguias!){
             print(viewModel.status.idAudio);
             if (e![(viewModel.status.idAudio)] != null ) {
