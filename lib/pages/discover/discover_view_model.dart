@@ -7,6 +7,7 @@ import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/material.dart';
 
 class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
@@ -91,6 +92,10 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   void getDiscoveryData() async {
     status = status.copyWith(isLoading: true);
 
+    void sortOptionsFilters(IdtSuccess<List<DataModel>?> resources) { //ordena los filtros A/Z
+      resources.body!.sort((a, b) => a.title!.compareTo(b.title!));
+    }
+
     bool isValid = true;
 
     //final resPlaces = await _interactor.getPlacesList({});
@@ -108,6 +113,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resCategory = await _interactor.getCategoriesList();
 
     if (resCategory is IdtSuccess<List<DataModel>?>) {
+      sortOptionsFilters(resCategory);
+      resCategory.body!.sort((a, b) => a.title!.compareTo(b.title!));
+
       status = status.copyWith(categories: resCategory.body);
     } else {
       isValid = false;
@@ -119,6 +127,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resSubcategiry = await _interactor.getSubcategoriesList();
 
     if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
+      sortOptionsFilters(resSubcategiry);
+
       status = status.copyWith(subcategories: resSubcategiry.body);
     } else {
       isValid = false;
@@ -130,6 +140,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     final resZona = await _interactor.getZonesList();
 
     if (resZona is IdtSuccess<List<DataModel>?>) {
+      sortOptionsFilters(resZona);
       status = status.copyWith(zones: resZona.body);
     } else {
       isValid = false;
