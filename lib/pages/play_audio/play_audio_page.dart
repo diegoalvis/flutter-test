@@ -59,7 +59,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
   final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [];
   late AudioPlayer _player;
-
+  bool firstValidate = false;
 
 
   Future<void> _init() async {
@@ -79,8 +79,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
         if (user.id_db != null){
           print("user.id_db! ${user.id_db!}");
           Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-          print("person.audioguias![0][(widget._detail.id).toString()] ${person.audioguias![0][(widget._detail.id).toString()]}");
-          await _player.setAudioSource(AudioSource.uri(Uri.file((person.audioguias![0][(widget._detail.id).toString()]))));
+          print("============================================");
+          print(widget._detail.url_audioguia_es);
+          print("============================================");
+          await _player.setAudioSource(AudioSource.uri(Uri.file(widget._detail.url_audioguia_es!)));
 
         }
       }else{
@@ -128,33 +130,58 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     super.dispose();
   }
 
+    validateFromLocal(){
+      final viewModel = context.watch<PlayAudioViewModel>();
+      try{
+        CurrentUser user = BoxDataSesion.getCurrentUser()!;
+        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+        for (final e in person.detalle!){
+          print(viewModel.status.idAudio);
+          if (e.id == viewModel.status.idAudio ) {
+            viewModel.status.modeOffline = true;
+          }else{
+            viewModel.status.modeOffline = false;
+          }
+        }
+      }catch(e){
+
+      }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<PlayAudioViewModel>();
-    viewModel.status.urlAudio =
-        IdtConstants.url_image + widget._detail.url_audioguia_es!;
-    viewModel.status.idAudio= widget._detail.id;
-    DataAudioGuideModel data = DataAudioGuideModel(id: widget._detail.id, title: widget._detail.title, image: widget._detail.image );
-    viewModel.status.detalleSaved= data;
 
-    validateFromLocal(){
+     (Connectivity().checkConnectivity()).then((connectivityResult) {
 
-        try{
-          CurrentUser user = BoxDataSesion.getCurrentUser()!;
-          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-          for (final e in person.audioguias!){
-            print(viewModel.status.idAudio);
-            if (e![(viewModel.status.idAudio)] != null ) {
-              viewModel.status.modeOffline = true;
-            }
-          }
-        }catch(e){
+      viewModel.status =
+          viewModel.status.copyWith(connectionStatus: connectivityResult);
 
-        }
+      if (connectivityResult != ConnectivityResult.none) {
+        viewModel.status.urlAudio =
+            IdtConstants.url_image + widget._detail.url_audioguia_es!;
+        viewModel.status.idAudio = widget._detail.id;
+        DataAudioGuideModel data = DataAudioGuideModel(
+            id: widget._detail.id,
+            title: widget._detail.title,
+            image: widget._detail.image);
+        viewModel.status.detalleSaved = data;
+      } else {
+        viewModel.status.urlAudio = widget._detail.url_audioguia_es!;
+        viewModel.status.idAudio = widget._detail.id;
+        DataAudioGuideModel data = DataAudioGuideModel(
+            id: widget._detail.id,
+            title: widget._detail.title,
+            image: widget._detail.image);
+        viewModel.status.detalleSaved = data;
+      }
+    });
 
+    if (!firstValidate) {
+      validateFromLocal();
+      firstValidate = true;
     }
-    validateFromLocal();
-
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -194,7 +221,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
+          isOnline(viewModel) ? IconButton(
             icon: Icon(
               viewModel.status.isFavorite
                   ? IdtIcons.heart2
@@ -205,7 +232,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             padding: EdgeInsets.only(right: 20.0),
             iconSize: 35,
             onPressed: viewModel.onTapFavorite,
-          ),
+          ): SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
             child: Text(
@@ -267,7 +294,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             inactiveToggleColor: IdtColors.grayBtn,
             padding: 3,
             height: 30,
-            onToggle: viewModel.changeModeOffline,
+            onToggle: ( bool val ){
+              viewModel.changeModeOffline(val);
+            },
           ),
           SizedBox(height: 8),
           Text(
@@ -317,7 +346,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                             onPressed: _route.pop,
                           ),
                         ),
-                        Container(
+                        isOnline(viewModel) ? Container(
                           child: Padding(
                             padding: EdgeInsets.only(right: 14.0),
                             child: IconButton(
@@ -336,7 +365,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                               },
                             ),
                           ),
-                        ),
+                        ): SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -355,6 +384,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           ),
         ));
   }
+
+  bool isOnline(PlayAudioViewModel viewModel) => viewModel.status.connectionStatus != ConnectivityResult.none;
 
   Column _box() {
     return Column(

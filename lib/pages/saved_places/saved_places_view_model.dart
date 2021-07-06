@@ -46,9 +46,9 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
 
     if (connectivityResult == ConnectivityResult.none) {
       print("no internet $person.");
-      List<DataAudioGuideModel> detail = person.detalle!;
-      print(detail[0].id);
-      List<bool> list = List.filled((person.detalle!).length, true);
+      List<DataAudioGuideModel> detail = person.detalle ?? [];
+      
+      List<bool> list = List.filled((detail)!.length, true);
       status = status.copyWith(listSwitch: list);
       print("list $list");
       print("person.detalle ${detail.length}");
@@ -56,7 +56,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
       // final entity = DataAudioGuideModel.fromJson(person.detalle);
 
       List<DataAudioGuideModel>? data =
-          person.detalle as List<DataAudioGuideModel>?;
+          person.detalle as List<DataAudioGuideModel>? ?? [];
       print("data $data");
       status = status.copyWith(itemsSavedPlaces: data);
       print("status.itemsSavedPlaces ${status.itemsSavedPlaces}");
@@ -170,8 +170,9 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
         ids_subcategories: [],
         location: "",
         rate: "",
+        image: item?.image,
       );
-      // _route.goPlayAudio(detail: payload);
+      _route.goPlayAudio(detail: payload);
       status = status.copyWith(isLoading: false);
     }
 

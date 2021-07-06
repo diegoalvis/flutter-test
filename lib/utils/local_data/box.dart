@@ -193,7 +193,7 @@ class BoxDataSesion {
     print("=== 🧹Box Remember me limpiada === ");
   }
 
-  static Future<Box<List<DataPlacesDetailModel>>> boxActivityA() async {
+  static Future<Box<dynamic>> boxActivityA() async {
     try {
       print("=== Cargando BOX === ");
       boxActivity = await Hive.openBox('boxActivity');
@@ -204,7 +204,7 @@ class BoxDataSesion {
       print(e);
       print("========================= ");
     }
-    return boxActivity as Box<List<DataPlacesDetailModel>>;
+    return boxActivity as Box<dynamic>;
   }
 
   static void pushToActivity(dynamic key, List<dynamic> value) {

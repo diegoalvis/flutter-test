@@ -116,6 +116,7 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     } else {
       status = status.copyWith(pathAudio: '');
     }
+    
     print('File Swith: $mode');
     status = status.copyWith(modeOffline: mode, isOnline: mode);
   }
