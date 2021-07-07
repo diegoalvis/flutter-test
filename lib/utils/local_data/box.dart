@@ -1,14 +1,18 @@
 import 'dart:convert';
 
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:hive/hive.dart';
+import 'package:rxdart/rxdart.dart';
 
 class BoxDataSesion {
   static late Box<Person> box;
   static late Box<CurrentUser> boxCurrentUser;
   static late Box<RememberMe> boxRememberMe;
   static late Box<dynamic> boxActivity;
+  static late Box<dynamic> boxAudioGuides;
+  static final ready = BehaviorSubject.seeded(false);
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
 
@@ -17,10 +21,19 @@ class BoxDataSesion {
   }
 
   BoxDataSesion._internal() {
-    boxSession().then((value) => box = value);
-    boxSessionCurr().then((value) => boxCurrentUser = value);
-    boxSessionRem().then((value) => boxRememberMe = value);
-    boxActivityA().then((value) => boxActivity = value);
+    Rx.combineLatestList([
+      boxSession().then((value) => box = value).asStream(),
+      boxSessionCurr().then((value) => boxCurrentUser = value).asStream(),
+      boxSessionRem().then((value) => boxRememberMe = value).asStream(),
+      boxActivityA().then((value) => boxActivity = value).asStream(),
+      boxAudioGuidesA().then((value) => boxAudioGuides = value).asStream(),
+    ]).listen(
+      (event) {
+        print('YA TERMINO DE CARGAR ESTA VAINA ✅✅✅✅✅✅✅✅');
+      },
+      onDone: () => ready.add(true),
+      onError: (error) => ready.add(false),
+    );
   }
 
   static Future<Box<Person>> boxSession() async {
@@ -51,7 +64,6 @@ class BoxDataSesion {
     return boxCurrentUser;
   }
 
-
   static Future<Box<RememberMe>> boxSessionRem() async {
     try {
       print("=== Cargando BOX === ");
@@ -66,27 +78,58 @@ class BoxDataSesion {
     return boxRememberMe;
   }
 
-  static void pushToBox(dynamic value, int key) async {
+  // Se almamcena una persona, pero se divide en dos partes
+  // En el box 'box' se almacena el objeto persona con detalle = null
+  // y en el box 'boxAudioGuides' se almacena la lista de audioguias,
+  // estas a la hora de consultarse en 'getFromBox' deben se consultadas
+  // y unificadas para formar un soo objeto
+  static void pushToBox(Person value, int key) async {
+    List<dynamic> listAudioguides = value.detalle ?? [];
+    value.detalle = null;
     await box.put(key, value);
+    final encode = jsonEncode(listAudioguides);
+    await boxAudioGuides.put(key, encode);
     print('✔ Se registra 0 con valor $value');
   }
 
-  static Future<int> addToBox(dynamic value) async {
+  static Future<int> addToBox(Person value) async {
     var result = await box.add(value);
     print('✔ Se agrega usuario  valor $value');
-    var filteredUsers =
-        box.values.where((Person) => Person.id == value).toList();
-
-    print(filteredUsers.asMap());
-
+    List<dynamic>? listAudioguides = value.detalle ?? [];
+    await boxAudioGuides.put(result, listAudioguides);
     return result;
   }
 
+  // Obtiene una persona almacenada en el box
+  // Existen dos box:
+  // 'box' contiene un objeto Persona
+  // 'boxAudioGuides' contiene cadenas codificadas, que al decodificarlos almacenan objetos de tipo List<DataAudioGuideModel>
+  // Al objeto Person, para el atributo detalle, se complementa consultando el box 'boxAudioGuides' para tener un
+  // objeto persona completo
   static Person? getFromBox(int index) {
-    final Person? value = box.get(index);
-    print('✔ Se recupera con 0 el valor $value');
-    print(value);
-    return value;
+    final Person? person = box.get(index);
+    if (person != null) {
+      getListAudioguidesForDetailOfPerson(index, person);
+    }
+    print('✔ Se recupera con 0 el valor $person');
+    print(person);
+
+    return person;
+  }
+
+  static void getListAudioguidesForDetailOfPerson(int index, Person person) {
+    if (boxAudioGuides.get(index) != null) {
+      final s = boxAudioGuides.get(index);
+      final decode = s != null
+          ? s is List
+              ? s
+              : jsonDecode(s)
+          : [];
+      List<dynamic> value = (decode) as List<dynamic>;
+      List<DataAudioGuideModel> resp =
+          value.map((e) => DataAudioGuideModel.fromJson(e)).toList();
+      person.detalle = resp;
+    }
   }
 
   static Future<bool> existInBox(Person value) async {
@@ -168,8 +211,7 @@ class BoxDataSesion {
 
   //********************Para recordar Usuario**********************//
   static Future<int> addToRememberBox(dynamic value) async {
-
-    var result= await boxRememberMe.add(value);
+    var result = await boxRememberMe.add(value);
     print('✔ Se agrega usuario  valor $value');
     return result;
   }
@@ -181,19 +223,19 @@ class BoxDataSesion {
     return value;
   }
 
-  static  pushToRememberBox(dynamic value, int index) async {
+  static pushToRememberBox(dynamic value, int index) async {
     await boxRememberMe.putAt(index, value);
     print('✔ Se registra 0 con valor $value');
     return value;
   }
 
-  static void   clearBoxRememberMe() {
+  static void clearBoxRememberMe() {
     boxRememberMe.deleteAll(boxRememberMe.keys);
     //boxCurrentUser.deleteFromDisk();
     print("=== 🧹Box Remember me limpiada === ");
   }
 
-  static Future<Box<List<DataPlacesDetailModel>>> boxActivityA() async {
+  static Future<Box<dynamic>> boxActivityA() async {
     try {
       print("=== Cargando BOX === ");
       boxActivity = await Hive.openBox('boxActivity');
@@ -204,7 +246,21 @@ class BoxDataSesion {
       print(e);
       print("========================= ");
     }
-    return boxActivity as Box<List<DataPlacesDetailModel>>;
+    return boxActivity as Box<dynamic>;
+  }
+
+  static Future<Box<dynamic>> boxAudioGuidesA() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxAudioGuides = await Hive.openBox('boxAudioGuides');
+      print("✅ Box de audioguias cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX audioguias === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxAudioGuides;
   }
 
   static void pushToActivity(dynamic key, List<dynamic> value) {
@@ -217,7 +273,8 @@ class BoxDataSesion {
       final s = boxActivity.get(idUser);
       final decode = jsonDecode(s);
       List<dynamic> value = (decode) as List<dynamic>;
-      List<DataPlacesDetailModel> resp = value.map((e) => DataPlacesDetailModel.fromJson(e)).toList();
+      List<DataPlacesDetailModel> resp =
+          value.map((e) => DataPlacesDetailModel.fromJson(e)).toList();
       return resp;
     }
     return [];

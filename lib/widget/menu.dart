@@ -18,7 +18,7 @@ import 'NFMarquee.dart';
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
-  final int? optionIndex;
+  final String? optionIndex;
 
   IdtMenu({required this.closeMenu, this.optionIndex});
 
@@ -150,7 +150,7 @@ class IdtMenu extends StatelessWidget {
                       },
                       child: Stack(
                         children: [
-                          optionIndex == index
+                          optionIndex == listMenu[index]['title']
                               ? Container(
                                   decoration: StylesMethodsApp().decorarStyle(IdtGradients.orange,
                                       30, Alignment.bottomCenter, Alignment.topCenter),
@@ -173,7 +173,7 @@ class IdtMenu extends StatelessWidget {
                               child: AutoSizeText(
                                 '${listMenu[index]['title']}',
                                 style: textTheme.textMenu.copyWith(
-                                  color: optionIndex == index
+                                  color: optionIndex == listMenu[index]['title']
                                       ? IdtColors.white.withOpacity(0.8)
                                       : IdtColors.gray.withOpacity(0.8),
                                 ),

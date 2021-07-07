@@ -18,6 +18,7 @@ import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/play_audio.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
   final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [];
   late AudioPlayer _player;
-
+  bool firstValidate = false;
 
 
   Future<void> _init() async {
@@ -79,8 +80,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
         if (user.id_db != null){
           print("user.id_db! ${user.id_db!}");
           Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-          print("person.audioguias![0][(widget._detail.id).toString()] ${person.audioguias![0][(widget._detail.id).toString()]}");
-          await _player.setAudioSource(AudioSource.uri(Uri.file((person.audioguias![0][(widget._detail.id).toString()]))));
+          print("============================================");
+          print(widget._detail.url_audioguia_es);
+          print("============================================");
+          await _player.setAudioSource(AudioSource.uri(Uri.file(widget._detail.url_audioguia_es!)));
 
         }
       }else{
@@ -111,6 +114,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<PlayAudioViewModel>().onInit();
+      context.read<PlayAudioViewModel>().checkIsFavorite(widget._detail.id);
     });
 
     _player = AudioPlayer();
@@ -128,33 +132,57 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     super.dispose();
   }
 
+    validateFromLocal(){
+      final viewModel = context.watch<PlayAudioViewModel>();
+      try{
+        CurrentUser user = BoxDataSesion.getCurrentUser()!;
+        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+        for (final e in person.detalle!){
+          if (e.id == widget._detail.id ) {
+            viewModel.status.modeOffline = true;
+          }else{
+            viewModel.status.modeOffline = false;
+          }
+        }
+      }catch(e){
+
+      }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<PlayAudioViewModel>();
-    viewModel.status.urlAudio =
-        IdtConstants.url_image + widget._detail.url_audioguia_es!;
-    viewModel.status.idAudio= widget._detail.id;
-    DataAudioGuideModel data = DataAudioGuideModel(id: widget._detail.id, title: widget._detail.title, image: widget._detail.image );
-    viewModel.status.detalleSaved= data;
 
-    validateFromLocal(){
+     (Connectivity().checkConnectivity()).then((connectivityResult) {
 
-        try{
-          CurrentUser user = BoxDataSesion.getCurrentUser()!;
-          Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-          for (final e in person.audioguias!){
-            print(viewModel.status.idAudio);
-            if (e![(viewModel.status.idAudio)] != null ) {
-              viewModel.status.modeOffline = true;
-            }
-          }
-        }catch(e){
+      viewModel.status =
+          viewModel.status.copyWith(connectionStatus: connectivityResult);
 
-        }
+      if (connectivityResult != ConnectivityResult.none) {
+        viewModel.status.urlAudio =
+            IdtConstants.url_image + widget._detail.url_audioguia_es!;
+        viewModel.status.idAudio = widget._detail.id;
+        DataAudioGuideModel data = DataAudioGuideModel(
+            id: widget._detail.id,
+            title: widget._detail.title,
+            image: widget._detail.image);
+        viewModel.status.detalleSaved = data;
+      } else {
+        viewModel.status.urlAudio = widget._detail.url_audioguia_es!;
+        viewModel.status.idAudio = widget._detail.id;
+        DataAudioGuideModel data = DataAudioGuideModel(
+            id: widget._detail.id,
+            title: widget._detail.title,
+            image: widget._detail.image);
+        viewModel.status.detalleSaved = data;
+      }
+    });
 
+    if (!firstValidate) {
+      validateFromLocal();
+      firstValidate = true;
     }
-    validateFromLocal();
-
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -194,7 +222,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
+          isOnline(viewModel) ? IconButton(
             icon: Icon(
               viewModel.status.isFavorite
                   ? IdtIcons.heart2
@@ -205,7 +233,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             padding: EdgeInsets.only(right: 20.0),
             iconSize: 35,
             onPressed: viewModel.onTapFavorite,
-          ),
+          ): SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
             child: Text(
@@ -267,7 +295,10 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             inactiveToggleColor: IdtColors.grayBtn,
             padding: 3,
             height: 30,
-            onToggle: viewModel.changeModeOffline,
+            onToggle: ( bool val ){
+              final idAAudio = widget._detail.id;
+              viewModel.changeModeOffline(val, idAAudio);
+            },
           ),
           SizedBox(height: 8),
           Text(
@@ -279,18 +310,46 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     }
 
     return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(IdtConstants.url_image + widget._detail.image!),
-            fit: BoxFit.fill,
-          ),
-        ),
         height: size.height,
         width: size.width,
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+          filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 50.0),
           child: Stack(
             children: [
+
+                CachedNetworkImage(
+                imageUrl:
+                    IdtConstants.url_image + widget._detail.image!,
+                imageBuilder:
+                    (context, imageProvider) {
+                return Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                              offset: Offset(0, 10),
+                              color: Color.fromRGBO(0, 0, 0, 0.7),
+                              blurRadius: 15,
+                              spreadRadius: -10),
+                        ],
+                        borderRadius: BorderRadius.circular(34),
+                        image: DecorationImage(fit: BoxFit.cover, alignment: Alignment.center, image: imageProvider),
+                      ),
+                    ),
+                    Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(34),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: Container(color: Colors.transparent),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+
               Positioned(
                 top: 50,
                 right: 0,
@@ -317,7 +376,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                             onPressed: _route.pop,
                           ),
                         ),
-                        Container(
+                        isOnline(viewModel) ? Container(
                           child: Padding(
                             padding: EdgeInsets.only(right: 14.0),
                             child: IconButton(
@@ -336,7 +395,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                               },
                             ),
                           ),
-                        ),
+                        ): SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -350,11 +409,14 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                     height: 55,
                   )
                 ],
-              )
+              ),
+            
             ],
           ),
         ));
   }
+
+  bool isOnline(PlayAudioViewModel viewModel) => viewModel.status.connectionStatus != ConnectivityResult.none;
 
   Column _box() {
     return Column(
@@ -386,9 +448,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: new LayoutBuilder(builder:
                                     (BuildContext context,
                                         BoxConstraints constraints) {
-                                  print("--- ${MediaQuery.of(context).size}");
-                                  print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  // print("--- ${MediaQuery.of(context).size}");
+                                  // print(
+                                  //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
                                     widget.sizeContainer =
                                         MediaQuery.of(context).size.width / 2;
@@ -430,9 +492,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: new LayoutBuilder(builder:
                                     (BuildContext context,
                                         BoxConstraints constraints) {
-                                  print("--- ${MediaQuery.of(context).size}");
-                                  print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  // print("--- ${MediaQuery.of(context).size}");
+                                  // print(
+                                  //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
                                     widget.sizeContainer =
                                         MediaQuery.of(context).size.width / 2;
@@ -921,7 +983,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(double.infinity);
+    // print(double.infinity);
     return Padding(
       padding: EdgeInsets.zero,
       child: AnimatedContainer(

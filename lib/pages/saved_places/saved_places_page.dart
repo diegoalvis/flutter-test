@@ -11,9 +11,11 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_view_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/menu.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,10 +44,12 @@ class SavedPlacesWidget extends StatefulWidget {
 
 class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<SavedPlacesViewModel>().loadSavedPlaces();
+    BoxDataSesion.ready.listen((ready) {
+      if (ready) {
+        context.read<SavedPlacesViewModel>().loadSavedPlaces();
+      }
     });
   }
 
@@ -82,25 +86,48 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () => viewModel
-                            .goDetailPage(id:listItems[index].id.toString(), item: listItems[index]),
+                        onTap: () => viewModel.goDetailPage(
+                            id: listItems[index].id.toString(),
+                            item: listItems[index]),
                         child: Row(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child: (listItems[index].image == null)? Image.asset(
-                                IdtAssets.profile_photo,
-                                height: 70,
-                                width: 70,
-                                fit: BoxFit.cover,
-                              ):Image.network(
-                                IdtConstants.url_image +
-                                    listItems[index].image!,
-                                height: 70,
-                                width: 70,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: (listItems[index].image == null)
+                                    ? Image.asset(
+                                        IdtAssets.profile_photo,
+                                        height: 70,
+                                        width: 70,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : CachedNetworkImage(
+                                        imageUrl:
+                                            "${IdtConstants.url_image}${listItems[index].image!}",
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          height: 70,
+                                          width: 70,
+                                        ),
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      )
+                                // Image.network(
+                                //   IdtConstants.url_image +
+                                //       listItems[index].image!,
+                                //   height: 70,
+                                //   width: 70,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                ),
                             SizedBox(width: 10),
                             Expanded(
                               child: Text(
@@ -117,7 +144,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                       ),
                     ),
                     FlutterSwitch(
-                        value: viewModel.status.listSwitch[index],
+                        value: viewModel.status.itemsSavedPlaces[index].isLocal!,
                         switchBorder: Border.all(color: IdtColors.grayBtn),
                         activeColor: IdtColors.white,
                         activeToggleColor: IdtColors.greenDark,

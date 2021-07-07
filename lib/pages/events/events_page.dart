@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
@@ -101,6 +102,19 @@ class _EventsWidgetState extends State<EventsWidget> {
     );
   }
 
+  _getOptionIndexForMenu(String title){
+    if(title =='Evento'){
+      return TitlesMenu.eventos;
+    }
+    if(title =='Dónde dormir'){
+      return TitlesMenu.dondeDormir;
+    }
+    if(title =='Dónde comer'){
+      return TitlesMenu.dondeComer;
+    }
+    return TitlesMenu.eventos;
+  }
+
   Widget _buildDiscover(EventsViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
@@ -121,7 +135,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               padding: EdgeInsets.only(top: 70),
               child: IdtMenu(
                 closeMenu: viewModel.closeMenu,
-                optionIndex: widget.optionIndex,
+                optionIndex: _getOptionIndexForMenu(title!),
               ),
             )
           : SizedBox.shrink(),

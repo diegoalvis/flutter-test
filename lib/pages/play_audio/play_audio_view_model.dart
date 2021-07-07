@@ -7,6 +7,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_status.dart';
+import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +48,8 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
    // loadAudioFromBox();
     // TODO
+   
+    
   }
   @override
   void dispose() {
@@ -110,14 +113,36 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
 
   }
 
-  void changeModeOffline(bool mode) {
+  void changeModeOffline(bool mode, String idAAudio) {
     if (mode) {
       loadFile();
     } else {
       status = status.copyWith(pathAudio: '');
+      removeAudioLocalSavedPlaces(idAAudio);
     }
+    
     print('File Swith: $mode');
     status = status.copyWith(modeOffline: mode, isOnline: mode);
+    
+  }
+
+
+  removeAudioLocalSavedPlaces(String idAAudio){
+    if(idAAudio != null){
+      CurrentUser user = BoxDataSesion.getCurrentUser()!;
+      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+      List<DataAudioGuideModel> detailOfPerson = person.detalle ?? [];
+
+      final index = detailOfPerson.indexWhere((element) => element.id == idAAudio);
+      if(index != -1){
+        detailOfPerson.removeAt(index);
+      }
+      var personUpdated = Person(name: person.name,id: person.id, country: person.country, apellido: person.apellido, detalle: detailOfPerson);
+
+      BoxDataSesion.pushToBox(personUpdated, user.id_db!);
+      print('✅ Se renueve audio almacenado localmente ${personUpdated.audioguias}');
+    }
+  
   }
 
   Future loadFile() async {
@@ -190,9 +215,37 @@ print(e);
   void onTapFavorite() {
     final bool value = status.isFavorite;
     status = status.copyWith(isFavorite: !value);
+    _interactor.postFavorite(status.idAudio).then((value) {
+      print("⭐ Agregado a favoritos");
+    });
   }
 
   void selectLanguage(Object? value) {
     status = status.copyWith(language: value.toString());
+  }
+
+  checkIsFavorite(String id) async {
+    final isFavorite = await getIsFavorite(id);
+    status = status.copyWith(isFavorite: isFavorite) ;
+  }
+
+  Future<bool> getIsFavorite(String id) async {
+    bool isFavorite = false;
+    // Actualización de lugares guardados/favoritos
+    final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+    if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
+      List places = savedPlaces.body!;
+
+      try {
+        final DataAudioGuideModel lugarIsFavoriteSaved =
+            places.firstWhere((element) => element.id == id);
+        if (lugarIsFavoriteSaved != null) {
+          isFavorite = true;
+        }
+      } catch (e) {
+        isFavorite = false;
+      }
+    }
+    return isFavorite;
   }
 }

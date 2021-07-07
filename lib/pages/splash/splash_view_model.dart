@@ -8,6 +8,7 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:connectivity/connectivity.dart';
 

@@ -29,6 +29,18 @@ void main() async {
     runApp(MyApp());
   }, (error, stackTrace) {
     // TODO: Captura de errores con Crashlytics
+    print("""
+          =====================INICIA ERROR============================
+    """);
+
+    print(error);
+print("""
+          =====================STACKTRACE============================
+    """);
+    print(stackTrace);
+    print("""
+          =====================FINALIZA ERROR============================
+    """);
   });
 
   var path = Directory.current.path;

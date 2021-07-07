@@ -75,7 +75,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       child: viewModel.status.openMenu
           ? IdtMenu(
               closeMenu: viewModel.closeMenu,
-              optionIndex: 1,
+              optionIndex: '',
             )
           : SizedBox.shrink(),
     );

@@ -42,70 +42,18 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
     print("user.id_db! ${user.id_db!}");
     Person person = BoxDataSesion.getFromBox(user.id_db!)!;
     var connectivityResult = await (Connectivity().checkConnectivity());
-    print("connectivityResult saved_places $connectivityResult");
 
-    if (connectivityResult == ConnectivityResult.none) {
-      print("no internet $person.");
-      List<DataAudioGuideModel> detail = person.detalle!;
-      print(detail[0].id);
-      List<bool> list = List.filled((person.detalle!).length, true);
-      status = status.copyWith(listSwitch: list);
-      print("list $list");
-      print("person.detalle ${detail.length}");
+    getSavedPlacesLocalDb(person);
 
-      // final entity = DataAudioGuideModel.fromJson(person.detalle);
+    if (connectivityResult != ConnectivityResult.none) {
+      // En caso de haber conexión a internet:
+      // - Se cargan los favoritos
+      // - Se filtran los lugares que llegan desde el servicio según si están en los lugares guardados localmente
+      // - Se Unifica una sola lista, teniendo en cuenta un atributo isLocal que indica si está local o no
 
-      List<DataAudioGuideModel>? data =
-          person.detalle as List<DataAudioGuideModel>?;
-      print("data $data");
-      status = status.copyWith(itemsSavedPlaces: data);
-      print("status.itemsSavedPlaces ${status.itemsSavedPlaces}");
-    } else {
-      print("internet");
       final savedResponse = await _interactor.getSavedPlacesList();
       if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
-        List<bool> listAudio = [];
-        print("savedResponse.body!.length ${savedResponse.body!.length}");
-
-        var datos = Map();
-        for (final f in savedResponse.body!) {
-          print("entra a for");
-          print(person.audioguias);
-
-          //      final  lugarIsFavoriteSaved = savedResponse.body!.firstWhere((element) => element.id == person.audioguias![element.id]);
-
-          try {
-            var index = 0;
-            print("person.audioguias! ${person.audioguias!}");
-            if (person.audioguias! != null) {
-              for (final e in person.audioguias!) {
-                print("index $index");
-                if (e![(int.parse(f.id!)).toString()] != null) {
-                  listAudio.add(true);
-                } else {
-                  if (listAudio[index] == true) {
-                  } else {
-                    listAudio.add(false);
-                  }
-                  //listAudio.add(false);
-                }
-                index + 1;
-              }
-            }
-          } catch (e) {
-            listAudio = List.filled(savedResponse.body!.length, false);
-            print(listAudio.length);
-          }
-        }
-        print(listAudio);
-
-        List<bool> list = List.filled(savedResponse.body!.length, false);
-        status = status.copyWith(listSwitch: listAudio);
-
-        status = status.copyWith(
-            itemsSavedPlaces: savedResponse.body); // Status reasignacion
-        // status.places.addAll(UnmissableResponse.body)
-
+        _updatedListSavedPlacesWithItemsOfFavorites(savedResponse.body);
       } else {
         final erroRes = savedResponse as IdtFailure<EatError>;
         print(erroRes.message);
@@ -116,13 +64,52 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
     }
 
     status = status.copyWith(isLoading: false);
-    //addEffect(ShowDialogEffect());  Dialog de prueba
+  }
+
+  void _updatedListSavedPlacesWithItemsOfFavorites(List<DataAudioGuideModel>? savedResponse) {
+    final List<DataAudioGuideModel>? listWithServiceSavedPlaces =
+        savedResponse;
+    final List<DataAudioGuideModel>? listWithLocalSavedPlaces =
+        status.itemsSavedPlaces;
+    final List<DataAudioGuideModel> listServiceFinal = [];
+    
+    if (listWithServiceSavedPlaces != null) {
+      listWithServiceSavedPlaces.forEach((element) {
+        if (listWithLocalSavedPlaces != null) {
+          final index = listWithLocalSavedPlaces
+              .indexWhere((itemLocal) => itemLocal.id == element.id);
+          if (index != -1) {
+            listWithLocalSavedPlaces[index] = element;
+            listWithLocalSavedPlaces[index].isLocal = true;
+          } else {
+            element.isLocal = false;
+            listServiceFinal.add(element);
+          }
+        }
+      });
+    
+      status = status.copyWith(
+        itemsSavedPlaces: [
+          ...listWithLocalSavedPlaces!,
+          ...listServiceFinal
+        ],
+      );
+    }
+  }
+
+  void getSavedPlacesLocalDb(Person person) {
+    List<DataAudioGuideModel>? data =
+        person.detalle as List<DataAudioGuideModel>? ?? [];
+    data.forEach((element) => element.isLocal = true);
+    status = status.copyWith(itemsSavedPlaces: data);
   }
 
   void changeSwitch(bool value, int index) {
-    List<bool> list = List.of(status.listSwitch);
-    list[index] = value;
-    status = status.copyWith(listSwitch: list);
+    // List<bool> list = List.of(status.listSwitch);
+    // list[index] = value;
+    status.itemsSavedPlaces[index].isLocal = value;
+    // status = status.copyWith(listSwitch: list);
+    status = status.copyWith(itemsSavedPlaces: status.itemsSavedPlaces);
   }
 
   void changeSwitch2(String value) {
@@ -157,26 +144,27 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
       }
       status = status.copyWith(isLoading: false);
     } else {
-      // Homologar
-      DataPlacesDetailModel payload = DataPlacesDetailModel(
-        id: id!,
-        title: item?.title,
-        url_audioguia_en: item?.audioguia_en,
-        url_audioguia_es: item?.audioguia_es,
-        url_audioguia_pt: item?.audioguia_pt,
-        address: "",
-        body: "",
-        gallery: [],
-        ids_subcategories: [],
-        location: "",
-        rate: "",
-      );
-      // _route.goPlayAudio(detail: payload);
-      status = status.copyWith(isLoading: false);
+      if (item!.isLocal!) {
+        // Homologar
+        DataPlacesDetailModel payload = DataPlacesDetailModel(
+          id: id!,
+          title: item?.title,
+          url_audioguia_en: item?.audioguia_en,
+          url_audioguia_es: item?.audioguia_es,
+          url_audioguia_pt: item?.audioguia_pt,
+          address: "",
+          body: "",
+          gallery: [],
+          ids_subcategories: [],
+          location: "",
+          rate: "",
+          image: item?.image,
+        );
+        _route.goPlayAudio(detail: payload);
+        status = status.copyWith(isLoading: false);
+      }
     }
 
     //_route.goDetail(isHotel: false);
   }
 }
-
-

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audio_session/audio_session.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -109,7 +110,31 @@ class _PlayAudioState extends State<PlayAudio> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child:
-                            Center(child: Image.network(metadata.artwork)),
+                            Center(child: 
+                            
+                            // Image.network(metadata.artwork)
+                                                             CachedNetworkImage(
+                                        imageUrl:
+                                            "${metadata.artwork}",
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          // height: 70,
+                                          // width: 70,
+                                        ),
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      )
+                            
+                            ),
                           ),
                         ),
                         Text(metadata.album,

@@ -16,6 +16,7 @@ import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/title_section.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +82,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
         child: viewModel.status.openMenu
             ? IdtMenu(
                 closeMenu: viewModel.closeMenu,
-                optionIndex: 2,
+                optionIndex: TitlesMenu.audioguias,
               )
             : SizedBox.shrink());
 
@@ -105,12 +106,30 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                 child: ColorFiltered(
                   colorFilter:
                       ColorFilter.mode(IdtColors.black, BlendMode.difference),
-                  child: Image.network(
-                    IdtConstants.url_image + item.image!,
+                 
+                 child: CachedNetworkImage(
+                    imageUrl: "${IdtConstants.url_image}${listItems[index].image!}",
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                           ),
+                      ),
+                    ),
                     height: 250,
                     width: 250,
-                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
+                 
+                  // child: Image.network(
+                  //   IdtConstants.url_image + item.image!,
+                  //   height: 250,
+                  //   width: 250,
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
               ),
               Positioned(

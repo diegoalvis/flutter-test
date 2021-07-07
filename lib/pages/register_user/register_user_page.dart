@@ -348,7 +348,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Container(
-                        height: size.height * 0.7,
+                        height: size.height * 1,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

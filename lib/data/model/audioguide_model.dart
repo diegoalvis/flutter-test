@@ -13,6 +13,7 @@ class DataAudioGuideModel extends IdtModel {
   final String? audioguia_en;
   final String? audioguia_pt;
   late bool? isFavorite;
+  late bool? isLocal;
 
   //@JsonKey(name: 'audioguia_es')
   //final String? urlAudioguia;
@@ -25,6 +26,7 @@ class DataAudioGuideModel extends IdtModel {
     this.audioguia_en,
     this.audioguia_pt,
     this.isFavorite,
+    this.isLocal,
   });
 
   factory DataAudioGuideModel.fromJson(Map<String, dynamic> json) =>

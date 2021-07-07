@@ -5,6 +5,7 @@ import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/discover/discover_view_model.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -13,6 +14,7 @@ import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/widget/title_section.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/admin/directory_v1.dart';
@@ -83,7 +85,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
       child: viewModel.status.openMenu
           ? IdtMenu(
               closeMenu: viewModel.closeMenu,
-              optionIndex: 1,
+              optionIndex: TitlesMenu.descubreBogota,
             )
           : SizedBox.shrink(),
     );
@@ -152,10 +154,18 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                                             ? BorderRadius.only(bottomRight: Radius.circular(15))
                                             : BorderRadius.circular(0.0),
                 child: SizedBox(
-                  child: Image.network(
-                    IdtConstants.url_image + item.image!,
-                    height: 200,
-                    fit: BoxFit.cover,
+                  child: CachedNetworkImage(
+                    imageUrl: "${IdtConstants.url_image}${item.image!}",
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                           ),
+                      ),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
               ),

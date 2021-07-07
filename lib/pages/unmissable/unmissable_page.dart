@@ -107,7 +107,7 @@ class _UnmissableWidgetState extends State<UnmissableWidget> {
         child: viewModel.status.openMenu
             ? IdtMenu(
                 closeMenu: viewModel.closeMenu,
-                optionIndex: widget.optionIndex,
+                optionIndex: TitlesMenu.impedibles,
               )
             : SizedBox.shrink());
     final loading =
