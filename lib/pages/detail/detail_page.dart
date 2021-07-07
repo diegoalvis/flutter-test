@@ -65,7 +65,7 @@ class _DetailWidgetState extends State<DetailWidget> {
     print('detail page');
     final viewModel = context.read<DetailViewModel>();
     //  viewModel.getPlaceByIdResponse(widget.id);
-    
+
     // Se guarda en la actividad reciente
     viewModel.pushPlaceVisitedStorageLocal(widget._detail);
 
@@ -249,10 +249,11 @@ class _DetailWidgetState extends State<DetailWidget> {
                           },
                         ),
                       ),
-                    BoxDataSesion.isLoggedIn ? Container(
-                        alignment: Alignment.centerRight,
-                        padding: EdgeInsets.only(right: 15.0),
-                        child: IconButton(
+                      BoxDataSesion.isLoggedIn
+                          ? Container(
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.only(right: 15.0),
+                              child: IconButton(
                                 alignment: Alignment.centerRight,
                                 icon: Icon(
                                   viewModel.status.isFavorite
@@ -263,9 +264,9 @@ class _DetailWidgetState extends State<DetailWidget> {
                                 ),
                                 iconSize: 30,
                                 onPressed: () => viewModel.onTapFavorite(widget._detail.id),
-                              )
-                            ,
-                      ): SizedBox.shrink(),
+                              ),
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
                 )
@@ -365,50 +366,48 @@ class _DetailWidgetState extends State<DetailWidget> {
         // row botonoes ubicacion y audio
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            children: [
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: IdtColors.orange, width: 1),
-                    borderRadius: BorderRadius.circular(80.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                  decoration: StylesMethodsApp()
-                      .decorarStyle(IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    icon: Icon(
-                      IdtIcons.mappin,
-                      color: IdtColors.white,
-                      size: 40,
+          viewModel.validationEmptyResponse(widget._detail.location)
+              ? Column(
+                  children: [
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: IdtColors.orange, width: 1),
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                        decoration: StylesMethodsApp().decorarStyle(
+                            IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          icon: Icon(
+                            IdtIcons.mappin,
+                            color: IdtColors.white,
+                            size: 40,
+                          ),
+                          onPressed: () => viewModel.launchMap(widget._detail.location!),
+                        ),
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () => viewModel.launchMap(widget._detail.location!),
-                  ),
-                ),
-                onPressed: () {},
-              ),
-              AutoSizeText(
-                  'Ubicacion',
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  maxFontSize: 13,
-                  minFontSize: 10,
-                  style: textTheme.textDetail)
-            ],
-          ),
+                    AutoSizeText('Ubicacion',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        maxFontSize: 13,
+                        minFontSize: 10,
+                        style: textTheme.textDetail)
+                  ],
+                )
+              : SizedBox.shrink(),
           SizedBox(
             width: 10,
           ),
-          (widget._detail.url_audioguia_es != '' && widget._detail.url_audioguia_es != null ||
-                  widget._detail.url_audioguia_en != '' &&
-                      widget._detail.url_audioguia_en != null ||
-                  widget._detail.url_audioguia_pt != '' && widget._detail.url_audioguia_pt != null)
+          viewModel.validationEmptyResponse(widget._detail.url_audioguia_es) ||
+                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_en) ||
+                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_pt)
               ? Column(
-
-                children: [
-
-                  RaisedButton(
+                  children: [
+                    RaisedButton(
                       shape: RoundedRectangleBorder(
                           side: BorderSide(color: IdtColors.blue, width: 1),
                           borderRadius: BorderRadius.circular(80.0)),
@@ -425,17 +424,15 @@ class _DetailWidgetState extends State<DetailWidget> {
                           )),
                       onPressed: () => viewModel.goPlayAudioPage(_detail),
                     ),
-                  AutoSizeText(
-                      'Audioguia',
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      maxFontSize: 13,
-                      minFontSize: 10,
-                      style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
-                ],
-              )
+                    AutoSizeText('Audioguia',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        maxFontSize: 13,
+                        minFontSize: 10,
+                        style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
+                  ],
+                )
               : SizedBox.shrink()
-
         ],
       );
     }

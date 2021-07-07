@@ -149,4 +149,12 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
       }
     } catch (e) {}
   }
+
+  bool validationEmptyResponse(String? resourse) {
+    if (resourse != '' && resourse != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
