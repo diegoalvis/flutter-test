@@ -18,6 +18,7 @@ import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/play_audio.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<PlayAudioViewModel>().onInit();
+      context.read<PlayAudioViewModel>().checkIsFavorite(widget._detail.id);
     });
 
     _player = AudioPlayer();
@@ -136,8 +138,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
         CurrentUser user = BoxDataSesion.getCurrentUser()!;
         Person person = BoxDataSesion.getFromBox(user.id_db!)!;
         for (final e in person.detalle!){
-          print(viewModel.status.idAudio);
-          if (e.id == viewModel.status.idAudio ) {
+          if (e.id == widget._detail.id ) {
             viewModel.status.modeOffline = true;
           }else{
             viewModel.status.modeOffline = false;
@@ -295,7 +296,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             padding: 3,
             height: 30,
             onToggle: ( bool val ){
-              viewModel.changeModeOffline(val);
+              final idAAudio = widget._detail.id;
+              viewModel.changeModeOffline(val, idAAudio);
             },
           ),
           SizedBox(height: 8),
@@ -308,18 +310,46 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     }
 
     return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(IdtConstants.url_image + widget._detail.image!),
-            fit: BoxFit.fill,
-          ),
-        ),
         height: size.height,
         width: size.width,
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+          filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 50.0),
           child: Stack(
             children: [
+
+                CachedNetworkImage(
+                imageUrl:
+                    IdtConstants.url_image + widget._detail.image!,
+                imageBuilder:
+                    (context, imageProvider) {
+                return Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                              offset: Offset(0, 10),
+                              color: Color.fromRGBO(0, 0, 0, 0.7),
+                              blurRadius: 15,
+                              spreadRadius: -10),
+                        ],
+                        borderRadius: BorderRadius.circular(34),
+                        image: DecorationImage(fit: BoxFit.cover, alignment: Alignment.center, image: imageProvider),
+                      ),
+                    ),
+                    Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(34),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: Container(color: Colors.transparent),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+
               Positioned(
                 top: 50,
                 right: 0,
@@ -379,7 +409,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                     height: 55,
                   )
                 ],
-              )
+              ),
+            
             ],
           ),
         ));
@@ -417,9 +448,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: new LayoutBuilder(builder:
                                     (BuildContext context,
                                         BoxConstraints constraints) {
-                                  print("--- ${MediaQuery.of(context).size}");
-                                  print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  // print("--- ${MediaQuery.of(context).size}");
+                                  // print(
+                                  //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
                                     widget.sizeContainer =
                                         MediaQuery.of(context).size.width / 2;
@@ -461,9 +492,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: new LayoutBuilder(builder:
                                     (BuildContext context,
                                         BoxConstraints constraints) {
-                                  print("--- ${MediaQuery.of(context).size}");
-                                  print(
-                                      "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
+                                  // print("--- ${MediaQuery.of(context).size}");
+                                  // print(
+                                  //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
                                     widget.sizeContainer =
                                         MediaQuery.of(context).size.width / 2;
@@ -952,7 +983,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(double.infinity);
+    // print(double.infinity);
     return Padding(
       padding: EdgeInsets.zero,
       child: AnimatedContainer(

@@ -35,11 +35,11 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
 
       // Actualización de lugares guardados/favoritos
       final dynamic savedPlaces = await _interactor.getSavedPlacesList();
-      if (savedPlaces is IdtSuccess<List<DataModel>?>) {
+      if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
         List places = savedPlaces.body!;
         audioguideResponse.body!.map((audioguide) {
           try {
-            final DataModel lugarIsFavoriteSaved =
+            final DataAudioGuideModel lugarIsFavoriteSaved =
                 places.firstWhere((element) => element.id == audioguide.id);
             if (lugarIsFavoriteSaved != null) {
               audioguide.isFavorite = true;

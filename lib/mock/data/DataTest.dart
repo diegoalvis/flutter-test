@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 
+class TitlesMenu {
+  static String iniciarSesion =  'INICIAR SESION';
+  static String descubreBogota =  'DESCUBRE BOGOTÁ';
+  static String audioguias =  'AUDIOGUÍAS';
+  static String impedibles =  'IMPERDIBLES';
+  static String eventos =  'EVENTOS';
+  static String dondeDormir =  'DÓNDE DORMIR';
+  static String dondeComer =  'DÓNDE COMER';
+  static String lugaresGuardados =  'LUGARES GUARDADOS';
+  static String privacidadYTerminos =  'PRIVACIDAD Y TÉRMINOS';
+}
 class DataTest {
   DataTest._();
 
@@ -149,20 +160,20 @@ class DataTest {
     List<Map<String, dynamic>> menu = [];
     if (isLogged == false) {
       menu.add(
-        {'title': 'INICIAR SESION', 'value': 'login'},
+        {'title': TitlesMenu.iniciarSesion, 'value': 'login'},
       );
     }
     menu = [
       ...menu,
       ...[
-        {'title': 'DESCUBRE BOGOTÁ', 'value': 'discoverUntil'},
-        {'title': 'AUDIOGUÍAS', 'value': 'audioGuide'},
-        {'title': 'IMPERDIBLES', 'value': 'unmissableUntil'},
-        {'title': 'EVENTOS', 'value': 'events'},
-        {'title': 'DÓNDE DORMIR', 'value': 'sleeps'},
-        {'title': 'DÓNDE COMER', 'value': 'eat'},
-        {'title': 'LUGARES GUARDADOS', 'value': 'savedPlacesUntil'},
-        {'title': 'PRIVACIDAD Y TÉRMINOS', 'value': 'privacyAndTerms'},
+        {'title': TitlesMenu.descubreBogota, 'value': 'discoverUntil'},
+        {'title': TitlesMenu.audioguias, 'value': 'audioGuide'},
+        {'title': TitlesMenu.impedibles, 'value': 'unmissableUntil'},
+        {'title': TitlesMenu.eventos, 'value': 'events'},
+        {'title': TitlesMenu.dondeDormir, 'value': 'sleeps'},
+        {'title': TitlesMenu.dondeComer, 'value': 'eat'},
+        {'title': TitlesMenu.lugaresGuardados, 'value': 'savedPlacesUntil'},
+        {'title': TitlesMenu.privacidadYTerminos, 'value': 'privacyAndTerms'},
       ]
     ];
     return menu;

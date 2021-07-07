@@ -10,7 +10,7 @@ class PlayAudioStatus extends ViewStatus{
   final bool isOnline;
   late  String urlAudio;
   final String pathAudio;
-  final bool isFavorite;
+  late bool isFavorite;
   final String language;
   late String idAudio;
   ConnectivityResult connectionStatus = ConnectivityResult.none;
