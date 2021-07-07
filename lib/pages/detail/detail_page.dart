@@ -535,15 +535,24 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
-                        child: Text(
-                          removeAllHtmlTags(widget._detail.description ??
-                              widget._detail.body ??
-                              'Description o body null'),
-                          style: textTheme.textDescrip,
-                          maxLines: viewModel.status.moreText ? null : 20,
-                          overflow: TextOverflow.fade,
-                          textAlign: TextAlign.justify,
-                        ),
+                        child:
+                            viewModel.validationEmptyResponse(widget._detail.description) ||
+                                    viewModel.validationEmptyResponse(widget._detail.body)
+                            ? Text(
+                                removeAllHtmlTags(
+                                    widget._detail.description ?? widget._detail.body ?? ''),
+                                style: textTheme.textDescrip,
+                                maxLines: viewModel.status.moreText ? null : 20,
+                                overflow: TextOverflow.fade,
+                                textAlign: TextAlign.justify,
+                              )
+                            : Text(
+                                'Ups..!\n\n'
+                                'En el momento no tenemos una descripcion para este lugar.',
+                                style: textTheme.textDetail,
+                                maxLines: viewModel.status.moreText ? null : 20,
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                       Positioned(
                         bottom: 0,
