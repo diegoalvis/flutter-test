@@ -32,7 +32,12 @@ class SettingViewModel extends ViewModel<SettingStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void changeNotification(bool value) {
+  void changeNotification(bool value) async{
+    status = status.copyWith(switchNotification: value);
+    AppSettings.openNotificationSettings(asAnotherTask: false);
+  }
+
+  void changeNotificationValue(bool value) async{
     status = status.copyWith(switchNotification: value);
   }
 
@@ -63,5 +68,9 @@ class SettingViewModel extends ViewModel<SettingStatus> {
 
   void goActivity() {
     _route.goActivity();
+  }
+
+  void goSavedPlaces() {
+    _route.goSavedPlaces();
   }
 }

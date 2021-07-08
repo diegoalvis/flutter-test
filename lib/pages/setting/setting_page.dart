@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -10,8 +11,9 @@ import 'package:bogota_app/widget/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' hide PermissionStatus;
 import 'package:provider/provider.dart';
+
 
 import '../../app_theme.dart';
 
@@ -36,6 +38,14 @@ class SettingWidget extends StatefulWidget {
 class _SettingWidgetState extends State<SettingWidget>
     with WidgetsBindingObserver {
   bool verifiedLocation = false;
+  bool verifiedNotification = false;
+
+  // Posibles states of notifications permissions
+  var permGranted = "granted";
+  var permDenied = "denied";
+  var permUnknown = "unknown";
+  var permProvisional = "provisional";
+
   @override
   void initState() {
     super.initState();
@@ -48,9 +58,29 @@ class _SettingWidgetState extends State<SettingWidget>
     switch (state) {
       case AppLifecycleState.paused:
         verifiedLocation = false;
+        verifiedNotification = false;
         setState(() {});
         break;
     }
+  }
+
+    /// Checks the notification permission status
+  Future<String?> getCheckNotificationPermStatus() {
+    return NotificationPermissions.getNotificationPermissionStatus()
+        .then((status) {
+      switch (status) {
+        case PermissionStatus.denied:
+          return permDenied;
+        case PermissionStatus.granted:
+          return permGranted;
+        case PermissionStatus.unknown:
+          return permUnknown;
+        case PermissionStatus.provisional:
+          return permProvisional;
+        default:
+          return null;
+      }
+    });
   }
 
   @override
@@ -85,13 +115,10 @@ class _SettingWidgetState extends State<SettingWidget>
           : SizedBox.shrink(),
     );
 
-    if (verifiedLocation == false) {
-      Location location = new Location();
-      location.serviceEnabled().then((value) {
-        viewModel.changeLocationValue(value);
-      });
-      verifiedLocation = true;
-    }
+    // Verifica si tiene permisos de localización
+    _verifiedPermissionsLocation(viewModel);
+    // Verifica si tiene permisos de notificación
+    _verifiedPermissionsNotification(viewModel);
 
     return Stack(
       children: [
@@ -176,13 +203,16 @@ class _SettingWidgetState extends State<SettingWidget>
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                alignment: Alignment.centerLeft,
-                height: 45,
-                child: Text(
-                  'Lugares guardadoASs',
-                  style: textTheme.optionsGray,
+              InkWell(
+                onTap: ()=>viewModel.goSavedPlaces(),
+                  child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  alignment: Alignment.centerLeft,
+                  height: 45,
+                  child: Text(
+                    'Lugares guardados',
+                    style: textTheme.optionsGray,
+                  ),
                 ),
               ),
             ],
@@ -191,5 +221,25 @@ class _SettingWidgetState extends State<SettingWidget>
         menu
       ],
     );
+  }
+
+  void _verifiedPermissionsNotification(SettingViewModel viewModel) {
+    if (verifiedNotification == false) {
+      getCheckNotificationPermStatus().then((value) {
+        bool hasPermission = value == permGranted;
+         viewModel.changeNotificationValue(hasPermission);
+      });
+      verifiedNotification = true;
+    }
+  }
+
+  void _verifiedPermissionsLocation(SettingViewModel viewModel) {
+    if (verifiedLocation == false) {
+      Location location = new Location();
+      location.serviceEnabled().then((value) {
+        viewModel.changeLocationValue(value);
+      });
+      verifiedLocation = true;
+    }
   }
 }
