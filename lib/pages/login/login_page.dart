@@ -410,7 +410,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            'O registrate con',
+                            'O inicia sesión con',
                             style: textTheme.textDetail.copyWith(
                                 fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
                           )
