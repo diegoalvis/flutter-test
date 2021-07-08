@@ -192,5 +192,5 @@ class DataTest {
     return menu;
   }
 
-  static const List<String> List3 = ['Plan', 'Producto', 'Zona', 'Audioguías'];
+  static const List<String> List3 = ['Plan', 'Producto', 'Localidad', 'Audioguías'];
 }

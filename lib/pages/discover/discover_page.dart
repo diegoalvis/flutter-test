@@ -235,7 +235,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                         'Producto',
                         () => viewModel.openMenuTab(_subcategories, 'subcategory', 1),
                         viewModel.status.currentOption == 1),
-                    _buttonTap('Zona', () => viewModel.openMenuTab(_zones, 'zone', 2),
+                    _buttonTap('Localidad', () => viewModel.openMenuTab(_zones, 'zone', 2),
                         viewModel.status.currentOption == 2),
                     _buttonTap('Audioguías', viewModel.goAudioGuidePage, false),
                   ],
