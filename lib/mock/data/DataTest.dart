@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class TitlesMenu {
-  static String iniciarSesion =  'INICIAR SESION';
-  static String descubreBogota =  'DESCUBRE BOGOTÁ';
-  static String audioguias =  'AUDIOGUÍAS';
-  static String impedibles =  'IMPERDIBLES';
-  static String eventos =  'EVENTOS';
-  static String dondeDormir =  'DÓNDE DORMIR';
-  static String dondeComer =  'DÓNDE COMER';
-  static String lugaresGuardados =  'LUGARES GUARDADOS';
-  static String privacidadYTerminos =  'PRIVACIDAD Y TÉRMINOS';
+  static String iniciarSesion = 'INICIAR SESION';
+  static String descubreBogota = 'DESCUBRE BOGOTÁ';
+  static String audioguias = 'AUDIOGUÍAS';
+  static String impedibles = 'IMPERDIBLES';
+  static String eventos = 'EVENTOS';
+  static String dondeDormir = 'DÓNDE DORMIR';
+  static String dondeComer = 'DÓNDE COMER';
+  static String lugaresGuardados = 'LUGARES GUARDADOS';
+  static String privacidadYTerminos = 'PRIVACIDAD Y TÉRMINOS';
 }
+
 class DataTest {
   DataTest._();
 
@@ -163,6 +164,7 @@ class DataTest {
         {'title': TitlesMenu.iniciarSesion, 'value': 'login'},
       );
     }
+
     menu = [
       ...menu,
       ...[
@@ -172,7 +174,18 @@ class DataTest {
         {'title': TitlesMenu.eventos, 'value': 'events'},
         {'title': TitlesMenu.dondeDormir, 'value': 'sleeps'},
         {'title': TitlesMenu.dondeComer, 'value': 'eat'},
+      ]
+    ];
+
+    if (isLogged == true) {
+      menu.add(
         {'title': TitlesMenu.lugaresGuardados, 'value': 'savedPlacesUntil'},
+      );
+    }
+
+    menu = [
+      ...menu,
+      ...[
         {'title': TitlesMenu.privacidadYTerminos, 'value': 'privacyAndTerms'},
       ]
     ];

@@ -112,15 +112,15 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          
+
                             image: imageProvider,
                             fit: BoxFit.cover,
                            ),
                       ),
                     ),
-                    height: 250,
-                    width: 250,
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    // height: 250,
+                    // width: 250,
+                    // placeholder: (context, url) => Container(child: Container(child: Center(child: CircularProgressIndicator(backgroundColor: Colors.transparent,)), height: 30, width: 30), height: 250, width: 250,),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                  
