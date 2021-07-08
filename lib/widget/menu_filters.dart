@@ -153,7 +153,7 @@ class IdtMenuFilter extends StatelessWidget {
 
     if (typeFilter != 'Zona') {
       listFilters
-          .add(_filter(listZones, IdtColors.blue, IdtGradients.blue, 'Búsqueda por zona', 2));
+          .add(_filter(listZones, IdtColors.blue, IdtGradients.blue, 'Búsqueda por localidad', 2));
     }
 
     if (typeFilter != 'Producto') {
