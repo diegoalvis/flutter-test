@@ -279,70 +279,73 @@ class _DetailWidgetState extends State<DetailWidget> {
 
     Widget _footerImages(DetailViewModel viewModel) {
       return Stack(
+
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                  //carrusel imagenes
-                  margin: EdgeInsets.only(bottom: 0, top: 3),
-                  width: size.width,
-                  height: size.height * 0.5,
-                  color: IdtColors.white,
-                  child: ListView.builder(
-                    itemCount: widget._detail.gallery!.length,
-                    shrinkWrap: true,
-                    itemExtent: MediaQuery.of(context).size.width,
-                    scrollDirection: Axis.horizontal,
-                    controller: scrollController,
-                    itemBuilder: (context, index) => Column(
-                      children: <Widget>[
-                        Image.network(
-                          IdtConstants.url_image + widget._detail.gallery![index],
-                          height: size.height * 0.5,
-                          width: size.width,
-                          fit: BoxFit.cover,
+          Container(
+              //carrusel imagenes
+              margin: EdgeInsets.only(bottom: 0, top: 3),
+              width: size.width,
+              height: size.height * 0.5,
+              color: IdtColors.white,
+              child: ListView.builder(
+                itemCount: widget._detail.gallery!.length,
+                shrinkWrap: true,
+                itemExtent: MediaQuery.of(context).size.width,
+                scrollDirection: Axis.horizontal,
+                controller: scrollController,
+                itemBuilder: (context, index) => Stack(
+                  children: <Widget>[
+                    Image.network(
+                      IdtConstants.url_image + widget._detail.gallery![index],
+                      height: size.height * 0.5,
+                      width: size.width,
+                      fit: BoxFit.cover,
+                    ),
+                    index != 0 ?
+                    Positioned(
+                      bottom: size.height * 1 / 6,
+                      left: 0,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Transform.rotate(
+                          angle: 3.1416,
+                          child: IconButton(
+                            iconSize: 45,
+                            alignment: Alignment.centerLeft,
+                            icon: Icon(
+                              Icons.play_circle_fill,
+                              color: IdtColors.white,
+                            ),
+                            onPressed: () => viewModel.onChangeScrollController(false, size.width),
+                          ),
                         ),
-                      ],
-                    ),
-                  )),
-              Positioned(
-                bottom: size.height * 1 / 6,
-                left: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: Transform.rotate(
-                    angle: 3.1416,
-                    child: IconButton(
-                      iconSize: 45,
-                      alignment: Alignment.centerLeft,
-                      icon: Icon(
-                        Icons.play_circle_fill,
-                        color: IdtColors.white,
                       ),
-                      onPressed: () => viewModel.onChangeScrollController(false, size.width),
-                    ),
-                  ),
+                    )
+                    :SizedBox.shrink(),
+                    widget._detail.gallery!.length != index+1
+                        ?
+                    Positioned(
+                      //flecha derecha
+                      right: 0,
+                      bottom: size.height * 1 / 6,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          iconSize: 45,
+                          alignment: Alignment.centerRight,
+                          icon: Icon(
+                            Icons.play_circle_fill,
+                            color: IdtColors.white,
+                          ),
+                          onPressed: () => viewModel.onChangeScrollController(true, size.width),
+                        ),
+                      ),
+                    )
+                        :SizedBox.shrink(),
+
+                  ],
                 ),
               ),
-              Positioned(
-                //flecha derecha
-                right: 0,
-                bottom: size.height * 1 / 6,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: IconButton(
-                    iconSize: 45,
-                    alignment: Alignment.centerRight,
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                      color: IdtColors.white,
-                    ),
-                    onPressed: () => viewModel.onChangeScrollController(true, size.width),
-                  ),
-                ),
-              ),
-            ],
           ),
           Positioned(
               //Curva de abajo
