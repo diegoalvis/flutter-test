@@ -140,9 +140,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         //hay lugares guardados
         status = status.copyWith(notSaved: false);
       }
-      status = status.copyWith(itemsSavedPlaces: savedResponse.body);// Status reasignacion
-      print(savedResponse.body!.where((f) => f.audioguia_es != null).toList());
-      status = status.copyWith(itemAudiosSavedPlaces: savedResponse.body!.where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||f.audioguia_en != null && f.audioguia_en != '' || f.audioguia_pt != null && f.audioguia_pt != '')).toList()); //filtro audios
+      // Se recupera y se filtra los itemsSavedPlaces
+      List<DataAudioGuideModel>? listSavedPlacesFilter = savedResponse.body ?? [];
+      listSavedPlacesFilter = removeRepeatElementById(listSavedPlacesFilter);
+      status = status.copyWith(itemsSavedPlaces: listSavedPlacesFilter);// Status reasignacion
+
+      // Se recupera y se filtra los itemAudiosSavedPlaces
+      List<DataAudioGuideModel> listAudiosSavedPlacesFilter1 = savedResponse.body!.where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||f.audioguia_en != null && f.audioguia_en != '' || f.audioguia_pt != null && f.audioguia_pt != '')).toList();
+      listAudiosSavedPlacesFilter1 = removeRepeatElementById(listAudiosSavedPlacesFilter1);
+      status = status.copyWith(itemAudiosSavedPlaces: listAudiosSavedPlacesFilter1); //filtro audios
+
       List<bool> listAudio = [];
       List<bool> listAll = [];
       for(final f in savedResponse.body!) {
@@ -170,6 +177,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
 
     //addEffect(ShowDialogEffect());  Dialog de prueba
+  }
+
+    List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
+       final Map<String, DataAudioGuideModel> profileMap = new Map();
+    list.forEach((DataAudioGuideModel item) => profileMap["${item?.id}"] = item);
+    list = profileMap.values.toList(); 
+    return list;
   }
 
   void addSavedPLaces() {

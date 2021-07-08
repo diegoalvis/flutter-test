@@ -87,14 +87,24 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
           }
         }
       });
-    
-      status = status.copyWith(
-        itemsSavedPlaces: [
+      List<DataAudioGuideModel> list = [
           ...listWithLocalSavedPlaces!,
           ...listServiceFinal
-        ],
+        ];
+
+      list = removeRepeatElementById(list); 
+     
+      status = status.copyWith(
+        itemsSavedPlaces: list,
       );
     }
+  }
+
+  List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
+       final Map<String, DataAudioGuideModel> profileMap = new Map();
+    list.forEach((DataAudioGuideModel item) => profileMap["${item?.id}"] = item);
+    list = profileMap.values.toList(); 
+    return list;
   }
 
   void getSavedPlacesLocalDb(Person person) {

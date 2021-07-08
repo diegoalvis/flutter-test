@@ -29,7 +29,7 @@ class Title_Lugares extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.white),
               child: Center(
                 child: Text(
-                  "LUGARES GUARDADOS",
+                  "LUGARES GUARDADOSS",
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.normal),

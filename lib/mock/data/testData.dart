@@ -104,7 +104,7 @@ class testData{
     'MÁS ALLÁ DE BOGOTÁ',
     'RECORRIDOS ESPECIALES',
     'DÓNDE DORMIR',
-    'LUGARES GUARDADOS'
+    'LUGARES GUARDADOSS'
   ];
 
 }

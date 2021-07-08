@@ -181,7 +181,7 @@ class _SettingWidgetState extends State<SettingWidget>
                 alignment: Alignment.centerLeft,
                 height: 45,
                 child: Text(
-                  'Lugares guardados',
+                  'Lugares guardadoASs',
                   style: textTheme.optionsGray,
                 ),
               ),
