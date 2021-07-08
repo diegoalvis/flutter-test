@@ -59,8 +59,8 @@ class ProfileEditViewModel extends  EffectsViewModel<ProfileEditStatus, ProfileE
 
     try{
       RememberMe? remember = await BoxDataSesion.getFromRememberBox(0);
-      print("valores recuperados para cerrar sesión ${remember!.state}, ${remember!.email}");
-      if(remember!.state == true){
+      print("valores recuperados para cerrar sesión ${remember!.state}, ${remember.email}");
+      if(remember.state == true){
 
       }
     }catch(e){

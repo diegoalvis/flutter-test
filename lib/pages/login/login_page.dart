@@ -64,10 +64,10 @@ class _LoginWidgetState extends State<LoginWidget> {
   _loadDataRemember() async {
     RememberMe? remember = await BoxDataSesion.getFromRememberBox(0);
     if(remember!.state){
-      emailController.text= remember!.email;
-      passwordController.text= remember!.password;
+      emailController.text= remember.email;
+      passwordController.text= remember.password;
       final viewModel = context.read<LoginViewModel>();
-      viewModel.status.rememberMe=remember!.state;
+      viewModel.status.rememberMe=remember.state;
       print("viewModel.status.rememberMe ${viewModel.status.rememberMe}");
     }
 

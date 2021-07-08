@@ -181,7 +181,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
        final Map<String, DataAudioGuideModel> profileMap = new Map();
-    list.forEach((DataAudioGuideModel item) => profileMap["${item?.id}"] = item);
+    list.forEach((DataAudioGuideModel item) => profileMap["${item.id}"] = item);
     list = profileMap.values.toList(); 
     return list;
   }

@@ -102,7 +102,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
 
   List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
        final Map<String, DataAudioGuideModel> profileMap = new Map();
-    list.forEach((DataAudioGuideModel item) => profileMap["${item?.id}"] = item);
+    list.forEach((DataAudioGuideModel item) => profileMap["${item.id}"] = item);
     list = profileMap.values.toList(); 
     return list;
   }
@@ -158,17 +158,17 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
         // Homologar
         DataPlacesDetailModel payload = DataPlacesDetailModel(
           id: id!,
-          title: item?.title,
-          url_audioguia_en: item?.audioguia_en,
-          url_audioguia_es: item?.audioguia_es,
-          url_audioguia_pt: item?.audioguia_pt,
+          title: item.title,
+          url_audioguia_en: item.audioguia_en,
+          url_audioguia_es: item.audioguia_es,
+          url_audioguia_pt: item.audioguia_pt,
           address: "",
           body: "",
           gallery: [],
           ids_subcategories: [],
           location: "",
           rate: "",
-          image: item?.image,
+          image: item.image,
         );
         _route.goPlayAudio(detail: payload);
         status = status.copyWith(isLoading: false);

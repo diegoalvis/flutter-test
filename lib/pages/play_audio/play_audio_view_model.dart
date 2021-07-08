@@ -45,49 +45,14 @@ class PlayAudioViewModel extends ViewModel<PlayAudioStatus> {
     initConnectivity();
 
     _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-   // loadAudioFromBox();
-    // TODO
-   
-    
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);   
   }
   @override
   void dispose() {
     _connectivitySubscription.cancel();
     super.dispose();
   }
-  loadAudioFromBox() async {
-    try {
-      print("_connectionStatus.toString() ${status.connectionStatus}");
-      print("viewModel.status.connectionStatus");
-      print(status.connectionStatus);
-      if(status.connectionStatus == ConnectivityResult.none){
-        CurrentUser user = BoxDataSesion.getCurrentUser()!;
-        print("user.id_db! ${user.id_db!}");
-        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-        print("person.audioguias! ${person.audioguias!}");
-        print("widget._detail.id ${status.idAudio}");
-        for (final e in person.audioguias!){
-          print(e![(int.parse(status.idAudio)).toString()] );
-          if (e![(int.parse(status.idAudio)).toString()] != null ) {
-            print("entra");
-            print("entra ${e[(int.parse(status.idAudio)).toString()]}");
 
-          }
-        }
-
-/*        List selectedUsers = person.audioguias!.map((audio) {
-          if((widget._detail.id).contains(audio[(widget._detail.id)])) return audio;
-          //return null;
-        }).toList();*/
-
-        // print("selectedUsers $selectedUsers");
-      }
-
-    } catch (e) {
-      print("An error occured $e");
-    }
-  }
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
     late ConnectivityResult result;

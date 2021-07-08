@@ -135,7 +135,7 @@ class _EventsWidgetState extends State<EventsWidget> {
               padding: EdgeInsets.only(top: 70),
               child: IdtMenu(
                 closeMenu: viewModel.closeMenu,
-                optionIndex: _getOptionIndexForMenu(title!),
+                optionIndex: _getOptionIndexForMenu(title),
               ),
             )
           : SizedBox.shrink(),
