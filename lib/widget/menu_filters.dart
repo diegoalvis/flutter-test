@@ -19,6 +19,7 @@ class IdtMenuFilter extends StatelessWidget {
   final List<DataModel?> filter3;
   final String typeFilter;
   final Function(int, int, List<DataModel>) tapButton;
+  final Function() tapResetSearch;
   late bool largeText;
 
   IdtMenuFilter({
@@ -32,6 +33,7 @@ class IdtMenuFilter extends StatelessWidget {
     required this.filter3,
     required this.tapButton,
     required this.typeFilter,
+    required this.tapResetSearch,
   });
 
   @override
@@ -188,7 +190,30 @@ class IdtMenuFilter extends StatelessWidget {
             children: [
               ...listFilters,
               SizedBox(
-                height: 100,
+                height: 70,
+              ),
+              InkWell(
+                  onTap: tapResetSearch ,
+                  child: Center(
+                  child: Text("Reiniciar búsqueda", 
+                    style: TextStyle(
+                       shadows: [
+                Shadow(
+                    color: Colors.black,
+                    offset: Offset(0, -5))
+              ],
+                      fontSize: 18, 
+                      decoration: TextDecoration.underline, 
+                      color: Colors.transparent,     
+                      decorationColor: Colors.black,
+                      decorationThickness: 2,
+                      
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
               ),
               Container(
                 margin: EdgeInsets.all(1),

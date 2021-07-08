@@ -245,6 +245,27 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     }
   }
 
+  void onTapResetSearch() {
+    List<DataModel?> filter = List.of(status.filterSubcategory);
+    for (var i = 0; i < filter.length; i++) {
+      filter[i] = null;
+    }
+    status = status.copyWith(filterSubcategory: filter);
+
+    filter = List.of(status.filterZone);
+    for (var i = 0; i < filter.length; i++) {
+      filter[i] = null;
+    }
+    status = status.copyWith(filterZone: filter);
+
+    filter = List.of(status.filterCategory);
+    for (var i = 0; i < filter.length; i++) {
+      filter[i] = null;
+    }
+    status = status.copyWith(filterCategory: filter);
+  }
+
+
   goDetailPage(String id) async{
     status = status.copyWith(isLoading: true);
 

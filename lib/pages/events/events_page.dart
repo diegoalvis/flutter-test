@@ -331,7 +331,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   style: textTheme.titleWhite,
                 ),
               ),
-              _buttonFilter(),
+              // _buttonFilter(), // Comentado porque no se puede filtrar al momento
               SizedBox(height: 30),
               gridImagesCol3(viewModel.status.places),
               SizedBox(height: 55),
