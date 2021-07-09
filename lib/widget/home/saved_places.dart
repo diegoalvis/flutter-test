@@ -268,7 +268,7 @@ class SavedPlaces extends StatelessWidget {
                 color: IdtColors.grayBg),
             child: IconButton(
               icon: Icon(Icons.add, color: IdtColors.gray, size: 80),
-              onPressed: addSaved,
+              onPressed: (){}, // addSaved,
             ),
           ),
         ),
