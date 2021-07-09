@@ -6,8 +6,8 @@ class HomeStatus extends ViewStatus {
   final String titleBar;
   final bool isLoading;
   final bool openMenu;
-  final bool openSaved;
-  final bool notSaved;
+  late bool openSaved;
+  late bool notSaved;
   final bool seeAll;
   late List imagesMenu;
   late List<DataModel> itemsUnmissablePlaces;

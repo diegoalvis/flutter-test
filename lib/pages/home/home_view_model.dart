@@ -56,6 +56,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     getImagesMenu();
 
     onpenSavedPlaces();
+    if(status.itemsSavedPlaces.length >= 1)
+      {
+        status.notSaved = false;
+      }
   }
 
   void getImagesMenu() async {
