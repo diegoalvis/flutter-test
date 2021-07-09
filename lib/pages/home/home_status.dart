@@ -17,18 +17,20 @@ class HomeStatus extends ViewStatus {
   late List<DataAudioGuideModel> itemAudiosSavedPlaces;
   late List<bool> listBoolAudio;
   late List<bool> listBoolAll;
+  late String? message;
 
 
   HomeStatus( {required this.imagesMenu,required this.itemsEatPlaces, required this.itemsUnmissablePlaces, required this.itemsbestRatedPlaces,
     required this.itemsSavedPlaces, required this.itemAudiosSavedPlaces,
     required this.titleBar, required this.isLoading, required this.openMenu, required this.openSaved,
     required this.notSaved, required this.seeAll, required this.listBoolAudio, required this.listBoolAll,
+    required String? this.message,
   });
 
   HomeStatus copyWith({String? titleBar, bool? isLoading, bool? openMenu, bool? openSaved, bool? notSaved,List? imagesMenu,
     bool? seeAll, List<DataModel>? itemsUnmissablePlaces,List<DataModel>? itemsEatPlaces, List<DataModel>?itemsbestRatedPlaces ,
   List<DataAudioGuideModel>? itemsSavedPlaces, List<DataAudioGuideModel>? itemAudiosSavedPlaces,
-  List<bool>? listBoolAudio,List<bool>? listBoolAll,}) {
+  List<bool>? listBoolAudio,List<bool>? listBoolAll,String? message, }) {
     return HomeStatus(
       titleBar: titleBar ?? this.titleBar,
       isLoading: isLoading ?? this.isLoading,
@@ -44,6 +46,7 @@ class HomeStatus extends ViewStatus {
       itemAudiosSavedPlaces: itemAudiosSavedPlaces?? this.itemAudiosSavedPlaces,
       listBoolAudio: listBoolAudio??this.listBoolAudio,
       listBoolAll: listBoolAll??this.listBoolAll,
+      message: message ?? this.message,
     );
   }
 }
