@@ -170,6 +170,7 @@ class BoxDataSesion {
     late var data = null;
     try {
       data = getCurrentUser();
+      print("data $data");
       if (data != null || data != '') {
         value = true;
       }
@@ -177,6 +178,8 @@ class BoxDataSesion {
       print("catch $data");
       value = false;
     }
+    ;
+    print("value $value");
     return value;
   }
 
@@ -196,6 +199,7 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
+    print('devuelve usuario actual ${value!.id_user}');
     return value;
   }
 
