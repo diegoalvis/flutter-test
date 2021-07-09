@@ -278,7 +278,7 @@ class _DetailWidgetState extends State<DetailWidget> {
     }
 
     Widget _footerImages(DetailViewModel viewModel) {
-      return Stack(
+      return widget._detail.gallery!.length > 0 ? Stack(
 
         children: [
           Container(
@@ -361,7 +361,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       SvgPicture.asset(IdtAssets.curve_down,
                           color: Colors.white, fit: BoxFit.fill))),
         ],
-      );
+      ):SizedBox.shrink();
     }
 
     Widget _btnsPlaces(DataPlacesDetailModel _detail) {
@@ -504,7 +504,7 @@ class _DetailWidgetState extends State<DetailWidget> {
           SizedBox(
             height: 5,
           ),
-          _btnGradient(widget._detail.webUrl.toString(),
+          _btnGradient('Visitar sitio web',
               onPress: () => viewModel.launchPageWeb(widget._detail.webUrl!),
               icon: Icons.wifi_tethering_sharp,
               color: IdtColors.blueDark,
@@ -539,8 +539,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child:
-                            viewModel.validationEmptyResponse(widget._detail.description) ||
-                                    viewModel.validationEmptyResponse(widget._detail.body)
+                            _hasDescription(viewModel)
                             ? Text(
                                 removeAllHtmlTags(
                                     widget._detail.description ?? widget._detail.body ?? ''),
@@ -577,6 +576,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       )
                     ],
                   ),
+                  _hasDescription(viewModel) ?
                   TextButton(
                     child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
                         maxLines: 1,
@@ -585,21 +585,25 @@ class _DetailWidgetState extends State<DetailWidget> {
                         style: textTheme.blueDetail
                             .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: viewModel.readMore,
-                  )
+                  ): SizedBox.shrink()
                 ],
               ),
               SizedBox(
                 height: 5,
               ),
               _footerImages(viewModel),
-              SizedBox(
+              _hasDescription(viewModel) ? SizedBox(
                 height: 80,
-              )
+              ): SizedBox.shrink()
             ],
           )),
     );
   }
 
+  bool _hasDescription(DetailViewModel viewModel) {
+    return viewModel.validationEmptyResponse(widget._detail.description) ||
+        viewModel.validationEmptyResponse(widget._detail.body);
+  }
   String removeAllHtmlTags(String htmlText) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
