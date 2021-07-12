@@ -44,6 +44,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       itemAudiosSavedPlaces:[],
       listBoolAudio: [],
       listBoolAll: [],
+      message: ''
     );
   }
 
@@ -180,7 +181,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
 
 
-    //addEffect(ShowDialogEffect());  Dialog de prueba
+   // addEffect(ShowDialogEffect('nada'));  //Dialog de prueba
   }
 
     List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
@@ -190,15 +191,20 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     return list;
   }
 
-  void addSavedPLaces() {
-    print('se muestran lugares guardados');
+  void addSavedPLaces(){
     //onpenSavedPlaces();
-    status = status.copyWith(notSaved: false);
+    if(status.itemsSavedPlaces.length<1){
+      status = status.copyWith(message: "Utiliza los corazones para añadir un lugar a tus favoritos");
+      addEffect(ShowDialogEffect(status.message));
+    }
+
+    status = status.copyWith(notSaved: true);
 
   }
 
 
   void onTapSeeAll(bool value) {
+
     status = status.copyWith(seeAll: value);
   }
 

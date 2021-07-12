@@ -12,6 +12,6 @@ class HomeValueControllerScrollEffect extends HomeEffect {
 }
 
 class ShowDialogEffect extends HomeEffect {
-
-  ShowDialogEffect();
+  String? message;
+  ShowDialogEffect(message);
 }

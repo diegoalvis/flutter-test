@@ -53,7 +53,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
 
     final viewModel = context.read<HomeViewModel>();
-
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is HomeValueControllerScrollEffect) {
         print(event.next);
@@ -64,8 +63,13 @@ class _HomeWidgetState extends State<HomeWidget> {
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-        context.showDialogObservation(
-            titleDialog: 'Titulo del Dialogo', bodyTextDialog: 'Cuerpo del Dialogo');
+        if (viewModel.status.message != null) {
+          context.showDialogObservation(
+              titleDialog: 'Aún no tienes lugares guardados\n',
+              bodyTextDialog: viewModel.status.message!,
+              textButton: 'aceptar / cerrar');
+          viewModel.status.message = null;
+        }
       }
     });
     super.initState();
