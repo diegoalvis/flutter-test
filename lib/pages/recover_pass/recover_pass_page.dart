@@ -157,7 +157,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                   height: 10,
                 ),
             Text(
-              'LOREM IPSUM',
+              'RESTABLECER CONTRASEÑA',
               style: textTheme.textMenu.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -168,7 +168,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             SizedBox(
               height: 1,
             ),
-            Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+            Text('Ingresa el correo asociado a tu cuenta, allí recibirás instrucciones para restablecer tu contraseña', style: textTheme.textDetail),
             SizedBox(
               height: 50,
             ),

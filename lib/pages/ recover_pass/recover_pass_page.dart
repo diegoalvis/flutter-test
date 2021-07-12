@@ -151,25 +151,33 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             ),
           ),
           Positioned(
-              top: size.height / 2 * 1.05,
+            top: size.height / 2 * 1,
               width: size.width,
               child: Column(children: [
                 SizedBox(
-                  height: 10,
+                  height: 7,
                 ),
             Text(
-              'LOREM IPSUM',
+              'RESTABLECER CONTRASEÑA',
               style: textTheme.textMenu.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: IdtColors.gray,
                   letterSpacing: 0.0),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
             ),
             SizedBox(
               height: 1,
             ),
-            Text('Lorem adipiscing elít. sed diam domummy', style: textTheme.textDetail),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              child: Text('Ingresa el correo asociado a tu cuenta, allí recibirás instrucciones para restablecer tu contraseña', style: textTheme.textDetail.copyWith(
+                  fontSize: 15,
+                  height: 1,
+                  color: IdtColors.gray,
+                  
+              ), textAlign: TextAlign.center,),
+            ),
             SizedBox(
               height: 50,
             ),
@@ -211,7 +219,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
                       TextFieldCustom(
                           keyboardType: TextInputType.emailAddress,
