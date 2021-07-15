@@ -177,6 +177,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   ? CircularProgressIndicator()
                   : Text(
                       '${viewModel.status.dataUser!.name ?? '**Nombre'} ${viewModel.status.dataUser!.lastName!}',
+                      textAlign: TextAlign.center,
                       style: textTheme.textButtomWhite
                           .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
                     ),

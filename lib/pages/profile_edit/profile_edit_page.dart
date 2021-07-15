@@ -231,6 +231,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         Text(
                           widget._fullNameUser,
+                          textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite
                               .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
                         ),
