@@ -108,23 +108,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
               margin: EdgeInsets.only(top: 10),
               color: IdtColors.white,
               child: NotificationListener<ScrollNotification>(
-                onNotification: (scroll) {
-                  if (scroll is ScrollNotification) {
-                    print(widget.scrollController.position.pixels);
-                    if (widget.scrollController.position.atEdge) {
-                      setState(() {
-                        final isEnd = widget.scrollController.position.pixels != 0;
-                        this.isStart = !isEnd;
-                        this.isEnd = isEnd;
-                      });
-                    } else
-                      setState(() {
-                        isStart = false;
-                        isEnd = false;
-                      });
-                  }
-                  return true;
-                },
+                onNotification: arrowValidation,
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   controller: widget.scrollController,
@@ -376,5 +360,23 @@ class _SavedPlacesState extends State<SavedPlaces> {
         ),
       ],
     );
+  }
+
+  bool arrowValidation(ScrollNotification scroll) {
+    if (scroll is ScrollNotification) {
+      print(widget.scrollController.position.pixels);
+      if (widget.scrollController.position.atEdge) {
+        setState(() {
+          final isEnd = widget.scrollController.position.pixels != 0;
+          this.isStart = !isEnd;
+          this.isEnd = isEnd;
+        });
+      } else
+        setState(() {
+          isStart = false;
+          isEnd = false;
+        });
+    }
+    return true;
   }
 }

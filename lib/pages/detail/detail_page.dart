@@ -56,6 +56,8 @@ class DetailWidget extends StatefulWidget {
 }
 
 class _DetailWidgetState extends State<DetailWidget> {
+  bool isStart = true;
+  bool isEnd = false;
   final scrollController = ScrollController();
   StreamSubscription<DetailEffect>? _effectSubscription;
   final randomFloatNumber = Random().nextDouble() * (5 - 2) + 2;
@@ -112,8 +114,12 @@ class _DetailWidgetState extends State<DetailWidget> {
   }
 
   Widget _buildDiscover(DetailViewModel viewModel) {
-    final textTheme = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final _route = locator<IdtRoute>();
     print("widget._detail.url_audioguia_es");
     print(widget._detail.url_audioguia_es);
@@ -140,8 +146,8 @@ class _DetailWidgetState extends State<DetailWidget> {
             child: SizedBox(
                 child: SvgPicture.asset(IdtAssets.curve_up, color: Colors.white, fit: BoxFit.fill)
 
-                //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
-                ),
+              //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
+            ),
           ),
           Positioned(
             // rating Starts
@@ -181,7 +187,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       ),
                       Text(
                         widget._detail.rate == '' || widget._detail.rate == '0'
-                            // ? widget._detail.rate! + '/5'
+                        // ? widget._detail.rate! + '/5'
                             ? randomFloatNumber.toStringAsFixed(1) + '/5'
                             : _newrating.toString(),
                         style: textTheme.textWhiteShadow
@@ -251,21 +257,21 @@ class _DetailWidgetState extends State<DetailWidget> {
                       ),
                       BoxDataSesion.isLoggedIn
                           ? Container(
-                              alignment: Alignment.centerRight,
-                              padding: EdgeInsets.only(right: 15.0),
-                              child: IconButton(
-                                alignment: Alignment.centerRight,
-                                icon: Icon(
-                                  viewModel.status.isFavorite
-                                      ? IdtIcons.heart2
-                                      : Icons.favorite_border,
-                                  color:
-                                      viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
-                                ),
-                                iconSize: 30,
-                                onPressed: () => viewModel.onTapFavorite(widget._detail.id),
-                              ),
-                            )
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 15.0),
+                        child: IconButton(
+                          alignment: Alignment.centerRight,
+                          icon: Icon(
+                            viewModel.status.isFavorite
+                                ? IdtIcons.heart2
+                                : Icons.favorite_border,
+                            color:
+                            viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                          ),
+                          iconSize: 30,
+                          onPressed: () => viewModel.onTapFavorite(widget._detail.id),
+                        ),
+                      )
                           : SizedBox.shrink(),
                     ],
                   ),
@@ -281,11 +287,13 @@ class _DetailWidgetState extends State<DetailWidget> {
       return widget._detail.gallery!.length > 0 ? Stack(
 
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                //carrusel imagenes
+          NotificationListener <ScrollNotification>(
+            onNotification: arrowValidation,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  //carrusel imagenes
                   margin: EdgeInsets.only(bottom: 0, top: 3),
                   width: size.width,
                   height: size.height * 0.5,
@@ -293,60 +301,71 @@ class _DetailWidgetState extends State<DetailWidget> {
                   child: ListView.builder(
                     itemCount: widget._detail.gallery!.length,
                     shrinkWrap: true,
-                    itemExtent: MediaQuery.of(context).size.width,
+                    itemExtent: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     scrollDirection: Axis.horizontal,
                     controller: scrollController,
-                    itemBuilder: (context, index) => Column(
-                      children: <Widget>[
-                        Image.network(
-                          IdtConstants.url_image + widget._detail.gallery![index],
-                          height: size.height * 0.5,
-                          width: size.width,
-                          fit: BoxFit.cover,
+                    itemBuilder: (context, index) =>
+                        Column(
+                          children: <Widget>[
+                            Image.network(
+                              IdtConstants.url_image + widget._detail.gallery![index],
+                              height: size.height * 0.5,
+                              width: size.width,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
                         ),
-                      ],
+                  ),
+                ),
+                isStart
+                    ? SizedBox.shrink():
+                Positioned(
+                  //flecha Izquierda
+                  bottom: size.height * 1 / 6,
+                  left: 0,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Transform.rotate(
+                      angle: 3.1416,
+                      child: IconButton(
+                        iconSize: 45,
+                        alignment: Alignment.centerLeft,
+                        icon: Icon(
+                          Icons.play_circle_fill,
+                          color: IdtColors.white,
+                        ),
+                        onPressed: () => viewModel.onChangeScrollController(false, size.width),
+                      ),
                     ),
-                  )),
-              Positioned(
-                bottom: size.height * 1 / 6,
-                left: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: Transform.rotate(
-                    angle: 3.1416,
+                  ),
+                ),
+                isEnd
+                    ? SizedBox.shrink():
+                Positioned(
+                  //flecha derecha
+                  right: 0,
+                  bottom: size.height * 1 / 6,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5),
                     child: IconButton(
                       iconSize: 45,
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.centerRight,
                       icon: Icon(
                         Icons.play_circle_fill,
                         color: IdtColors.white,
                       ),
-                      onPressed: () => viewModel.onChangeScrollController(false, size.width),
+                      onPressed: () => viewModel.onChangeScrollController(true, size.width),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                //flecha derecha
-                right: 0,
-                bottom: size.height * 1 / 6,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: IconButton(
-                    iconSize: 45,
-                    alignment: Alignment.centerRight,
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                      color: IdtColors.white,
-                    ),
-                    onPressed: () => viewModel.onChangeScrollController(true, size.width),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           Positioned(
-              //Curva de abajo
+            //Curva de abajo
               bottom: size.height * 0.32,
               right: 0,
               left: 0,
@@ -356,10 +375,10 @@ class _DetailWidgetState extends State<DetailWidget> {
 /*                  Image(image: AssetImage(IdtAssets.curve_down),
                       height: size.height * 0.92
                   ),*/
-                      SvgPicture.asset(IdtAssets.curve_down,
-                          color: Colors.white, fit: BoxFit.fill))),
+                  SvgPicture.asset(IdtAssets.curve_down,
+                      color: Colors.white, fit: BoxFit.fill))),
         ],
-      ):SizedBox.shrink();
+      ) : SizedBox.shrink();
     }
 
     Widget _btnsPlaces(DataPlacesDetailModel _detail) {
@@ -369,77 +388,76 @@ class _DetailWidgetState extends State<DetailWidget> {
         children: [
           viewModel.validationEmptyResponse(widget._detail.location)
               ? Column(
-                  children: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: IdtColors.orange, width: 1),
-                          borderRadius: BorderRadius.circular(80.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Container(
-                        constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                        decoration: StylesMethodsApp().decorarStyle(
-                            IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          icon: Icon(
-                            IdtIcons.mappin,
-                            color: IdtColors.white,
-                            size: 40,
-                          ),
-                          onPressed: () => viewModel.launchMap(widget._detail.location!),
-                        ),
-                      ),
-                      onPressed: () {},
+            children: [
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: IdtColors.orange, width: 1),
+                    borderRadius: BorderRadius.circular(80.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                  decoration: StylesMethodsApp().decorarStyle(
+                      IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    icon: Icon(
+                      IdtIcons.mappin,
+                      color: IdtColors.white,
+                      size: 40,
                     ),
-                    AutoSizeText('Ubicacion',
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        maxFontSize: 13,
-                        minFontSize: 10,
-                        style: textTheme.textDetail)
-                  ],
-                )
+                    onPressed: () => viewModel.launchMap(widget._detail.location!),
+                  ),
+                ),
+                onPressed: () {},
+              ),
+              AutoSizeText('Ubicacion',
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  maxFontSize: 13,
+                  minFontSize: 10,
+                  style: textTheme.textDetail)
+            ],
+          )
               : SizedBox.shrink(),
           SizedBox(
             width: 10,
           ),
           viewModel.validationEmptyResponse(widget._detail.url_audioguia_es) ||
-                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_en) ||
-                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_pt)
+              viewModel.validationEmptyResponse(widget._detail.url_audioguia_en) ||
+              viewModel.validationEmptyResponse(widget._detail.url_audioguia_pt)
               ? Column(
-                  children: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: IdtColors.blue, width: 1),
-                          borderRadius: BorderRadius.circular(80.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Container(
-                          constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                          decoration: StylesMethodsApp().decorarStyle(
-                              IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            IdtIcons.headphones,
-                            color: IdtColors.white,
-                            size: 40,
-                          )),
-                      onPressed: () => viewModel.goPlayAudioPage(_detail),
-                    ),
-                    AutoSizeText('Audioguia',
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        maxFontSize: 13,
-                        minFontSize: 10,
-                        style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
-                  ],
-                )
+            children: [
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: IdtColors.blue, width: 1),
+                    borderRadius: BorderRadius.circular(80.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                    decoration: StylesMethodsApp().decorarStyle(
+                        IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      IdtIcons.headphones,
+                      color: IdtColors.white,
+                      size: 40,
+                    )),
+                onPressed: () => viewModel.goPlayAudioPage(_detail),
+              ),
+              AutoSizeText('Audioguia',
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  maxFontSize: 13,
+                  minFontSize: 10,
+                  style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
+            ],
+          )
               : SizedBox.shrink()
         ],
       );
     }
 
-    Widget _btnGradient(
-      String dataText, {
+    Widget _btnGradient(String dataText, {
       required onPress,
       required IconData icon,
       required Color color,
@@ -537,40 +555,41 @@ class _DetailWidgetState extends State<DetailWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
                         child:
-                            _hasDescription(viewModel)
+                        _hasDescription(viewModel)
                             ? Text(
-                                removeAllHtmlTags(
-                                    widget._detail.description ?? widget._detail.body ?? ''),
-                                style: textTheme.textDescrip,
-                                maxLines: viewModel.status.moreText ? null : 20,
-                                overflow: TextOverflow.fade,
-                                textAlign: TextAlign.justify,
-                              )
+                          removeAllHtmlTags(
+                              widget._detail.description ?? widget._detail.body ?? ''),
+                          style: textTheme.textDescrip,
+                          maxLines: viewModel.status.moreText ? null : 20,
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.justify,
+                        )
                             : Text(
-                                'Ups..!\n\n'
-                                'En el momento no tenemos una descripcion para este lugar.',
-                                style: textTheme.textDetail,
-                                maxLines: viewModel.status.moreText ? null : 20,
-                                textAlign: TextAlign.center,
-                              ),
+                          'Ups..!\n\n'
+                              'En el momento no tenemos una descripcion para este lugar.',
+                          style: textTheme.textDetail,
+                          maxLines: viewModel.status.moreText ? null : 20,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         left: 0,
                         child: ClipRect(
-                            // <-- clips to the 200x200 [Container] below
+                          // <-- clips to the 200x200 [Container] below
                             child: BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaX: 0.2,
-                            sigmaY: 0.2,
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            color: IdtColors.white.withOpacity(viewModel.status.moreText ? 0 : 0.5),
-                          ),
-                        )),
+                              filter: ImageFilter.blur(
+                                sigmaX: 0.2,
+                                sigmaY: 0.2,
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 60.0,
+                                color: IdtColors.white.withOpacity(
+                                    viewModel.status.moreText ? 0 : 0.5),
+                              ),
+                            )),
                       )
                     ],
                   ),
@@ -583,7 +602,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                         style: textTheme.blueDetail
                             .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: viewModel.readMore,
-                  ): SizedBox.shrink()
+                  ) : SizedBox.shrink()
                 ],
               ),
               SizedBox(
@@ -592,7 +611,7 @@ class _DetailWidgetState extends State<DetailWidget> {
               _footerImages(viewModel),
               _hasDescription(viewModel) ? SizedBox(
                 height: 80,
-              ): SizedBox.shrink()
+              ) : SizedBox.shrink()
             ],
           )),
     );
@@ -602,9 +621,27 @@ class _DetailWidgetState extends State<DetailWidget> {
     return viewModel.validationEmptyResponse(widget._detail.description) ||
         viewModel.validationEmptyResponse(widget._detail.body);
   }
+
   String removeAllHtmlTags(String htmlText) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return htmlText.replaceAll(exp, '');
+  }
+
+  bool arrowValidation(ScrollNotification scroll) {
+    if (scroll is ScrollNotification) {
+      if (scrollController.position.atEdge) {
+        setState(() {
+          final isEnd = scrollController.position.pixels != 0;
+          this.isStart = !isEnd;
+          this.isEnd = isEnd;
+        });
+      } else
+        setState(() {
+          isStart = false;
+          isEnd = false;
+        });
+    }
+    return true;
   }
 }
