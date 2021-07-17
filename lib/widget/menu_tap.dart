@@ -29,13 +29,16 @@ class IdtMenuTap extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      alignment: Alignment.topCenter,
-      margin: EdgeInsets.only(top: isBlue ? 168 : 150),
-      color: IdtColors.white.withOpacity(0.95),
+      color: IdtColors.white.withOpacity(0),
       child: Container(
-        color: isBlue ? IdtColors.blue.withOpacity(0.15) : IdtColors.transparent,
-        height: double.infinity,
-        child: _buildBody(textTheme)),
+        alignment: Alignment.topCenter,
+        margin: EdgeInsets.only(top: isBlue ? 168 : 150),
+        color: IdtColors.white.withOpacity(0.95),
+        child: Container(
+          color: isBlue ? IdtColors.blue.withOpacity(0.15) : IdtColors.transparent,
+          height: double.infinity,
+          child: _buildBody(textTheme)),
+      ),
     );
   }
 
@@ -56,9 +59,6 @@ class IdtMenuTap extends StatelessWidget {
               ),
               onPressed: closeMenu
             ),
-          ),
-          SizedBox(
-            height: 15,
           ),
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
