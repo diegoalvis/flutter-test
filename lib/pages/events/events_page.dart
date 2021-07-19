@@ -102,14 +102,14 @@ class _EventsWidgetState extends State<EventsWidget> {
     );
   }
 
-  _getOptionIndexForMenu(String title){
-    if(title =='Evento'){
+  _getOptionIndexForMenu(String title) {
+    if (title == 'Evento') {
       return TitlesMenu.eventos;
     }
-    if(title =='Dónde dormir'){
+    if (title == 'Dónde dormir') {
       return TitlesMenu.dondeDormir;
     }
-    if(title =='Dónde comer'){
+    if (title == 'Dónde comer') {
       return TitlesMenu.dondeComer;
     }
     return TitlesMenu.eventos;
@@ -122,8 +122,6 @@ class _EventsWidgetState extends State<EventsWidget> {
     final String nameFilter = viewModel.status.nameFilter;
     final isEvent = viewModel.type == SocialEventType.EVENT;
 
-    // final List<DataModel> _categories = viewModel.status.categories;
-    // final List<DataModel> _subcategories = viewModel.status.subcategories;
     final List<DataModel> _zones = viewModel.status.zones;
 
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
@@ -331,7 +329,9 @@ class _EventsWidgetState extends State<EventsWidget> {
                   style: textTheme.titleWhite,
                 ),
               ),
-              // _buttonFilter(), // Comentado porque no se puede filtrar al momento
+              viewModel.type != SocialEventType.EVENT
+                  ? _buttonFilter()
+                  : SizedBox.shrink(), // Comentado porque no se puede filtrar al momento
               SizedBox(height: 30),
               gridImagesCol3(viewModel.status.places),
               SizedBox(height: 55),
