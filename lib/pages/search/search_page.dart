@@ -22,6 +22,8 @@ import '../../app_theme.dart';
 
 class SearchPage extends StatelessWidget {
 
+  static final namePage = 'search_page';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

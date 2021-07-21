@@ -27,7 +27,7 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
 
-  static final namePage ='home';
+  static final namePage ='home_page';
 
   @override
   Widget build(BuildContext context) {

@@ -24,6 +24,9 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../app_theme.dart';
 
 class DiscoverPage extends StatelessWidget {
+
+  static final String namePage ='discover_page';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

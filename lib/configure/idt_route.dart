@@ -71,12 +71,7 @@ class IdtRoute {
   }
 
   goHomeRemoveAll() {
-
-    print("### ${IdtRoute.route}");
-    print(HomePage.namePage);
-
     if(IdtRoute.route != HomePage.namePage){
-
       IdtRoute.route = HomePage.namePage;
       return navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
@@ -103,17 +98,23 @@ class IdtRoute {
   }
 
   goDiscoverUntil() {
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => DiscoverPage()), (route) => route.isFirst);
+    if (IdtRoute.route != DiscoverPage.namePage){
+      IdtRoute.route = DiscoverPage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => DiscoverPage()), (route) => route.isFirst);
+    }
   }
 
-  goSearch() {
+  goSearch() { //No usada
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => SearchPage()));
   }
 
   goSearchUntil() {
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => SearchPage()), (route) => route.isFirst);
+    if(IdtRoute.route != SearchPage.namePage){
+      IdtRoute.route = SearchPage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => SearchPage()), (route) => route.isFirst);
+    }
   }
 
   goResultSearch(List<DataModel> results, String keyWord) {
