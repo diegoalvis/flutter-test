@@ -23,10 +23,12 @@ import 'package:bogota_app/pages/search/search_page.dart';
 import 'package:bogota_app/pages/setting/setting_page.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class IdtRoute {
   static final IdtRoute _singleton = IdtRoute._internal();
+  static String route = '';
 
   factory IdtRoute() {
     return _singleton;
@@ -69,8 +71,17 @@ class IdtRoute {
   }
 
   goHomeRemoveAll() {
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
+
+    print("### ${IdtRoute.route}");
+    print(HomePage.namePage);
+
+    if(IdtRoute.route != HomePage.namePage){
+
+      IdtRoute.route = HomePage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
+
+    }
   }
 
   goDetail({required bool isHotel, required DataPlacesDetailModel detail}) {
@@ -161,13 +172,17 @@ class IdtRoute {
   }
 
   goEvents(int optionIndex) {
-    return navigatorKey.currentState!.push(MaterialPageRoute(
-        builder: (_) => EventsPage(
-              type: SocialEventType.EVENT,
-              optionIndex: optionIndex,
-            )));
-  }
 
+    if (IdtRoute.route != EventsPage.namePage) {
+      IdtRoute.route = EventsPage.namePage;
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) =>
+              EventsPage(
+                type: SocialEventType.EVENT,
+                optionIndex: optionIndex,
+              )));
+     }
+  }
   goEventDetail({required DataPlacesDetailModel detail}) {
     return navigatorKey.currentState!.push(MaterialPageRoute(
         builder: (_) => EventDetailPage(

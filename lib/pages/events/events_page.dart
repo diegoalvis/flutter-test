@@ -29,6 +29,7 @@ import '../../app_theme.dart';
 import 'events_effect.dart';
 
 class EventsPage extends StatelessWidget {
+  static final namePage ='event';
   final SocialEventType type;
   final int? optionIndex;
 

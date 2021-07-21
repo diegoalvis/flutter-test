@@ -26,6 +26,9 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+
+  static final namePage ='home';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
