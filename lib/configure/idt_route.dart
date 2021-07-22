@@ -43,10 +43,12 @@ class IdtRoute {
   }
 
   void pop() {
+    IdtRoute.route = '';
     navigatorKey.currentState!.pop();
   }
 
   goHome() {
+    IdtRoute.route = HomePage.namePage;
     return navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
   }
@@ -130,11 +132,14 @@ class IdtRoute {
     required List<DataModel> subcategories,
     required List<DataModel> zones,
   }) {
-    return navigatorKey.currentState!.push(MaterialPageRoute(
-        builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)));
+    if(IdtRoute.route != FiltersPage.namePage){
+      IdtRoute.route = FiltersPage.namePage;
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)));
+    }
   }
 
-  goFiltersUntil({
+  goFiltersUntil({ // no se esta usando
     required String section,
     required DataModel item,
     required List<DataModel> places,
@@ -149,10 +154,13 @@ class IdtRoute {
   }
 
   goAudioGuide() {
-    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => AudioGuidePage()));
+    if(IdtRoute.route != AudioGuidePage.namePage){
+      IdtRoute.route = AudioGuidePage.namePage;
+      return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => AudioGuidePage()));
+    }
   }
 
-  goAudioGuideUntil() {
+  goAudioGuideUntil() {// no se usa
     return navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => AudioGuidePage()), (route) => route.isFirst);
   }
@@ -175,13 +183,15 @@ class IdtRoute {
   goEvents(int optionIndex) {
 
     if (IdtRoute.route != EventsPage.namePage) {
-      IdtRoute.route = EventsPage.namePage;
+      EventsPage.namePage = 'events_page';
+      IdtRoute.route = 'events_page';
       return navigatorKey.currentState!.push(MaterialPageRoute(
           builder: (_) =>
               EventsPage(
                 type: SocialEventType.EVENT,
                 optionIndex: optionIndex,
-              )));
+              )
+      ));
      }
   }
   goEventDetail({required DataPlacesDetailModel detail}) {
@@ -202,13 +212,21 @@ class IdtRoute {
 
 
   goSleeps(int optionIndex) {
-    return navigatorKey.currentState!.push(MaterialPageRoute(
-        builder: (_) => EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex)));
+    if(IdtRoute.route != EventsPage.namePage){
+      EventsPage.namePage = 'sleep_page';
+      IdtRoute.route = 'sleep_page';
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) => EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex)));
+    }
   }
 
   goEat(int optionIndex) {
-    return navigatorKey.currentState!.push(MaterialPageRoute(
-        builder: (_) => EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex)));
+    if(IdtRoute.route != EventsPage.namePage){
+      EventsPage.namePage = 'eat_page';
+      IdtRoute.route = 'eat_page';
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) => EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex)));
+    }
   }
 
   goSavedPlaces() {
@@ -216,8 +234,11 @@ class IdtRoute {
   }
 
   goSavedPlacesUntil() {
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => SavedPlacesPage()), (route) => route.isFirst);
+    if(IdtRoute.route != SavedPlacesPage.namePage){
+      IdtRoute.route = SavedPlacesPage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => SavedPlacesPage()), (route) => route.isFirst);
+    }
   }
 
   goPrivacyAndTerms() {

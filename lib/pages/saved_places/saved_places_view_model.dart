@@ -5,6 +5,8 @@ import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/response_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/discover/discover_page.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
@@ -174,7 +176,17 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
         status = status.copyWith(isLoading: false);
       }
     }
-
-    //_route.goDetail(isHotel: false);
   }
+
+    Future<bool> offMenuBack()async {
+      bool? shouldPop = true;
+
+      if (status.openMenu) {
+        openMenu();
+        return !shouldPop;
+      } else {
+        IdtRoute.route = HomePage.namePage;
+        return shouldPop;
+      }
+    }
 }

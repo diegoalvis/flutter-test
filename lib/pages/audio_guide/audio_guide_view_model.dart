@@ -5,6 +5,7 @@ import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_status.dart';
+import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
@@ -118,6 +119,8 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
       openMenu();
       return !shouldPop;
     } else {
+      // IdtRoute.route = DiscoverPage.namePage; Debido a que al volver de audioguia setea el name de discover, lo que no permite navegar desde el Home
+      IdtRoute.route = "";
       return shouldPop;
     }
   }

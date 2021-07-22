@@ -33,6 +33,8 @@ class FiltersPage extends StatelessWidget {
   final List<DataModel> subcategories;
   final List<DataModel> zones;
 
+  static final String namePage = 'filter_page';
+
   FiltersPage(
       this.section, this.item, this.places, this.categories, this.subcategories, this.zones);
 

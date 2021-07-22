@@ -1,6 +1,7 @@
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/search/search_effect.dart';
 import 'package:bogota_app/pages/search/search_status.dart';
 import 'package:bogota_app/utils/errors/search_error.dart';
@@ -73,6 +74,7 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
       openMenu();
       return !shouldPop;
     } else {
+      IdtRoute.route = HomePage.namePage;
       return shouldPop;
     }
   }

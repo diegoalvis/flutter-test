@@ -25,6 +25,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class SavedPlacesPage extends StatelessWidget {
+  static final String namePage = 'saved_place_page';
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -57,14 +58,17 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<SavedPlacesViewModel>();
 
-    return Scaffold(
-        backgroundColor: IdtColors.white,
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        floatingActionButton: IdtFab(),
-        bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: _buildSavedPlaces(viewModel));
+    return WillPopScope(
+      onWillPop: viewModel.offMenuBack,
+      child: Scaffold(
+          backgroundColor: IdtColors.white,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+          floatingActionButton: IdtFab(),
+          bottomNavigationBar: IdtBottomAppBar(discoverSelect: false),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          body: _buildSavedPlaces(viewModel)),
+    );
   }
 
   Widget _buildSavedPlaces(SavedPlacesViewModel viewModel) {

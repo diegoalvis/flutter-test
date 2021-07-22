@@ -3,7 +3,10 @@ import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/events/events_page.dart';
 import 'package:bogota_app/pages/events/events_status.dart';
+import 'package:bogota_app/pages/filters/filters_page.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
 import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
@@ -241,6 +244,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
       openMenu();
       return !shouldPop;
     } else {
+      IdtRoute.route = HomePage.namePage;
       return shouldPop;
     }
   }

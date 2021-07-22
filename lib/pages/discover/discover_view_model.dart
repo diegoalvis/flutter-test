@@ -3,6 +3,7 @@ import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/discover/discover_status.dart';
+import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
@@ -189,6 +190,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       openMenu();
       return !shouldPop;
     } else {
+      IdtRoute.route = HomePage.namePage;
       return shouldPop;
     }
   }

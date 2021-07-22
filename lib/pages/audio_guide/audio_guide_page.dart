@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class AudioGuidePage extends StatelessWidget {
+  static final String namePage = 'audio_guia_page';
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

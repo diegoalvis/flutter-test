@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/view_model.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 
@@ -29,7 +30,9 @@ import '../../app_theme.dart';
 import 'events_effect.dart';
 
 class EventsPage extends StatelessWidget {
-  static final namePage ='events_page';
+
+  static String namePage= '';
+
   final SocialEventType type;
   final int? optionIndex;
 
