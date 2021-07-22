@@ -186,8 +186,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   Future<bool> offMenuBack()async {
     bool? shouldPop = true;
 
-    if (status.openMenu) {
-      openMenu();
+    if (status.openMenu || status.openMenuTab) {
+      status = status.copyWith(openMenu: false, openMenuTab: false, currentOption: -1 );
       return !shouldPop;
     } else {
       IdtRoute.route = HomePage.namePage;

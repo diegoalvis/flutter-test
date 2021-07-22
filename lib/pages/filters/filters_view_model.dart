@@ -2,6 +2,7 @@ import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
@@ -290,10 +291,11 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   Future<bool> offMenuBack()async {
     bool? shouldPop = true;
 
-    if (status.openMenu) {
-      openMenu();
+    if (status.openMenu || status.openMenuFilter || status.openMenuTab) {
+      status = status.copyWith(openMenu: false, openMenuTab: false, openMenuFilter: false);
       return !shouldPop;
     } else {
+      IdtRoute.route = DiscoverPage.namePage;
       return shouldPop;
     }
   }

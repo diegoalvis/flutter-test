@@ -5,9 +5,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class FiltersStatus extends ViewStatus{
 
   final bool isLoading;
-  final bool openMenu;
-  final bool openMenuTab;
-  final bool openMenuFilter;
+  bool openMenu;
+  bool openMenuTab;
+  bool openMenuFilter;
   final List<DataModel?> filterSubcategory;
   final List<DataModel?> filterZone;
   final List<DataModel?> filterCategory;
