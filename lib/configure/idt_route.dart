@@ -182,16 +182,16 @@ class IdtRoute {
 
   goEvents(int optionIndex) {
 
-    if (IdtRoute.route != EventsPage.namePage) {
-      EventsPage.namePage = 'events_page';
+    if (IdtRoute.route != 'events_page') {
+      // EventsPage.namePage = 'events_page';
       IdtRoute.route = 'events_page';
-      return navigatorKey.currentState!.push(MaterialPageRoute(
+      return navigatorKey.currentState!.pushAndRemoveUntil(MaterialPageRoute(
           builder: (_) =>
               EventsPage(
                 type: SocialEventType.EVENT,
                 optionIndex: optionIndex,
               )
-      ));
+      ),(route)=>route.isFirst);
      }
   }
   goEventDetail({required DataPlacesDetailModel detail}) {
@@ -212,20 +212,30 @@ class IdtRoute {
 
 
   goSleeps(int optionIndex) {
-    if(IdtRoute.route != EventsPage.namePage){
-      EventsPage.namePage = 'sleep_page';
+    if(IdtRoute.route != 'sleep_page'){
+      // EventsPage.namePage = 'sleep_page';
       IdtRoute.route = 'sleep_page';
-      return navigatorKey.currentState!.push(MaterialPageRoute(
-          builder: (_) => EventsPage(type: SocialEventType.SLEEP, optionIndex: optionIndex)));
+      return navigatorKey.currentState!.pushAndRemoveUntil(MaterialPageRoute(
+          builder: (_) =>
+              EventsPage(
+                type: SocialEventType.SLEEP,
+                optionIndex: optionIndex,
+              )
+      ),(route)=>route.isFirst);
     }
   }
 
   goEat(int optionIndex) {
-    if(IdtRoute.route != EventsPage.namePage){
-      EventsPage.namePage = 'eat_page';
+    if(IdtRoute.route != 'eat_page'){
+      // EventsPage.namePage = 'eat_page';
       IdtRoute.route = 'eat_page';
-      return navigatorKey.currentState!.push(MaterialPageRoute(
-          builder: (_) => EventsPage(type: SocialEventType.EAT, optionIndex: optionIndex)));
+      return navigatorKey.currentState!.pushAndRemoveUntil(MaterialPageRoute(
+          builder: (_) =>
+              EventsPage(
+                type: SocialEventType.EAT,
+                optionIndex: optionIndex,
+              )
+      ),(route)=>route.isFirst);
     }
   }
 
