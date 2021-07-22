@@ -314,6 +314,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     return Stack(
       children: [
         SingleChildScrollView(
+          physics: viewModel.status.openMenuTab || viewModel.status.openMenuFilter ? NeverScrollableScrollPhysics() : null,
+
           child: Column(
             children: [
               Container(

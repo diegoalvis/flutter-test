@@ -29,16 +29,13 @@ class IdtMenuTap extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      color: IdtColors.white.withOpacity(0),
+      alignment: Alignment.topCenter,
+      margin: EdgeInsets.only(top: isBlue ? 168 : 150),
+      color: IdtColors.white.withOpacity(0.95),
       child: Container(
-        alignment: Alignment.topCenter,
-        margin: EdgeInsets.only(top: isBlue ? 168 : 150),
-        color: IdtColors.white.withOpacity(0.95),
-        child: Container(
-          color: isBlue ? IdtColors.blue.withOpacity(0.15) : IdtColors.transparent,
-          height: double.infinity,
-          child: _buildBody(textTheme)),
-      ),
+        color: isBlue ? IdtColors.blue.withOpacity(0.15) : IdtColors.transparent,
+        height: double.infinity,
+        child: _buildBody(textTheme)),
     );
   }
 

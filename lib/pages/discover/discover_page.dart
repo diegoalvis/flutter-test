@@ -24,8 +24,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../app_theme.dart';
 
 class DiscoverPage extends StatelessWidget {
-
-  static final String namePage ='discover_page';
+  static final String namePage = 'discover_page';
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +56,10 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     final viewModel = context.watch<DiscoverViewModel>();
 
     return WillPopScope(
-        onWillPop: viewModel.offMenuBack,
+      onWillPop: viewModel.offMenuBack,
       child: SafeArea(
         child: WillPopScope(
-            onWillPop: viewModel.offMenuBack,
+          onWillPop: viewModel.offMenuBack,
           child: Scaffold(
               appBar: IdtAppBar(viewModel.openMenu),
               backgroundColor: IdtColors.white,
@@ -162,9 +161,9 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                           ),
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     placeholder: (context, url) => CircularProgressIndicator(),
@@ -210,6 +209,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     return Stack(
       children: [
         SingleChildScrollView(
+          physics: viewModel.status.openMenuTab ? NeverScrollableScrollPhysics() : null,
           child: Column(
             children: [
               Container(
