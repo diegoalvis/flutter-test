@@ -1,28 +1,20 @@
 import 'dart:async';
 
 import 'package:bogota_app/data/model/audioguide_model.dart';
-import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/menu_images_model.dart';
-
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
 import 'package:bogota_app/pages/home/home_status.dart';
 import 'package:bogota_app/utils/errors/eat_error.dart';
-import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/menu_images_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
-import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
-import 'package:flutter/services.dart';
-import 'package:location/location.dart';
-import 'package:unique_ids/unique_ids.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;

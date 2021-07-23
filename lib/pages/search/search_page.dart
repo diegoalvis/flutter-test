@@ -21,7 +21,6 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class SearchPage extends StatelessWidget {
-
   static final namePage = 'search_page';
 
   @override
@@ -58,14 +57,17 @@ class _SearchWidgetState extends State<SearchWidget> {
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-        context.showDialogObservation(titleDialog: 'Sin resultados',bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada \n\n Intentalo de nuevo!',textButton: 'aceptar / cerrar');
+        context.showDialogObservation(
+            titleDialog: 'Sin resultados',
+            bodyTextDialog:
+                'No se han encotrado resultados para la busqueda especificada \n\n Intentalo de nuevo!',
+            textPrimaryButton: 'aceptar / cerrar');
       }
     });
 
     // // una vez tengas la info la pasas aca
     // viewModel.onTapButton(index, id, items);
   }
-
 
   @override
   Widget build(BuildContext context) {

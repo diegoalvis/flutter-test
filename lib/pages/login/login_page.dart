@@ -82,7 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         context.showDialogObservation(
             titleDialog: 'oh oh!\n Algo ha salido mal...',
             bodyTextDialog: viewModel.status.message!,
-            textButton: 'aceptar / cerrar');
+            textPrimaryButton: 'aceptar / cerrar');
       } else if (event is ShowLoginDialogEffect) {
         print('entra a event');
         print(viewModel.status.message!);
@@ -90,7 +90,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           context.showDialogObservation(
               titleDialog: 'oh oh!\n Algo ha salido mal...',
               bodyTextDialog: viewModel.status.message!,
-              textButton: 'aceptar / cerrar');
+              textPrimaryButton: 'aceptar / cerrar');
           viewModel.status.message = null;
         }
       }

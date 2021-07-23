@@ -70,7 +70,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           context.showDialogObservation(
               titleDialog: 'Aún no tienes lugares guardados\n',
               bodyTextDialog: viewModel.status.message!,
-              textButton: 'aceptar / cerrar');
+              textPrimaryButton: 'aceptar / cerrar');
           viewModel.status.message = null;
         }
       }

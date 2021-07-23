@@ -81,7 +81,7 @@ class _EventsWidgetState extends State<EventsWidget> {
         context.showDialogObservation(
             titleDialog: 'Sin resultados',
             bodyTextDialog: 'No se han encotrado resultados para la localidad especificada',
-            textButton: 'aceptar / cerrar');
+            textPrimaryButton: 'aceptar / cerrar');
       }
     });
   }

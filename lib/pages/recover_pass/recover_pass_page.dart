@@ -304,7 +304,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
     context.showDialogObservation(
       titleDialog: tittle,
       bodyTextDialog: message,
-      textButton: 'aceptar / cerrar',
+      textPrimaryButton: 'aceptar / cerrar',
     );
   }
 }

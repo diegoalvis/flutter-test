@@ -7,12 +7,14 @@ import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
+import 'package:bogota_app/pages/play_audio/play_audio_effect.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_view_model.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -33,12 +35,13 @@ import '../../app_theme.dart';
 
 class PlayAudioPage extends StatelessWidget {
   final DataPlacesDetailModel detail;
+
   PlayAudioPage({required this.detail});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          PlayAudioViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => PlayAudioViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return PlayAudioWidget(detail);
       },
@@ -50,18 +53,19 @@ class PlayAudioWidget extends StatefulWidget {
   final DataPlacesDetailModel _detail;
 
   PlayAudioWidget(this._detail);
+
   double sizeContainer = 0;
+
   @override
   _PlayAudioWidgetState createState() => _PlayAudioWidgetState();
 }
 
-class _PlayAudioWidgetState extends State<PlayAudioWidget>
-    with SingleTickerProviderStateMixin {
+class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProviderStateMixin {
   final _route = locator<IdtRoute>();
   final List<String> _dropdownValues = [];
   late AudioPlayer _player;
   bool firstValidate = false;
-
+  StreamSubscription<PlayAudioEffect>? _effectSubscription;
 
   Future<void> _init() async {
     _filldropdown(widget._detail);
@@ -69,26 +73,24 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
     await session.configure(AudioSessionConfiguration.speech());
 
     try {
-
-    //  await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          //IdtConstants.url_image + '/' +
+      //  await _player.setAudioSource(AudioSource.uri(Uri.parse(
+      //IdtConstants.url_image + '/' +
       var connectivityResult = await (Connectivity().checkConnectivity());
       print("connectivityResult $connectivityResult");
 
-      if(connectivityResult == ConnectivityResult.none){
+      if (connectivityResult == ConnectivityResult.none) {
         CurrentUser user = BoxDataSesion.getCurrentUser()!;
-        if (user.id_db != null){
+        if (user.id_db != null) {
           print("user.id_db! ${user.id_db!}");
           Person person = BoxDataSesion.getFromBox(user.id_db!)!;
           print("============================================");
           print(widget._detail.url_audioguia_es);
           print("============================================");
           await _player.setAudioSource(AudioSource.uri(Uri.file(widget._detail.url_audioguia_es!)));
-
         }
-      }else{
-        await _player.setAudioSource(AudioSource.uri(Uri.parse(
-            IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
+      } else {
+        await _player.setAudioSource(AudioSource.uri(
+            Uri.parse(IdtConstants.url_image + '/' + widget._detail.url_audioguia_es!)));
       }
     } catch (e) {
       print("An error occured $e");
@@ -112,12 +114,37 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
   @override
   void initState() {
     super.initState();
+    final scrollController = ScrollController();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<PlayAudioViewModel>().onInit();
       context.read<PlayAudioViewModel>().checkIsFavorite(widget._detail.id);
     });
 
     _player = AudioPlayer();
+
+    final viewModel = context.read<PlayAudioViewModel>();
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is PlayAudioValueControllerScrollEffect) {
+        print(event.next);
+        scrollController.animateTo(
+            event.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: event.duration));
+      } else if (event is ShowDialogEffect) {
+
+          context.showDialogObservation(
+              titleDialog: 'Funcionalidad Pro',
+              bodyTextDialog: 'Registrate para tener esta funcionalidad',
+              textPrimaryButton: 'Ir al registro...',
+              textSecondButtom: 'Luego',
+            actionPrimaryButtom: _route.goLogin,
+          );
+
+
+      }
+    });
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
@@ -127,54 +154,43 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
 
   @override
   void dispose() {
-
     _player.dispose();
     super.dispose();
   }
 
-    validateFromLocal(){
-      final viewModel = context.watch<PlayAudioViewModel>();
-      try{
-        CurrentUser user = BoxDataSesion.getCurrentUser()!;
-        Person person = BoxDataSesion.getFromBox(user.id_db!)!;
-        for (final e in person.detalle!){
-          if (e.id == widget._detail.id ) {
-            viewModel.status.modeOffline = true;
-          }else{
-            viewModel.status.modeOffline = false;
-          }
+  validateFromLocal() {
+    final viewModel = context.watch<PlayAudioViewModel>();
+    try {
+      CurrentUser user = BoxDataSesion.getCurrentUser()!;
+      Person person = BoxDataSesion.getFromBox(user.id_db!)!;
+      for (final e in person.detalle!) {
+        if (e.id == widget._detail.id) {
+          viewModel.status.modeOffline = true;
+        } else {
+          viewModel.status.modeOffline = false;
         }
-      }catch(e){
-
       }
-
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<PlayAudioViewModel>();
 
-     (Connectivity().checkConnectivity()).then((connectivityResult) {
-
-      viewModel.status =
-          viewModel.status.copyWith(connectionStatus: connectivityResult);
+    (Connectivity().checkConnectivity()).then((connectivityResult) {
+      viewModel.status = viewModel.status.copyWith(connectionStatus: connectivityResult);
 
       if (connectivityResult != ConnectivityResult.none) {
-        viewModel.status.urlAudio =
-            IdtConstants.url_image + widget._detail.url_audioguia_es!;
+        viewModel.status.urlAudio = IdtConstants.url_image + widget._detail.url_audioguia_es!;
         viewModel.status.idAudio = widget._detail.id;
         DataAudioGuideModel data = DataAudioGuideModel(
-            id: widget._detail.id,
-            title: widget._detail.title,
-            image: widget._detail.image);
+            id: widget._detail.id, title: widget._detail.title, image: widget._detail.image);
         viewModel.status.detalleSaved = data;
       } else {
         viewModel.status.urlAudio = widget._detail.url_audioguia_es!;
         viewModel.status.idAudio = widget._detail.id;
         DataAudioGuideModel data = DataAudioGuideModel(
-            id: widget._detail.id,
-            title: widget._detail.title,
-            image: widget._detail.image);
+            id: widget._detail.id, title: widget._detail.title, image: widget._detail.image);
         viewModel.status.detalleSaved = data;
       }
     });
@@ -222,18 +238,17 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          isOnline(viewModel) ? IconButton(
-            icon: Icon(
-              viewModel.status.isFavorite
-                  ? IdtIcons.heart2
-                  : Icons.favorite_border,
-              color:
-                  viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
-            ),
-            padding: EdgeInsets.only(right: 20.0),
-            iconSize: 35,
-            onPressed: viewModel.onTapFavorite,
-          ): SizedBox.shrink(),
+          isOnline(viewModel)
+              ? IconButton(
+                  icon: Icon(
+                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
+                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                  ),
+                  padding: EdgeInsets.only(right: 20.0),
+                  iconSize: 35,
+                  onPressed: viewModel.onTapFavorite,
+                )
+              : SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
             child: Text(
@@ -244,62 +259,67 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
               style: textTheme.textWhiteShadow.copyWith(fontSize: 25),
             ),
           ),
-          _dropdownValues.length<1? OutlineButton(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: IdtColors.black.withOpacity(0.6),
-                  shape: BoxShape.rectangle,
-                ),
-                child: DropdownButton(
-                  items: _dropdownValues
-                      .map((value) => DropdownMenuItem(
-                            child: Text(
-                              value,
-                              textAlign: TextAlign.center,
-                              style: textTheme.textButtomWhite,
-                            ),
-                            value: value,
-                          ))
-                      .toList(),
-                  isExpanded: false,
-                  iconSize: 30,
-                  underline: Container(
-                    height: 2,
-                    color: IdtColors.white,
+          _dropdownValues.length < 1
+              ? OutlineButton(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: IdtColors.black.withOpacity(0.6),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: DropdownButton(
+                      items: _dropdownValues
+                          .map((value) => DropdownMenuItem(
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.textButtomWhite,
+                                ),
+                                value: value,
+                              ))
+                          .toList(),
+                      isExpanded: false,
+                      iconSize: 30,
+                      underline: Container(
+                        height: 2,
+                        color: IdtColors.white,
+                      ),
+                      value: viewModel.status.language,
+                      iconEnabledColor: IdtColors.white,
+                      dropdownColor: IdtColors.black.withOpacity(0.4),
+                      style: textTheme.titleGray,
+                      hint: Text('Selecciona'),
+                      onChanged: viewModel.selectLanguage,
+                    ),
                   ),
-                  value: viewModel.status.language,
-                  iconEnabledColor: IdtColors.white,
-                  dropdownColor: IdtColors.black.withOpacity(0.4),
-                  style: textTheme.titleGray,
-                  hint: Text('Selecciona'),
-                  onChanged: viewModel.selectLanguage,
-                ),
-              ),
-              padding: EdgeInsets.all(0),
-              borderSide: BorderSide(color: IdtColors.white, width: 1),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              onPressed: () {}):SizedBox.shrink(),
+                  padding: EdgeInsets.all(0),
+                  borderSide: BorderSide(color: IdtColors.white, width: 1),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                  onPressed: () {})
+              : SizedBox.shrink(),
           SizedBox(
             height: 20,
           ),
           _box(),
           SizedBox(height: 12),
           FlutterSwitch(
-            value: viewModel.status.modeOffline,
-            activeColor: IdtColors.white,
-            activeToggleColor: IdtColors.orange,
-            inactiveColor: IdtColors.white,
-            inactiveToggleColor: IdtColors.grayBtn,
-            padding: 3,
-            height: 30,
-            onToggle: ( bool val ){
-              final idAAudio = widget._detail.id;
-              viewModel.changeModeOffline(val, idAAudio);
-            },
-          ),
+              value: viewModel.status.modeOffline,
+              activeColor: IdtColors.white,
+              activeToggleColor: IdtColors.orange,
+              inactiveColor: IdtColors.white,
+              inactiveToggleColor: IdtColors.grayBtn,
+              padding: 3,
+              height: 30,
+              onToggle: BoxDataSesion.isLoggedIn
+                  ? (bool val) {
+                      final idAAudio = widget._detail.id;
+                      viewModel.changeModeOffline(val, idAAudio);
+                    }
+                  : (bool val) {
+                      viewModel.suggestionLogin();
+                    }),
           SizedBox(height: 8),
           Text(
             'Modo Offline',
@@ -316,40 +336,39 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 50.0),
           child: Stack(
             children: [
-
-                CachedNetworkImage(
-                imageUrl:
-                    IdtConstants.url_image + widget._detail.image!,
-                imageBuilder:
-                    (context, imageProvider) {
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                              offset: Offset(0, 10),
-                              color: Color.fromRGBO(0, 0, 0, 0.7),
-                              blurRadius: 15,
-                              spreadRadius: -10),
-                        ],
-                        borderRadius: BorderRadius.circular(34),
-                        image: DecorationImage(fit: BoxFit.cover, alignment: Alignment.center, image: imageProvider),
-                      ),
-                    ),
-                    Container(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(34),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                          child: Container(color: Colors.transparent),
+              CachedNetworkImage(
+                  imageUrl: IdtConstants.url_image + widget._detail.image!,
+                  imageBuilder: (context, imageProvider) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: const <BoxShadow>[
+                              BoxShadow(
+                                  offset: Offset(0, 10),
+                                  color: Color.fromRGBO(0, 0, 0, 0.7),
+                                  blurRadius: 15,
+                                  spreadRadius: -10),
+                            ],
+                            borderRadius: BorderRadius.circular(34),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                alignment: Alignment.center,
+                                image: imageProvider),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                );
-              }),
-
+                        Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(34),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                              child: Container(color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
               Positioned(
                 top: 50,
                 right: 0,
@@ -376,26 +395,28 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                             onPressed: _route.pop,
                           ),
                         ),
-                        isOnline(viewModel) ? Container(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 14.0),
-                            child: IconButton(
-                              autofocus: false,
-                              color: IdtColors.transparent,
-                              alignment: Alignment.centerRight,
-                              icon: Icon(
-                                Icons.share,
-                                color: IdtColors.white,
-                                size: 40.0,
-                              ),
-                              onPressed: () {
-                                print("Share");
-                                Share.share(
-                                    "Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
-                              },
-                            ),
-                          ),
-                        ): SizedBox.shrink(),
+                        isOnline(viewModel)
+                            ? Container(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 14.0),
+                                  child: IconButton(
+                                    autofocus: false,
+                                    color: IdtColors.transparent,
+                                    alignment: Alignment.centerRight,
+                                    icon: Icon(
+                                      Icons.share,
+                                      color: IdtColors.white,
+                                      size: 40.0,
+                                    ),
+                                    onPressed: () {
+                                      print("Share");
+                                      Share.share(
+                                          "Visita la página oficial de turismo de Bogotá https://bogotadc.travel/");
+                                    },
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -410,13 +431,13 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                   )
                 ],
               ),
-            
             ],
           ),
         ));
   }
 
-  bool isOnline(PlayAudioViewModel viewModel) => viewModel.status.connectionStatus != ConnectivityResult.none;
+  bool isOnline(PlayAudioViewModel viewModel) =>
+      viewModel.status.connectionStatus != ConnectivityResult.none;
 
   Column _box() {
     return Column(
@@ -445,25 +466,19 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: ButtonPlayPause(_player, Colors.yellow),
                               ),
                               Container(
-                                child: new LayoutBuilder(builder:
-                                    (BuildContext context,
-                                        BoxConstraints constraints) {
+                                child: new LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
                                   // print("--- ${MediaQuery.of(context).size}");
                                   // print(
                                   //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
-                                    widget.sizeContainer =
-                                        MediaQuery.of(context).size.width / 2;
+                                    widget.sizeContainer = MediaQuery.of(context).size.width / 2;
                                   } else {
-                                    widget.sizeContainer =
-                                        MediaQuery.of(context).size.width /
-                                            1.65;
+                                    widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
                                   }
                                   return Container(
                                     child: AnimatedContainerApp(
-                                        widget.sizeContainer,
-                                        Colors.blue,
-                                        IdtAssets.waves),
+                                        widget.sizeContainer, Colors.blue, IdtAssets.waves),
                                   );
                                 }),
                               ),
@@ -489,19 +504,15 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                                 child: ButtonPlayPause(_player, Colors.yellow),
                               ),
                               Container(
-                                child: new LayoutBuilder(builder:
-                                    (BuildContext context,
-                                        BoxConstraints constraints) {
+                                child: new LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
                                   // print("--- ${MediaQuery.of(context).size}");
                                   // print(
                                   //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                                   if (MediaQuery.of(context).size.width < 390) {
-                                    widget.sizeContainer =
-                                        MediaQuery.of(context).size.width / 2;
+                                    widget.sizeContainer = MediaQuery.of(context).size.width / 2;
                                   } else {
-                                    widget.sizeContainer =
-                                        MediaQuery.of(context).size.width /
-                                            1.65;
+                                    widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
                                   }
 
                                   return Container(
@@ -617,8 +628,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
               stream: Rx.combineLatest2<Duration, Duration, PositionData>(
                   _player.positionStream,
                   _player.bufferedPositionStream,
-                  (position, bufferedPosition) =>
-                      PositionData(position, bufferedPosition)),
+                  (position, bufferedPosition) => PositionData(position, bufferedPosition)),
               builder: (context, snapshot) {
                 double widthPosition = width;
                 final pos = snapshot.data?.position.inSeconds ?? 0;
@@ -653,8 +663,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
             ),
           ),
           builder: (context, snapshot) {
-            final positionData =
-                snapshot.data ?? PositionData(Duration.zero, Duration.zero);
+            final positionData = snapshot.data ?? PositionData(Duration.zero, Duration.zero);
             var position = positionData.position;
             if (position > duration) {
               position = duration;
@@ -687,11 +696,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
           stream: Rx.combineLatest2<Duration, Duration, PositionData>(
               _player.positionStream,
               _player.bufferedPositionStream,
-              (position, bufferedPosition) =>
-                  PositionData(position, bufferedPosition)),
+              (position, bufferedPosition) => PositionData(position, bufferedPosition)),
           builder: (context, snapshot) {
-            final positionData =
-                snapshot.data ?? PositionData(Duration.zero, Duration.zero);
+            final positionData = snapshot.data ?? PositionData(Duration.zero, Duration.zero);
             var position = positionData.position;
             if (position > duration) {
               position = duration;
@@ -705,10 +712,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget>
                       .firstMatch("${duration - position}")
                       ?.group(1) ??
                   '${duration - position}',
-              style: Theme.of(context)
-                  .textTheme
-                  .textButtomWhite
-                  .copyWith(fontSize: 20),
+              style: Theme.of(context).textTheme.textButtomWhite.copyWith(fontSize: 20),
             );
           },
         );
@@ -727,8 +731,7 @@ class WaveAnimated extends StatefulWidget {
   _WaveAnimatedState createState() => _WaveAnimatedState();
 }
 
-class _WaveAnimatedState extends State<WaveAnimated>
-    with SingleTickerProviderStateMixin {
+class _WaveAnimatedState extends State<WaveAnimated> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedSize(
@@ -775,8 +778,8 @@ class _ButtonPlayPauseState extends State<ButtonPlayPause> {
             margin: EdgeInsets.all(8.0),
             width: 50.0,
             height: 50.0,
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue)),
+            child:
+                CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.blue)),
           );
         } else if (playing != true) {
           return IconButton(
@@ -794,8 +797,8 @@ class _ButtonPlayPauseState extends State<ButtonPlayPause> {
           return IconButton(
             icon: Icon(Icons.replay, color: IdtColors.white),
             iconSize: 50.0,
-            onPressed: () => widget._player.seek(Duration.zero,
-                index: widget._player.effectiveIndices!.first),
+            onPressed: () =>
+                widget._player.seek(Duration.zero, index: widget._player.effectiveIndices!.first),
           );
         }
       },
@@ -927,8 +930,7 @@ class _SeekBarState extends State<SeekBar> {
             child: Slider(
               min: 0.0,
               max: widget.duration.inMilliseconds.toDouble(),
-              value: min(
-                  _dragValue ?? widget.position.inMilliseconds.toDouble(),
+              value: min(_dragValue ?? widget.position.inMilliseconds.toDouble(),
                   widget.duration.inMilliseconds.toDouble()),
               onChanged: (value) {
                 setState(() {

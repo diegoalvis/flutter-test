@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/app_theme.dart';
@@ -6,11 +8,14 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:flutter/material.dart';
 
 extension IdtDialog on BuildContext {
+
   void showDialogObservation(
       {required String titleDialog,
       required String bodyTextDialog,
-      String textButton: 'aceptar / cerrar',
-      Function? onPressed,
+      String textPrimaryButton: 'aceptar / cerrar',
+        String? textSecondButtom,
+        dynamic?  actionPrimaryButtom,
+        dynamic?  actionSecondButtom,
       }) {
     final textTheme = Theme.of(this).textTheme;
     
@@ -45,23 +50,41 @@ extension IdtDialog on BuildContext {
                   SizedBox(
                     height: 35,
                   ),
-                  Row(
+                  Column(
+                    verticalDirection: VerticalDirection.up ,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RaisedButton(
+                      RaisedButton( //Botom Principal
                         textColor: IdtColors.white,
                         color: IdtColors.orangeDark,
                         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-                        child: Text(
-                          textButton.toUpperCase(),
+                        child:
+                        Text(
+                          textPrimaryButton.toUpperCase(),
                           style: TextStyle(fontWeight: FontWeight.w900),
                         ),
-                        onPressed: onPressed ==null ?  _route.pop : (){
-                          onPressed();
-                          _route.pop();
-                        },
+                        onPressed: actionPrimaryButtom != null
+                            ? actionPrimaryButtom
+                            :  _route.pop
                       ),
+                      textSecondButtom != null ?
+                      RaisedButton(
+                        textColor: IdtColors.white,
+                        color: IdtColors.grayBtn,
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+                        child: Text(
+                          textSecondButtom,
+                          style: TextStyle(fontWeight: FontWeight.w900),
+                        ),
+                        onPressed: actionSecondButtom != null ?
+                            actionSecondButtom:
+                          _route.pop
+                        ,
+                      ):
+                      SizedBox.shrink(),
+
                     ],
                   )
                 ],
