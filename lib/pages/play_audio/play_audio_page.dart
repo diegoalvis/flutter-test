@@ -133,16 +133,13 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogEffect) {
-
-          context.showDialogObservation(
-              titleDialog: 'Funcionalidad Pro',
-              bodyTextDialog: 'Registrate para tener esta funcionalidad',
-              textPrimaryButton: 'Ir al registro...',
-              textSecondButtom: 'Luego',
-            actionPrimaryButtom: _route.goLogin,
-          );
-
-
+        context.showDialogObservation(
+          titleDialog: 'Funcionalidad Pro',
+          bodyTextDialog: viewModel.status.message ?? 'Registrate para tener esta funcionalidad',
+          textPrimaryButton: 'Ir al registro...',
+          textSecondButtom: 'Luego',
+          actionPrimaryButtom: _route.goLogin,
+        );
       }
     });
 
@@ -246,8 +243,18 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                   ),
                   padding: EdgeInsets.only(right: 20.0),
                   iconSize: 35,
-                  onPressed: viewModel.onTapFavorite,
-                )
+                  onPressed: BoxDataSesion.isLoggedIn
+                      ? viewModel.onTapFavorite
+                      : () {
+                          viewModel.suggestionLogin(
+                              message:
+                                  '* Te permite agregar éste lugar a tus favoritos *\n\n¿Deseas registrarte?');
+                        }
+
+                  // BoxDataSesion.isLoggedIn ?
+
+                  // :                  viewModel.suggestionLogin(message: 'Te permita agregar éste lugar a tus favoritos!!'),
+                  )
               : SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
@@ -318,7 +325,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                       viewModel.changeModeOffline(val, idAAudio);
                     }
                   : (bool val) {
-                      viewModel.suggestionLogin();
+                      viewModel.suggestionLogin(
+                          message: '* Te permite almacenar el \"audio\" de éste lugar para escucharlo sin conexion *');
                     }),
           SizedBox(height: 8),
           Text(

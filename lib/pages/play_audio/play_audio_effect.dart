@@ -13,4 +13,5 @@ class PlayAudioValueControllerScrollEffect extends PlayAudioEffect {
 
 class ShowDialogEffect extends PlayAudioEffect {
   ShowDialogEffect();
+
 }

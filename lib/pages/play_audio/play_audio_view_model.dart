@@ -30,6 +30,7 @@ class PlayAudioViewModel extends EffectsViewModel<PlayAudioStatus, PlayAudioEffe
         language: 'Español',
         idAudio: '',
         connectionStatus: ConnectivityResult.none,
+        message: '',
     );
   }
 
@@ -86,7 +87,8 @@ class PlayAudioViewModel extends EffectsViewModel<PlayAudioStatus, PlayAudioEffe
     status = status.copyWith(modeOffline: mode, isOnline: mode);
     
   }
-  void suggestionLogin(){
+  suggestionLogin({String? message}){
+    status=status.copyWith(message: message);
       addEffect(ShowDialogEffect());
   }
 

@@ -15,14 +15,16 @@ class PlayAudioStatus extends ViewStatus{
   late String idAudio;
   ConnectivityResult connectionStatus = ConnectivityResult.none;
   late DataAudioGuideModel? detalleSaved;
+  final String? message;
 
-  PlayAudioStatus({required this.isLoading, required this.modeOffline, required this.isOnline, required this.urlAudio,
+  PlayAudioStatus({required this.message, required this.isLoading, required this.modeOffline, required this.isOnline, required this.urlAudio,
     required this.pathAudio, required this.isFavorite, required this.language, required this.idAudio,
   required this.connectionStatus,  this.detalleSaved});
 
-  PlayAudioStatus copyWith({bool? isLoading, bool? modeOffline, bool? isOnline, String? urlAudio, String? pathAudio,
+  PlayAudioStatus copyWith({String? message, bool? isLoading, bool? modeOffline, bool? isOnline, String? urlAudio, String? pathAudio,
     bool? isFavorite, String? language, String? idAudio, ConnectivityResult? connectionStatus, DataAudioGuideModel? detalleSaved}) {
     return PlayAudioStatus(
+      message: message??this.message,
       isLoading: isLoading ?? this.isLoading,
       modeOffline: modeOffline ?? this.modeOffline,
       isOnline: isOnline ?? this.isOnline,
