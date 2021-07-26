@@ -72,7 +72,7 @@ class ActivityViewModel extends ViewModel<ActivityStatus> {
     if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
       print("model detail");
       print(placebyidResponse.body!.title);
-      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      _route.goEventDetail(detail: placebyidResponse.body!);
 
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)

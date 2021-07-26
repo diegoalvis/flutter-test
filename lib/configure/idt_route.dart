@@ -266,8 +266,12 @@ class IdtRoute {
   }
 
   goActivity() {
-    return navigatorKey.currentState!
-        .push(MaterialPageRoute(builder: (_) => ActivityPage()));
+    if (IdtRoute.route != ActivityPage.namePage){
+      IdtRoute.route = ActivityPage.namePage;
+      return navigatorKey.currentState!
+          .push(MaterialPageRoute(builder: (_) => ActivityPage()));
+    }
+
   }
 
   goSettings() {

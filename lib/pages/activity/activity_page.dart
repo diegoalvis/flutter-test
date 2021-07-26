@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ActivityPage extends StatelessWidget {
+  static final String namePage = 'activity_page';
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
