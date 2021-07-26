@@ -82,16 +82,17 @@ class PlayAudioViewModel extends EffectsViewModel<PlayAudioStatus, PlayAudioEffe
       status = status.copyWith(pathAudio: '');
       removeAudioLocalSavedPlaces(idAAudio);
     }
-    
     print('File Swith: $mode');
     status = status.copyWith(modeOffline: mode, isOnline: mode);
-    
-  }
-  suggestionLogin({String? message}){
-    status=status.copyWith(message: message);
-      addEffect(ShowDialogEffect());
   }
 
+  audioModeOff(){
+      addEffect(ShowDialogModeOffEffect());
+  }
+
+  addSavedPlace(){
+    addEffect(ShowDialogAddSavedPlaceEffect());
+  }
 
   removeAudioLocalSavedPlaces(String idAAudio){
     if(idAAudio != null){

@@ -183,15 +183,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     return list;
   }
 
-  void addSavedPLaces(){
+  addSavedPLaces() async {
     //onpenSavedPlaces();
     if(status.itemsSavedPlaces.length<1){
-      status = status.copyWith(message: "Utiliza los corazones para añadir un lugar a tus favoritos");
-      addEffect(ShowDialogEffect(status.message));
+      addEffect(ShowDialogSavedPlacedEffect());
     }
-
     status = status.copyWith(notSaved: true);
+  }
 
+  suggestionLogin(){
+    addEffect(ShowDialogSuggestionLoginEffect());
   }
 
 

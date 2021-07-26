@@ -51,7 +51,6 @@ extension IdtDialog on BuildContext {
                     height: 35,
                   ),
                   Column(
-                    verticalDirection: VerticalDirection.up ,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       RaisedButton( //Botom Principal
@@ -84,19 +83,12 @@ extension IdtDialog on BuildContext {
                         ,
                       ):
                       SizedBox.shrink(),
-
                     ],
                   )
                 ],
               ),
             ),
           );
-
-          /*return AlertDialog(
-          title: Text(message),
-          content: Text('a'),
-          actions: [],
-        );*/
         });
   }
 }

@@ -11,7 +11,10 @@ class PlayAudioValueControllerScrollEffect extends PlayAudioEffect {
   PlayAudioValueControllerScrollEffect(this.duration, this.next);
 }
 
-class ShowDialogEffect extends PlayAudioEffect {
-  ShowDialogEffect();
+class ShowDialogModeOffEffect extends PlayAudioEffect {
+  ShowDialogModeOffEffect();
+}
 
+class ShowDialogAddSavedPlaceEffect extends PlayAudioEffect {
+  ShowDialogAddSavedPlaceEffect();
 }

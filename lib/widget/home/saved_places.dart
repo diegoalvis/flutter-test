@@ -9,6 +9,7 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +20,8 @@ class SavedPlaces extends StatefulWidget {
   final bool openSaved;
   final VoidCallback changeSaved;
   final bool notSaved;
-  final VoidCallback addSaved;
+  final  addSaved;
+  final  suggestionLogin;
   final bool seeAll;
   final Function(bool) onTapSeeAll;
   final Function(bool) changeSrollController;
@@ -35,6 +37,7 @@ class SavedPlaces extends StatefulWidget {
       this.changeSaved,
       this.notSaved,
       this.addSaved,
+      this.suggestionLogin,
       this.seeAll,
       this.onTapSeeAll,
       this.changeSrollController,
@@ -273,7 +276,9 @@ class _SavedPlacesState extends State<SavedPlaces> {
                 borderRadius: BorderRadius.all(Radius.circular(15.0)), color: IdtColors.grayBg),
             child: IconButton(
               icon: Icon(Icons.add, color: IdtColors.gray, size: 80),
-              onPressed: widget.addSaved, // addSaved,
+              onPressed:BoxDataSesion.isLoggedIn
+                  ? widget.addSaved
+                  : widget.suggestionLogin,//addSaved
             ),
           ),
         ),

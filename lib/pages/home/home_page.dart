@@ -26,8 +26,7 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-
-  static final namePage ='home_page';
+  static final namePage = 'home_page';
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +45,13 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  final _route = locator<IdtRoute>();
   final scrollController = ScrollController();
   StreamSubscription<HomeEffect>? _effectSubscription;
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<HomeViewModel>().onInit();
     });
@@ -65,17 +66,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : scrollController.offset - IdtConstants.itemSize,
             curve: Curves.linear,
             duration: Duration(milliseconds: event.duration));
-      } else if (event is ShowDialogEffect) {
-        if (viewModel.status.message != null) {
-          context.showDialogObservation(
-              titleDialog: 'Aún no tienes lugares guardados\n',
-              bodyTextDialog: viewModel.status.message!,
-              textPrimaryButton: 'aceptar / cerrar');
-          viewModel.status.message = null;
-        }
+      } else if (event is ShowDialogSuggestionLoginEffect) {
+        context.showDialogObservation(
+          titleDialog: 'Funcionalidad Pro',
+          bodyTextDialog:
+              '* Aqui tendras la lista de todos tus lugares favoritos o de interes que hayas agregado \u2665 *\n\n¿Quieres iniciar sesion?',
+          textPrimaryButton: 'Ir al login...',
+          textSecondButtom: 'Luego',
+          actionPrimaryButtom: _route.goLogin,
+        );
+      } else if (event is ShowDialogSavedPlacedEffect) {
+        context.showDialogObservation(
+            titleDialog: "Lugares Guardados",
+            bodyTextDialog:
+                "* Aqui podras ver todos tus lugares guardados como favoritos *\n\n  Agregalos con un \u2665");
       }
     });
-    super.initState();
   }
 
   @override
@@ -111,7 +117,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     final size = MediaQuery.of(context).size;
 
-    final _route = locator<IdtRoute>();
     void optionSelectedHome(
       int index,
     ) {
@@ -229,24 +234,24 @@ class _HomeWidgetState extends State<HomeWidget> {
               //   child: Text('Enviar ubicacion'),
               //   onPressed: viewModel.setLocationUser,
               // ),
-              BoxDataSesion.isLoggedIn
-                  ? SavedPlaces(
-                      viewModel.status.openSaved,
-                      viewModel.onpenSavedPlaces,
-                      viewModel.status.notSaved,
-                      viewModel.addSavedPLaces,
-                      viewModel.status.seeAll,
-                      viewModel.onTapSeeAll,
-                      viewModel.onChangeScrollController,
-                      scrollController,
-                      viewModel.goDetailPage,
-                      viewModel.status.itemsSavedPlaces,
-                      viewModel.status.itemAudiosSavedPlaces,
-                      viewModel.status.listBoolAudio,
-                      viewModel.status.listBoolAll,
-                    )
-                  : SizedBox.shrink(),
-
+              // BoxDataSesion.isLoggedIn
+              SavedPlaces(
+                viewModel.status.openSaved,
+                viewModel.onpenSavedPlaces,
+                viewModel.status.notSaved,
+                viewModel.addSavedPLaces,
+                viewModel.suggestionLogin,
+                viewModel.status.seeAll,
+                viewModel.onTapSeeAll,
+                viewModel.onChangeScrollController,
+                scrollController,
+                viewModel.goDetailPage,
+                viewModel.status.itemsSavedPlaces,
+                viewModel.status.itemAudiosSavedPlaces,
+                viewModel.status.listBoolAudio,
+                viewModel.status.listBoolAll,
+              ),
+              // : SizedBox.shrink(),
               OtherPlaces(
                 onTapCard: viewModel.goDetailPage,
                 goDiscover: viewModel.goDiscoverPage,

@@ -11,7 +11,10 @@ class HomeValueControllerScrollEffect extends HomeEffect {
   HomeValueControllerScrollEffect(this.duration, this.next);
 }
 
-class ShowDialogEffect extends HomeEffect {
-  String? message;
-  ShowDialogEffect(message);
+class ShowDialogSavedPlacedEffect extends HomeEffect {
+  ShowDialogSavedPlacedEffect();
+}
+
+class ShowDialogSuggestionLoginEffect extends HomeEffect {
+  ShowDialogSuggestionLoginEffect();
 }
