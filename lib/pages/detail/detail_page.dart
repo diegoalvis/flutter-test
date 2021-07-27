@@ -29,6 +29,7 @@ import 'dart:math';
 import '../../app_theme.dart';
 
 class DetailPage extends StatelessWidget {
+  static String namePage = 'detail_page';
   final bool isHotel;
   final DataPlacesDetailModel detail;
 
@@ -102,14 +103,17 @@ class _DetailWidgetState extends State<DetailWidget> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          bottomNavigationBar: IdtBottomAppBar(),
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          floatingActionButton: IdtFab(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          backgroundColor: IdtColors.white,
-          body: _buildDiscover(viewModel)),
+      home: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            bottomNavigationBar: IdtBottomAppBar(),
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: IdtFab(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            backgroundColor: IdtColors.white,
+            body: _buildDiscover(viewModel)),
+      ),
     );
   }
 

@@ -90,14 +90,17 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          floatingActionButton: IdtFab(),
-          bottomNavigationBar: IdtBottomAppBar(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          backgroundColor: IdtColors.white,
-          body: _buildEventDetail(viewModel)),
+      home: WillPopScope(
+        onWillPop: viewModel.offMenuBack,
+        child: Scaffold(
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: IdtFab(),
+            bottomNavigationBar: IdtBottomAppBar(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            backgroundColor: IdtColors.white,
+            body: _buildEventDetail(viewModel)),
+      ),
     );
   }
 

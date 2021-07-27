@@ -71,7 +71,7 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
     bool? shouldPop = true;
 
     if (status.openMenu) {
-      openMenu();
+      status = status.copyWith(openMenu: false);
       return !shouldPop;
     } else {
       IdtRoute.route = HomePage.namePage;

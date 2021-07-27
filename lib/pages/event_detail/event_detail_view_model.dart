@@ -44,4 +44,10 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     }
   }
 
+
+  Future<bool> offMenuBack() async {
+    bool? shouldPop = true;
+    IdtRoute.route = "";
+    return shouldPop;
+  }
 }

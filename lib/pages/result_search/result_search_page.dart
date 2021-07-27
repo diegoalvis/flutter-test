@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 
 class ResultSearchPage extends StatelessWidget {
+  static String namePage = 'result_search_page' ;
   final List<DataModel> results;
   final String keyword;
 
@@ -93,7 +94,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
         return Column(
           children: [
             InkWell(
-              onTap:() => viewModel.goDetailPage(results[index].id.toString()),
+              onTap:() => viewModel.goDetailPage(results[index].id.toString(), results[index].type.toString()),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Image.network(
@@ -112,8 +113,7 @@ class _ResultSearchWidgetState extends State<ResultSearchWidget> {
               maxFontSize: 13,
               minFontSize: 12,
               style: textTheme.titleBlack,
-            )
-            ,
+            ),
             SizedBox(height: 30),
           ],
         );

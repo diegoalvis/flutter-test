@@ -10,6 +10,8 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/detail/detail_effect.dart';
 import 'package:bogota_app/pages/detail/detail_status.dart';
+import 'package:bogota_app/pages/discover/discover_page.dart';
+import 'package:bogota_app/pages/result_search/result_search_page.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
@@ -152,5 +154,11 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   bool validationEmptyResponse(String? resourse) {
     return resourse != '' && resourse != null;
+  }
+
+  Future<bool> offMenuBack() async {
+    bool? shouldPop = true;
+    IdtRoute.route = DiscoverPage.namePage;
+    return shouldPop;
   }
 }
