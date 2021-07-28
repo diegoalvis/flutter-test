@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
-import 'package:bogota_app/pages/detail/detail_page.dart';
-import 'package:bogota_app/pages/discover/discover_page.dart';
-import 'package:bogota_app/pages/login/login_page.dart';
-import 'package:bogota_app/pages/register_user/register_user_page.dart';
+import 'package:flutter/services.dart';
 import 'package:bogota_app/pages/splash/splash_page.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
-import 'package:bogota_app/widget/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +18,10 @@ import 'package:bogota_app/data/local/user.dart';
 void main() async {
   setUpLocator();
   await locator.allReady();
+
+  WidgetsFlutterBinding.ensureInitialized();//deshabilitar el modo horizontal(Landscape)
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded(() {
