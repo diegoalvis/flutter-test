@@ -84,8 +84,8 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     return isFavorite;
   }
 
-  void onChangeScrollController(bool value, double width) {
-    addEffect(DetailControllerScrollEffect(300, width, value));
+  void onChangeScrollController(int duration,bool value, double width) {
+    addEffect(DetailControllerScrollEffect(duration, width, value));
   }
 
   void launchCall(String phone) async {
@@ -160,5 +160,9 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     bool? shouldPop = true;
     IdtRoute.route = DiscoverPage.namePage;
     return shouldPop;
+  }
+
+  dialogSuggestionLoginSavedPlace(){
+    addEffect(ShowDialogAddSavedPlaceEffect());
   }
 }

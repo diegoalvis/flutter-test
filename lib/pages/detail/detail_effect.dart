@@ -11,3 +11,7 @@ class DetailControllerScrollEffect extends DetailEffect {
 
   DetailControllerScrollEffect(this.duration, this.width, this.next);
 }
+
+class ShowDialogAddSavedPlaceEffect extends DetailEffect {
+  ShowDialogAddSavedPlaceEffect();
+}

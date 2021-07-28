@@ -254,7 +254,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                   onPressed: BoxDataSesion.isLoggedIn
                       ? viewModel.onTapFavorite
                       : () {
-                          viewModel.addSavedPlace();
+                          viewModel.dialogSuggestionLoginSavedPlace();
                         }
                   )
               : SizedBox.shrink(),
@@ -327,7 +327,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                       viewModel.changeModeOffline(val, idAAudio);
                     }
                   : (bool val) {
-                      viewModel.audioModeOff();
+                      viewModel.dialogSiggestionLoginAudioModeOff();
                     }),
           SizedBox(height: 8),
           Text(

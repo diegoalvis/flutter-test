@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
-import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -57,6 +57,7 @@ class DetailWidget extends StatefulWidget {
 }
 
 class _DetailWidgetState extends State<DetailWidget> {
+  final _route = locator<IdtRoute>();
   bool isStart = true;
   bool isEnd = false;
   final scrollController = ScrollController();
@@ -67,9 +68,6 @@ class _DetailWidgetState extends State<DetailWidget> {
   void initState() {
     print('detail page');
     final viewModel = context.read<DetailViewModel>();
-    //  viewModel.getPlaceByIdResponse(widget.id);
-
-    // Se guarda en la actividad reciente
     viewModel.pushPlaceVisitedStorageLocal(widget._detail);
 
     _effectSubscription = viewModel.effects.listen((event) {
@@ -78,8 +76,16 @@ class _DetailWidgetState extends State<DetailWidget> {
             event.next
                 ? scrollController.offset + event.width
                 : scrollController.offset - event.width,
-            curve: Curves.linear,
+            curve: Curves.easeOutExpo,
             duration: Duration(milliseconds: event.duration));
+      }else if (event is ShowDialogAddSavedPlaceEffect) {
+        context.showDialogObservation(
+          titleDialog: 'Funcionalidad Pro',
+          bodyTextDialog: '* Te permite agregar este lugar a tu lista de Favoritos *\n\n¿Quieres iniciar sesion?',
+          textPrimaryButton: 'Ir al Login...',
+          textSecondButtom: 'Luego',
+          actionPrimaryButtom: _route.goLogin,
+        );
       }
     });
 
@@ -118,13 +124,9 @@ class _DetailWidgetState extends State<DetailWidget> {
   }
 
   Widget _buildDiscover(DetailViewModel viewModel) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
-    final size = MediaQuery
-        .of(context)
-        .size;
-    final _route = locator<IdtRoute>();
+    final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
+
     print("widget._detail.url_audioguia_es");
     print(widget._detail.url_audioguia_es);
     double _newrating = 0;
@@ -150,8 +152,8 @@ class _DetailWidgetState extends State<DetailWidget> {
             child: SizedBox(
                 child: SvgPicture.asset(IdtAssets.curve_up, color: Colors.white, fit: BoxFit.fill)
 
-              //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
-            ),
+                //Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
+                ),
           ),
           Positioned(
             // rating Starts
@@ -191,7 +193,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       ),
                       Text(
                         widget._detail.rate == '' || widget._detail.rate == '0'
-                        // ? widget._detail.rate! + '/5'
+                            // ? widget._detail.rate! + '/5'
                             ? randomFloatNumber.toStringAsFixed(1) + '/5'
                             : _newrating.toString(),
                         style: textTheme.textWhiteShadow
@@ -259,24 +261,23 @@ class _DetailWidgetState extends State<DetailWidget> {
                           },
                         ),
                       ),
-                      BoxDataSesion.isLoggedIn
-                          ? Container(
+                      Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 15.0),
                         child: IconButton(
                           alignment: Alignment.centerRight,
                           icon: Icon(
-                            viewModel.status.isFavorite
-                                ? IdtIcons.heart2
-                                : Icons.favorite_border,
-                            color:
-                            viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                            viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
+                            color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
                           ),
                           iconSize: 30,
-                          onPressed: () => viewModel.onTapFavorite(widget._detail.id),
+                          onPressed: BoxDataSesion.isLoggedIn
+                              ? () => viewModel.onTapFavorite(widget._detail.id)
+                              : () {
+                                  viewModel.dialogSuggestionLoginSavedPlace();
+                                },
                         ),
                       )
-                          : SizedBox.shrink(),
                     ],
                   ),
                 )
@@ -288,101 +289,96 @@ class _DetailWidgetState extends State<DetailWidget> {
     }
 
     Widget _footerImages(DetailViewModel viewModel) {
-      return widget._detail.gallery!.length > 0 ? Stack(
-
-        children: [
-          NotificationListener <ScrollNotification>(
-            onNotification: arrowValidation,
-            child: Stack(
-              alignment: Alignment.center,
+      return widget._detail.gallery!.length > 0
+          ? Stack(
               children: [
-                Container(
-                  //carrusel imagenes
-                  margin: EdgeInsets.only(bottom: 0, top: 3),
-                  width: size.width,
-                  height: size.height * 0.5,
-                  color: IdtColors.white,
-                  child: ListView.builder(
-                    itemCount: widget._detail.gallery!.length,
-                    shrinkWrap: true,
-                    itemExtent: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    scrollDirection: Axis.horizontal,
-                    controller: scrollController,
-                    itemBuilder: (context, index) =>
-                        Column(
-                          children: <Widget>[
-                            Image.network(
-                              IdtConstants.url_image + widget._detail.gallery![index],
-                              height: size.height * 0.5,
-                              width: size.width,
-                              fit: BoxFit.cover,
-                            ),
-                          ],
-                        ),
-                  ),
-                ),
-                isStart
-                    ? SizedBox.shrink():
-                Positioned(
-                  //flecha Izquierda
-                  bottom: size.height * 1 / 6,
-                  left: 0,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Transform.rotate(
-                      angle: 3.1416,
-                      child: IconButton(
-                        iconSize: 45,
-                        alignment: Alignment.centerLeft,
-                        icon: Icon(
-                          Icons.play_circle_fill,
-                          color: IdtColors.white,
-                        ),
-                        onPressed: () => viewModel.onChangeScrollController(false, size.width),
-                      ),
-                    ),
-                  ),
-                ),
-                isEnd
-                    ? SizedBox.shrink():
-                Positioned(
-                  //flecha derecha
-                  right: 0,
-                  bottom: size.height * 1 / 6,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 5),
-                    child: IconButton(
-                      iconSize: 45,
-                      alignment: Alignment.centerRight,
-                      icon: Icon(
-                        Icons.play_circle_fill,
+                NotificationListener<ScrollNotification>(
+                  onNotification: arrowValidation,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        //carrusel imagenes
+                        margin: EdgeInsets.only(bottom: 0, top: 3),
+                        width: size.width,
+                        height: size.height * 0.5,
                         color: IdtColors.white,
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget._detail.gallery!.length,
+                          itemExtent: MediaQuery.of(context).size.width,
+                          scrollDirection: Axis.horizontal,
+                          controller: scrollController,
+                          itemBuilder: (context, index) => Image.network(
+                            IdtConstants.url_image + widget._detail.gallery![index],
+                            height: size.height * 0.5,
+                            width: size.width,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      onPressed: () => viewModel.onChangeScrollController(true, size.width),
-                    ),
+                      isStart
+                          ? SizedBox.shrink()
+                          : Positioned(
+                              //flecha Izquierda
+                              bottom: size.height * 1 / 6,
+                              left: 0,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Transform.rotate(
+                                  angle: 3.1416,
+                                  child: IconButton(
+                                    iconSize: 45,
+                                    alignment: Alignment.centerLeft,
+                                    icon: Icon(
+                                      Icons.play_circle_fill,
+                                      color: IdtColors.white,
+                                    ),
+                                    onPressed: () =>
+                                        viewModel.onChangeScrollController(1000,false, size.width),
+                                  ),
+                                ),
+                              ),
+                            ),
+                      isEnd
+                          ? SizedBox.shrink()
+                          : Positioned(
+                              //flecha derecha
+                              right: 0,
+                              bottom: size.height * 1 / 6,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 5),
+                                child: IconButton(
+                                  iconSize: 45,
+                                  alignment: Alignment.centerRight,
+                                  icon: Icon(
+                                    Icons.play_circle_fill,
+                                    color: IdtColors.white,
+                                  ),
+                                  onPressed: () =>
+                                      viewModel.onChangeScrollController(1000, true, size.width),
+                                ),
+                              ),
+                            ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-            //Curva de abajo
-              bottom: size.height * 0.32,
-              right: 0,
-              left: 0,
-              child: FittedBox(
-                  alignment: Alignment.topCenter,
-                  child:
+                Positioned(
+                    //Curva de abajo
+                    bottom: size.height * 0.32,
+                    right: 0,
+                    left: 0,
+                    child: FittedBox(
+                        alignment: Alignment.topCenter,
+                        child:
 /*                  Image(image: AssetImage(IdtAssets.curve_down),
                       height: size.height * 0.92
                   ),*/
-                  SvgPicture.asset(IdtAssets.curve_down,
-                      color: Colors.white, fit: BoxFit.fill))),
-        ],
-      ) : SizedBox.shrink();
+                            SvgPicture.asset(IdtAssets.curve_down,
+                                color: Colors.white, fit: BoxFit.fill))),
+              ],
+            )
+          : SizedBox.shrink();
     }
 
     Widget _btnsPlaces(DataPlacesDetailModel _detail) {
@@ -392,76 +388,77 @@ class _DetailWidgetState extends State<DetailWidget> {
         children: [
           viewModel.validationEmptyResponse(widget._detail.location)
               ? Column(
-            children: [
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: IdtColors.orange, width: 1),
-                    borderRadius: BorderRadius.circular(80.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                  decoration: StylesMethodsApp().decorarStyle(
-                      IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    icon: Icon(
-                      IdtIcons.mappin,
-                      color: IdtColors.white,
-                      size: 40,
+                  children: [
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: IdtColors.orange, width: 1),
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                        decoration: StylesMethodsApp().decorarStyle(
+                            IdtGradients.orange, 30, Alignment.bottomRight, Alignment.topLeft),
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          icon: Icon(
+                            IdtIcons.mappin,
+                            color: IdtColors.white,
+                            size: 40,
+                          ),
+                          onPressed: () => viewModel.launchMap(widget._detail.location!),
+                        ),
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () => viewModel.launchMap(widget._detail.location!),
-                  ),
-                ),
-                onPressed: () {},
-              ),
-              AutoSizeText('Ubicacion',
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  maxFontSize: 13,
-                  minFontSize: 10,
-                  style: textTheme.textDetail)
-            ],
-          )
+                    AutoSizeText('Ubicacion',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        maxFontSize: 13,
+                        minFontSize: 10,
+                        style: textTheme.textDetail)
+                  ],
+                )
               : SizedBox.shrink(),
           SizedBox(
             width: 10,
           ),
           viewModel.validationEmptyResponse(widget._detail.url_audioguia_es) ||
-              viewModel.validationEmptyResponse(widget._detail.url_audioguia_en) ||
-              viewModel.validationEmptyResponse(widget._detail.url_audioguia_pt)
+                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_en) ||
+                  viewModel.validationEmptyResponse(widget._detail.url_audioguia_pt)
               ? Column(
-            children: [
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: IdtColors.blue, width: 1),
-                    borderRadius: BorderRadius.circular(80.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Container(
-                    constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                    decoration: StylesMethodsApp().decorarStyle(
-                        IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      IdtIcons.headphones,
-                      color: IdtColors.white,
-                      size: 40,
-                    )),
-                onPressed: () => viewModel.goPlayAudioPage(_detail),
-              ),
-              AutoSizeText('Audioguia',
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  maxFontSize: 13,
-                  minFontSize: 10,
-                  style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
-            ],
-          )
+                  children: [
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: IdtColors.blue, width: 1),
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Container(
+                          constraints: BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                          decoration: StylesMethodsApp().decorarStyle(
+                              IdtGradients.blueDark, 30, Alignment.bottomLeft, Alignment.topRight),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            IdtIcons.headphones,
+                            color: IdtColors.white,
+                            size: 40,
+                          )),
+                      onPressed: () => viewModel.goPlayAudioPage(_detail),
+                    ),
+                    AutoSizeText('Audioguia',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        maxFontSize: 13,
+                        minFontSize: 10,
+                        style: textTheme.textDetail.copyWith(fontWeight: FontWeight.w400)),
+                  ],
+                )
               : SizedBox.shrink()
         ],
       );
     }
 
-    Widget _btnGradient(String dataText, {
+    Widget _btnGradient(
+      String dataText, {
       required onPress,
       required IconData icon,
       required Color color,
@@ -558,64 +555,66 @@ class _DetailWidgetState extends State<DetailWidget> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         margin: EdgeInsets.only(bottom: 15),
-                        child:
-                        _hasDescription(viewModel)
+                        child: _hasDescription(viewModel)
                             ? Text(
-                          removeAllHtmlTags(
-                              widget._detail.description ?? widget._detail.body ?? ''),
-                          style: textTheme.textDescrip,
-                          maxLines: viewModel.status.moreText ? null : 20,
-                          overflow: TextOverflow.fade,
-                          textAlign: TextAlign.justify,
-                        )
+                                removeAllHtmlTags(
+                                    widget._detail.description ?? widget._detail.body ?? ''),
+                                style: textTheme.textDescrip,
+                                maxLines: viewModel.status.moreText ? null : 20,
+                                overflow: TextOverflow.fade,
+                                textAlign: TextAlign.justify,
+                              )
                             : Text(
-                          'Ups..!\n\n'
-                              'En el momento no tenemos una descripcion para este lugar.',
-                          style: textTheme.textDetail,
-                          maxLines: viewModel.status.moreText ? null : 20,
-                          textAlign: TextAlign.center,
-                        ),
+                                'Ups..!\n\n'
+                                'En el momento no tenemos una descripcion para este lugar.',
+                                style: textTheme.textDetail,
+                                maxLines: viewModel.status.moreText ? null : 20,
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         left: 0,
                         child: ClipRect(
-                          // <-- clips to the 200x200 [Container] below
+                            // <-- clips to the 200x200 [Container] below
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(
-                                sigmaX: 0.2,
-                                sigmaY: 0.2,
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 60.0,
-                                color: IdtColors.white.withOpacity(
-                                    viewModel.status.moreText ? 0 : 0.5),
-                              ),
-                            )),
+                          filter: ImageFilter.blur(
+                            sigmaX: 0.2,
+                            sigmaY: 0.2,
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 60.0,
+                            color: IdtColors.white.withOpacity(viewModel.status.moreText ? 0 : 0.5),
+                          ),
+                        )),
                       )
                     ],
                   ),
-                  _hasDescription(viewModel) ?
-                  TextButton(
-                    child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.blueDetail
-                            .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: viewModel.readMore,
-                  ) : SizedBox.shrink()
+                  _hasDescription(viewModel)
+                      ? TextButton(
+                          child: Text(
+                              viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.blueDetail
+                                  .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+                          onPressed: viewModel.readMore,
+                        )
+                      : SizedBox.shrink()
                 ],
               ),
               SizedBox(
                 height: 5,
               ),
               _footerImages(viewModel),
-              _hasDescription(viewModel) ? SizedBox(
-                height: 80,
-              ) : SizedBox.shrink()
+              _hasDescription(viewModel)
+                  ? SizedBox(
+                      height: 80,
+                    )
+                  : SizedBox.shrink()
             ],
           )),
     );

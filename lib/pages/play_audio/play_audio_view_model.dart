@@ -86,11 +86,11 @@ class PlayAudioViewModel extends EffectsViewModel<PlayAudioStatus, PlayAudioEffe
     status = status.copyWith(modeOffline: mode, isOnline: mode);
   }
 
-  audioModeOff(){
+  dialogSiggestionLoginAudioModeOff(){
       addEffect(ShowDialogModeOffEffect());
   }
 
-  addSavedPlace(){
+  dialogSuggestionLoginSavedPlace(){
     addEffect(ShowDialogAddSavedPlaceEffect());
   }
 
