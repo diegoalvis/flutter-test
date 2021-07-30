@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -33,7 +34,6 @@ class FiltersPage extends StatelessWidget {
   final List<DataModel> categories;
   final List<DataModel> subcategories;
   final List<DataModel> zones;
-
 
   FiltersPage(
       this.section, this.item, this.places, this.categories, this.subcategories, this.zones);
@@ -314,8 +314,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     return Stack(
       children: [
         SingleChildScrollView(
-          physics: viewModel.status.openMenuTab || viewModel.status.openMenuFilter ? NeverScrollableScrollPhysics() : null,
-
+          physics: viewModel.status.openMenuTab || viewModel.status.openMenuFilter
+              ? NeverScrollableScrollPhysics()
+              : null,
           child: Column(
             children: [
               Container(
@@ -347,7 +348,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ),
               ),
               SizedBox(height: 25),
-              gridImagesCol3(viewModel.status.placesFilter),
+              viewModel.status.placesFilter.length > 0
+                  ?
+            gridImagesCol3(viewModel.status.placesFilter)
+                  : NotFoundResultsWidget(textTheme: textTheme),
               SizedBox(height: 55),
             ],
           ),
@@ -357,6 +361,36 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         loading,
         menu,
       ],
+    );
+  }
+}
+
+class NotFoundResultsWidget extends StatelessWidget {
+  const NotFoundResultsWidget({
+    Key? key,
+    required this.textTheme,
+  }) : super(key: key);
+
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 50,right: 50,bottom: 15),
+      child: Column(
+        children: [
+
+          Image.asset(IdtAssets.logo_bogota_black),
+          Text(
+            "No se encontraron resultados",style: textTheme.optionsGray.copyWith(color: IdtColors.black),textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30,),
+          Text(
+            "Intenta cambiar o quitar los filtros de la búsqueda",style: textTheme.titleGray,textAlign: TextAlign.center,
+          )
+
+        ],
+      ),
     );
   }
 }
