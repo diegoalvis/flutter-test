@@ -1,3 +1,5 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
@@ -75,36 +77,105 @@ class _SplashWidgetState extends State<SplashWidget> {
                 end: Alignment.topCenter,
               ),
             ),
-            
             child: Container(
-                height: 65,
-                width: 110,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(IdtAssets.logo_bogota),
-                    fit: BoxFit.scaleDown,
-                  ),
+              height: 65,
+              width: 110,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(IdtAssets.logo_bogota),
+                  fit: BoxFit.scaleDown,
                 ),
+              ),
             ),
           ),
         ),
-        Positioned(child: Column(
-          children: [
-            SizedBox(
-              height: sizeScreen.height*0.8,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Text("Este es un mensaje de Bienvenida, esperamos disfrutes de nuestra App...",
-                  style: Theme.of(context).textTheme.titleWhite.copyWith(shadows: [
-                    Shadow(
-                        color: Colors.black54,
-                        offset: Offset(10, 5),
-                        blurRadius: 5)
-                  ])),
-            )
-          ],
-        ))
+        Positioned(
+          left: 20,
+            right: 20,
+            top: sizeScreen.height * 0.72,
+            child:           SizedBox(
+              //tercera animacion
+              width: sizeScreen.width,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                child: AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    FadeAnimatedText('1. do IT!'),
+                    FadeAnimatedText('1. do it RIGHT!!'),
+                    FadeAnimatedText('1. do it RIGHT NOW!!!'),
+                  ],
+                ),
+              ),
+            )),
+        Positioned(
+          top: sizeScreen.height * 0.75,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(width: 20.0, height: 100.0),
+              const Text(
+                '2. Be',
+                style: TextStyle(fontSize: 23.0, color: Colors.white),
+              ),
+              const SizedBox(width: 20.0, height: 100.0),
+              DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 25.0,
+                  fontFamily: 'Horizon',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                child: AnimatedTextKit(repeatForever: true, animatedTexts: [
+                  RotateAnimatedText('AWESOME'),
+                  RotateAnimatedText('OPTIMISTIC'),
+                  RotateAnimatedText('DIFFERENT'),
+                ]),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          top: sizeScreen.height * 0.86,
+          child: AnimatedTextKit(
+            //Segunda Animacion
+
+            repeatForever: true,
+            animatedTexts: [
+              TyperAnimatedText(
+                "3. This is the moment to do it...",
+                textStyle: Theme.of(context).textTheme.titleWhite.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    shadows: [Shadow(color: Colors.black54, offset: Offset(10, 5), blurRadius: 5)]),
+                speed: const Duration(milliseconds: 200),
+              ),
+            ],
+            totalRepeatCount: 1,
+            pause: const Duration(milliseconds: 1000),
+            displayFullTextOnTap: true,
+            stopPauseOnTap: true,
+          ),
+        ),
+        Positioned(
+          top: sizeScreen.height * 0.92,
+          left: 20,
+          right: 20,
+          child:
+          Text("4. This is the moment to do it...",
+              style: const TextStyle(
+                fontSize: 25.0,
+                fontFamily: 'Horizon',
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ))
+        )
       ],
     ));
   }
