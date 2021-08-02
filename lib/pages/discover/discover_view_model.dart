@@ -7,6 +7,7 @@ import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -69,9 +70,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     } else {
       query = {status.section: item.id};
     }
-
-    final response = await _interactor.getPlacesList(query);
-
+    
+    final response = await _interactor.getPlacesList(query, null);
+    
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
       _route.goFilters(
@@ -80,7 +81,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           categories: categories,
           subcategories: subcategories,
           zones: zones,
-          places: places);
+          places: places, 
+          oldFilters: query
+          );
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);

@@ -15,7 +15,7 @@ import 'package:rxdart/rxdart.dart';
 
 class FilterService {
   //Este metodo trae los lugares apenas se entra al filter Page
-  Future<IdtResult<List<DataModel>?>> getPlaces(Map params) async {
+  Future<IdtResult<List<DataModel>?>> getPlaces(Map params, Map? oldParams) async {
     Map<String, dynamic> queryParameters = {};
 
     params.forEach((key, value) {
@@ -23,7 +23,16 @@ class FilterService {
     });
 
 
-    await getAllParams(params, queryParameters);
+    if(oldParams == null){
+      await getAllParams(params, queryParameters);
+    }else {
+      oldParams.forEach((key, value) {
+        queryParameters[key] = value;
+      });
+    }
+
+ 
+
     print('Parametro: $queryParameters');
     final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
 

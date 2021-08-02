@@ -140,11 +140,12 @@ class IdtRoute {
     required List<DataModel> categories,
     required List<DataModel> subcategories,
     required List<DataModel> zones,
+    required Map oldFilters,
   }) {
     if(IdtRoute.route != FiltersPage.namePage){
       IdtRoute.route = FiltersPage.namePage;
       return navigatorKey.currentState!.push(MaterialPageRoute(
-          builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)));
+          builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones, oldFilters)));
     }
   }
 
@@ -155,10 +156,11 @@ class IdtRoute {
     required List<DataModel> categories,
     required List<DataModel> subcategories,
     required List<DataModel> zones,
+    required Map oldFilters,
   }) {
     return navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(
-            builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones)),
+            builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones, oldFilters)),
         (route) => route.isFirst);
   }
 

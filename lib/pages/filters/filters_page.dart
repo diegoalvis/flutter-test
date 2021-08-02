@@ -33,17 +33,18 @@ class FiltersPage extends StatelessWidget {
   final List<DataModel> categories;
   final List<DataModel> subcategories;
   final List<DataModel> zones;
+  final Map oldFilters;
 
 
   FiltersPage(
-      this.section, this.item, this.places, this.categories, this.subcategories, this.zones);
+      this.section, this.item, this.places, this.categories, this.subcategories, this.zones, this.oldFilters,);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => FiltersViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return FiltersWidget(section, item, places, categories, subcategories, zones);
+        return FiltersWidget(section, item, places, categories, subcategories, zones, oldFilters);
       },
     );
   }
@@ -56,9 +57,10 @@ class FiltersWidget extends StatefulWidget {
   final List<DataModel> _categories;
   final List<DataModel> _subcategories;
   final List<DataModel> _zones;
+  final Map _oldFilters;
 
   FiltersWidget(
-      this._section, this._item, this._places, this._categories, this._subcategories, this._zones);
+      this._section, this._item, this._places, this._categories, this._subcategories, this._zones, this._oldFilters);
 
   @override
   _FiltersWidgetState createState() => _FiltersWidgetState();
@@ -72,7 +74,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<FiltersViewModel>().onInit(widget._section, widget._categories,
-          widget._subcategories, widget._zones, widget._places, widget._item);
+          widget._subcategories, widget._zones, widget._places, widget._item, widget._oldFilters);
     });
     final viewModel = context.read<FiltersViewModel>();
 
