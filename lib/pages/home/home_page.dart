@@ -187,7 +187,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   Expanded(
                                     child: AutoSizeText(
                                       optionsHomeList[index].toUpperCase(),
-                                      maxFontSize: 26,
+                                      maxFontSize: 30,
                                       minFontSize: 22,
                                       style: TextStyle(
                                         color: IdtColors.white,
