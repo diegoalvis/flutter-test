@@ -25,6 +25,9 @@ import '../../app_theme.dart';
 
 class AudioGuidePage extends StatelessWidget {
   static final String namePage = 'audio_guia_page';
+  final int? optionIndex;
+
+  AudioGuidePage({this.optionIndex});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -33,13 +36,15 @@ class AudioGuidePage extends StatelessWidget {
         locator<ApiInteractor>(),
       ),
       builder: (context, _) {
-        return AudioGuideWidget();
+        return AudioGuideWidget(optionIndex);
       },
     );
   }
 }
 
 class AudioGuideWidget extends StatefulWidget {
+  final int? optionIndex;
+  const AudioGuideWidget(this.optionIndex);
   @override
   _AudioGuideWidgetState createState() => _AudioGuideWidgetState();
 }

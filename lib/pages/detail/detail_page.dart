@@ -410,7 +410,7 @@ class _DetailWidgetState extends State<DetailWidget> {
                       ),
                       onPressed: () {},
                     ),
-                    AutoSizeText('Ubicacion',
+                    AutoSizeText('Como llegar',
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         maxFontSize: 13,

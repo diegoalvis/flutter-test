@@ -169,9 +169,14 @@ class IdtRoute {
     }
   }
 
-  goAudioGuideUntil() {// no se usa
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => AudioGuidePage()), (route) => route.isFirst);
+  goAudioGuideUntil(int optionIndex) {// no se usa
+    if(IdtRoute.route != AudioGuidePage.namePage){
+      IdtRoute.route = AudioGuidePage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => AudioGuidePage(
+            optionIndex: optionIndex,
+          )), (route) => route.isFirst);
+    }
   }
 
   // goUnmissable(){
@@ -181,12 +186,15 @@ class IdtRoute {
   // }
 
   goUnmissableUntil(int optionIndex) {
+    if(IdtRoute.route != UnmissablePage.namePage){
+      IdtRoute.route = UnmissablePage.namePage;
     return navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(
             builder: (_) => UnmissablePage(
                   optionIndex: optionIndex,
                 )),
         (route) => route.isFirst);
+    }
   }
 
   goEvents(int optionIndex) {

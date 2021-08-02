@@ -133,6 +133,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         case 3:
           _route.goSleeps(index);
           break;
+        case 4:
+          _route.goAudioGuideUntil(index);
+          break;
+        case 5:
+          _route.goUnmissableUntil(index);
+          break;
 
         default:
           //statements;
@@ -163,16 +169,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                   return GestureDetector(
                       onTap: () => optionSelectedHome(index),
                       child: Container(
-                        height: (size.height - 140) / optionsHomeList.length,
+                        height:
+                            (size.height - 28 * optionsHomeList.length) / optionsHomeList.length,
                         decoration: BoxDecoration(
                           color: viewModel.status.imagesMenu.length != 0
                               ? DataTest.colorsHomeList[index].withOpacity(0.7)
                               : null,
                           image: DecorationImage(
                             image: viewModel.status.imagesMenu.length != 0
-                                ? NetworkImage(IdtConstants.url_image +
-                                    viewModel.status.imagesMenu[index].replaceAll(' ', ''))
-                                : AssetImage(IdtAssets.curve_down) as ImageProvider,
+                                ? index != 5
+                                    ? NetworkImage(IdtConstants.url_image +
+                                        viewModel.status.imagesMenu[index].replaceAll(' ', ''))
+                                    : AssetImage(IdtAssets.splash) as ImageProvider
+                                : AssetImage(IdtAssets.splash) as ImageProvider,
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -200,22 +209,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         ],
                                       ),
                                     ),
-
-                                    // NFMarquee(
-                                    //   text: optionsHomeList[index].toUpperCase(),
-                                    //   fontSize: 26,
-                                    //   fontWeight: FontWeight.bold,
-                                    //   style: TextStyle(
-                                    //       color: IdtColors.white,
-                                    //       fontSize: 26,
-                                    //       fontWeight: FontWeight.bold,
-                                    //       shadows: [
-                                    //         Shadow(
-                                    //             color: Colors.black.withOpacity(0.9),
-                                    //             offset: Offset(3, 2),
-                                    //             blurRadius: 3),
-                                    //       ]),
-                                    // ),
                                   ),
                                   Icon(
                                     Icons.navigate_next,
@@ -268,5 +261,12 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  List<String> optionsHomeList = ['Descubre Bogotá', 'Eventos', '¿Dónde comer?', '¿Dónde Dormir?'];
+  List<String> optionsHomeList = [
+    'Descubre Bogotá',
+    'Eventos',
+    '¿Dónde comer?',
+    '¿Dónde Dormir?',
+    'Audioguias',
+    'Imperdibles'
+  ];
 }

@@ -27,6 +27,7 @@ import '../../app_theme.dart';
 
 class UnmissablePage extends StatelessWidget {
   final int? optionIndex;
+  static final String namePage = 'imperdible_page';
 
   UnmissablePage({this.optionIndex});
 

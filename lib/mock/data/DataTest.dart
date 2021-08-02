@@ -155,6 +155,8 @@ class DataTest {
     Colors.yellow,
     Colors.green,
     Colors.lightBlueAccent,
+    Colors.blueAccent,
+    Colors.deepPurpleAccent
   ];
 
   static List<Map<String, dynamic>> List2(bool isLogged) {
