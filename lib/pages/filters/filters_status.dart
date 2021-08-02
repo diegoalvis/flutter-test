@@ -17,16 +17,17 @@ class FiltersStatus extends ViewStatus{
   final String type;
   final List<StaggeredTile> staggedList;
   final bool shouldPop = true;
+  Map oldFilters;
 
   FiltersStatus({required this.type,required this.isLoading, required this.openMenu, required this.openMenuTab, required this.openMenuFilter,
     required this.filterSubcategory, required this.filterZone, required this.filterCategory,required this.itemsFilter,
-    required this.placesFilter, required this.section, required this.staggedList
+    required this.placesFilter, required this.section, required this.staggedList, required this.oldFilters
   });
 
   FiltersStatus copyWith({String? type,
     bool? isLoading, bool? openMenu, bool? openMenuTab, bool? openMenuFilter,
     List<DataModel?>? filterSubcategory, List<DataModel?>? filterZone, List<DataModel?>? filterCategory,
-    List<DataModel>? itemsFilter, List<DataModel>? placesFilter, String? section, List<StaggeredTile>? staggedList
+    List<DataModel>? itemsFilter, List<DataModel>? placesFilter, String? section, List<StaggeredTile>? staggedList, oldFilters,
   }){
     return FiltersStatus(
       isLoading: isLoading ?? this.isLoading,
@@ -40,7 +41,8 @@ class FiltersStatus extends ViewStatus{
       placesFilter: placesFilter ??  this.placesFilter,
       section: section ?? this.section,
       type: type ?? this.type,
-      staggedList: staggedList ?? this.staggedList
+      staggedList: staggedList ?? this.staggedList,
+      oldFilters: oldFilters ?? this.oldFilters 
     );
   }
 }

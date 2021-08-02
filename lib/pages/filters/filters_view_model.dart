@@ -28,11 +28,12 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
         placesFilter: [],
         section: '',
         type: '',
+        oldFilters: {},
         staggedList: []);
   }
 
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
-      List<DataModel> zones, List<DataModel> places, DataModel item) {
+      List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
     status = status.copyWith(isLoading: true);
     switch (section) {
       case 'category':
@@ -99,7 +100,9 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
         placesFilter: places,
         isLoading: false,
         section: item.title,
-        staggedList: listStaggered);
+        staggedList: listStaggered,
+        oldFilters: oldFilters
+        );
 
     //getFoodResponse();
   }
@@ -149,7 +152,8 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     status = status.copyWith(isLoading: true);
     final Map query = {section: item.id};
 
-    final response = await _interactor.getPlacesList(query);
+    
+    final response = await _interactor.getPlacesList(query, status.oldFilters);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
@@ -207,9 +211,9 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       query['zone'] = listQuery;
       listQuery = '';
     }
-
-    final response = await _interactor.getPlacesList(query);
-
+    
+    final response = await _interactor.getPlacesList(query, status.oldFilters);
+    
     if (response is IdtSuccess<List<DataModel>?>) {
       print('Places: ${response.body!.length}');
       if (response.body!.length > 0) {
