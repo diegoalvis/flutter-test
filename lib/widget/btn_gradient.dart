@@ -32,6 +32,7 @@ class BtnGradient extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       padding: EdgeInsets.all(0),
       child: Container(
+        width: MediaQuery.of(context).size.width,
           decoration: StylesMethodsApp()
               .decorarStyle(colorGradient, 30, Alignment.bottomCenter, Alignment.topCenter),
           padding: EdgeInsets.symmetric(vertical: 9),
