@@ -115,7 +115,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
-    final size = MediaQuery.of(context).size;
+    final sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
@@ -125,8 +125,14 @@ class _LoginWidgetState extends State<LoginWidget> {
           icon,
           color: Colors.white,
         ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(50.0),
+          ),
+        ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          borderSide: const BorderSide(color: Colors.white70, width: 2.0),
           borderRadius: const BorderRadius.all(
             const Radius.circular(50.0),
           ),
@@ -156,159 +162,196 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
-
           children: [
-            Image( // Imagen De fondo Login
+            Image(
+              // Imagen De fondo Login
               image: AssetImage(IdtAssets.bogota_dc_travel),
-              height: size.height,
+              height: sizeScreen.height,
               fit: BoxFit.fill,
             ),
             Form(
               key: _formKey,
               child: Container(
-                height: MediaQuery.of(context).size.height*0.7,
-                color: IdtColors.red,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(height: 50,),
-                    Image.asset(IdtAssets.logo_bogota),
-                    Text(
-                      'App Oficial de Bogotá',
-                      style: textTheme.textWhiteShadow
-                          .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
-                    ),
-                    Spacer(),
-                    Text(
-                      'BIENVENIDO',
-                      style: textTheme.textWhiteShadow
-                          .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Ingresa tu Email';
-                        }
-                        return null;
-                      },
-                      style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                      controller: emailController,
-                      decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
-                        labelText: 'Email',
+                height: sizeScreen.height * 0.7,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Spacer(),
+                      Image.asset(
+                        IdtAssets.logo_bogota,
+                        // height: 100,
+                        height: scaleSmallDevice(context),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration:
-                          KTextFieldDecoration(Icons.vpn_key).copyWith(labelText: 'Contraseña'),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    BtnGradient(
-                      'Iniciar Sesión',
-                      colorGradient: IdtGradients.orange,
-                      textStyle: textTheme.textButtomWhite
-                          .copyWith(fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                      onPressed: () => {
-                        //TODO LOGIN
-                      },
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          child: Icon(
-                            viewModel.status.rememberMe!
-                                ? Icons.radio_button_checked
-                                : Icons.radio_button_off_rounded,
-                            color: Colors.white,
-                            size: 15,
+                      Text(
+                        'App Oficial de Bogotá',
+                        style: textTheme.textWhiteShadow
+                            .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                      Spacer(),
+                      Text(
+                        'BIENVENIDO',
+                        style: textTheme.textWhiteShadow
+                            .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email necesario';
+                          }
+                          return null;
+                        },
+                        style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                        controller: emailController,
+                        decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
+                          labelText: 'Email',
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Contraseña necesaria';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration:
+                            KTextFieldDecoration(Icons.vpn_key).copyWith(labelText: 'Contraseña'),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      BtnGradient('Iniciar Sesión',
+                          colorGradient: IdtGradients.orange,
+                          textStyle: textTheme.textButtomWhite.copyWith(
+                              fontSize: 16,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w700), onPressed: () {
+                        _formKey.currentState!.validate();
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
+
+                        viewModel.loginResponse(emailController.text, passwordController.text);
+                        _showAlert();
+                      }),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            child: Icon(
+                              viewModel.status.rememberMe!
+                                  ? Icons.radio_button_checked
+                                  : Icons.radio_button_off_rounded,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            onTap: () => viewModel.rememberMe(),
                           ),
-                          onTap: () => viewModel.rememberMe(),
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          'Recordarme',
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'Recordarme',
+                            style: textTheme.textWhiteShadow
+                                .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          '¿Olvidó su contraseña?',
                           style: textTheme.textWhiteShadow
                               .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      child: Text(
-                        '¿Olvidó su contraseña?',
-                        style: textTheme.textWhiteShadow
-                            .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RecoverPassPage()),
+                          );
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RecoverPassPage()),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 50,),
-                  ],
+                      Spacer(),
+                    ],
+                  ),
                 ),
               ),
             ),
-
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.6,
+              //CURVA
+              top: sizeScreen.height * 0.6,
               child: SvgPicture.asset(IdtAssets.curve_up,
-                  width: size.width, color: IdtColors.white, fit: BoxFit.contain),
+                  width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.72,
-              child: Column(
-                children: [
-                  BtnGradient('Crear Cuenta',
-                      colorGradient: IdtGradients.blue,
-                      textStyle: textTheme.textButtomWhite.copyWith(
-                          fontSize: 16,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w700), onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterUserPage()),
-                    );
-                  }),
-                  Text(
-                    'O inicia sesión con',
-                    style: textTheme.textDetail
-                        .copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+              top: sizeScreen.height * 0.72,
+              width: sizeScreen.width,
+              child: Container(
+                height: sizeScreen.height * 0.3,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      BtnGradient('Crear Cuenta',
+                          colorGradient: IdtGradients.blue,
+                          textStyle: textTheme.textButtomWhite.copyWith(
+                              fontSize: 16,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w700), onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegisterUserPage()),
+                        );
+                      }),
+                      Spacer(
+                        flex: 2,
+                      ),
+                      Text(
+                        'O inicia sesión con',
+                        style: textTheme.textDetail.copyWith(
+                            fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+                      ),
+                      Spacer(),
+                      LoginButtons(
+                          logout: viewModel.logOut, login: viewModel.login, alert: _showAlert()),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
                   ),
-                  LoginButtons(
-                      logout: viewModel.logOut, login: viewModel.login, alert: _showAlert()),
-                ],
+                ),
               ),
             ),
             Positioned(
               bottom: 0,
               child: Container(
                 height: 30,
-                width: MediaQuery.of(context).size.width,
+                width: sizeScreen.width,
                 color: Colors.white,
               ),
             ),
             Positioned(
               bottom: 0,
+              left: 0,
+              right: 0,
               child: Column(
                 children: [
                   Text(
@@ -322,28 +365,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
             ),
-            // Positioned(
-            //     top: size.height * 0.55,
-            //     // bottom: 100,
-            //     left: 0,
-            //     right: 0,
-            //     child: SizedBox(
-            //       child:
-            //           SvgPicture.asset(IdtAssets.curve_up,
-            //               width: size.width, color: IdtColors.white, fit: BoxFit.contain),
-            //     )),
-
-            // Positioned(
-            //     bottom: size.height * 0.4,
-            //     child: Container(
-            //       margin: EdgeInsets.all(25),
-            //       child: ,
-            //     )),
-
             loading
           ],
         ),
       ),
     );
   }
+}
+
+double scaleSmallDevice(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  // For tiny devices.
+  if (size.height < 600) {
+    return 100;
+  }
+  // For normal devices.
+  return 150;
 }
