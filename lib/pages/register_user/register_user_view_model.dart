@@ -180,18 +180,18 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
       status = status.copyWith(isLoading: false);
     }
 
-    registerResponse(String name , String username, String mail, String country,
-        String lastName, String reasonTrip, String password, Function onSuccess) async {
+    registerResponse(String name , String lastName, String country,String reasonTrip, String mail,String city,
+        String password, Function onSuccess) async {
       status = status.copyWith(isLoading: true);
       RegisterRequest params = RegisterRequest(
         // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
           name,
-          username,
-          mail,
-          country,
           lastName,
+          country,
           reasonTrip,
-          password
+          mail,
+          city,
+          password,
       );
       print(params.toJson());
       final registerResponse = await _interactor.register(params);

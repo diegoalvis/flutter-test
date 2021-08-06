@@ -57,7 +57,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   List<String> countries = [];
   List<String> citiesFilterByCountry = [];
   Map<String, List<String>> countriesComplete = {};
-  String dropdownValue = 'Motivo de Viaje';
+  String dropdownValueReasonTrip = 'Motivo de Viaje';
   String dropdownValueCountry = 'Colombia';
   var dropdownValueCity;
   String countryValue = "";
@@ -206,11 +206,11 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       // viewModel.status.data = params;
       context.read<RegisterUserViewModel>().registerResponse(
           _controllerName.text,
-          _controllerName.text,
-          _controllerEmail.text,
-          dropdownValueCountry,
           _controllerLastNames.text,
-          dropdownValue,
+          dropdownValueCountry,
+          dropdownValueReasonTrip,
+          _controllerEmail.text,
+          dropdownValueCity,
           _controllerPass.text,
           _onSuccessRegister);
       _showAlert();
@@ -419,10 +419,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                           value: option,
                                         );
                                       }).toList(),
-                                      value: dropdownValue,
+                                      value: dropdownValueReasonTrip,
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          dropdownValue = newValue!;
+                                          dropdownValueReasonTrip = newValue!;
                                         });
                                       },
                                     ),
