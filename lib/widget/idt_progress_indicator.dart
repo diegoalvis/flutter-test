@@ -15,6 +15,7 @@ class IdtProgressIndicator extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
           Image.asset(
             IdtAssets.loading,
             height: 125.0,
