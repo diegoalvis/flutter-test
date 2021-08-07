@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+
 import 'dart:async';
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -15,8 +16,10 @@ import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/text_field.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:googleapis/datastore/v1.dart';
 import 'package:provider/provider.dart';
@@ -114,6 +117,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bool _isValidEmail = EmailValidator.validate(emailController.text);
     final viewModel = context.watch<LoginViewModel>();
     final sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
@@ -125,6 +129,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           icon,
           color: Colors.white,
         ),
+        errorStyle: TextStyle(color: IdtColors.white),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white, width: 2.0),
           borderRadius: const BorderRadius.all(
@@ -209,7 +214,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Email necesario';
+                            return '* Email necesario';
+                          }else if(!_isValidEmail){
+                            return '* Email invalido';
                           }
                           return null;
                         },
@@ -225,8 +232,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                       Spacer(),
                       TextFormField(
                         validator: (value) {
+
                           if (value == null || value.isEmpty) {
-                            return 'Contraseña necesaria';
+                            return '* Contraseña necesaria';
+                          }else if(value!.length < 8){
+                            return 'Contraseña incompleta';
                           }
                           return null;
                         },
@@ -247,12 +257,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                               fontSize: 16,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w700), onPressed: () {
-                        _formKey.currentState!.validate();
+                        if (_formKey.currentState!.validate()) {
+                          viewModel.loginResponse(emailController.text, passwordController.text);
+                        } else {
+                          _showAlert();
+                        }
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
-
-                        viewModel.loginResponse(emailController.text, passwordController.text);
-                        _showAlert();
                       }),
                       SizedBox(
                         height: 12,
