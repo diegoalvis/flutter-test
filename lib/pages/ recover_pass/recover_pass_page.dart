@@ -8,7 +8,6 @@ import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
-import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -120,13 +119,12 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
               //sleft: 0,
               right: 0,
               child: SizedBox(
-                child: SvgPicture.asset(IdtAssets.curve_up,
-                    width: size.width,
-                    color: IdtColors.white, fit: BoxFit.contain)
+                  child: SvgPicture.asset(IdtAssets.curve_up,
+                      width: size.width, color: IdtColors.white, fit: BoxFit.contain)
 
 /*                SvgPicture.asset(IdtAssets.curve_up,
                     color: IdtColors.white, fit: BoxFit.fill),*/
-              )),
+                  )),
           Positioned(
             // Logo de bogota
             top: size.height / 5.5,
@@ -151,37 +149,42 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
             ),
           ),
           Positioned(
-            top: size.height / 2 * 1,
+              top: size.height / 2 * 1,
               width: size.width,
-              child: Column(children: [
-                SizedBox(
-                  height: 7,
-                ),
-            Text(
-              'RESTABLECER CONTRASEÑA',
-              style: textTheme.textMenu.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: IdtColors.gray,
-                  letterSpacing: 0.0),
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 1,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: Text('Ingresa el correo asociado a tu cuenta, allí recibirás instrucciones para restablecer tu contraseña', style: textTheme.textDetail.copyWith(
-                  fontSize: 15,
-                  height: 1,
-                  color: IdtColors.gray,
-                  
-              ), textAlign: TextAlign.center,),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-          ],))
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    'RESTABLECER CONTRASEÑA',
+                    style: textTheme.textMenu.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: IdtColors.gray,
+                        letterSpacing: 0.0),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    child: Text(
+                      'Ingresa el correo asociado a tu cuenta, allí recibirás instrucciones para restablecer tu contraseña',
+                      style: textTheme.textDetail.copyWith(
+                        fontSize: 15,
+                        height: 1,
+                        color: IdtColors.gray,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                ],
+              ))
         ],
       );
     }
@@ -206,68 +209,66 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(child: Padding(
-          padding: EdgeInsets.only(bottom: bottom),
-          child: Column(
-            children: [
-              _header(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Container(
-                  height: size.height * 0.5 - 5,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      TextFieldCustom(
-                          keyboardType: TextInputType.emailAddress,
-                          style: textTheme.textDetail,
-                          controller: _controllerEmail,
-                          decoration: KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      BtnGradient('Restablecer contraseña',
-                            onPressed: () async {
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: bottom),
+            child: Column(
+              children: [
+                _header(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Container(
+                    height: size.height * 0.5 - 5,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            style: textTheme.textDetail,
+                            controller: _controllerEmail,
+                            decoration:
+                                KTextFieldDecoration.copyWith(hintText: 'Correo electrónico')),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        BtnGradient('Restablecer contraseña', onPressed: () async {
                           await _recoverPasswordOnPressed();
                         },
-                          colorGradient: IdtGradients.orange,
-                          textStyle: textTheme.textButtomWhite.copyWith(
-                              fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
-                      SizedBox(
-                        height: 16,
-                      ),
-
-
-                      Text('Oficina de turismo de Bogotá',
-                          style: textTheme.textDetail.copyWith(
-                            fontSize: 8.5,
-                            color: IdtColors.gray,
-                          )),
-                    ],
+                            colorGradient: IdtGradients.orange,
+                            textStyle: textTheme.textButtomWhite.copyWith(
+                                fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700)),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text('Oficina de turismo de Bogotá',
+                            style: textTheme.textDetail.copyWith(
+                              fontSize: 8.5,
+                              color: IdtColors.gray,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 1,
-              ),
-              loading,
-            ],
+                SizedBox(
+                  height: 1,
+                ),
+                loading,
+              ],
+            ),
           ),
-        ),)
+        )
       ],
     );
   }
 
   Future<void> _recoverPasswordOnPressed() async {
-     try {
-      final response = await context
-          .read<RecoverPassViewModel>()
-          .recoverPassword(_controllerEmail.text);
-      _showAlert('Notificación',
-          'Se ha enviado un email para recuperar tu contraseña');
+    try {
+      final response =
+          await context.read<RecoverPassViewModel>().recoverPassword(_controllerEmail.text);
+      _showAlert('Notificación', 'Se ha enviado un email para recuperar tu contraseña');
     } catch (e) {
       _showAlert('oh oh!\n Algo ha salido mal...', "$e");
     }

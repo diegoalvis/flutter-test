@@ -8,7 +8,6 @@ import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/style_method.dart';
-import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -212,7 +211,7 @@ class _RecoverPassWidgetState extends State<RecoverPassWidget> {
                       SizedBox(
                         height: 20,
                       ),
-                      TextFieldCustom(
+                      TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           style: textTheme.textDetail,
                           controller: _controllerEmail,

@@ -14,7 +14,6 @@ import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/style_method.dart';
-import 'package:bogota_app/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -183,7 +182,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   Widget _buildRegisterUser(RegisterUserViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
+    final sizeScreen = MediaQuery.of(context).size;
     final _route = locator<IdtRoute>();
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     // RegisterRequest params = RegisterRequest(
@@ -237,85 +236,106 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       }
     }
 
-    final KTextFieldDecoration = InputDecoration(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      isDense: true,
-      hintStyle: textTheme.textButtomWhite
-          .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
-      hintText: '.copyWith',
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
-        ),
-        borderSide: BorderSide(
-          width: 1,
-          color: IdtColors.gray,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
-        ),
-        borderSide: BorderSide(
-          width: 1.4,
-          color: IdtColors.black,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
-        ),
-      ),
-    );
+    InputDecoration KTextFieldDecoration() {
+      return InputDecoration(
+        contentPadding: EdgeInsets.only(bottom: 6, top: 14, left: 20, right: 20),
+        // errorStyle: TextStyle(color: IdtColors.white),
+        // focusedErrorBorder: OutlineInputBorder(
+        //   borderSide: const BorderSide(color: Colors.black, width: 2.0),
+        //   borderRadius: const BorderRadius.all(
+        //     const Radius.circular(50.0),
+        //   ),
+        // ),
+        // errorBorder: OutlineInputBorder(
+        //   borderSide: const BorderSide(color: Colors.black26, width: 1.2),
+        //   borderRadius: const BorderRadius.all(
+        //     const Radius.circular(50.0),
+        //   ),
+        // ),
 
-    Widget _header() {
-      return Stack(
-        children: [
-          Image(
-            //imagen de fondo
-            image: AssetImage(IdtAssets.bogota_dc_travel),
-            width: size.width,
-            height: size.height * 0.58,
-            fit: BoxFit.fitHeight,
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black26, width: 1),
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(50.0),
           ),
-          Positioned(
-            top: size.height / 2 * 0.79,
-            // bottom: 100,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              //  child: Image(image: AssetImage(IdtAssets.curve_up), height: size.height * 0.9),
-              child: SvgPicture.asset(IdtAssets.curve_up, color: IdtColors.white, fit: BoxFit.fill),
-            ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black54, width: 1.3),
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(50.0),
           ),
-          Positioned(
-            // Logo de bogota
-            bottom: size.height / 2 * 0.32,
-            width: size.width,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset(
-                  IdtAssets.logo_bogota,
-                  height: 140,
-                  fit: BoxFit.scaleDown,
+        ),
+
+        labelStyle: new TextStyle(color: Colors.black54),
+        //textTheme.textButtomWhite
+        //           .copyWith(color: IdtColors.grayBtn, fontSize: 15, fontWeight: FontWeight.w500),
+        // fillColor: Colors.transparent,
+        isDense: true,
+        // Added this
+      );
+    }
+
+    return ScaffoldMessenger(
+      key: scaffoldMessengerKey,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Image(
+                // Imagen De fondo Login
+                image: AssetImage(IdtAssets.bogota_dc_travel),
+                height: sizeScreen.height,
+                fit: BoxFit.fill,
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  //completa la parte inferior blanca de la pagina
+                  height: sizeScreen.height * 0.4,
+                  width: sizeScreen.width,
+                  color: Colors.white,
                 ),
-                Positioned(
-                  bottom: 0,
-                  child: Text(
-                    'App Oficial de Bogotá',
-                    style: textTheme.textWhiteShadow
-                        .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-              top: size.height / 2 * 1.02,
-              width: size.width,
-              child: Column(
+              ),
+              Container(
+                height: sizeScreen.height * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Spacer(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Image.asset(
+                      IdtAssets.logo_bogota,
+                      // height: 100,
+                      height: scaleSmallDevice(context),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'App Oficial de Bogotá',
+                        style: textTheme.textWhiteShadow
+                            .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+              Positioned(
+                //CURVA
+                top: sizeScreen.height * 0.3,
+                child: SvgPicture.asset(IdtAssets.curve_up,
+                    width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
+              ),
+              Column(
                 children: [
+                  Container(
+                    height: sizeScreen.height * 0.42,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     'BIENVENIDO',
                     style: textTheme.textMenu.copyWith(
@@ -325,258 +345,244 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         letterSpacing: 0.0),
                   ),
                   SizedBox(
-                    height: 1,
-                  ),
-                  SizedBox(
                     height: 20,
                   ),
-                ],
-              ))
-        ],
-      );
-    }
-
-    return ScaffoldMessenger(
-      key: scaffoldMessengerKey,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            CustomScrollView(
-                // reverse: true,
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: _header(),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      color: IdtColors.transparent,
+                  Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: Container(
-                              height: size.height * 1,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(height: 10),
-                                  TextFieldCustom(
-                                      keyboardType: TextInputType.name,
-                                      style: textTheme.textDetail,
-                                      controller: _controllerName,
-                                      decoration:
-                                          KTextFieldDecoration.copyWith(hintText: 'Nombre')),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  TextFieldCustom(
-                                    keyboardType: TextInputType.name,
-                                    style: textTheme.textDetail,
-                                    controller: _controllerLastNames,
-                                    decoration:
-                                        KTextFieldDecoration.copyWith(hintText: 'Apellidos'),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    height: 38,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(left: 20),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: IdtColors.gray),
-                                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text('Motivo del Viaje'),
-                                      isDense: true,
-                                      icon: Icon(
-                                        Icons.arrow_drop_down_outlined,
-                                        color: IdtColors.grayBtn,
-                                      ),
-                                      iconSize: 38,
-                                      style: textTheme.textButtomWhite.copyWith(
-                                          color: IdtColors.grayBtn,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500),
-                                      items: <String>[
-                                        'Vacaciones / recreación / ocio',
-                                        'Visita a familiares y amigos',
-                                        'Negocios y motivos profesionales',
-                                        'Trabajo remunerado'
-                                            'Educación y formación',
-                                        'Compras',
-                                        'Religión/peregrinaciones',
-                                        'Salud y atención médica',
-                                        'otros motivos',
-                                        'Motivo de Viaje',
-                                      ].map<DropdownMenuItem<String>>((String option) {
-                                        return DropdownMenuItem<String>(
-                                          child: Text(
-                                            '$option',
-                                            // style: textTheme.textDetail,
-                                          ),
-                                          value: option,
-                                        );
-                                      }).toList(),
-                                      value: dropdownValueReasonTrip,
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          dropdownValueReasonTrip = newValue!;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    height: 38,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(left: 20),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: IdtColors.gray),
-                                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text('País'),
-                                      isDense: true,
-                                      icon: Icon(
-                                        Icons.arrow_drop_down_outlined,
-                                        color: IdtColors.grayBtn,
-                                      ),
-                                      iconSize: 38,
-                                      style: textTheme.textButtomWhite.copyWith(
-                                          color: IdtColors.grayBtn,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500),
-                                      items:
-                                          countries.map<DropdownMenuItem<String>>((String option) {
-                                        return DropdownMenuItem<String>(
-                                          child: Text(
-                                            '$option',
-                                            // style: textTheme.textDetail,
-                                          ),
-                                          value: option,
-                                        );
-                                      }).toList(),
-                                      value: dropdownValueCountry,
-                                      onChanged: (String? newCountryValue) {
-                                        setState(() {
-                                          dropdownValueCountry = newCountryValue!;
-                                          _chargeCitiesByCountry();
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    height: 38,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(left: 20),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: IdtColors.gray),
-                                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text('Ciudad'),
-                                      isDense: true,
-                                      icon: Icon(
-                                        Icons.arrow_drop_down_outlined,
-                                        color: IdtColors.grayBtn,
-                                      ),
-                                      iconSize: 38,
-                                      style: textTheme.textButtomWhite.copyWith(
-                                          color: IdtColors.grayBtn,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500),
-                                      items: citiesFilterByCountry
-                                          .map<DropdownMenuItem<String>>((String option) {
-                                        return DropdownMenuItem<String>(
-                                          child: Text(
-                                            '$option',
-                                            // style: textTheme.textDetail,
-                                          ),
-                                          value: option,
-                                        );
-                                      }).toList(),
-                                      value: dropdownValueCity,
-                                      onChanged: (String? newCountryValue) {
-                                        setState(() {
-                                          dropdownValueCity = newCountryValue!;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  TextFieldCustom(
-                                    keyboardType: TextInputType.emailAddress,
-                                    style: textTheme.textDetail,
-                                    controller: _controllerEmail,
-                                    decoration: KTextFieldDecoration.copyWith(
-                                        hintText: 'Correo electrónico'),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  TextFieldCustom(
-                                    keyboardType: TextInputType.visiblePassword,
-                                    style: textTheme.textDetail,
-                                    controller: _controllerPass,
-                                    obscureText: true,
-                                    decoration:
-                                        KTextFieldDecoration.copyWith(hintText: 'Contraseña'),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  TextFieldCustom(
-                                    style: textTheme.textDetail,
-                                    controller: _controllerConfirmPass,
-                                    obscureText: true,
-                                    decoration: KTextFieldDecoration.copyWith(
-                                        hintText: 'Confirmar contraseña'),
-                                  ),
-                                  Spacer(),
-                                  BtnGradient(
-                                    'Crear cuenta',
-                                    colorGradient: IdtGradients.orange,
-                                    textStyle: textTheme.textButtomWhite.copyWith(
-                                        fontSize: 16,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w700),
-                                    onPressed: () => _validations(),
-                                  ),
-                                  LoginButtons(
-                                      logout: viewModel.logOut,
-                                      login: viewModel.login,
-                                      alert: _showAlert()),
-                                  Spacer(),
-                                  Text(
-                                    'Oficina de turismo de Bogotá',
-                                    style: textTheme.textDetail.copyWith(
-                                      fontSize: 8.5,
-                                      color: IdtColors.gray,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  )
-                                ],
-                              ),
+                          TextFormField(
+                            // validator: (value) {
+                            //   if (value == null || value.isEmpty) {
+                            //     return '* Email necesario';
+                            //   }else if(!_isValidEmail){
+                            //     return '* Email invalido';
+                            //   }
+                            //   return null;
+                            // },
+
+                            style: textTheme.textButtomWhite
+                                .copyWith(fontSize: 16, color: Colors.black87),
+                            controller: _controllerName,
+                            decoration: KTextFieldDecoration().copyWith(
+                              labelText: 'Nombres',
                             ),
                           ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.name,
+                            style: textTheme.textDetail,
+                            controller: _controllerLastNames,
+                            decoration: KTextFieldDecoration().copyWith(labelText: 'Apellidos'),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            height: 38,
+                            width: double.infinity,
+                            padding: EdgeInsets.only(left: 20),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: IdtColors.gray),
+                                borderRadius: BorderRadius.all(Radius.circular(20))),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              hint: Text('Motivo del Viaje'),
+                              isDense: true,
+                              icon: Icon(
+                                Icons.arrow_drop_down_outlined,
+                                color: IdtColors.grayBtn,
+                              ),
+                              iconSize: 38,
+                              style: textTheme.textButtomWhite.copyWith(
+                                  color: IdtColors.grayBtn,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                              items: <String>[
+                                'Vacaciones / recreación / ocio',
+                                'Visita a familiares y amigos',
+                                'Negocios y motivos profesionales',
+                                'Trabajo remunerado'
+                                    'Educación y formación',
+                                'Compras',
+                                'Religión/peregrinaciones',
+                                'Salud y atención médica',
+                                'otros motivos',
+                                'Motivo de Viaje',
+                              ].map<DropdownMenuItem<String>>((String option) {
+                                return DropdownMenuItem<String>(
+                                  child: Text(
+                                    '$option',
+                                    // style: textTheme.textDetail,
+                                  ),
+                                  value: option,
+                                );
+                              }).toList(),
+                              value: dropdownValueReasonTrip,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValueReasonTrip = newValue!;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            height: 38,
+                            width: double.infinity,
+                            padding: EdgeInsets.only(left: 20),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: IdtColors.gray),
+                                borderRadius: BorderRadius.all(Radius.circular(20))),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              hint: Text('País'),
+                              isDense: true,
+                              icon: Icon(
+                                Icons.arrow_drop_down_outlined,
+                                color: IdtColors.grayBtn,
+                              ),
+                              iconSize: 38,
+                              style: textTheme.textButtomWhite.copyWith(
+                                  color: IdtColors.grayBtn,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                              items: countries.map<DropdownMenuItem<String>>((String option) {
+                                return DropdownMenuItem<String>(
+                                  child: Text(
+                                    '$option',
+                                    // style: textTheme.textDetail,
+                                  ),
+                                  value: option,
+                                );
+                              }).toList(),
+                              value: dropdownValueCountry,
+                              onChanged: (String? newCountryValue) {
+                                setState(() {
+                                  dropdownValueCountry = newCountryValue!;
+                                  _chargeCitiesByCountry();
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            height: 38,
+                            width: double.infinity,
+                            padding: EdgeInsets.only(left: 20),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: IdtColors.gray),
+                                borderRadius: BorderRadius.all(Radius.circular(20))),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              hint: Text('Ciudad'),
+                              isDense: true,
+                              icon: Icon(
+                                Icons.arrow_drop_down_outlined,
+                                color: IdtColors.grayBtn,
+                              ),
+                              iconSize: 38,
+                              style: textTheme.textButtomWhite.copyWith(
+                                  color: IdtColors.grayBtn,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                              items: citiesFilterByCountry
+                                  .map<DropdownMenuItem<String>>((String option) {
+                                return DropdownMenuItem<String>(
+                                  child: Text(
+                                    '$option',
+                                    // style: textTheme.textDetail,
+                                  ),
+                                  value: option,
+                                );
+                              }).toList(),
+                              value: dropdownValueCity,
+                              onChanged: (String? newCountryValue) {
+                                setState(() {
+                                  dropdownValueCity = newCountryValue!;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            style: textTheme.textDetail,
+                            controller: _controllerEmail,
+                            decoration:
+                                KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            style: textTheme.textDetail,
+                            controller: _controllerEmail,
+                            decoration:
+                                KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            style: textTheme.textDetail,
+                            controller: _controllerPass,
+                            obscureText: true,
+                            decoration: KTextFieldDecoration().copyWith(labelText: 'Contraseña'),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                            style: textTheme.textDetail,
+                            controller: _controllerConfirmPass,
+                            obscureText: true,
+                            decoration:
+                                KTextFieldDecoration().copyWith(labelText: 'Confirmar contraseña'),
+                          ),
+                          SizedBox(height: 20,),
+                          BtnGradient(
+                            'Crear cuenta',
+                            colorGradient: IdtGradients.orange,
+                            textStyle: textTheme.textButtomWhite.copyWith(
+                                fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
+                            onPressed: () => _validations(),
+                          ),
+                          SizedBox(height: 20,),
+
+                          LoginButtons(
+                              logout: viewModel.logOut,
+                              login: viewModel.login,
+                              alert: _showAlert()),
+                          Text(
+                            'Oficina de turismo de Bogotá',
+                            style: textTheme.textDetail.copyWith(
+                              fontSize: 8.5,
+                              color: IdtColors.gray,
+                            ),
+                          ),
+                          SizedBox(height: 10,)
                         ],
                       ),
                     ),
-                  ),
-                ]),
-            loading
-          ],
+                  )
+                ],
+              ),
+              loading
+            ],
+          ),
         ),
       ),
     );
@@ -594,4 +600,15 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       }
     });
   }
+}
+
+//Para dispositivos pequeños
+double scaleSmallDevice(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  // For tiny devices.
+  if (size.height < 600) {
+    return 100;
+  }
+  // For normal devices.
+  return 150;
 }

@@ -15,7 +15,6 @@ import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/login_buttons.dart';
-import 'package:bogota_app/widget/text_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
