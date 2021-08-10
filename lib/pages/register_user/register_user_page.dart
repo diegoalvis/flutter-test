@@ -16,6 +16,7 @@ import 'package:bogota_app/widget/login_buttons.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -53,10 +54,11 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   final _controllerPass = TextEditingController();
   final _controllerConfirmPass = TextEditingController();
   final scrollController = ScrollController();
+
   List<String> countries = [];
   List<String> citiesFilterByCountry = [];
   Map<String, List<String>> countriesComplete = {};
-  String dropdownValueReasonTrip = 'Motivo de Viaje';
+  var dropdownValueReasonTrip;
   String dropdownValueCountry = 'Colombia';
   var dropdownValueCity;
   String countryValue = "";
@@ -64,6 +66,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   String cityValue = "";
   String address = "";
   StreamSubscription<RegisterEffect>? _effectSubscription;
+  final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
@@ -175,7 +178,11 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: IdtColors.white,
-        body: _buildRegisterUser(viewModel),
+        body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: _buildRegisterUser(viewModel)),
       ),
     );
   }
@@ -199,6 +206,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     }
 
     _register() {
+      //Todo se debe bajar el keyBoard cuando se cree el usuario,
       print('register user page');
       // print(params.reason_trip);
       // print(params.toJson());
@@ -215,43 +223,43 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       _showAlert();
     }
 
-    _validations() {
+    _validations() { //revisar estas validaciones
       String validationResult = '';
-      validationResult = viewModel.validateEmail(_controllerEmail.text);
+      // validationResult = viewModel.validateEmail(_controllerEmail.text); //esta validacion ya se hace con la propiedad validator
       if (validationResult != 'null') {
         viewModel.status.message = validationResult;
         return _showAlert();
       }
 
-      if (viewModel.validatePassword(_controllerPass.text, _controllerConfirmPass.text)) {
-        if (_controllerPass.text.length >= 8) {
-          return _register();
-        } else {
-          showMessagePasswordLength(
-              "La contraseña debe incluir al menos 8 caracteres alfanuméricos");
-        }
-      } else {
-        viewModel.status.message = "Las contraseñas no coinciden";
-        return _showAlert();
-      }
+      // if (viewModel.validatePassword(_controllerPass.text, _controllerConfirmPass.text)) {
+      //   if (_controllerPass.text.length >= 8) {
+      //     return _register();
+      //   } else {
+      //     showMessagePasswordLength(
+      //         "La contraseña debe incluir al menos 8 caracteres alfanuméricos");
+      //   }
+      // } else {
+      //   viewModel.status.message = "Las contraseñas no coinciden";
+      //   return _showAlert();
+      // }
     }
 
     InputDecoration KTextFieldDecoration() {
       return InputDecoration(
         contentPadding: EdgeInsets.only(bottom: 6, top: 14, left: 20, right: 20),
-        // errorStyle: TextStyle(color: IdtColors.white),
-        // focusedErrorBorder: OutlineInputBorder(
-        //   borderSide: const BorderSide(color: Colors.black, width: 2.0),
-        //   borderRadius: const BorderRadius.all(
-        //     const Radius.circular(50.0),
-        //   ),
-        // ),
-        // errorBorder: OutlineInputBorder(
-        //   borderSide: const BorderSide(color: Colors.black26, width: 1.2),
-        //   borderRadius: const BorderRadius.all(
-        //     const Radius.circular(50.0),
-        //   ),
-        // ),
+        errorStyle: TextStyle(color: IdtColors.red),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black54, width: 1.3),
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(50.0),
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black26, width: 1),
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(50.0),
+          ),
+        ),
 
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.black26, width: 1),
@@ -351,45 +359,47 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            // validator: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return '* Email necesario';
-                            //   }else if(!_isValidEmail){
-                            //     return '* Email invalido';
-                            //   }
-                            //   return null;
-                            // },
-
-                            style: textTheme.textButtomWhite
-                                .copyWith(fontSize: 16, color: Colors.black87),
-                            controller: _controllerName,
-                            decoration: KTextFieldDecoration().copyWith(
-                              labelText: 'Nombres',
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")) //validado solo letras y espacio
+                              ],
+                              validator: (value) => viewModel.validateName(value),
+                              style: textTheme.textButtomWhite
+                                  .copyWith(fontSize: 16, color: Colors.black87),
+                              controller: _controllerName,
+                              decoration: KTextFieldDecoration().copyWith(
+                                labelText: 'Nombres',
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.name,
-                            style: textTheme.textDetail,
-                            controller: _controllerLastNames,
-                            decoration: KTextFieldDecoration().copyWith(labelText: 'Apellidos'),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            height: 38,
-                            width: double.infinity,
-                            padding: EdgeInsets.only(left: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: IdtColors.gray),
-                                borderRadius: BorderRadius.all(Radius.circular(20))),
-                            child: DropdownButton<String>(
+                            SizedBox(
+                              height: 8,
+                            ),
+                            TextFormField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")) //validado solo letras y espacio
+                                ],
+                              validator:(value) =>viewModel.validateLastName(value),
+                              keyboardType: TextInputType.name,
+                              style: textTheme.textDetail,
+                              controller: _controllerLastNames,
+                              decoration: KTextFieldDecoration().copyWith(labelText: 'Apellidos'),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            // COntainer(height: 38,
+                            //   width: double.infinity,
+                            //   padding: EdgeInsets.only(left: 20),
+                            //   decoration: BoxDecoration(
+                            //       border: Border.all(color: Colors.black26, width: 1.3),
+                            //       borderRadius: BorderRadius.all(Radius.circular(20))),)
+                            DropdownButtonFormField<String>(
+                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
+                              validator: (value) => value == null ? '* Campo motivo de viaje es necesario' : null,
                               isExpanded: true,
                               hint: Text('Motivo del Viaje'),
                               isDense: true,
@@ -412,35 +422,27 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 'Religión/peregrinaciones',
                                 'Salud y atención médica',
                                 'otros motivos',
-                                'Motivo de Viaje',
+                                // 'Motivo de Viaje',
                               ].map<DropdownMenuItem<String>>((String option) {
                                 return DropdownMenuItem<String>(
-                                  child: Text(
-                                    '$option',
-                                    // style: textTheme.textDetail,
-                                  ),
+                                  child: Text('$option', style: TextStyle(color: Colors.black54)),
                                   value: option,
                                 );
                               }).toList(),
-                              value: dropdownValueReasonTrip,
+                              // value: dropdownValueReasonTrip,
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValueReasonTrip = newValue!;
                                 });
                               },
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            height: 38,
-                            width: double.infinity,
-                            padding: EdgeInsets.only(left: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: IdtColors.gray),
-                                borderRadius: BorderRadius.all(Radius.circular(20))),
-                            child: DropdownButton<String>(
+                            SizedBox(
+                              height: 8,
+                            ),
+
+                            DropdownButtonFormField<String>(
+                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
+                              // validator: (value) => value == null ? '* Motivo es necesario' : null,
                               isExpanded: true,
                               hint: Text('País'),
                               isDense: true,
@@ -448,6 +450,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 Icons.arrow_drop_down_outlined,
                                 color: IdtColors.grayBtn,
                               ),
+                              menuMaxHeight: sizeScreen.height * 0.6,
                               iconSize: 38,
                               style: textTheme.textButtomWhite.copyWith(
                                   color: IdtColors.grayBtn,
@@ -455,10 +458,9 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                   fontWeight: FontWeight.w500),
                               items: countries.map<DropdownMenuItem<String>>((String option) {
                                 return DropdownMenuItem<String>(
-                                  child: Text(
-                                    '$option',
-                                    // style: textTheme.textDetail,
-                                  ),
+                                  child: Text('$option',
+                                      // style: textTheme.textDetail,
+                                      style: TextStyle(color: Colors.black54)),
                                   value: option,
                                 );
                               }).toList(),
@@ -470,21 +472,17 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 });
                               },
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            height: 38,
-                            width: double.infinity,
-                            padding: EdgeInsets.only(left: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: IdtColors.gray),
-                                borderRadius: BorderRadius.all(Radius.circular(20))),
-                            child: DropdownButton<String>(
+                            SizedBox(
+                              height: 8,
+                            ),
+                            DropdownButtonFormField<String>(
+                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
+                              validator: (value) => value == null ? '* La ciudad / providencia es necesario' : null,
+                              value: dropdownValueCity,
                               isExpanded: true,
                               hint: Text('Ciudad'),
                               isDense: true,
+                              menuMaxHeight: sizeScreen.height * 0.6,
                               icon: Icon(
                                 Icons.arrow_drop_down_outlined,
                                 color: IdtColors.grayBtn,
@@ -499,82 +497,88 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 return DropdownMenuItem<String>(
                                   child: Text(
                                     '$option',
-                                    // style: textTheme.textDetail,
+                                    style: TextStyle(color: Colors.black54),
                                   ),
                                   value: option,
                                 );
                               }).toList(),
-                              value: dropdownValueCity,
                               onChanged: (String? newCountryValue) {
                                 setState(() {
                                   dropdownValueCity = newCountryValue!;
                                 });
                               },
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            style: textTheme.textDetail,
-                            controller: _controllerEmail,
-                            decoration:
-                                KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            style: textTheme.textDetail,
-                            controller: _controllerEmail,
-                            decoration:
-                                KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.visiblePassword,
-                            style: textTheme.textDetail,
-                            controller: _controllerPass,
-                            obscureText: true,
-                            decoration: KTextFieldDecoration().copyWith(labelText: 'Contraseña'),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFormField(
-                            style: textTheme.textDetail,
-                            controller: _controllerConfirmPass,
-                            obscureText: true,
-                            decoration:
-                                KTextFieldDecoration().copyWith(labelText: 'Confirmar contraseña'),
-                          ),
-                          SizedBox(height: 20,),
-                          BtnGradient(
-                            'Crear cuenta',
-                            colorGradient: IdtGradients.orange,
-                            textStyle: textTheme.textButtomWhite.copyWith(
-                                fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                            onPressed: () => _validations(),
-                          ),
-                          SizedBox(height: 20,),
-
-                          LoginButtons(
-                              logout: viewModel.logOut,
-                              login: viewModel.login,
-                              alert: _showAlert()),
-                          Text(
-                            'Oficina de turismo de Bogotá',
-                            style: textTheme.textDetail.copyWith(
-                              fontSize: 8.5,
-                              color: IdtColors.gray,
+                            SizedBox(
+                              height: 8,
                             ),
-                          ),
-                          SizedBox(height: 10,)
-                        ],
+                            TextFormField(
+                              validator:(value)=> viewModel.validateEmail(value,_controllerEmail.text),
+                              keyboardType: TextInputType.emailAddress,
+                              style: textTheme.textDetail,
+                              controller: _controllerEmail,
+                              decoration:
+                                  KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            TextFormField(
+                              validator: (value) => viewModel.validatePasswords(_controllerPass.text,_controllerConfirmPass.text),
+                              keyboardType: TextInputType.visiblePassword,
+                              style: textTheme.textDetail,
+                              controller: _controllerPass,
+                              obscureText: true,
+                              decoration: KTextFieldDecoration().copyWith(labelText: 'Contraseña'),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            TextFormField(
+                              style: textTheme.textDetail,
+                              controller: _controllerConfirmPass,
+                              obscureText: true,
+                              decoration: KTextFieldDecoration()
+                                  .copyWith(labelText: 'Confirmar contraseña'),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            BtnGradient('Crear cuenta',
+                                colorGradient: IdtGradients.orange,
+                                textStyle: textTheme.textButtomWhite.copyWith(
+                                    fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
+                                // onPressed: () => _validations(),
+                                onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // viewModel.loginResponse(emailController.text, passwordController.text);
+                                // _validations();
+                                _register();
+                              } else {
+                                _showAlert();
+                              }
+
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            LoginButtons(
+                                logout: viewModel.logOut,
+                                login: viewModel.login,
+                                alert: _showAlert()),
+                            Text(
+                              'Oficina de turismo de Bogotá',
+                              style: textTheme.textDetail.copyWith(
+                                fontSize: 8.5,
+                                color: IdtColors.gray,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )

@@ -348,7 +348,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     }
   }
 
-  validatePassword(String value) {
+  validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return '* Contraseña necesaria';
     } else if (value.length < 8) {
@@ -357,7 +357,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     return null;
   }
 
-  validateEmail(String value, String email){
+  validateEmail(String? value, String email){
   if (value == null || value.isEmpty) {
   return '* Email necesario';
   } else if (!EmailValidator.validate(email)) {

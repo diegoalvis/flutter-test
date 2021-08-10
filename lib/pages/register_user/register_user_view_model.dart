@@ -14,6 +14,7 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/admin/directory_v1.dart';
@@ -269,30 +270,61 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
       }
     }
 
-    bool validatePassword(String pass, String confirmPass) {
-      print('valida');
-      if (pass == confirmPass) {
-        return true;
-      }
-      else {
-        addEffect(ShowRegisterDialogEffect(status.message));
-        return false;
-      }
-    }
+    validatePasswords(String? pass, String? confirmPass) {
 
-    validateEmail(String value) {
-      String pattern =
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-      RegExp regExp = new RegExp(pattern);
-      if (value.length == 0) {
-        addEffect(ShowRegisterDialogEffect(status.message));
-        return "El correo es necesario";
-      } else if (!regExp.hasMatch(value)) {
-        addEffect(ShowRegisterDialogEffect(status.message));
-        return "Correo invalido";
+      if(pass == null || pass.isEmpty ){
+        return '* la contraseña es necesaria';
+      }else
+
+        if(pass!.length < 8 || confirmPass!.length < 8 ){
+        return "La contraseña debe incluir al menos 8 caracteres alfanuméricos";
+      }else
+        if(pass != confirmPass){
+        return "Las contraseñas no coinciden";
       }
-      return 'null';
+
+
+    //   if(pass < 8 || confirmPass<8){
+    //
+    //   }
+    // else {
+    //   addEffect(ShowRegisterDialogEffect(status.message));
+    //   return false;
+    // }
+  }
+
+    // bool validatePassword(String pass, String confirmPass) {
+    //   print('valida');
+    //   if (pass == confirmPass) {
+    //     return true;
+    //   }
+    //   else {
+    //     addEffect(ShowRegisterDialogEffect(status.message));
+    //     return false;
+    //   }
+    // }
+  validateEmail(String? value, String email){
+    if (value == null || value.isEmpty) {
+      return '* Email necesario';
+    } else if (!EmailValidator.validate(email)) {
+      return '* Email invalido';
     }
+    return null;
+  }
+
+    // validateEmail(String value) {
+    //   String pattern =
+    //       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    //   RegExp regExp = new RegExp(pattern);
+    //   if (value.length == 0) {
+    //     addEffect(ShowRegisterDialogEffect(status.message));
+    //     return "El correo es necesario";
+    //   } else if (!regExp.hasMatch(value)) {
+    //     addEffect(ShowRegisterDialogEffect(status.message));
+    //     return "Correo invalido";
+    //   }
+    //   return 'null';
+    // }
 
     void goDiscoverPage() {
       _route.goDiscover();
@@ -384,21 +416,28 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
           break;
       }
     }
+  validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return '* Campo nombre es necesario';
+    }
+    return null;
+  }
+  validateLastName(String? value) {
+    if (value == null || value.isEmpty) {
+      return '* Campo apellido es necesario';
+    }
+    return null;
   }
 
-/*  String? _pickFirstNamedContact(List<Person>? connections) {
-    return connections
-        ?.firstWhere(
-          (Person person) => person.names != null,
-    )
-        .names
-        ?.firstWhere(
-          (Name name) => name.displayName != null,
-    )
-        .displayName;
+// validateEmail(String value, String email){
+//   if (value == null || value.isEmpty) {
+//     return '* Email necesario';
+//   } else if (!EmailValidator.validate(email)) {
+//     return '* Email invalido';
+//   }
+//   return null;
+// }
   }
-
-}*/
 
 class User {
   String? email;
@@ -406,3 +445,5 @@ class User {
   String? profilePicURL;
   User({this.email, this.name ,this.profilePicURL});
 }
+
+

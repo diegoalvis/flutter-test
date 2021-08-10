@@ -165,7 +165,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          print('Clicked outside');
           FocusScope.of(context).unfocus();
         },
         child: SingleChildScrollView(
@@ -215,7 +214,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           height: 6,
                         ),
                         TextFormField(
-                          validator: (value) => viewModel.validateEmail(value!, emailController.text),
+                          validator: (value) => viewModel.validateEmail(value, emailController.text),
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: emailController,
                           decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
@@ -227,7 +226,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                         Spacer(),
                         TextFormField(
-                          validator: (value) => viewModel.validatePassword(value!),
+                          validator: (value) => viewModel.validatePassword(value),
                           keyboardType: TextInputType.emailAddress,
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: passwordController,
