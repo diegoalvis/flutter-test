@@ -14,6 +14,7 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -28,6 +29,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+
 
   LoginViewModel(this._route, this._interactor) {
     status =
@@ -344,5 +346,23 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
       print(result.status);
       print(result.message);
     }
+  }
+
+  validatePassword(String value) {
+    if (value == null || value.isEmpty) {
+      return '* Contraseña necesaria';
+    } else if (value.length < 8) {
+      return '* Contraseña incompleta';
+    }
+    return null;
+  }
+
+  validateEmail(String value, String email){
+  if (value == null || value.isEmpty) {
+  return '* Email necesario';
+  } else if (!EmailValidator.validate(email)) {
+  return '* Email invalido';
+  }
+  return null;
   }
 }

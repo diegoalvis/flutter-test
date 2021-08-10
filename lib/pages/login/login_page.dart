@@ -116,7 +116,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final bool _isValidEmail = EmailValidator.validate(emailController.text);
     final viewModel = context.watch<LoginViewModel>();
     final sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
@@ -211,14 +210,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         height: 6,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return '* Email necesario';
-                          }else if(!_isValidEmail){
-                            return '* Email invalido';
-                          }
-                          return null;
-                        },
+                        validator: (value) => viewModel.validateEmail(value!, emailController.text),
                         style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                         controller: emailController,
                         decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
@@ -230,15 +222,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       Spacer(),
                       TextFormField(
-                        validator: (value) {
-
-                          if (value == null || value.isEmpty) {
-                            return '* Contraseña necesaria';
-                          }else if(value!.length < 8){
-                            return 'Contraseña incompleta';
-                          }
-                          return null;
-                        },
+                        validator: (value) => viewModel.validatePassword(value!),
                         keyboardType: TextInputType.emailAddress,
                         style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                         controller: passwordController,
@@ -419,3 +403,4 @@ double scaleSmallDevice(BuildContext context) {
   // For normal devices.
   return 150;
 }
+
