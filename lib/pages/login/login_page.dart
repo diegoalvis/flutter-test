@@ -163,231 +163,237 @@ class _LoginWidgetState extends State<LoginWidget> {
     }
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Image(
-              // Imagen De fondo Login
-              image: AssetImage(IdtAssets.bogota_dc_travel),
-              height: sizeScreen.height,
-              fit: BoxFit.fill,
-            ),
-            Form(
-              key: _formKey,
-              child: Container(
-                height: sizeScreen.height * 0.6,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Spacer(),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Image.asset(
-                        IdtAssets.logo_bogota,
-                        // height: 100,
-                        height: scaleSmallDevice(context),
-                      ),
-                      Text(
-                        'App Oficial de Bogotá',
-                        style: textTheme.textWhiteShadow
-                            .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
-                      ),
-                      Spacer(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        'BIENVENIDO',
-                        style: textTheme.textWhiteShadow
-                            .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
-                      Spacer(),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      TextFormField(
-                        validator: (value) => viewModel.validateEmail(value!, emailController.text),
-                        style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                        controller: emailController,
-                        decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
-                          labelText: 'Email',
+      body: GestureDetector(
+        onTap: () {
+          print('Clicked outside');
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Image(
+                // Imagen De fondo Login
+                image: AssetImage(IdtAssets.bogota_dc_travel),
+                height: sizeScreen.height,
+                fit: BoxFit.fill,
+              ),
+              Form(
+                key: _formKey,
+                child: Container(
+                  height: sizeScreen.height * 0.6,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Spacer(),
+                        SizedBox(
+                          height: 12,
                         ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Spacer(),
-                      TextFormField(
-                        validator: (value) => viewModel.validatePassword(value!),
-                        keyboardType: TextInputType.emailAddress,
-                        style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration:
-                            KTextFieldDecoration(Icons.vpn_key).copyWith(labelText: 'Contraseña'),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Spacer(),
-                      BtnGradient('Iniciar Sesión',
-                          colorGradient: IdtGradients.orange,
-                          textStyle: textTheme.textButtomWhite.copyWith(
-                              fontSize: 16,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w700), onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          viewModel.loginResponse(emailController.text, passwordController.text);
-                        } else {
-                          _showAlert();
-                        }
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                      }),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () => viewModel.rememberMe(),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                viewModel.status.rememberMe!
-                                    ? Icons.radio_button_checked
-                                    : Icons.radio_button_off_rounded,
-                                color: Colors.white,
-                                size: 15,
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                'Recordarme',
-                                style: textTheme.textWhiteShadow
-                                    .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
-                              ),
-                            ],
+                        Image.asset(
+                          IdtAssets.logo_bogota,
+                          // height: 100,
+                          height: scaleSmallDevice(context),
+                        ),
+                        Text(
+                          'App Oficial de Bogotá',
+                          style: textTheme.textWhiteShadow
+                              .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
+                        Spacer(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          'BIENVENIDO',
+                          style: textTheme.textWhiteShadow
+                              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        TextFormField(
+                          validator: (value) => viewModel.validateEmail(value!, emailController.text),
+                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          controller: emailController,
+                          decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
+                            labelText: 'Email',
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              //CURVA
-              top: sizeScreen.height * 0.6,
-              child: SvgPicture.asset(IdtAssets.curve_up,
-                  width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
-            ),
-            Positioned(
-              top: sizeScreen.height * 0.6,
-              width: sizeScreen.width,
-              child: Container(
-                height: sizeScreen.height * 0.4,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                '¿Olvidó su contraseña?',
-                                style: textTheme.textWhiteShadow
-                                    .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
-                              ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Spacer(),
+                        TextFormField(
+                          validator: (value) => viewModel.validatePassword(value!),
+                          keyboardType: TextInputType.emailAddress,
+                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration:
+                              KTextFieldDecoration(Icons.vpn_key).copyWith(labelText: 'Contraseña'),
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Spacer(),
+                        BtnGradient('Iniciar Sesión',
+                            colorGradient: IdtGradients.orange,
+                            textStyle: textTheme.textButtomWhite.copyWith(
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w700), onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            viewModel.loginResponse(emailController.text, passwordController.text);
+                          } else {
+                            _showAlert();
+                          }
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                        }),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () => viewModel.rememberMe(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  viewModel.status.rememberMe!
+                                      ? Icons.radio_button_checked
+                                      : Icons.radio_button_off_rounded,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  'Recordarme',
+                                  style: textTheme.textWhiteShadow
+                                      .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                                ),
+                              ],
                             ),
-                            onTap: () {
-                              print("navegacion a recover Pass");
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => RecoverPassPage()),
-                              );
-                            },
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Spacer(
-                        flex: 2,
-                      ),
-                      BtnGradient('Crear Cuenta',
-                          colorGradient: IdtGradients.blue,
-                          textStyle: textTheme.textButtomWhite.copyWith(
-                              fontSize: 16,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w700), onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterUserPage()),
-                        );
-                      }),
-                      Spacer(
-                        flex: 2,
-                      ),
-                      Text(
-                        'O inicia sesión con',
-                        style: textTheme.textDetail.copyWith(
-                            fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
-                      ),
-                      Spacer(),
-                      LoginButtons(
-                          logout: viewModel.logOut, login: viewModel.login, alert: _showAlert()),
-                      SizedBox(
-                        height: 50,
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 30,
+              Positioned(
+                //CURVA
+                top: sizeScreen.height * 0.6,
+                child: SvgPicture.asset(IdtAssets.curve_up,
+                    width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
+              ),
+              Positioned(
+                top: sizeScreen.height * 0.6,
                 width: sizeScreen.width,
-                color: Colors.white,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  Text(
-                    'Oficina de Turismo de Bogotá',
-                    style: textTheme.textDetail
-                        .copyWith(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey),
+                child: Container(
+                  height: sizeScreen.height * 0.4,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '¿Olvidó su contraseña?',
+                                  style: textTheme.textWhiteShadow
+                                      .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              onTap: () {
+                                print("navegacion a recover Pass");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => RecoverPassPage()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Spacer(
+                          flex: 2,
+                        ),
+                        BtnGradient('Crear Cuenta',
+                            colorGradient: IdtGradients.blue,
+                            textStyle: textTheme.textButtomWhite.copyWith(
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w700), onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RegisterUserPage()),
+                          );
+                        }),
+                        Spacer(
+                          flex: 2,
+                        ),
+                        Text(
+                          'O inicia sesión con',
+                          style: textTheme.textDetail.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+                        ),
+                        Spacer(),
+                        LoginButtons(
+                            logout: viewModel.logOut, login: viewModel.login, alert: _showAlert()),
+                        SizedBox(
+                          height: 50,
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                ),
               ),
-            ),
-            loading
-          ],
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 30,
+                  width: sizeScreen.width,
+                  color: Colors.white,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    Text(
+                      'Oficina de Turismo de Bogotá',
+                      style: textTheme.textDetail
+                          .copyWith(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+              loading
+            ],
+          ),
         ),
       ),
     );
