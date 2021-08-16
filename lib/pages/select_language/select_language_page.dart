@@ -52,6 +52,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final _route = locator<IdtRoute>();
     Size sizeScreen = MediaQuery.of(context).size;
     // final viewModel = context.watch<SplashViewModel>();
 
@@ -77,47 +78,61 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
               height: sizeScreen.height * 0.7,
               child: Column(
                 children: [
-                  Container(
-                    height: 65,
-                    width: 110,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(IdtAssets.logo_bogota),
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
+                  Image.asset(
+                    IdtAssets.logo_bogota,
+                    height: 80,
                   ),
                   SizedBox(
                     height: 80,
                   ),
-                  Container(
-                    width: sizeScreen.width * 0.7,
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                          height: 60.0, viewportFraction: 0.3, enableInfiniteScroll: false),
-                      items: [
-                        1,
-                        2,
-                        3,
-                        4,
-                      ].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: IdtColors.red,
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage(IdtAssets.circle_flag),
-                                    fit: BoxFit.cover),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                                height: 60.0, viewportFraction: 0.3, enableInfiniteScroll: false),
+                            items: [
+                              1,
+                              2,
+                              3,
+                              4,
+                            ].map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: IdtColors.red,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: AssetImage(IdtAssets.circle_flag),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 20.0,
+                          height: 60,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.center,
+                              // end: Alignment(0.8, 0.0),
+                              // 10% of the width, so there are ten blinds.
+                              colors: <Color>[Colors.black12, Colors.transparent],
+                              // red to yellow
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-,
+                  ),
                   SizedBox(
                     height: 30,
                   ),
@@ -153,6 +168,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                     width: sizeScreen.width * 0.5,
                     child: BtnGradient(
                       "CONTINUAR",
+                      onPressed: () => _route.goHomeRemoveAll(),
                       colorGradient: IdtGradients.orange,
                       textStyle: Theme.of(context)
                           .textTheme

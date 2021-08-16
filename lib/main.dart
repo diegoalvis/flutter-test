@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
 
       title: 'Bogotá App',
       theme: AppTheme.build(),
-      // home: SplashPage(),
-      home: SelectLanguagePage(),
+      home: SplashPage(),
+      // home: SelectLanguagePage(),
       // home: RegisterUserPage(),
       // home: LoginPage(),
       // home: RecoverPassPage(),

@@ -20,6 +20,7 @@ import 'package:bogota_app/pages/register_user/register_user_page.dart';
 import 'package:bogota_app/pages/result_search/result_search_page.dart';
 import 'package:bogota_app/pages/saved_places/saved_places_page.dart';
 import 'package:bogota_app/pages/search/search_page.dart';
+import 'package:bogota_app/pages/select_language/select_language_page.dart';
 import 'package:bogota_app/pages/setting/setting_page.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_page.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,12 @@ class IdtRoute {
     IdtRoute.route = '';
     navigatorKey.currentState!.pop();
   }
+  goSelectLanguage() {
+    // IdtRoute.route = HomePage.namePage;
+    return navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (_) => SelectLanguagePage()));
+  }
+
 
   goHome() {
     IdtRoute.route = HomePage.namePage;
