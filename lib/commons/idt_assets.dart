@@ -4,6 +4,8 @@ class IdtAssets {
   static const path = 'lib/assets/images';
 
   //Local
+  //Users/diegoalvis/code/W/FlutterProjects/TBBC/IDTMobile/lib/assets/images/bandera_Example_Col.png
+  static const String circle_flag = '/Users/diegoalvis/code/W/FlutterProjects/TBBC/IDTMobile/lib/assets/images/bandera_Example_Col.png';//example bandera language Select
   static const String splash = '$path/splash.jpg';
   static const String loading = '$path/loading.gif';
   static const String logo_bogota = '$path/logo_bogota.png';

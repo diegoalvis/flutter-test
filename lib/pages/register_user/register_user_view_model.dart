@@ -276,7 +276,7 @@ class RegisterUserViewModel extends EffectsViewModel<RegisterUserStatus, Registe
         return '* la contraseña es necesaria';
       }else
 
-        if(pass!.length < 8 || confirmPass!.length < 8 ){
+        if(pass.length < 8 || confirmPass!.length < 8 ){
         return "La contraseña debe incluir al menos 8 caracteres alfanuméricos";
       }else
         if(pass != confirmPass){

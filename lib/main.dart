@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bogota_app/pages/select_language/select_language_page.dart';
 import 'package:flutter/services.dart';
 import 'package:bogota_app/pages/splash/splash_page.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
 
       title: 'Bogotá App',
       theme: AppTheme.build(),
-      home: SplashPage(),
+      // home: SplashPage(),
+      home: SelectLanguagePage(),
       // home: RegisterUserPage(),
       // home: LoginPage(),
       // home: RecoverPassPage(),
