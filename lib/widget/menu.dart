@@ -9,6 +9,7 @@ import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -26,6 +27,7 @@ class IdtMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     final String imageUrl = '';
     // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg';
@@ -135,6 +137,81 @@ class IdtMenu extends StatelessWidget {
                 height: 15,
               ),
               profileWidget(context),
+              SizedBox(
+                height: 25,
+              ),
+              Container(
+                width: sizeScreen.width,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 70),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            height: 40.0, viewportFraction: 0.25, enableInfiniteScroll: false),
+                        items: [
+                          1,
+                          2,
+                          3,
+                          4,
+                        ].map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  // color: IdtColors.red,
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(IdtAssets.circle_flag),
+                                      fit: BoxFit.cover),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Container(
+                        width: 12.0,
+                        height: 40,
+                        decoration: BoxDecoration(
+
+                          // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100),  topLeft: Radius.circular(100)),
+                          // color: Colors.red,
+                          gradient: LinearGradient(
+                            colors: <Color>[IdtColors.white.withOpacity(0.8),IdtColors.white.withOpacity(0.6),IdtColors.white.withOpacity(0.3),IdtColors.white.withOpacity(0.1) ],
+                            // red to yellow
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          width: 12.0,
+                          height: 40,
+                          decoration: BoxDecoration(
+
+                            // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100),  topLeft: Radius.circular(100)),
+                            // color: Colors.red,
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                IdtColors.white.withOpacity(0.1) ,
+                                IdtColors.white.withOpacity(0.3),
+                                IdtColors.white.withOpacity(0.6),
+                                IdtColors.white.withOpacity(0.8),
+                              ],
+                              // red to yellow
+                            ),
+                          ),
+                        ),
+                      )
+
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
