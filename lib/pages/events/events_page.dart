@@ -30,8 +30,7 @@ import '../../app_theme.dart';
 import 'events_effect.dart';
 
 class EventsPage extends StatelessWidget {
-
-  static String namePage= '';
+  static String namePage = '';
 
   final SocialEventType type;
   final int? optionIndex;
@@ -59,6 +58,7 @@ class EventsWidget extends StatefulWidget {
 }
 
 class _EventsWidgetState extends State<EventsWidget> {
+  bool _nearToMe = false;
   final scrollController = ScrollController();
   StreamSubscription<EventsEffect>? _effectSubscription;
 
@@ -305,6 +305,7 @@ class _EventsWidgetState extends State<EventsWidget> {
     }
 
     Widget gridImagesCol3(List<DataModel> listItems) => (GridView.count(
+
         shrinkWrap: true,
         physics: ScrollPhysics(),
         crossAxisCount: 3,
@@ -333,10 +334,28 @@ class _EventsWidgetState extends State<EventsWidget> {
                   style: textTheme.titleWhite,
                 ),
               ),
+
+
               viewModel.type != SocialEventType.EVENT
                   ? _buttonFilter()
                   : SizedBox.shrink(), // Comentado porque no se puede filtrar al momento
-              SizedBox(height: 30),
+              Column(
+                children: [
+                  SizedBox(height: 10,),
+                  Switch.adaptive(
+                    value: _nearToMe,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _nearToMe = value;
+                      });
+                    },
+                    activeColor: IdtColors.greenDark,
+                  ),
+                  Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
+
+                ],
+              ),
+              SizedBox(height: 15),
               gridImagesCol3(viewModel.status.places),
               SizedBox(height: 55),
             ],
