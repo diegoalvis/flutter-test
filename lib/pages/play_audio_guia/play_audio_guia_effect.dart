@@ -4,11 +4,11 @@ abstract class PlayAudioGuiaEffect extends Effect {
 
 }
 
-class PlayAudioValueControllerScrollEffect extends PlayAudioGuiaEffect {
+class PlayAudioGuiaValueControllerScrollEffect extends PlayAudioGuiaEffect {
   final int duration;
   final bool next;
 
-  PlayAudioValueControllerScrollEffect(this.duration, this.next);
+  PlayAudioGuiaValueControllerScrollEffect(this.duration, this.next);
 }
 
 class ShowDialogModeOffEffect extends PlayAudioGuiaEffect {

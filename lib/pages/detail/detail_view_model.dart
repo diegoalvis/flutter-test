@@ -37,7 +37,8 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   void goPlayAudioPage(DataPlacesDetailModel _detail) {
     status = status.copyWith(isLoading: true);
-    _route.goPlayAudio(detail: _detail);
+    // _route.goPlayAudio(detail: _detail);
+    _route.goNewPlayAudio(detail: _detail);
   }
 
   onTapFavorite(String idplace) async {

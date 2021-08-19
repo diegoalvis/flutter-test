@@ -15,11 +15,11 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:connectivity/connectivity.dart';
 import 'package:bogota_app/view_model.dart';
 
-class PlayAudioViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayAudioGuiaEffect>{
+class PlayAudioGuiaViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayAudioGuiaEffect>{
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  PlayAudioViewModel(this._route, this._interactor) {
+  PlayAudioGuiaViewModel(this._route, this._interactor) {
     status = PlayAudioGuiaStatus(
         isLoading: true,
         modeOffline: false,

@@ -65,7 +65,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
   final List<String> _dropdownValues = [];
   late AudioPlayer _player;
   bool firstValidate = false;
-  StreamSubscription<PlayAudioEffect>? _effectSubscription;
+  StreamSubscription<PlayAudioGuiaEffect>? _effectSubscription;
 
   Future<void> _init() async {
     _filldropdown(widget._detail);

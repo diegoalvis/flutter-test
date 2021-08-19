@@ -14,6 +14,7 @@ import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
 import 'package:bogota_app/pages/login/login_page.dart';
 import 'package:bogota_app/pages/play_audio/play_audio_page.dart';
+import 'package:bogota_app/pages/play_audio_guia/play_audio_guia_page.dart';
 import 'package:bogota_app/pages/profile/profile_page.dart';
 import 'package:bogota_app/pages/profile_edit/profile_edit_page.dart';
 import 'package:bogota_app/pages/register_user/register_user_page.dart';
@@ -102,6 +103,11 @@ class IdtRoute {
   goPlayAudio({required DataPlacesDetailModel detail}) {
     return navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (_) => PlayAudioPage(detail: detail)));
+  }
+
+  goNewPlayAudio({required DataPlacesDetailModel detail}) {
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => PlayAudioGuiaPage(detail: detail)));
   }
 
   goDiscover() {
