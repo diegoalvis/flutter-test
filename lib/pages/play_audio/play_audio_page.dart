@@ -135,15 +135,17 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
       } else if (event is ShowDialogModeOffEffect) {
         context.showDialogObservation(
           titleDialog: 'Funcionalidad Pro',
-          bodyTextDialog: '* Te permite almacenar el \"audio\" de éste lugar para escucharlo sin conexion *\n\n¿Quieres iniciar sesion?',
+          bodyTextDialog:
+              '* Te permite almacenar el \"audio\" de éste lugar para escucharlo sin conexion *\n\n¿Quieres iniciar sesion?',
           textPrimaryButton: 'Ir al Login...',
           textSecondButtom: 'Luego',
           actionPrimaryButtom: _route.goLogin,
         );
-      }else if (event is ShowDialogAddSavedPlaceEffect) {
+      } else if (event is ShowDialogAddSavedPlaceEffect) {
         context.showDialogObservation(
           titleDialog: 'Funcionalidad Pro',
-          bodyTextDialog: '* Te permite agregar este lugar a tu lista de Favoritos *\n\n¿Quieres iniciar sesion?',
+          bodyTextDialog:
+              '* Te permite agregar este lugar a tu lista de Favoritos *\n\n¿Quieres iniciar sesion?',
           textPrimaryButton: 'Ir al Login...',
           textSecondButtom: 'Luego',
           actionPrimaryButtom: _route.goLogin,
@@ -255,8 +257,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                       ? viewModel.onTapFavorite
                       : () {
                           viewModel.dialogSuggestionLoginSavedPlace();
-                        }
-                  )
+                        })
               : SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
@@ -485,9 +486,15 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                                   } else {
                                     widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
                                   }
-                                  return Container(
-                                    child: AnimatedContainerApp(
-                                        widget.sizeContainer, Colors.blue, IdtAssets.waves),
+                                  return Row(
+                                    children: [
+                                      ImageAnimatedContainer(widget.sizeContainer, IdtAssets.waves),
+                                      Container(
+                                        color: Colors.red,
+                                        height: 10,
+                                        width: 10,
+                                      )
+                                    ],
                                   );
                                 }),
                               ),
@@ -526,9 +533,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
 
                                   return Container(
                                     child: PositionDuration(
-                                      AnimatedContainerApp(
+                                      ImageAnimatedContainer(
                                         widget.sizeContainer,
-                                        Colors.greenAccent,
                                         IdtAssets.waves_front,
                                       ),
                                       widget.sizeContainer,
@@ -646,9 +652,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                   widthPosition = (pos * width) / total;
                 }
 
-                return AnimatedContainerApp(
+                return ImageAnimatedContainer(
                   widthPosition,
-                  Colors.orange,
                   IdtAssets.waves_front,
                 );
               });
@@ -967,26 +972,25 @@ class _SeekBarState extends State<SeekBar> {
   Duration get _remaining => widget.duration - widget.position;
 }
 
-class AnimatedContainerApp extends StatefulWidget {
+class ImageAnimatedContainer extends StatefulWidget {
   @override
-  _AnimatedContainerAppState createState() => _AnimatedContainerAppState();
+  _ImageAnimatedContainerState createState() => _ImageAnimatedContainerState();
 
-  AnimatedContainerApp(
+  ImageAnimatedContainer(
     double _width,
-    Color _color,
-    String _wavePng,
+    String _imagePath,
   ) {
     this._width = _width;
-    this._color = _color;
-    this._wavePng = _wavePng;
+
+    this._imagePath = _imagePath;
   }
 
   late double _width;
-  late Color _color;
-  late String _wavePng;
+
+  late String _imagePath;
 }
 
-class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
+class _ImageAnimatedContainerState extends State<ImageAnimatedContainer> {
   // Define the various properties with default values. Update these properties
   // when the user taps a FloatingActionButton.
 
@@ -1010,7 +1014,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
             alignment: Alignment.bottomLeft,
             scale: 1,
             image: AssetImage(
-              widget._wavePng,
+              widget._imagePath,
             ),
           ),
         ),

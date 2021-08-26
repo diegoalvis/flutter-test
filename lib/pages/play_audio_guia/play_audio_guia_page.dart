@@ -192,6 +192,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
               ),
               PlayerButtons(_audioPlayer),
               Container(
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -205,27 +206,42 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                       ),
                       //TODO progreso de la reproduccion color
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             child: new LayoutBuilder(
                                 builder: (BuildContext context, BoxConstraints constraints) {
-                              // print("--- ${MediaQuery.of(context).size}");
-                              // print(
-                              //     "+++ ${(MediaQuery.of(context).size.width / 1.65)}");
                               if (MediaQuery.of(context).size.width < 390) {
                                 widget.sizeContainer = MediaQuery.of(context).size.width / 2;
                               } else {
                                 widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
                               }
-                              return Container(
-                                child: AnimatedContainerApp(
-                                    widget.sizeContainer, Colors.blue, IdtAssets.waves),
-                              );
+
+                              return Stack(children: [
+                                ImageAnimatedContainer(widget.sizeContainer, IdtAssets.waves),
+                                StreamBuilder<Duration>(
+                                    stream: _audioPlayer.positionStream,
+                                    builder: (context, snapshot) {
+                                      final currentPosition = snapshot.data?.inSeconds ?? 0;
+                                      final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
+                                      final progresAudio =
+                                          currentPosition / totalDuration; //es un %
+                                      final widthAudio =
+                                          widget.sizeContainer * (currentPosition / totalDuration);
+                                      return Row(
+                                        children: [
+                                          ImageAnimatedContainer(widthAudio, IdtAssets.waves_front),
+                                          Container(
+                                            color: Colors.green,
+                                            height: 40,
+                                            width: 5,
+                                          )
+                                        ],
+                                      );
+                                    }),
+                              ]);
                             }),
                           ),
-                          SizedBox(
-                            width: 10,
-                          )
                         ],
                       ),
                     ],
@@ -233,7 +249,10 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
               SizedBox(
                 height: 50,
               ),
-              Text('Hollo')
+              Text(
+                'prueba Scroll',
+                style: TextStyle(color: Colors.white),
+              )
             ],
           ),
         ),
@@ -318,7 +337,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
             ),
           ),
         ),
-        Column(
+        ListView(
           children: [
             SizedBox(
               height: 120,
@@ -326,6 +345,11 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
             _body(),
             SizedBox(
               height: 55,
+            ),
+            Container(
+              color: IdtColors.red,
+              height: 10,
+              width: 10,
             )
           ],
         )
