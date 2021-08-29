@@ -488,7 +488,9 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                                   }
                                   return Row(
                                     children: [
-                                      ImageAnimatedContainer(widget.sizeContainer, IdtAssets.waves),
+                                      ImageAnimatedContainer(
+                                        imagePath: IdtAssets.waves_front,
+                                      ),
                                       Container(
                                         color: Colors.red,
                                         height: 10,
@@ -534,8 +536,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                                   return Container(
                                     child: PositionDuration(
                                       ImageAnimatedContainer(
-                                        widget.sizeContainer,
-                                        IdtAssets.waves_front,
+                                         imagePath: IdtAssets.waves_front,
                                       ),
                                       widget.sizeContainer,
                                     ),
@@ -653,8 +654,8 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
                 }
 
                 return ImageAnimatedContainer(
-                  widthPosition,
-                  IdtAssets.waves_front,
+                   imagePath: IdtAssets.waves_front,
+
                 );
               });
         });
@@ -976,18 +977,13 @@ class ImageAnimatedContainer extends StatefulWidget {
   @override
   _ImageAnimatedContainerState createState() => _ImageAnimatedContainerState();
 
-  ImageAnimatedContainer(
-    double _width,
-    String _imagePath,
-  ) {
-    this._width = _width;
-
-    this._imagePath = _imagePath;
-  }
-
   late double _width;
-
   late String _imagePath;
+
+  ImageAnimatedContainer({required String imagePath, double width = 40}) {
+    this._width = width;
+    this._imagePath = imagePath;
+  }
 }
 
 class _ImageAnimatedContainerState extends State<ImageAnimatedContainer> {
@@ -1008,7 +1004,7 @@ class _ImageAnimatedContainerState extends State<ImageAnimatedContainer> {
 
         decoration: BoxDecoration(
           // color: Colors.yellow.withOpacity(0.5),
-          borderRadius: _borderRadius,
+          // borderRadius: _borderRadius,
           image: DecorationImage(
             fit: BoxFit.fitHeight,
             alignment: Alignment.bottomLeft,
@@ -1019,9 +1015,10 @@ class _ImageAnimatedContainerState extends State<ImageAnimatedContainer> {
           ),
         ),
         // Define how long the animation should take.
-        duration: Duration(milliseconds: 400),
+        duration: Duration(milliseconds: 200),
         // Provide an optional curve to make the animation feel smoother.
       ),
     );
   }
+
 }

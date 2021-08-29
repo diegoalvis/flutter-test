@@ -192,8 +192,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
               ),
               PlayerButtons(_audioPlayer),
               Container(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.only(top: 8, bottom: 8, left: 35, right: 25),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black.withOpacity(0.5),
@@ -201,49 +200,85 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                   child: Column(
                     children: [
                       Text(
-                        "Nombre de la pista",
+                        widget._detail.title!,
                         style: TextStyle(color: Colors.white),
                       ),
-                      //TODO progreso de la reproduccion color
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: new LayoutBuilder(
-                                builder: (BuildContext context, BoxConstraints constraints) {
-                              if (MediaQuery.of(context).size.width < 390) {
-                                widget.sizeContainer = MediaQuery.of(context).size.width / 2;
-                              } else {
-                                widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
-                              }
-
-                              return Stack(children: [
-                                ImageAnimatedContainer(widget.sizeContainer, IdtAssets.waves),
-                                StreamBuilder<Duration>(
-                                    stream: _audioPlayer.positionStream,
-                                    builder: (context, snapshot) {
-                                      final currentPosition = snapshot.data?.inSeconds ?? 0;
-                                      final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
-                                      final progresAudio =
-                                          currentPosition / totalDuration; //es un %
-                                      final widthAudio =
-                                          widget.sizeContainer * (currentPosition / totalDuration);
-                                      return Row(
-                                        children: [
-                                          ImageAnimatedContainer(widthAudio, IdtAssets.waves_front),
-                                          Container(
-                                            color: Colors.green,
-                                            height: 40,
-                                            width: 5,
-                                          )
-                                        ],
-                                      );
-                                    }),
-                              ]);
-                            }),
-                          ),
-                        ],
+                      SizedBox(
+                        height: 10,
                       ),
+                      //TODO progreso de la reproduccion color
+                      LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                        if (MediaQuery.of(context).size.width < 390) {
+                          widget.sizeContainer = MediaQuery.of(context).size.width / 2;
+                        } else {
+                          widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
+                        }
+                        return Stack(
+                          children: [
+                            ImageAnimatedContainer(
+                                width: widget.sizeContainer, imagePath: IdtAssets.waves),
+                            StreamBuilder<Duration>(
+                                stream: _audioPlayer.positionStream,
+                                builder: (context, snapshot) {
+                                  format(Duration d) => d.toString().substring(2, 7);
+                                  final currentPosition = snapshot.data?.inSeconds ?? 0;
+                                  final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
+                                  final timeCurrent = format(snapshot.data!);
+                                  final totalTime = format(_audioPlayer.duration!);
+                                  final progresAudio = currentPosition / totalDuration; //es un %
+                                  final widthAudio =
+                                      widget.sizeContainer * (currentPosition / totalDuration);
+                                  return IntrinsicWidth(
+                                    child: Column(
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            ImageAnimatedContainer(
+                                                width: widthAudio, imagePath: IdtAssets.waves_front),
+                                            Container(
+                                              width: widget.sizeContainer,
+                                              child: SliderTheme(
+                                                data: SliderTheme.of(context).copyWith(
+                                                  trackShape: CustomSliderTrackShape(),
+                                                  trackHeight: 0.0,
+                                                  thumbShape: RoundSliderThumbShape(
+                                                    enabledThumbRadius: 0,
+                                                  ),
+                                                  overlayShape:
+                                                      RoundSliderOverlayShape(overlayRadius: 20.0),
+                                                ),
+                                                child: Slider(
+                                                    min: 0.0,
+                                                    max: totalDuration.toDouble(),
+                                                    value: currentPosition.toDouble(),
+                                                    onChanged: (pos) {
+                                                      _audioPlayer
+                                                          .seek(Duration(seconds: pos.toInt()));
+                                                    }),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              timeCurrent,
+                                              style: TextStyle(color: IdtColors.white, fontSize: 10),
+                                            ),
+                                            Spacer(),
+                                            Text(totalTime,
+                                                style: TextStyle(color: IdtColors.white, fontSize: 10)),
+                                            SizedBox(width: 10,)
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ],
+                        );
+                      }),
                     ],
                   )),
               SizedBox(
@@ -355,5 +390,21 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
         )
       ],
     );
+  }
+}
+
+class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double? trackHeight = sliderTheme.trackHeight;
+    final double trackLeft = offset.dx;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight!) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
 }

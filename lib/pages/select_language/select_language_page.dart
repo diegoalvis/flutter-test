@@ -1,26 +1,18 @@
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_assets.dart';
-import 'package:bogota_app/data/local/user.dart';
-import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/profile/profile_view_model.dart';
-import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
-import 'package:bogota_app/widget/idt_progress_indicator.dart';
-import 'package:bogota_app/widget/menu.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:googleapis/games/v1.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flag/flag.dart';
 import '../../app_theme.dart';
 
 class SelectLanguagePage extends StatelessWidget {
@@ -74,7 +66,6 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
               sigmaY: 5.0,
             ),
             child: Container(
-              // color: IdtColors.red,
               height: sizeScreen.height * 0.7,
               child: Column(
                 children: [
