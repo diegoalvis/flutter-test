@@ -4,7 +4,7 @@ import 'package:bogota_app/widget/play_audio.dart';
 import 'package:flag/flag.dart';
 import 'package:just_audio/just_audio.dart';
 
-class  testData{
+ class testData{
 
 
 
@@ -21,12 +21,11 @@ class  testData{
   'https://bogotadc.travel/drpl/sites/default/files/2020-10/DSC02240.jpg'
   ];
 
-  final List<FlagsCode> listFlags = [
+  static const List<FlagsCode> listFlags = [
     FlagsCode.CO,
     FlagsCode.US,
     FlagsCode.FR,
     FlagsCode.BR,
-
   ];
 
   final List<String> imgList2 = [

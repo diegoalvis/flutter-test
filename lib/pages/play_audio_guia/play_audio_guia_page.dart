@@ -114,6 +114,12 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
     final sizeScreen = MediaQuery.of(context).size;
 
     Widget _body() {
+      final List dummyList = List.generate(10, (index) {
+        return {
+          "id": index,
+          "title": "This is the title $index",
+          "subtitle": "This is the subtitle $index"
+        };});
       return Container(
         child: SingleChildScrollView(
           child: Column(
@@ -220,11 +226,11 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                             StreamBuilder<Duration>(
                                 stream: _audioPlayer.positionStream,
                                 builder: (context, snapshot) {
-                                  format(Duration d) => d.toString().substring(2, 7);
+                                  format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
                                   final currentPosition = snapshot.data?.inSeconds ?? 0;
                                   final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
-                                  final timeCurrent = format(snapshot.data!);
-                                  final totalTime = format(_audioPlayer.duration!);
+                                  final timeCurrent = format(snapshot.data);
+                                  final totalTime = format(_audioPlayer.duration);
                                   final progresAudio = currentPosition / totalDuration; //es un %
                                   final widthAudio =
                                       widget.sizeContainer * (currentPosition / totalDuration);
@@ -284,10 +290,22 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
               SizedBox(
                 height: 50,
               ),
-              Text(
-                'prueba Scroll',
-                style: TextStyle(color: Colors.white),
-              )
+              // ListView.builder(
+              //   itemCount: dummyList.length,
+              //   itemBuilder: (context, index) => Card(
+              //     elevation: 6,
+              //     margin: EdgeInsets.all(10),
+              //     child: ListTile(
+              //       leading: CircleAvatar(
+              //         child: Text(dummyList[index]["id"].toString()),
+              //         backgroundColor: Colors.purple,
+              //       ),
+              //       title: Text(dummyList[index]["title"]),
+              //       subtitle: Text(dummyList[index]["subtitle"]),
+              //       trailing: Icon(Icons.add_a_photo),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

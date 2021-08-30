@@ -88,11 +88,11 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                           alignment: Alignment.center,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: testData().listFlags.length,
+                            itemCount: testData.listFlags.length,
                             itemBuilder: (context, index) => ClipRRect(
                               borderRadius: BorderRadius.circular(75.0),
                               child: Flag.fromCode(
-                                testData().listFlags[index],
+                                testData.listFlags[index],
                                 width: 60,
                                 fit: BoxFit.cover,
                               ),
