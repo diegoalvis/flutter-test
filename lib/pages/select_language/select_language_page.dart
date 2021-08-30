@@ -6,6 +6,7 @@ import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/pages/profile/profile_view_model.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -46,7 +47,9 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
   Widget build(BuildContext context) {
     final _route = locator<IdtRoute>();
     Size sizeScreen = MediaQuery.of(context).size;
-    // final viewModel = context.watch<SplashViewModel>();
+    final List dummyList = List.generate(4, (index) {
+      return {"subtitle": "This is the subtitle $index"};
+    });
 
     return Scaffold(
         body: Stack(
@@ -76,53 +79,45 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   SizedBox(
                     height: 80,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    child: Stack(
-                      children: [
-                        Align(
+                  Stack(
+                    children: [
+                      Container(
+                        width: sizeScreen.width * 0.5,
+                        height: 60,
+                        child: Align(
                           alignment: Alignment.center,
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                                height: 60.0, viewportFraction: 0.3, enableInfiniteScroll: false),
-                            items: [
-                              1,
-                              2,
-                              3,
-                              4,
-                            ].map((i) {
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      color: IdtColors.red,
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(IdtAssets.circle_flag),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  );
-                                },
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: testData().listFlags.length,
+                            itemBuilder: (context, index) => ClipRRect(
+                              borderRadius: BorderRadius.circular(75.0),
+                              child: Flag.fromCode(
+                                testData().listFlags[index],
+                                width: 60,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 20,
                               );
-                            }).toList(),
+                            },
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 20.0,
-                          height: 60,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.center,
-                              // end: Alignment(0.8, 0.0),
-                              // 10% of the width, so there are ten blinds.
-                              colors: <Color>[Colors.black12, Colors.transparent],
-                              // red to yellow
-                            ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 20.0,
+                        height: 60,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.center,
+                            colors: <Color>[Colors.black12, Colors.transparent],
+                            // red to yellow
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 30,
