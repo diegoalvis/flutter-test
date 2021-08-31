@@ -10,12 +10,14 @@ import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../app_theme.dart';
 import 'NFMarquee.dart';
+import 'carouselLanguages.dart';
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
@@ -110,6 +112,7 @@ class IdtMenu extends StatelessWidget {
         )));
 
     final listMenu = DataTest.List2(BoxDataSesion.isLoggedIn);
+    int? typeLanguage = 0;
     return SingleChildScrollView(
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 2000),
@@ -146,30 +149,7 @@ class IdtMenu extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 70),
                   child: Stack(
                     children: [
-                      CarouselSlider(
-                        options: CarouselOptions(
-                            height: 40.0, viewportFraction: 0.25, enableInfiniteScroll: false),
-                        items: [
-                          1,
-                          2,
-                          3,
-                          4,
-                        ].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  // color: IdtColors.red,
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(IdtAssets.circle_flag),
-                                      fit: BoxFit.cover),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
+                      CarouselLanguages(sizeScreen: sizeScreen, typeLanguage: typeLanguage, selectColor: IdtColors.orange,),
                       Container(
                         width: 12.0,
                         height: 40,

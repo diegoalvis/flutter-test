@@ -9,6 +9,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/pages/profile/profile_view_model.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
+import 'package:bogota_app/widget/carouselLanguages.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
       return {"subtitle": "This is the subtitle $index"};
     });
 
+    int? typeLanguage = -1;
     return Scaffold(
         body: Stack(
       children: [
@@ -81,30 +83,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   ),
                   Stack(
                     children: [
-                      Container(
-                        width: sizeScreen.width * 0.5,
-                        height: 60,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: testData.listFlags.length,
-                            itemBuilder: (context, index) => ClipRRect(
-                              borderRadius: BorderRadius.circular(75.0),
-                              child: Flag.fromCode(
-                                testData.listFlags[index],
-                                width: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            separatorBuilder: (BuildContext context, int index) {
-                              return SizedBox(
-                                width: 20,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                      CarouselLanguages(sizeScreen: sizeScreen, typeLanguage: 0, selectColor: Colors.white,),
                       Container(
                         alignment: Alignment.center,
                         width: 20.0,
