@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key> NSMicrophoneUsageDescription</key>
-    <string>Need access to the microphone to record videos</string>
-    <key> NSLocationAlwaysUsageDescription</key>
-    <string>Need access to the location to find nearby places</string>
-    <key> NSLocationWhenInUseUsageDescription</key>
-    <string>Need access to the location to find nearby places</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -25,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -33,6 +27,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>need to access the location to find hotels, events and restaurants to visit</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>need to access the location to find places of interest and nearby to visit</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need access to the microphone to record videos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
