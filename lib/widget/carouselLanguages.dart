@@ -2,7 +2,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/mock/data/testData.dart';
 
-class CarouselLanguages extends StatelessWidget {
+class CarouselLanguages extends StatefulWidget {
 
   CarouselLanguages({
     Key? key,
@@ -16,9 +16,14 @@ class CarouselLanguages extends StatelessWidget {
   int? typeLanguage;
 
   @override
+  _CarouselLanguagesState createState() => _CarouselLanguagesState();
+}
+
+class _CarouselLanguagesState extends State<CarouselLanguages> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: sizeScreen.width * 0.7,
+      width: widget.sizeScreen.width * 0.7,
       height: 70,
       child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 110),
@@ -27,17 +32,17 @@ class CarouselLanguages extends StatelessWidget {
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
               print('Idimoa selecionando index: $index');
-              // setState(() {
-              typeLanguage = index;
-              // });
+              setState(() {
+              widget.typeLanguage = index;
+              });
             },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(75),
                 border: Border.all(
                   width: 5,
-                  color: typeLanguage == index
-                      ? selectColor
+                  color: widget.typeLanguage == index
+                      ? widget.selectColor
                       : Colors.transparent,
                 ),
               ),
