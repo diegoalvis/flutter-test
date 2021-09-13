@@ -2,17 +2,15 @@ import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
-import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
-import 'package:bogota_app/mock/data/testData.dart';
-import 'package:bogota_app/pages/profile/profile_view_model.dart';
+import 'package:bogota_app/pages/select_language/select_language_view_model.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/carouselLanguages.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flag/flag.dart';
 import '../../app_theme.dart';
@@ -23,7 +21,7 @@ class SelectLanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => SelectLanguageViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SelectLanguageWidget();
       },
@@ -40,12 +38,17 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<SelectLanguageViewModel>().onInit();
+    });
     // final viewModel = context.read<SplashViewModel>();
     // viewModel.getSplash();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<SelectLanguageViewModel>();
+
     final _route = locator<IdtRoute>();
     Size sizeScreen = MediaQuery.of(context).size;
     final List dummyList = List.generate(4, (index) {
@@ -83,7 +86,14 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   ),
                   Stack(
                     children: [
-                      CarouselLanguages(sizeScreen: sizeScreen, typeLanguage: 0, selectColor: Colors.white,),
+                      viewModel.status.isLoading == false
+                          ? CarouselLanguages(
+                              languages: viewModel.status.languagesAvalibles,
+                              sizeScreen: sizeScreen,
+                              typeLanguage: 0,
+                              selectColor: Colors.white,
+                            )
+                          : SizedBox.shrink(),
                       Container(
                         alignment: Alignment.center,
                         width: 20.0,

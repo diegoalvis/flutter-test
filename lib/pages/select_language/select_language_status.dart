@@ -1,29 +1,27 @@
-import 'package:bogota_app/data/model/user_model.dart';
+import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/view_model.dart';
 
-class ProfileStatus extends ViewStatus {
-  final String titleBar;
+class SelectLanguageStatus extends ViewStatus {
   final bool isLoading;
-  final bool openMenu;
-  late UserModel? dataUser;
+  late List<LanguageModel> languagesAvalibles;
 
-  ProfileStatus(
-      {
-      required this.dataUser,
-      required this.titleBar,
-      required this.isLoading,
-      required this.openMenu});
 
-  ProfileStatus copyWith(
-      {
-      String? titleBar,
-      bool? isLoading,
-      bool? openMenu,
-      UserModel? dataUser}) {
-    return ProfileStatus(
-        titleBar: titleBar ?? this.titleBar,
-        dataUser: dataUser ?? this.dataUser,
-        isLoading: isLoading ?? this.isLoading,
-        openMenu: openMenu ?? this.openMenu);
+  // late UserModel? dataUser;
+
+  SelectLanguageStatus({
+    required this.isLoading,
+    required this.languagesAvalibles
+  });
+
+  SelectLanguageStatus copyWith({
+    bool? isLoading,
+    List<LanguageModel>? languagesAvalibles,
+  }) {
+    return SelectLanguageStatus(
+
+      isLoading: isLoading ?? this.isLoading,
+      languagesAvalibles: languagesAvalibles ?? this.languagesAvalibles,
+
+    );
   }
 }

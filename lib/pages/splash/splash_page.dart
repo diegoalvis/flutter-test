@@ -36,7 +36,7 @@ class _SplashWidgetState extends State<SplashWidget> {
   void initState() {
     super.initState();
     final viewModel = context.read<SplashViewModel>();
-    viewModel.getSplash();
+    viewModel.onInit();
   }
 
   @override

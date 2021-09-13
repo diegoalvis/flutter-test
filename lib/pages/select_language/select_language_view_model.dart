@@ -1,4 +1,5 @@
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -7,82 +8,36 @@ import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:hive/hive.dart';
 
-class ProfileViewModel extends ViewModel<ProfileStatus> {
+import 'select_language_status.dart';
+
+class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  ProfileViewModel(this._route, this._interactor) {
-    status = ProfileStatus(
-      titleBar: 'Recibidos',
+  SelectLanguageViewModel(this._route, this._interactor) {
+    status = SelectLanguageStatus(
       isLoading: false,
-      openMenu: false,
-      dataUser: null,
-
+      languagesAvalibles: [],
     );
   }
 
-
   void onInit() async {
-    getDataUser();
+    getAvailableLanguages();
   }
 
-  Future<String> getNameUser() async {
-    CurrentUser user = BoxDataSesion.getCurrentUser()!;
-    final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
-    print("person?.name  ${person?.name }");
-    return person?.name ?? '-';
-  }
+  void getAvailableLanguages() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    print("connectivityResult $connectivityResult");
 
-  void getDataUser() async {
+    if (connectivityResult != ConnectivityResult.none) {
+      final response = await _interactor.getLanguageAvalible();
 
-    CurrentUser user = BoxDataSesion.getCurrentUser()!;
-    final Person? person = await BoxDataSesion.getFromBox(user.id_db!);
-    var idUser = person!.id.toString();
-    print('obteniendo datos del Usuario');
-    final dataUser = await _interactor.getDataUser(idUser);
-    if (dataUser is IdtSuccess<UserModel?>) {
-      print('Email del Usario id $idUser:** ${dataUser.body!.name}');
-
-      status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
-      print(status.dataUser!.toJson());
-    } else {
-      final erroRes = dataUser as IdtFailure<UserDataError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  void openMenu() {
-    status = status.copyWith(openMenu: !status.openMenu);
-  }
-
-  void closeMenu() {
-    status = status.copyWith(openMenu: false);
-  }
-
-  void goProfileEditPage() async {
-    status = status.copyWith(isLoading: true);
-    //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
-    //status.dataUser!.email!,
-    await _route.goProfileEdit(status.dataUser!.email!, status.dataUser!.name!,
-        status.dataUser!.lastName!);
-    status = status.copyWith(isLoading: false);
-  }
-
-  void goSettingPage() {
-    _route.goSettings();
-  }
-  Future<bool> offMenuBack()async {
-    bool? shouldPop = true;
-
-    if (status.openMenu) {
-      openMenu();
-      return !shouldPop;
-    } else {
-      return shouldPop;
+      if (response is IdtSuccess<List<LanguageModel>?>) {
+        status = status.copyWith(languagesAvalibles: response.body);
+      }
     }
   }
 }

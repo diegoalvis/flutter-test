@@ -23,7 +23,7 @@ class SplashViewModel extends ViewModel<SplashStatus> {
   }
 
   void onInit() async {
-    // TODO
+    getSplash();
   }
 
   void getSplash() async {

@@ -1,37 +1,40 @@
+
+
+import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_as_message_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
+import 'package:bogota_app/data/model/language_model.dart';
+import 'package:bogota_app/data/model/menu_images_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
-import 'package:bogota_app/data/model/menu_images_model.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
-import 'package:bogota_app/data/model/response/delete_user_response.dart';
-import 'package:bogota_app/data/model/response_model.dart';
 import 'package:bogota_app/data/model/response_model_reset_password.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
-import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/model/user_model.dart';
-import 'package:bogota_app/data/repository/service/audioguide_service.dart';
-import 'package:bogota_app/data/repository/service/bestRated_service.dart';
-import 'package:bogota_app/data/repository/service/event_service.dart';
-import 'package:bogota_app/data/repository/service/favorite_service.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
-import 'package:bogota_app/data/repository/service/eat_service.dart';
-import 'package:bogota_app/data/repository/service/gps_service.dart';
-import 'package:bogota_app/data/repository/service/login_service.dart';
-import 'package:bogota_app/data/repository/service/register_service.dart';
-import 'package:bogota_app/data/repository/service/savedPlaces_service.dart';
-import 'package:bogota_app/data/repository/service/sleep_service.dart';
-import 'package:bogota_app/data/repository/service/splash_service.dart';
-import 'package:bogota_app/data/repository/service/unmissable_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 
+
+import 'service/audioguide_service.dart';
+import 'service/bestRated_service.dart';
+import 'service/eat_service.dart';
+import 'service/event_service.dart';
+import 'service/favorite_service.dart';
+import 'service/gps_service.dart';
+import 'service/language_avalible_service.dart';
+import 'service/login_service.dart';
 import 'service/menu_images_service.dart';
+import 'service/register_service.dart';
 import 'service/reset_password.dart';
+import 'service/savedPlaces_service.dart';
 import 'service/search_service.dart';
+import 'service/sleep_service.dart';
+import 'service/splash_service.dart';
+import 'service/unmissable_service.dart';
 import 'service/zone_service.dart';
 
 class ApiInteractor {
@@ -120,6 +123,12 @@ class ApiInteractor {
   Future<IdtResult<SplashModel>> getSplashInteractor() async {
     final response = await locator<SplashService>().getSplash();
 
+    return response;
+  }
+
+  Future<IdtResult<List<LanguageModel>?>> getLanguageAvalible() async {
+
+    final response = await locator<LanguageAvalibleService>().getLanguageAvalible();
     return response;
   }
 
