@@ -346,7 +346,10 @@ class _EventsWidgetState extends State<EventsWidget> {
                     value: _nearToMe,
                     onChanged: (bool value) {
                       setState(() {
+                        print(value);
                         _nearToMe = value;
+                        print(_nearToMe);
+
                       });
                     },
                     activeColor: IdtColors.greenDark,

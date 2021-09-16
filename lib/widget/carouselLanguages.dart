@@ -5,14 +5,13 @@ import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/extensions/language.dart';
 
 class CarouselLanguages extends StatefulWidget {
-
-  CarouselLanguages({
-    Key? key,
-    required this.selectColor,
-    required this.sizeScreen,
-    required this.typeLanguage,
-    required this.languages
-  }) : super(key: key);
+  CarouselLanguages(
+      {Key? key,
+      required this.selectColor,
+      required this.sizeScreen,
+      required this.typeLanguage,
+      required this.languages})
+      : super(key: key);
 
   final Color selectColor;
   final Size sizeScreen;
@@ -32,36 +31,32 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
       child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 110),
           scrollDirection: Axis.horizontal,
-          itemCount: widget.languages!.length ,
+          itemCount: widget.languages!.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              print('Idimoa selecionando index: $index');
+              // Print('${viewModel.saveLanguajes}')
+              print('Idioma selecionando index: $index');
+              print(widget.languages[index].name);
               setState(() {
-              widget.typeLanguage = index;
+                widget.typeLanguage = index;
               });
             },
-            child: GestureDetector(
-              onTap: (){
-                // Print('${viewModel.saveLanguajes}')
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(75),
-                  border: Border.all(
-                    width: 5,
-                    color: widget.typeLanguage == index
-                        ? widget.selectColor
-                        : Colors.transparent,
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(75),
+                border: Border.all(
+                  width: 5,
+                  color:
+                      widget.typeLanguage == index ? widget.selectColor : Colors.transparent,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(75.0),
-                  child: Flag.fromCode(
-                    // testData.listFlags[index],
-                    widget.languages.elementAt(index)?.toFlagCode() ?? FlagsCode.CO,
-                    width: 60,
-                    fit: BoxFit.cover,
-                  ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(75.0),
+                child: Flag.fromCode(
+                  // testData.listFlags[index],
+                  widget.languages.elementAt(index)?.toFlagCode() ?? FlagsCode.CO,
+                  width: 60,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

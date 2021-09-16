@@ -26,6 +26,9 @@ class DataModel extends IdtModel {
   @JsonKey(name: 'seo_image')
   final String? seoImage;
 
+  // @JsonKey(name: 'ids_subcategory')
+  // final String? idsSubcategories;
+
   DataModel({
     required this.type,
     required this.id,
@@ -36,6 +39,7 @@ class DataModel extends IdtModel {
     this.video,
     this.urlAudioguia,
     this.idSubcategiry,
+    // this.idsSubcategories,
     this.coverImage,
     this.isFavorite,
   });

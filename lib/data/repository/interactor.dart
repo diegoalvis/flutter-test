@@ -21,6 +21,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 
 import 'service/audioguide_service.dart';
 import 'service/bestRated_service.dart';
+import 'service/close_to_me_service.dart';
 import 'service/eat_service.dart';
 import 'service/event_service.dart';
 import 'service/favorite_service.dart';
@@ -129,6 +130,12 @@ class ApiInteractor {
   Future<IdtResult<List<LanguageModel>?>> getLanguageAvalible() async {
 
     final response = await locator<LanguageAvalibleService>().getLanguageAvalible();
+    return response;
+  }
+
+  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates) async {
+
+    final response = await locator<CloseToMeService>().getPlacesCloseToMe(coordinates);
     return response;
   }
 

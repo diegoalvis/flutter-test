@@ -80,12 +80,7 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
     final loginResponse = await _interactor.login(params);
 
     if (loginResponse is IdtSuccess<RegisterModel?>) {
-      print("model login");
-      print(loginResponse);
-      //  status = status.copyWith(itemsAudioGuide: audioguideResponse.body);
-      /// Status reasignacion
-      // status.places.addAll(UnmissableResponse.body)
-      //  addEffect(ShowLoginDialogEffect());
+
       if (loginResponse.body!.message != null) {
         print('entra a if');
         print(loginResponse.body!.message);
@@ -98,9 +93,9 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
         _route.goHome();
         _serviceEn();
         _servicePer();
-        Timer.periodic(Duration(minutes: 2), (timer) {
+        Timer.periodic(Duration(seconds: 15), (timer) {
           _init();
-          print(DateTime.now());
+          print('Time Now: ${DateTime.now()}');
           getLoc();
         });
         setLocationUser();
@@ -165,7 +160,9 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
 
     print(_currentPosition);
     longitud = _currentPosition.longitude.toString();
+    print(longitud);
     latitud = _currentPosition.latitude.toString();
+    print(latitud);
     fecha = _currentPosition.time.toString();
   }
 

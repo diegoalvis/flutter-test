@@ -69,6 +69,8 @@ class FiltersWidget extends StatefulWidget {
 class _FiltersWidgetState extends State<FiltersWidget> {
   final scrollController = ScrollController();
   StreamSubscription<FilterEffect>? _effectSubscription;
+  bool _nearToMe = false;
+
 
   @override
   void initState() {
@@ -113,12 +115,13 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
             floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            body: _buildDiscover(viewModel)),
+            body: _buildDiscover(viewModel,_nearToMe)),
       ),
     );
   }
 
-  Widget _buildDiscover(FiltersViewModel viewModel) {
+  Widget _buildDiscover(FiltersViewModel viewModel, bool switchNearToMe) {
+
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     int count = 0;
@@ -335,6 +338,27 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ),
               ),
               _buttonsTapFilter(),
+              Column(
+                children: [
+                  SizedBox(height: 10,),
+                  Switch.adaptive(
+                    value: _nearToMe,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _nearToMe = value;
+                        if (_nearToMe){
+                        viewModel.getPlacesCloseToMe();
+                        }
+
+
+                      });
+                    },
+                    activeColor: IdtColors.greenDark,
+                  ),
+                  Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
+
+                ],
+              ),
               Container(
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
@@ -349,7 +373,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              // SizedBox(height: 25),
+              // SizedBox(height: 25),
               viewModel.status.placesFilter.length > 0
                   ?
             gridImagesCol3(viewModel.status.placesFilter)

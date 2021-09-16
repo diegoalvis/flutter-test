@@ -8,8 +8,13 @@ extension Language on LanguageModel {
       case 'es':
         return FlagsCode.CO;
         break;
+      case 'en':
+        return FlagsCode.US;
+        break;
+      case 'pt':
+        return FlagsCode.BR;
+        break;
       default:
-
         return FlagsCode.AD;
     }
   }

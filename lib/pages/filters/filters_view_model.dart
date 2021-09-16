@@ -8,12 +8,17 @@ import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:location/location.dart';
 
 import 'filter_effect.dart';
 
 class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  Location locationUser = Location();
+  String latitud = '';
+  String longitud = '';
+
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
@@ -286,6 +291,39 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = placebyidResponse as IdtFailure<FilterError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+  getLoc() async {
+    LocationData _currentPosition;
+    String _address, _dateTime;
+    _currentPosition = await locationUser.getLocation();
+
+    print(_currentPosition);
+    longitud = _currentPosition.longitude.toString();
+    print(longitud);
+    latitud = _currentPosition.latitude.toString();
+    print(latitud);
+    // fecha = _currentPosition.time.toString();
+  }
+  getPlacesCloseToMe() async{
+    status = status.copyWith(isLoading: true);
+    await getLoc();
+    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud');
+
+      status = status.copyWith(isLoading: false);
+    if (response is IdtSuccess<List<DataModel>?>) {
+      final places = response.body!;
+      status = status.copyWith(placesFilter: places);
+      // _route.goDetail(isHotel: false, detail: placesClosedToMe.body!);
+
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
       UnimplementedError();
     }
