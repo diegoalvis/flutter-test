@@ -12,6 +12,7 @@ class BoxDataSesion {
   static late Box<RememberMe> boxRememberMe;
   static late Box<dynamic> boxActivity;
   static late Box<dynamic> boxAudioGuides;
+  static late Box<String> boxSavedLanguaje;
   static final ready = BehaviorSubject.seeded(false);
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
@@ -27,9 +28,10 @@ class BoxDataSesion {
       boxSessionRem().then((value) => boxRememberMe = value).asStream(),
       boxActivityA().then((value) => boxActivity = value).asStream(),
       boxAudioGuidesA().then((value) => boxAudioGuides = value).asStream(),
+      boxLanguajeInit().then((value) => boxSavedLanguaje = value).asStream(),
     ]).listen(
       (event) {
-        print('YA TERMINO DE CARGAR ESTA VAINA ✅✅✅✅✅✅✅✅');
+        print('Carga exitosa de box ✅');
       },
       onDone: () => ready.add(true),
       onError: (error) => ready.add(false),
@@ -199,7 +201,7 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
-    print('devuelve usuario actual ${value!.id_user}');
+    // print('devuelve usuario actual ${value!.id_user}');
     return value;
   }
 
@@ -278,5 +280,39 @@ class BoxDataSesion {
       return resp;
     }
     return [];
+  }
+
+  static Future<Box<String>> boxLanguajeInit() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxSavedLanguaje = await Hive.openBox('boxSavedLanguaje');
+      print("✅ Box de lenguaje guardado cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX audioguias === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxSavedLanguaje;
+  }
+
+  static void pushToLanguaje(int? idUser, String value) {
+    String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
+    boxSavedLanguaje.put(idUser ?? noSessionUser, value);
+    print('✅ Se registra para ${idUser ?? noSessionUser} con valor ${jsonEncode(value)}');
+  }
+
+  static String getLanguajeByUser({int? idUser }) {
+    String defaultLanguaje = 'es';
+    String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
+    if(idUser == null){
+      final languajeSaved = boxSavedLanguaje.get(noSessionUser);
+      return languajeSaved ?? defaultLanguaje;
+    }
+    if (boxSavedLanguaje.get(idUser) != null) {
+      final languajeSaved = boxSavedLanguaje.get(idUser);
+      return languajeSaved ?? defaultLanguaje;
+    }
+    return defaultLanguaje;
   }
 }

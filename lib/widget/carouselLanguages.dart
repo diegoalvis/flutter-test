@@ -1,4 +1,6 @@
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/language_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:bogota_app/mock/data/testData.dart';
@@ -25,6 +27,7 @@ class CarouselLanguages extends StatefulWidget {
 class _CarouselLanguagesState extends State<CarouselLanguages> {
   @override
   Widget build(BuildContext context) {
+    readSelectedLanguaje();
     return Container(
       width: widget.sizeScreen.width * 0.7,
       height: 70,
@@ -37,9 +40,10 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
 
               // Print('${viewModel.saveLanguajes}')
               print('Idioma selecionando index: $index');
-              print(widget.languages[index].name);
+              print(widget.languages[index].prefix);
               setState(() {
                 widget.typeLanguage = index;
+              savedSelectedLanguaje(index);
               });
             },
             child: Container(
@@ -68,5 +72,21 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
             );
           }),
     );
+  }
+
+  void savedSelectedLanguaje(int index) {
+    CurrentUser? user = BoxDataSesion.getCurrentUser();
+    /*
+      Revisar estos dos id, no se cual es el id del usuario
+      user?.id_user o user?.user?.id_db no se cual es
+    */
+    BoxDataSesion.pushToLanguaje(user?.id_user, widget.languages[index].prefix!);
+  }
+
+  String readSelectedLanguaje() {
+    CurrentUser? user = BoxDataSesion.getCurrentUser();
+    String prefixLanguaje = BoxDataSesion.getLanguajeByUser(idUser: user?.id_user);
+    print('Lenguaje recuperado $prefixLanguaje para ${user?.id_user}');
+    return prefixLanguaje;
   }
 }
