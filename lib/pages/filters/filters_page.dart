@@ -344,13 +344,13 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                   Switch.adaptive(
                     value: _nearToMe,
                     onChanged: (bool value) {
-                      setState(() {
+                      setState(() async {
                         _nearToMe = value;
                         if (_nearToMe){
-                        viewModel.getPlacesCloseToMe();
+                         viewModel.getPlacesCloseToMe();
+                        print(viewModel.status.placesFilter.length);
+                        viewModel.status.placesFilter.length;
                         }
-
-
                       });
                     },
                     activeColor: IdtColors.greenDark,

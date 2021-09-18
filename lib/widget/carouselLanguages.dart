@@ -34,6 +34,7 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
           itemCount: widget.languages!.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
+
               // Print('${viewModel.saveLanguajes}')
               print('Idioma selecionando index: $index');
               print(widget.languages[index].name);

@@ -299,7 +299,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   getLoc() async {
     LocationData _currentPosition;
-    String _address, _dateTime;
     _currentPosition = await locationUser.getLocation();
 
     print(_currentPosition);

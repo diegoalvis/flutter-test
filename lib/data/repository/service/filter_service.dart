@@ -18,6 +18,7 @@ class FilterService {
   Future<IdtResult<List<DataModel>?>> getPlaces(Map params, Map? oldParams) async {
     Map<String, dynamic> queryParameters = {};
 
+    //Todo no funciona el filtro
     params.forEach((key, value) {
       queryParameters[key] = value;
     });
