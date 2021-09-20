@@ -201,7 +201,7 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
-    // print('devuelve usuario actual ${value!.id_user}');
+    print('devuelve usuario actual ${value?.id_user ??'**No Hay Usuario'}');
     return value;
   }
 

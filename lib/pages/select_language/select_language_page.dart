@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_assets.dart';
@@ -16,8 +17,6 @@ import 'package:flag/flag.dart';
 import '../../app_theme.dart';
 
 class SelectLanguagePage extends StatelessWidget {
-  SelectLanguagePage();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -35,27 +34,23 @@ class SelectLanguageWidget extends StatefulWidget {
 }
 
 class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
+  final _route = locator<IdtRoute>();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<SelectLanguageViewModel>().onInit();
     });
-    // final viewModel = context.read<SplashViewModel>();
-    // viewModel.getSplash();
+    // final viewModel = context.read<SelectLanguageViewModel>();
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SelectLanguageViewModel>();
 
-    final _route = locator<IdtRoute>();
     Size sizeScreen = MediaQuery.of(context).size;
-    final List dummyList = List.generate(4, (index) {
-      return {"subtitle": "This is the subtitle $index"};
-    });
 
-    int? typeLanguage = -1;
     return Scaffold(
         body: Stack(
       children: [
@@ -88,9 +83,9 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                     children: [
                       viewModel.status.isLoading == false
                           ? CarouselLanguages(
+                        viewModel.nextHome,
                               languages: viewModel.status.languagesAvalibles,
                               sizeScreen: sizeScreen,
-                              typeLanguage: 0,
                               selectColor: Colors.white,
                             )
                           : SizedBox.shrink(),
@@ -141,15 +136,16 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   ),
                   Container(
                     width: sizeScreen.width * 0.5,
-                    child: BtnGradient(
-                      "CONTINUAR",
-                      onPressed: () => _route.goHomeRemoveAll(),
-                      colorGradient: IdtGradients.orange,
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .textButtomWhite
-                          .copyWith(fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                    ),
+                    child:
+                    viewModel.status.isButtonEnable
+                        ? BtnGradient(
+                            "CONTINUAR",
+                            onPressed: () => _route.goHomeRemoveAll(),
+                            colorGradient: IdtGradients.orange,
+                            textStyle: Theme.of(context).textTheme.textButtomWhite.copyWith(
+                                fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
+                          )
+                        : SizedBox.shrink(),
                   )
                 ],
               ),

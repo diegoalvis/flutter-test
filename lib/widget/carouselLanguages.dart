@@ -3,21 +3,20 @@ import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:bogota_app/mock/data/testData.dart';
 import 'package:bogota_app/extensions/language.dart';
 
 class CarouselLanguages extends StatefulWidget {
   CarouselLanguages(
+      this.buttonEnable,
       {Key? key,
       required this.selectColor,
       required this.sizeScreen,
-      required this.typeLanguage,
       required this.languages})
       : super(key: key);
 
+  final VoidCallback buttonEnable;
   final Color selectColor;
   final Size sizeScreen;
-  int? typeLanguage;
   List<LanguageModel> languages;
 
   @override
@@ -25,7 +24,8 @@ class CarouselLanguages extends StatefulWidget {
 }
 
 class _CarouselLanguagesState extends State<CarouselLanguages> {
-  @override
+  int? typeLanguage;
+
   Widget build(BuildContext context) {
     readSelectedLanguaje();
     return Container(
@@ -34,38 +34,35 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
       child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 110),
           scrollDirection: Axis.horizontal,
-          itemCount: widget.languages!.length,
+          itemCount: widget.languages.length,
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
+                onTap: () {
+                  widget.buttonEnable();
+                  print('Idioma selecionando index: $index');
+                  print(widget.languages[index].prefix);
 
-              // Print('${viewModel.saveLanguajes}')
-              print('Idioma selecionando index: $index');
-              print(widget.languages[index].prefix);
-              setState(() {
-                widget.typeLanguage = index;
-              savedSelectedLanguaje(index);
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(75),
-                border: Border.all(
-                  width: 5,
-                  color:
-                      widget.typeLanguage == index ? widget.selectColor : Colors.transparent,
+                  typeLanguage = index;
+                  savedSelectedLanguaje(index);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(75),
+                    border: Border.all(
+                      width: 5,
+                      color: typeLanguage == index ? widget.selectColor : Colors.transparent,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(75.0),
+                    child: Flag.fromCode(
+                      // testData.listFlags[index],
+                      widget.languages.elementAt(index).toFlagCode(),
+                      width: 60,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(75.0),
-                child: Flag.fromCode(
-                  // testData.listFlags[index],
-                  widget.languages.elementAt(index)?.toFlagCode() ?? FlagsCode.CO,
-                  width: 60,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
           separatorBuilder: (BuildContext context, int index) {
             return SizedBox(
               width: 20,
@@ -83,10 +80,10 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
     BoxDataSesion.pushToLanguaje(user?.id_user, widget.languages[index].prefix!);
   }
 
-  String readSelectedLanguaje() {
+  void readSelectedLanguaje() {
     CurrentUser? user = BoxDataSesion.getCurrentUser();
     String prefixLanguaje = BoxDataSesion.getLanguajeByUser(idUser: user?.id_user);
     print('Lenguaje recuperado $prefixLanguaje para ${user?.id_user}');
-    return prefixLanguaje;
+    // return prefixLanguaje;
   }
 }

@@ -19,7 +19,9 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
 
   SelectLanguageViewModel(this._route, this._interactor) {
     status = SelectLanguageStatus(
+      indexSelect: null,
       isLoading: false,
+      isButtonEnable: false,
       languagesAvalibles: [],
     );
   }
@@ -39,5 +41,10 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
         status = status.copyWith(languagesAvalibles: response.body);
       }
     }
+  }
+
+  void nextHome() {
+
+    status = status.copyWith(isButtonEnable: true);
   }
 }
