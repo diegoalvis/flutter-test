@@ -253,11 +253,11 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<List<DataModel>?>> getSubcategories() async {
-    final queryParameters = {'zone': '23'};
-
-    // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/subcategory');
+  Future<IdtResult<List<DataModel>?>> getSubcategories(String lanUser) async {
+    final queryParameters = {
+      'lan': lanUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/subcategory',queryParameters);
 
     final response = await http.get(uri);
 

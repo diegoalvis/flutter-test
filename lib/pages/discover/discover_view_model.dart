@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-  String languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
+  late String languageUser;
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
@@ -31,6 +31,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void onInit() async {
+    languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
     getDiscoveryData();
   }
 
@@ -128,7 +129,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
 
-    final resSubcategiry = await _interactor.getSubcategoriesList();
+    final resSubcategiry = await _interactor.getSubcategoriesList(languageUser);
 
     if (resSubcategiry is IdtSuccess<List<DataModel>?>) {
       sortOptionsFilters(resSubcategiry);
