@@ -81,8 +81,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getUnmissablePlacesList() async {
-    final response = await locator<UnmissableService>().getUnmissablePlaces();
+  Future<IdtResult<List<DataModel>?>> getUnmissablePlacesList(String lan) async {
+    final response = await locator<UnmissableService>().getUnmissablePlaces(lan);
     return response;
   }
 

@@ -7,12 +7,14 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/unmissable/unmissable_status.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 
 class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   List<DataModel> unmissable = [];
+  late String languageUser;
 
   UnmissableViewModel(this._route, this._interactor) {
     status = UnmissableStatus(
@@ -24,6 +26,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   void onInit() async {
+   languageUser = BoxDataSesion.getLanguajeByUser();
     getUnmissableResponse();
     // TODO
   }
@@ -32,7 +35,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
     status = status.copyWith(isLoading: true, currentOption: 0);
     print('entra unmmisable');
     final IdtResult<List<DataModel>?> unmissableResponse =
-        await _interactor.getUnmissablePlacesList();
+        await _interactor.getUnmissablePlacesList(languageUser);
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
       print(unmissableResponse.body![0].title);

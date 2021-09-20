@@ -14,45 +14,45 @@ import 'package:bogota_app/utils/errors/gps_error.dart';
 import 'package:bogota_app/utils/errors/menu_images_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
-      imagesMenu: [],
-      titleBar: 'Recibidos',
-      isLoading: false,
-      openMenu: false,
-      openSaved: true,
-      notSaved: true,
-      seeAll: true,
-      itemsUnmissablePlaces: [],
-      itemsEatPlaces: [],
-      itemsbestRatedPlaces: [],
-      itemsSavedPlaces: [],
-      itemAudiosSavedPlaces:[],
-      listBoolAudio: [],
-      listBoolAll: [],
-      message: ''
-    );
+        imagesMenu: [],
+        titleBar: 'Recibidos',
+        isLoading: false,
+        openMenu: false,
+        openSaved: true,
+        notSaved: true,
+        seeAll: true,
+        itemsUnmissablePlaces: [],
+        itemsEatPlaces: [],
+        itemsbestRatedPlaces: [],
+        itemsSavedPlaces: [],
+        itemAudiosSavedPlaces: [],
+        listBoolAudio: [],
+        listBoolAll: [],
+        message: '');
   }
-
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLanguajeByUser();
     getUnmissableResponse();
     // getEatResponse();
     getBestRatedResponse();
     getImagesMenu();
 
     onpenSavedPlaces();
-    if(status.itemsSavedPlaces.length >= 1)
-      {
-        status.notSaved = false;
-      }
+    if (status.itemsSavedPlaces.length >= 1) {
+      status.notSaved = false;
+    }
   }
 
   void getImagesMenu() async {
@@ -60,18 +60,15 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     if (response is IdtSuccess<MenuImagesModel>) {
       status = status.copyWith(imagesMenu: response.body.menu);
-
     } else {
-
       final erroRes = response as IdtFailure<MenuImagesError>;
       print(erroRes.message);
       UnimplementedError();
     }
   }
 
-
   void getUnmissableResponse() async {
-    final unmissableResponse = await _interactor.getUnmissablePlacesList();
+    final unmissableResponse = await _interactor.getUnmissablePlacesList(languageUser);
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
       status =
@@ -133,23 +130,27 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final savedResponse = await _interactor.getSavedPlacesList();
 
     if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
-      if(savedResponse.body!.length>0){
+      if (savedResponse.body!.length > 0) {
         //hay lugares guardados
         status = status.copyWith(notSaved: false);
       }
       // Se recupera y se filtra los itemsSavedPlaces
       List<DataAudioGuideModel>? listSavedPlacesFilter = savedResponse.body ?? [];
       listSavedPlacesFilter = removeRepeatElementById(listSavedPlacesFilter);
-      status = status.copyWith(itemsSavedPlaces: listSavedPlacesFilter);// Status reasignacion
+      status = status.copyWith(itemsSavedPlaces: listSavedPlacesFilter); // Status reasignacion
 
       // Se recupera y se filtra los itemAudiosSavedPlaces
-      List<DataAudioGuideModel> listAudiosSavedPlacesFilter1 = savedResponse.body!.where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||f.audioguia_en != null && f.audioguia_en != '' || f.audioguia_pt != null && f.audioguia_pt != '')).toList();
+      List<DataAudioGuideModel> listAudiosSavedPlacesFilter1 = savedResponse.body!
+          .where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||
+              f.audioguia_en != null && f.audioguia_en != '' ||
+              f.audioguia_pt != null && f.audioguia_pt != ''))
+          .toList();
       listAudiosSavedPlacesFilter1 = removeRepeatElementById(listAudiosSavedPlacesFilter1);
       status = status.copyWith(itemAudiosSavedPlaces: listAudiosSavedPlacesFilter1); //filtro audios
 
       List<bool> listAudio = [];
       List<bool> listAll = [];
-      for(final f in savedResponse.body!) {
+      for (final f in savedResponse.body!) {
         //
         if (f.audioguia_es != null && f.audioguia_es != '' ||
             f.audioguia_en != null && f.audioguia_en != '' ||
@@ -172,57 +173,55 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
     status = status.copyWith(isLoading: false);
 
-
-   // addEffect(ShowDialogEffect('nada'));  //Dialog de prueba
+    // addEffect(ShowDialogEffect('nada'));  //Dialog de prueba
   }
 
-    List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
-       final Map<String, DataAudioGuideModel> profileMap = new Map();
+  List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
+    final Map<String, DataAudioGuideModel> profileMap = new Map();
     list.forEach((DataAudioGuideModel item) => profileMap["${item.id}"] = item);
-    list = profileMap.values.toList(); 
+    list = profileMap.values.toList();
     return list;
   }
 
   addSavedPLaces() async {
     //onpenSavedPlaces();
-    if(status.itemsSavedPlaces.length<1){
+    if (status.itemsSavedPlaces.length < 1) {
       addEffect(ShowDialogSavedPlacedEffect());
     }
     status = status.copyWith(notSaved: true);
   }
 
-  suggestionLogin(){
+  suggestionLogin() {
     addEffect(ShowDialogSuggestionLoginEffect());
   }
 
-
   void onTapSeeAll(bool value) {
-
     status = status.copyWith(seeAll: value);
   }
 
   void onChangeScrollController(bool value) {
     addEffect(HomeValueControllerScrollEffect(200, value));
   }
- void goDetailPage(String id) async {
-   status = status.copyWith(isLoading: true);
 
-   final placebyidResponse = await _interactor.getPlaceById(id);
-   print('view model detail page');
-   print(placebyidResponse);
-   if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
-     print("model detail");
-     print(placebyidResponse.body!.title);
-     _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
-     /// Status reasignacion
-     // status.places.addAll(UnmissableResponse.body)
-   } else {
-     final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
-     print(erroRes.message);
-     UnimplementedError();
-   }
-   status = status.copyWith(isLoading: false);
+  void goDetailPage(String id) async {
+    status = status.copyWith(isLoading: true);
 
+    final placebyidResponse = await _interactor.getPlaceById(id);
+    print('view model detail page');
+    print(placebyidResponse);
+    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
+      print("model detail");
+      print(placebyidResponse.body!.title);
+      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+
+      /// Status reasignacion
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = placebyidResponse as IdtFailure<UnmissableError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void setLocationUser() async {
@@ -240,7 +239,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
   }
 
-  Future<bool> offMenuBack()async {
+  Future<bool> offMenuBack() async {
     bool? shouldPop = true;
 
     if (status.openMenu) {
