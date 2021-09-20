@@ -124,7 +124,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getSleepsResponse() async {
-    final sleepResponse = await _interactor.getSleepPlacesList();
+    languageUser = BoxDataSesion.getLanguajeByUser();
+    final sleepResponse = await _interactor.getSleepPlacesList(languageUser);
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: sleepResponse.body); // Status reasignacion

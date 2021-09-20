@@ -96,8 +96,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getSleepPlacesList() async {
-    final response = await locator<SleepService>().getPlacesSleep();
+  Future<IdtResult<List<DataModel>?>> getSleepPlacesList(String lan) async {
+    final response = await locator<SleepService>().getPlacesSleep(lan);
     return response;
   }
 
