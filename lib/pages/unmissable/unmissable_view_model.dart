@@ -26,7 +26,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   void onInit() async {
-   languageUser = BoxDataSesion.getLanguajeByUser();
+   languageUser = BoxDataSesion.getLaguageByUser();
     getUnmissableResponse();
     // TODO
   }

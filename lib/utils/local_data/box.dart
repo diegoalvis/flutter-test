@@ -12,7 +12,8 @@ class BoxDataSesion {
   static late Box<RememberMe> boxRememberMe;
   static late Box<dynamic> boxActivity;
   static late Box<dynamic> boxAudioGuides;
-  static late Box<String> boxSavedLanguaje;
+  static late Box<String> boxSavedLaguage;
+  static late Box<String> boxLaguageService;
   static final ready = BehaviorSubject.seeded(false);
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
@@ -28,7 +29,8 @@ class BoxDataSesion {
       boxSessionRem().then((value) => boxRememberMe = value).asStream(),
       boxActivityA().then((value) => boxActivity = value).asStream(),
       boxAudioGuidesA().then((value) => boxAudioGuides = value).asStream(),
-      boxLanguajeInit().then((value) => boxSavedLanguaje = value).asStream(),
+      boxLaguageInit().then((value) => boxSavedLaguage = value).asStream(),
+      boxLaguageInit().then((value) => boxLaguageService = value).asStream(),
     ]).listen(
       (event) {
         print('Carga exitosa de box ✅');
@@ -282,10 +284,10 @@ class BoxDataSesion {
     return [];
   }
 
-  static Future<Box<String>> boxLanguajeInit() async {
+  static Future<Box<String>> boxLaguageInit() async {
     try {
       print("=== Cargando BOX === ");
-      boxSavedLanguaje = await Hive.openBox('boxSavedLanguaje');
+      boxSavedLaguage = await Hive.openBox('boxSavedLaguage');
       print("✅ Box de lenguaje guardado cargado");
       print("=================== ");
     } catch (e) {
@@ -293,26 +295,39 @@ class BoxDataSesion {
       print(e);
       print("========================= ");
     }
-    return boxSavedLanguaje;
+    return boxSavedLaguage;
+    
+  }static Future<Box<String>> boxLanguageServiceInit() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxLaguageService = await Hive.openBox('boxLaguageService');
+      print("✅ Box de lenguaje guardado cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX audioguias === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxSavedLaguage;
   }
 
-  static void pushToLanguaje(int? idUser, String value) {
+  static void pushToLaguage(int? idUser, String value) {
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
-    boxSavedLanguaje.put(idUser ?? noSessionUser, value);
+    boxSavedLaguage.put(idUser ?? noSessionUser, value);
     print('✅ Se registra para ${idUser ?? noSessionUser} con valor ${jsonEncode(value)}');
   }
 
-  static String getLanguajeByUser({int? idUser }) {
-    String defaultLanguaje = 'es';
+  static String getLaguageByUser({int? idUser }) {
+    String defaultLaguage = 'es';
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     if(idUser == null){
-      final languajeSaved = boxSavedLanguaje.get(noSessionUser);
-      return languajeSaved ?? defaultLanguaje;
+      final laguageSaved = boxSavedLaguage.get(noSessionUser);
+      return laguageSaved ?? defaultLaguage;
     }
-    if (boxSavedLanguaje.get(idUser) != null) {
-      final languajeSaved = boxSavedLanguaje.get(idUser);
-      return languajeSaved ?? defaultLanguaje;
+    if (boxSavedLaguage.get(idUser) != null) {
+      final laguageSaved = boxSavedLaguage.get(idUser);
+      return laguageSaved ?? defaultLaguage;
     }
-    return defaultLanguaje;
+    return defaultLaguage;
   }
 }

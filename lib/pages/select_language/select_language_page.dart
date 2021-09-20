@@ -83,7 +83,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                     children: [
                       viewModel.status.isLoading == false
                           ? CarouselLanguages(
-                        viewModel.nextHome,
+                              viewModel.nextHome,
                               languages: viewModel.status.languagesAvalibles,
                               sizeScreen: sizeScreen,
                               selectColor: Colors.white,
@@ -136,8 +136,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   ),
                   Container(
                     width: sizeScreen.width * 0.5,
-                    child:
-                    viewModel.status.isButtonEnable
+                    child: viewModel.status.isButtonEnable
                         ? BtnGradient(
                             "CONTINUAR",
                             onPressed: () => _route.goHomeRemoveAll(),

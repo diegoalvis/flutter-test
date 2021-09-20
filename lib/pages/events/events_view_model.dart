@@ -23,7 +23,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   final SocialEventType type;
-  String languageUser = BoxDataSesion.getLanguajeByUser();
+  late String languageUser;
 
   EventsViewModel(this._route, this._interactor, this.type) {
     status = EventsStatus(
@@ -39,6 +39,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void onInit() async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     getZonesResponse();
 
     late String title, nameFilter, section;
@@ -124,7 +125,6 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getSleepsResponse() async {
-    languageUser = BoxDataSesion.getLanguajeByUser();
     final sleepResponse = await _interactor.getSleepPlacesList(languageUser);
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {

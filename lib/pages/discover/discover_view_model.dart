@@ -31,7 +31,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void onInit() async {
-    languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     getDiscoveryData();
   }
 

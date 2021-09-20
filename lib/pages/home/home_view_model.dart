@@ -43,7 +43,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLanguajeByUser();
+    languageUser = BoxDataSesion.getLaguageByUser();
     getUnmissableResponse();
     // getEatResponse();
     getBestRatedResponse();

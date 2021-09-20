@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 class ZonesService {
   Future<IdtResult<List<DataModel>?>> getZones(String lanUser) async {
 
-    lanUser = BoxDataSesion.getLanguajeByUser();
     var queryParameters = {
       'lan': lanUser,
     };

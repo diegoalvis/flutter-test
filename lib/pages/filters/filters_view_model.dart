@@ -41,7 +41,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
-    languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     status = status.copyWith(isLoading: true);
     switch (section) {
       case 'category':
