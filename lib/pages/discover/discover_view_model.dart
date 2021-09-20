@@ -113,8 +113,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       print(erroRes.message);
       UnimplementedError();
     }
-
-    final resCategory = await _interactor.getCategoriesList();
+    String lanUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
+    final resCategory = await _interactor.getCategoriesList(lanUser);
 
     if (resCategory is IdtSuccess<List<DataModel>?>) {
       sortOptionsFilters(resCategory);

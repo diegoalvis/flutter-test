@@ -9,6 +9,7 @@ import 'package:bogota_app/data/model/response_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
@@ -217,9 +218,13 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<List<DataModel>?>> getCategories() async {
-    // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/category');
+  Future<IdtResult<List<DataModel>?>> getCategories(String lanUser ) async {
+
+    lanUser = BoxDataSesion.getLanguajeByUser();
+    var queryParameters = {
+      'lan': lanUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/category',queryParameters);
 
     final response = await http.get(uri);
 
