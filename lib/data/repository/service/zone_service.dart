@@ -4,13 +4,17 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/response/places_response.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:http/http.dart' as http;
 
 class ZonesService {
-  Future<IdtResult<List<DataModel>?>> getZones() async {
+  Future<IdtResult<List<DataModel>?>> getZones(String lanUser) async {
 
-    // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/zone');
+    lanUser = BoxDataSesion.getLanguajeByUser();
+    var queryParameters = {
+      'lan': lanUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/zone',queryParameters);
     final response = await http.get(uri);
 
     try {

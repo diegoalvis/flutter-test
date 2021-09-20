@@ -218,7 +218,7 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<List<DataModel>?>> getCategories(String lanUser ) async {
+  Future<IdtResult<List<DataModel>?>> getCategories(String lanUser) async {
 
     lanUser = BoxDataSesion.getLanguajeByUser();
     var queryParameters = {

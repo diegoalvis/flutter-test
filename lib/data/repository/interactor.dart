@@ -75,8 +75,8 @@ class ApiInteractor {
   //   return response;
   // }
 
-  Future<IdtResult<List<DataModel>?>> getZonesList() async {
-    final response = await locator<ZonesService>().getZones();
+  Future<IdtResult<List<DataModel>?>> getZonesList(String lan) async {
+    final response = await locator<ZonesService>().getZones(lan);
 
     return response;
   }

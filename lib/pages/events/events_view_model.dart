@@ -12,6 +12,7 @@ import 'package:bogota_app/utils/errors/event_error.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 
 import 'events_effect.dart';
@@ -22,6 +23,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   final SocialEventType type;
+  String languageUser = BoxDataSesion.getLanguajeByUser();
 
   EventsViewModel(this._route, this._interactor, this.type) {
     status = EventsStatus(
@@ -71,7 +73,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   void getZonesResponse() async {
     status = status.copyWith(isLoading: true);
 
-    final zonesResponse = await _interactor.getZonesList();
+    final zonesResponse = await _interactor.getZonesList(languageUser);
 
     if (zonesResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(zones: zonesResponse.body); // Status reasignacion

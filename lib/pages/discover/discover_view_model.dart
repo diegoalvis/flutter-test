@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  String languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
@@ -70,9 +71,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     } else {
       query = {status.section: item.id};
     }
-    
+
     final response = await _interactor.getPlacesList(query, null);
-    
+
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
       _route.goFilters(
@@ -81,7 +82,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           categories: categories,
           subcategories: subcategories,
           zones: zones,
-          places: places, 
+          places: places,
           oldFilters: query
           );
     } else {
@@ -113,8 +114,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       print(erroRes.message);
       UnimplementedError();
     }
-    String lanUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
-    final resCategory = await _interactor.getCategoriesList(lanUser);
+    final resCategory = await _interactor.getCategoriesList(languageUser);
 
     if (resCategory is IdtSuccess<List<DataModel>?>) {
       sortOptionsFilters(resCategory);
@@ -141,7 +141,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       UnimplementedError();
     }
 
-    final resZona = await _interactor.getZonesList();
+
+    final resZona = await _interactor.getZonesList(languageUser);
 
     if (resZona is IdtSuccess<List<DataModel>?>) {
       sortOptionsFilters(resZona);
