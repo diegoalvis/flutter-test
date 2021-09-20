@@ -338,26 +338,26 @@ class _EventsWidgetState extends State<EventsWidget> {
 
               viewModel.type != SocialEventType.EVENT
                   ? _buttonFilter()
-                  : SizedBox.shrink(), // Comentado porque no se puede filtrar al momento
-              Column(
-                children: [
-                  SizedBox(height: 10,),
-                  Switch.adaptive(
-                    value: _nearToMe,
-                    onChanged: (bool value) {
-                      setState(() {
-                        print(value);
-                        _nearToMe = value;
-                        print(_nearToMe);
-
-                      });
-                    },
-                    activeColor: IdtColors.greenDark,
-                  ),
-                  Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
-
-                ],
-              ),
+                  : SizedBox.shrink(), //Coment porque no llega con localidad el servicio
+              // Column(
+              //   children: [
+              //     SizedBox(height: 10,),
+              //     Switch.adaptive(
+              //       value: _nearToMe,
+              //       onChanged: (bool value) {
+              //         setState(() {
+              //           print(value);
+              //           _nearToMe = value;
+              //           print(_nearToMe);
+              //
+              //         });
+              //       },
+              //       activeColor: IdtColors.greenDark,
+              //     ),
+              //     Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
+              //
+              //   ],
+              // ),
               SizedBox(height: 15),
               gridImagesCol3(viewModel.status.places),
               SizedBox(height: 55),

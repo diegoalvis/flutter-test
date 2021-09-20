@@ -82,22 +82,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-  void getEatResponse() async {
-    final eatResponse = await _interactor.getEatPlacesList();
-
-    if (eatResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsEatPlaces: eatResponse.body); // Status reasignacion
-      // status.places.addAll(UnmissableResponse.body)
-    } else {
-      final erroRes = eatResponse as IdtFailure<EatError>;
-      print(erroRes.message);
-      UnimplementedError();
-      // FoodError();
-      //Todo implementar errores
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
   void getBestRatedResponse() async {
     final bestRatedResponse = await _interactor.getBestRatedPlacesList();
 

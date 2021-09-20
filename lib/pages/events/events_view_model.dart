@@ -109,7 +109,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEventResponse() async {
-    final eventResponse = await _interactor.getEventPlacesList();
+    final eventResponse = await _interactor.getEventPlacesList(languageUser);
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: eventResponse.body); // Status reasignacion
@@ -139,7 +139,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEatResponse() async {
-    final eatResponse = await _interactor.getEatPlacesList();
+    final eatResponse = await _interactor.getEatPlacesList(languageUser);
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: eatResponse.body); // Status reasignacion

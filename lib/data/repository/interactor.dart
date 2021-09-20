@@ -91,8 +91,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getEventPlacesList() async {
-    final response = await locator<EventService>().getPlacesEvent();
+  Future<IdtResult<List<DataModel>?>> getEventPlacesList(String lan) async {
+    final response = await locator<EventService>().getPlacesEvent(lan);
     return response;
   }
 
@@ -101,8 +101,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getEatPlacesList() async {
-    final response = await locator<EatService>().getPlacesEat();
+  Future<IdtResult<List<DataModel>?>> getEatPlacesList(String lan) async {
+    final response = await locator<EatService>().getPlacesEat(lan);
     return response;
   }
 

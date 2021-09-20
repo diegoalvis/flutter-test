@@ -11,10 +11,12 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class EatService {
-  Future<IdtResult<List<DataModel>?>> getPlacesEat() async {
-
+  Future<IdtResult<List<DataModel>?>> getPlacesEat(String lanUser) async {
+    var queryParameters = {
+      'lan': lanUser,
+    };
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/food');
+    final uri = Uri.https(IdtConstants.url_server, '/food',queryParameters);
 
     final response = await http.get(uri);
 
