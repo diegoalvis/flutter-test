@@ -133,9 +133,9 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates) async {
+  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates, String lan) async {
 
-    final response = await locator<CloseToMeService>().getPlacesCloseToMe(coordinates);
+    final response = await locator<CloseToMeService>().getPlacesCloseToMe(coordinates, lan);
     return response;
   }
 

@@ -21,9 +21,11 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class CloseToMeService {
-  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates) async {
+  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates, String lanUser) async {
     var queryParameters = {
+      'lan': lanUser,
       'location': coordinates,
+
     };
     // '/place?location=4.6095552,-74.0685345'
     final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);

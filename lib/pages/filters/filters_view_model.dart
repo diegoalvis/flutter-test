@@ -6,6 +6,7 @@ import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:location/location.dart';
@@ -18,6 +19,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   Location locationUser = Location();
   String latitud = '';
   String longitud = '';
+  late String languageUser ;
 
 
   FiltersViewModel(this._route, this._interactor) {
@@ -39,6 +41,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
+    languageUser = BoxDataSesion.getLanguajeByUser(); //get language User Prefered
     status = status.copyWith(isLoading: true);
     switch (section) {
       case 'category':
@@ -311,7 +314,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   getPlacesCloseToMe() async{
     status = status.copyWith(isLoading: true);
     await getLoc();
-    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud');
+    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );
 
       status = status.copyWith(isLoading: false);
     if (response is IdtSuccess<List<DataModel>?>) {
