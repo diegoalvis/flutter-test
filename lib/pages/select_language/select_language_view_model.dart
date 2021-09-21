@@ -40,7 +40,7 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
       if (response is IdtSuccess<List<LanguageModel>?>) {
         List<LanguageModel>? languagesAvalibles = response.body;
         status = status.copyWith(languagesAvalibles: languagesAvalibles);
-        BoxDataSesion.pushToLanguageService(lan: languagesAvalibles);
+        BoxDataSesion.pushToLanguagesAvalible(lan: languagesAvalibles);
       }
     }
   }

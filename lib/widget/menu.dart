@@ -30,7 +30,7 @@ class IdtMenu extends StatelessWidget {
   IdtMenu({required this.closeMenu, this.optionIndex});
 
   final _route = locator<IdtRoute>();
-  final String languageUser = BoxDataSesion.getLanguageAvalible().toString();
+  final String languageUser = BoxDataSesion.getLanguagesAvalible().toString();
   late List<LanguageModel> languagesList = json.decode(languageUser);
 
   late var tem = json.decode(languageUser);

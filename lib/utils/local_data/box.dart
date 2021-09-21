@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BoxDataSesion {
-  static late Box<Person> box;
+  static late Box<Person> boxPeson;
   static late Box<CurrentUser> boxCurrentUser;
   static late Box<RememberMe> boxRememberMe;
   static late Box<dynamic> boxActivity;
@@ -25,7 +25,7 @@ class BoxDataSesion {
 
   BoxDataSesion._internal() {
     Rx.combineLatestList([
-      boxSession().then((value) => box = value).asStream(),
+      boxSession().then((value) => boxPeson = value).asStream(),
       boxSessionCurr().then((value) => boxCurrentUser = value).asStream(),
       boxSessionRem().then((value) => boxRememberMe = value).asStream(),
       boxActivityA().then((value) => boxActivity = value).asStream(),
@@ -44,7 +44,7 @@ class BoxDataSesion {
   static Future<Box<Person>> boxSession() async {
     try {
       print("=== Cargando BOX === ");
-      box = await Hive.openBox('userdbB');
+      boxPeson = await Hive.openBox('userdbB');
       print("✅ Box cargado");
       print("=================== ");
     } catch (e) {
@@ -52,7 +52,7 @@ class BoxDataSesion {
       print(e);
       print("========================= ");
     }
-    return box;
+    return boxPeson;
   }
 
   static Future<Box<CurrentUser>> boxSessionCurr() async {
@@ -91,14 +91,14 @@ class BoxDataSesion {
   static void pushToBox(Person value, int key) async {
     List<dynamic> listAudioguides = value.detalle ?? [];
     value.detalle = null;
-    await box.put(key, value);
+    await boxPeson.put(key, value);
     final encode = jsonEncode(listAudioguides);
     await boxAudioGuides.put(key, encode);
     print('✔ Se registra 0 con valor $value');
   }
 
   static Future<int> addToBox(Person value) async {
-    var result = await box.add(value);
+    var result = await boxPeson.add(value);
     print('✔ Se agrega usuario  valor $value');
     List<dynamic>? listAudioguides = value.detalle ?? [];
     await boxAudioGuides.put(result, listAudioguides);
@@ -112,7 +112,7 @@ class BoxDataSesion {
   // Al objeto Person, para el atributo detalle, se complementa consultando el box 'boxAudioGuides' para tener un
   // objeto persona completo
   static Person? getFromBox(int index) {
-    final Person? person = box.get(index);
+    final Person? person = boxPeson.get(index);
     if (person != null) {
       getListAudioguidesForDetailOfPerson(index, person);
     }
@@ -141,7 +141,7 @@ class BoxDataSesion {
     print("Person.id ${value}");
     bool exist = false;
     var filteredUsers =
-        box.values.where((Person) => Person.id == value.id).toList();
+        boxPeson.values.where((Person) => Person.id == value.id).toList();
     print(filteredUsers.asMap());
 
     if (filteredUsers.length > 0) {
@@ -152,7 +152,7 @@ class BoxDataSesion {
   }
 
   static Future<int> getIndex(Person value) async {
-    var allUsers = box.values.toList();
+    var allUsers = boxPeson.values.toList();
     print('allusers $allUsers');
     final index = allUsers.indexWhere((element) => element.id == value.id);
     return index;
@@ -190,8 +190,8 @@ class BoxDataSesion {
   }
 
   static void clearBox() {
-    box.clear();
-    box.deleteFromDisk();
+    boxPeson.clear();
+    boxPeson.deleteFromDisk();
     print("=== 🧹Box limpiada === ");
   }
 //*********Para el usuario actual***************
@@ -205,7 +205,9 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
-    print('devuelve usuario actual ${value!.id_user}');
+    print('devuelve usuario actual ${value?.id_user ??'**No Hay Usuario'}');
+    print('${value?.id_user!= null ? 'Usuario actual #${value?.id_user}' : '**No Hay Usuario almacenado'}');
+
     return value;
   }
 
@@ -299,7 +301,7 @@ class BoxDataSesion {
     }
     return boxSavedLaguage;
     
-  }static Future<Box<String>> boxlanguageerviceInit() async {
+  }static Future<Box<String>> boxlanguageServiceInit() async {
     try {
       print("=== Cargando BOX === ");
       boxLanguageService = await Hive.openBox('boxLanguageService');
@@ -313,7 +315,7 @@ class BoxDataSesion {
     return boxLanguageService;
   }
 
-  static void pushToLaguage(int? idUser, String value) {
+  static void pushToLaguageUser(int? idUser, String value) {
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     boxSavedLaguage.put(idUser ?? noSessionUser, value);
     print('✅ Se registra para ${idUser ?? noSessionUser} con valor ${jsonEncode(value)}');
@@ -323,8 +325,8 @@ class BoxDataSesion {
     String defaultLaguage = 'es';
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     if(idUser == null){
-      final laguageSaved = boxSavedLaguage.get(noSessionUser);
-      return laguageSaved ?? defaultLaguage;
+      final languageSaved = boxSavedLaguage.get(noSessionUser);
+      return languageSaved ?? defaultLaguage;
     }
     if (boxSavedLaguage.get(idUser) != null) {
       final languageaved = boxSavedLaguage.get(idUser);
@@ -336,13 +338,13 @@ class BoxDataSesion {
 
 
 
-  static void pushToLanguageService({List<LanguageModel>? lan}) {
+  static void pushToLanguagesAvalible({List<LanguageModel>? lan}) {
     String value = jsonEncode(lan);
     // String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     boxLanguageService.put(0, value);
   }
 
-  static String? getLanguageAvalible() {
+  static String? getLanguagesAvalible() {
       final String? languagesService = boxLanguageService.get(0);
 
     return languagesService;
