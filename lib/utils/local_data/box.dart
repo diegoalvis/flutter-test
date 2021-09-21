@@ -177,7 +177,8 @@ class BoxDataSesion {
       data = getCurrentUser();
       print("data $data");
       if (data != null || data != '') {
-        value = true;
+        // value = true;
+        value = false;
       }
     } catch (e) {
       print("catch $data");
@@ -204,7 +205,7 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
-    print('devuelve usuario actual ${value?.id_user ??'**No Hay Usuario'}');
+    print('devuelve usuario actual ${value!.id_user}');
     return value;
   }
 
