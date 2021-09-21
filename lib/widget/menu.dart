@@ -158,12 +158,12 @@ class IdtMenu extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 70),
                   child: Stack(
                     children: [
-                      CarouselLanguages(
-                        (){},
-                        languages: languagesList,
-                        sizeScreen: sizeScreen,
-                        selectColor: Colors.white,
-                      ),
+                      // CarouselLanguages(
+                      //   (){},
+                      //   languages: languagesList,
+                      //   sizeScreen: sizeScreen,
+                      //   selectColor: Colors.white,
+                      // ),
                       Container(
                         width: 12.0,
                         height: 40,
