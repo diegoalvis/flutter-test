@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
@@ -6,6 +8,8 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/data/model/language_model.dart';
+import 'package:bogota_app/data/model/response_language_avalible_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -26,6 +30,11 @@ class IdtMenu extends StatelessWidget {
   IdtMenu({required this.closeMenu, this.optionIndex});
 
   final _route = locator<IdtRoute>();
+  final String languageUser = BoxDataSesion.getLanguageAvalible().toString();
+  late List<LanguageModel> languagesList = json.decode(languageUser);
+
+  late var tem = json.decode(languageUser);
+  var x = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +158,12 @@ class IdtMenu extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 70),
                   child: Stack(
                     children: [
-                      // CarouselLanguages(languages: viewModel.,
-                      //   sizeScreen: sizeScreen, typeLanguage: typeLanguage, selectColor: IdtColors.orange,),
+                      CarouselLanguages(
+                        (){},
+                        languages: languagesList,
+                        sizeScreen: sizeScreen,
+                        selectColor: Colors.white,
+                      ),
                       Container(
                         width: 12.0,
                         height: 40,

@@ -24,6 +24,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
+        switchCloseToMe: false,
         isLoading: false,
         openMenu: false,
         openMenuTab: false,
@@ -85,21 +86,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       addEffect(ShowDialogEffect());
     }
 
-    int count = 0;
-    final List<StaggeredTile> listStaggered = places.asMap().entries.map((entry) {
-      int rows = 3;
-      count++;
-
-      if (count > 2 && count < 6) {
-        rows = 2;
-      } else if (count > 5 && count < 7) {
-        rows = 6;
-      } else if (count > 6) {
-        rows = 3;
-        count = 1;
-      }
-      return StaggeredTile.count(rows, 2);
-    }).toList();
+    List<StaggeredTile> listDesing = desingGrid(places);
 
     status = status.copyWith(
         filterSubcategory: filtersSubcategory,
@@ -108,7 +95,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
         placesFilter: places,
         isLoading: false,
         section: item.title,
-        staggedList: listStaggered,
+        staggedList: listDesing,
         oldFilters: oldFilters
         );
 
@@ -172,7 +159,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       UnimplementedError();
     }
     closeMenuTab();
-    status = status.copyWith(isLoading: false);
+    status = status.copyWith(isLoading: false, );
   }
 
   void getDataFilter() async {
@@ -311,15 +298,19 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     print(latitud);
     // fecha = _currentPosition.time.toString();
   }
-  getPlacesCloseToMe() async{
-    status = status.copyWith(isLoading: true);
+  getPlacesCloseToMe(bool isEnable) async{
+    status = status.copyWith(isLoading: true, switchCloseToMe: isEnable);
     await getLoc();
     final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );
 
       status = status.copyWith(isLoading: false);
     if (response is IdtSuccess<List<DataModel>?>) {
+
       final places = response.body!;
-      status = status.copyWith(placesFilter: places);
+
+      List<StaggeredTile> listDesing = desingGrid(places);
+
+      status = status.copyWith(placesFilter: places,staggedList: listDesing);
       // _route.goDetail(isHotel: false, detail: placesClosedToMe.body!);
 
       /// Status reasignacion
@@ -342,5 +333,26 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       IdtRoute.route = DiscoverPage.namePage;
       return shouldPop;
     }
+  }
+
+  List<StaggeredTile> desingGrid(List<DataModel>? places){
+    int count = 0;
+
+    final List<StaggeredTile> listStaggered = places!.asMap().entries.map((entry) {
+      int rows = 3;
+      count++;
+
+      if (count > 2 && count < 6) {
+        rows = 2;
+      } else if (count > 5 && count < 7) {
+        rows = 6;
+      } else if (count > 6) {
+        rows = 3;
+        count = 1;
+      }
+      return StaggeredTile.count(rows, 2);
+    }).toList();
+
+    return listStaggered;
   }
 }

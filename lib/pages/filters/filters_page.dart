@@ -37,7 +37,14 @@ class FiltersPage extends StatelessWidget {
   final Map oldFilters;
 
   FiltersPage(
-      this.section, this.item, this.places, this.categories, this.subcategories, this.zones, this.oldFilters,);
+    this.section,
+    this.item,
+    this.places,
+    this.categories,
+    this.subcategories,
+    this.zones,
+    this.oldFilters,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +66,8 @@ class FiltersWidget extends StatefulWidget {
   final List<DataModel> _zones;
   final Map _oldFilters;
 
-  FiltersWidget(
-      this._section, this._item, this._places, this._categories, this._subcategories, this._zones, this._oldFilters);
+  FiltersWidget(this._section, this._item, this._places, this._categories, this._subcategories,
+      this._zones, this._oldFilters);
 
   @override
   _FiltersWidgetState createState() => _FiltersWidgetState();
@@ -69,8 +76,7 @@ class FiltersWidget extends StatefulWidget {
 class _FiltersWidgetState extends State<FiltersWidget> {
   final scrollController = ScrollController();
   StreamSubscription<FilterEffect>? _effectSubscription;
-  bool _nearToMe = false;
-
+  // bool _nearToMe = false;
 
   @override
   void initState() {
@@ -115,13 +121,12 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
             floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            body: _buildDiscover(viewModel,_nearToMe)),
+            body: _buildDiscover(viewModel)),
       ),
     );
   }
 
-  Widget _buildDiscover(FiltersViewModel viewModel, bool switchNearToMe) {
-
+  Widget _buildDiscover(FiltersViewModel viewModel,) {
     final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     int count = 0;
@@ -340,23 +345,22 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               _buttonsTapFilter(),
               Column(
                 children: [
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Switch.adaptive(
-                    value: _nearToMe,
+                    value: viewModel.status.switchCloseToMe,
                     onChanged: (bool value) {
-                      setState(() async {
-                        _nearToMe = value;
-                        if (_nearToMe){
-                         viewModel.getPlacesCloseToMe();
-                        print(viewModel.status.placesFilter.length);
-                        viewModel.status.placesFilter.length;
-                        }
-                      });
+                      if (!viewModel.status.switchCloseToMe) {
+                        viewModel.getPlacesCloseToMe(value);
+                      }
                     },
                     activeColor: IdtColors.greenDark,
                   ),
-                  Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
-
+                  Text(
+                    'Cerca de mi',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ],
               ),
               Container(
@@ -376,8 +380,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
               // SizedBox(height: 25),
               // SizedBox(height: 25),
               viewModel.status.placesFilter.length > 0
-                  ?
-            gridImagesCol3(viewModel.status.placesFilter)
+                  ? gridImagesCol3(viewModel.status.placesFilter)
                   : NotFoundResultsWidget(textTheme: textTheme),
               SizedBox(height: 55),
             ],
@@ -403,19 +406,23 @@ class NotFoundResultsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 50,right: 50,bottom: 15),
+      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 15),
       child: Column(
         children: [
-
           Image.asset(IdtAssets.logo_bogota_black),
           Text(
-            "No se encontraron resultados",style: textTheme.optionsGray.copyWith(color: IdtColors.black),textAlign: TextAlign.center,
+            "No se encontraron resultados",
+            style: textTheme.optionsGray.copyWith(color: IdtColors.black),
+            textAlign: TextAlign.center,
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Text(
-            "Intenta cambiar o quitar los filtros de la búsqueda",style: textTheme.titleGray,textAlign: TextAlign.center,
+            "Intenta cambiar o quitar los filtros de la búsqueda",
+            style: textTheme.titleGray,
+            textAlign: TextAlign.center,
           )
-
         ],
       ),
     );

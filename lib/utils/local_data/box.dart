@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,7 +14,7 @@ class BoxDataSesion {
   static late Box<dynamic> boxActivity;
   static late Box<dynamic> boxAudioGuides;
   static late Box<String> boxSavedLaguage;
-  static late Box<String> boxLaguageService;
+  static late Box<String> boxLanguageService;
   static final ready = BehaviorSubject.seeded(false);
 
   static final BoxDataSesion _boxData = BoxDataSesion._internal();
@@ -30,7 +31,7 @@ class BoxDataSesion {
       boxActivityA().then((value) => boxActivity = value).asStream(),
       boxAudioGuidesA().then((value) => boxAudioGuides = value).asStream(),
       boxLaguageInit().then((value) => boxSavedLaguage = value).asStream(),
-      boxLaguageInit().then((value) => boxLaguageService = value).asStream(),
+      boxLaguageInit().then((value) => boxLanguageService = value).asStream(),
     ]).listen(
       (event) {
         print('Carga exitosa de box ✅');
@@ -297,18 +298,18 @@ class BoxDataSesion {
     }
     return boxSavedLaguage;
     
-  }static Future<Box<String>> boxLanguageServiceInit() async {
+  }static Future<Box<String>> boxlanguageerviceInit() async {
     try {
       print("=== Cargando BOX === ");
-      boxLaguageService = await Hive.openBox('boxLaguageService');
-      print("✅ Box de lenguaje guardado cargado");
+      boxLanguageService = await Hive.openBox('boxLanguageService');
+      print("✅ Box de lenguajes disponibles del servicio");
       print("=================== ");
     } catch (e) {
       print("=== ❌ Error leyendo BOX audioguias === ");
       print(e);
       print("========================= ");
     }
-    return boxSavedLaguage;
+    return boxLanguageService;
   }
 
   static void pushToLaguage(int? idUser, String value) {
@@ -325,9 +326,26 @@ class BoxDataSesion {
       return laguageSaved ?? defaultLaguage;
     }
     if (boxSavedLaguage.get(idUser) != null) {
-      final laguageSaved = boxSavedLaguage.get(idUser);
-      return laguageSaved ?? defaultLaguage;
+      final languageaved = boxSavedLaguage.get(idUser);
+      return languageaved ?? defaultLaguage;
     }
     return defaultLaguage;
   }
+
+
+
+
+  static void pushToLanguageService({List<LanguageModel>? lan}) {
+    String value = jsonEncode(lan);
+    // String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
+    boxLanguageService.put(0, value);
+  }
+
+  static String? getLanguageAvalible() {
+      final String? languagesService = boxLanguageService.get(0);
+
+    return languagesService;
+  }
+
+
 }

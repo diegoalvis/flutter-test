@@ -38,7 +38,9 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
       final response = await _interactor.getLanguageAvalible();
 
       if (response is IdtSuccess<List<LanguageModel>?>) {
-        status = status.copyWith(languagesAvalibles: response.body);
+        List<LanguageModel>? languagesAvalibles = response.body;
+        status = status.copyWith(languagesAvalibles: languagesAvalibles);
+        BoxDataSesion.pushToLanguageService(lan: languagesAvalibles);
       }
     }
   }
