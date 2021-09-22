@@ -7,8 +7,8 @@ part 'language_model.g.dart';
 @JsonSerializable()
 class LanguageModel extends IdtModel {
 
-  final String? name;
-  final String? prefix;
+  late final String? name;
+  late final String? prefix;
 
 
   LanguageModel({this.name, this.prefix});
@@ -18,4 +18,15 @@ class LanguageModel extends IdtModel {
 
   Map<String, dynamic> toJson() => _$LanguageModelToJson(this);
 
+  LanguageModel.fromJsonManual(Map<String, dynamic> json) {
+    name = json['name'];
+    prefix = json['prefix'];
+  }
+
+  Map<String, dynamic> toJsonManual() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['prefix'] = this.prefix;
+    return data;
+  }
 }

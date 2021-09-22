@@ -22,26 +22,28 @@ import 'package:hive/hive.dart';
 import '../app_theme.dart';
 import 'NFMarquee.dart';
 import 'carouselLanguages.dart';
+import 'dart:convert';
+
 
 class IdtMenu extends StatelessWidget {
   final VoidCallback closeMenu;
   final String? optionIndex;
 
-  IdtMenu({required this.closeMenu, this.optionIndex});
+  IdtMenu({required this.closeMenu, this.optionIndex,languageUser});
 
   final _route = locator<IdtRoute>();
-  final String languageUser = BoxDataSesion.getLanguagesAvalible().toString();
-  late List<LanguageModel> languagesList = json.decode(languageUser);
 
-  late var tem = json.decode(languageUser);
-  var x = 0;
+
 
   @override
   Widget build(BuildContext context) {
     Size sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     final String imageUrl = '';
-    // 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg';
+    String languageUser = BoxDataSesion.getLanguagesAvalible().toString();
+    var json = jsonDecode(languageUser) as List;
+    List<LanguageModel> languages = json.map((element) => LanguageModel.fromJsonManual(element)).toList();
+
 
     Future<String> getNameUser() async {
       //TODO
@@ -158,12 +160,12 @@ class IdtMenu extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 70),
                   child: Stack(
                     children: [
-                      // CarouselLanguages(
-                      //   (){},
-                      //   languages: languagesList,
-                      //   sizeScreen: sizeScreen,
-                      //   selectColor: Colors.white,
-                      // ),
+                      CarouselLanguages(
+                        (){},
+                        languages: languages,
+                        sizeScreen: sizeScreen,
+                        selectColor: Colors.white,
+                      ),
                       Container(
                         width: 12.0,
                         height: 40,

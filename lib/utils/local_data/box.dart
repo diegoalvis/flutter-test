@@ -340,7 +340,6 @@ class BoxDataSesion {
 
   static void pushToLanguagesAvalible({List<LanguageModel>? lan}) {
     String value = jsonEncode(lan);
-    // String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     boxLanguageService.put(0, value);
   }
 
