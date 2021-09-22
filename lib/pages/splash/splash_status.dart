@@ -10,9 +10,13 @@ class SplashStatus extends ViewStatus {
 
   SplashStatus copyWith({
     String? imgSplash,
+    String? logo,
+    String? title,
   }) {
     return SplashStatus(
       imgSplash: imgSplash ?? this.imgSplash,
+      logo: logo ?? this.logo,
+      title: title ?? this.title,
     );
   }
 }

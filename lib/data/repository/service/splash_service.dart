@@ -13,8 +13,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class SplashService {
-  Future<IdtResult<SplashModel>> getSplash() async {
-    final uri = Uri.https(IdtConstants.url_server, '/util/splash');
+  Future<IdtResult<SplashModel>> getSplash(String lanUser) async {
+
+    var queryParameters = {
+      'lan': lanUser,
+    };
+
+    final uri = Uri.https(IdtConstants.url_server, '/util/splash', queryParameters);
 
     try {
       final response = await http.get(uri).timeout(

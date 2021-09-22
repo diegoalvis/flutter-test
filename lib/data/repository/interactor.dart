@@ -121,8 +121,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<SplashModel>> getSplashInteractor() async {
-    final response = await locator<SplashService>().getSplash();
+  Future<IdtResult<SplashModel>> getSplashInteractor(String lan) async {
+    final response = await locator<SplashService>().getSplash(lan);
 
     return response;
   }

@@ -17,6 +17,7 @@ import 'splash_status.dart';
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   SplashViewModel(this._route, this._interactor) {
     status = SplashStatus();
@@ -24,6 +25,8 @@ class SplashViewModel extends ViewModel<SplashStatus> {
 
   void onInit() async {
     getSplash();
+     // languageUser = await BoxDataSesion.getLaguageByUser();
+    languageUser = 'es';
   }
 
   void getSplash() async {
@@ -31,10 +34,11 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     print("connectivityResult $connectivityResult");
 
     if(connectivityResult != ConnectivityResult.none){
-      final response = await _interactor.getSplashInteractor();
+
+      final response = await _interactor.getSplashInteractor(languageUser);
 
       if (response is IdtSuccess<SplashModel>) {
-        status = status.copyWith(imgSplash: IdtConstants.url_image + response.body.background.toString());
+        status = status.copyWith(title: response.body.title,imgSplash: IdtConstants.url_image + response.body.background.toString());
         await Future.delayed(Duration (seconds: 10));
         _route.goSelectLanguage();
       } else {

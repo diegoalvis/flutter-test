@@ -322,17 +322,17 @@ class BoxDataSesion {
   }
 
   static String getLaguageByUser({int? idUser }) {
-    String defaultLaguage = 'es';
+    String defaultLanguage = 'es';
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     if(idUser == null){
       final languageSaved = boxSavedLaguage.get(noSessionUser);
-      return languageSaved ?? defaultLaguage;
+      return languageSaved ?? defaultLanguage;
     }
     if (boxSavedLaguage.get(idUser) != null) {
       final languageaved = boxSavedLaguage.get(idUser);
-      return languageaved ?? defaultLaguage;
+      return languageaved ?? defaultLanguage;
     }
-    return defaultLaguage;
+    return defaultLanguage;
   }
 
 

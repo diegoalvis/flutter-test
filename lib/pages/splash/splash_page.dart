@@ -89,6 +89,69 @@ class _SplashWidgetState extends State<SplashWidget> {
             ),
           ),
         ),
+        Positioned(
+            left: 20,
+            right: 20,
+            top: sizeScreen.height * 0.72,
+            child:           SizedBox(
+              //tercera animacion
+              width: sizeScreen.width,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                child: AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    FadeAnimatedText(viewModel.status.title ?? ''),
+                  ],
+                ),
+              ),
+            )),
+        Positioned(
+          top: sizeScreen.height * 0.8,
+          child:
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 20,),
+              Text(viewModel.status.title ?? '',
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    fontFamily: 'Horizon',
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ))
+
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          top: sizeScreen.height * 0.86,
+          child: AnimatedTextKit(
+            //Segunda Animacion
+
+            repeatForever: true,
+            animatedTexts: [
+              TyperAnimatedText(
+                viewModel.status.title  ?? '',
+                textStyle: Theme.of(context).textTheme.titleWhite.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    shadows: [Shadow(color: Colors.black54, offset: Offset(10, 5), blurRadius: 5)]),
+                speed: const Duration(milliseconds: 200),
+              ),
+            ],
+            totalRepeatCount: 1,
+            pause: const Duration(milliseconds: 1000),
+            displayFullTextOnTap: true,
+            stopPauseOnTap: true,
+          ),
+        ),
       ],
     ));
   }
