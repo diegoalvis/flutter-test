@@ -46,7 +46,6 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
   }
 
   void nextHome() {
-
     status = status.copyWith(isButtonEnable: true);
   }
 }

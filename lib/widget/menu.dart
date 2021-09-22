@@ -164,11 +164,11 @@ class IdtMenu extends StatelessWidget {
                         (){},
                         languages: languages,
                         sizeScreen: sizeScreen,
-                        selectColor: Colors.white,
+                        selectColor: Colors.orange,
                       ),
                       Container(
                         width: 12.0,
-                        height: 40,
+                        height: 70,
                         decoration: BoxDecoration(
 
                           // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100),  topLeft: Radius.circular(100)),
@@ -183,7 +183,7 @@ class IdtMenu extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Container(
                           width: 12.0,
-                          height: 40,
+                          height: 70,
                           decoration: BoxDecoration(
 
                             // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100),  topLeft: Radius.circular(100)),
