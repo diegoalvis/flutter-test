@@ -6,12 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:bogota_app/extensions/language.dart';
 
 class CarouselLanguages extends StatefulWidget {
-  CarouselLanguages(
-      this.buttonEnable,
-      {Key? key,
-      required this.selectColor,
-      required this.sizeScreen,
-      required this.languages})
+  CarouselLanguages(this.buttonEnable,
+      {Key? key, required this.selectColor, required this.sizeScreen, required this.languages})
       : super(key: key);
 
   final VoidCallback buttonEnable;
@@ -24,7 +20,7 @@ class CarouselLanguages extends StatefulWidget {
 }
 
 class _CarouselLanguagesState extends State<CarouselLanguages> {
-  int? typeLanguage;
+  String? lanSelected = BoxDataSesion.getLaguageByUser(); //get language User Prefered;
 
   Widget build(BuildContext context) {
     readSelectedLanguaje();
@@ -39,9 +35,9 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
                 onTap: () {
                   widget.buttonEnable();
                   print('Idioma selecionando index: $index');
-                  print(widget.languages[index].prefix);
-
-                  typeLanguage = index;
+                  setState(() {
+                    lanSelected = widget.languages.elementAt(index).prefix;
+                  });
                   savedSelectedLanguaje(index);
                 },
                 child: Container(
@@ -49,7 +45,7 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
                     borderRadius: BorderRadius.circular(75),
                     border: Border.all(
                       width: 5,
-                      color: typeLanguage == index ? widget.selectColor : Colors.transparent,
+                      color: lanSelected == widget.languages.elementAt(index).prefix ? widget.selectColor : Colors.transparent,
                     ),
                   ),
                   child: ClipRRect(
@@ -83,8 +79,8 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
   void readSelectedLanguaje() {
     CurrentUser? user = BoxDataSesion.getCurrentUser();
     String prefixLanguaje = BoxDataSesion.getLaguageByUser(idUser: user?.id_user);
-    print('${user?.id_user != null ? 'Lenguage recuperado del usuario, #${user?.id_user}: \"$prefixLanguaje\"'
-        :'Usuario *sin Cuenta idioma default: \"$prefixLanguaje\"'}');
+    print(
+        '${user?.id_user != null ? 'Lenguage recuperado del usuario, #${user?.id_user}: \"$prefixLanguaje\"' : 'Usuario *sin Cuenta idioma default: \"$prefixLanguaje\"'}');
     // return prefixLanguaje;
   }
 }
