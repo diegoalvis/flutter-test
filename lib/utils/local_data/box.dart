@@ -171,21 +171,20 @@ class BoxDataSesion {
   }*/
 
   static bool get isLoggedIn {
-    late bool value;
-    late var data = null;
+    bool value = false;
+    late CurrentUser? data;
     try {
       data = getCurrentUser();
       print("data $data");
-      if (data != null || data != '') {
-        // value = true;
-        value = false;
+      if (data != null) {
+        value = true;
       }
     } catch (e) {
       print("catch $data");
       value = false;
     }
     ;
-    print("value $value");
+    print("**Usuario con Sesion? $value");
     return value;
   }
 
@@ -343,10 +342,11 @@ class BoxDataSesion {
     boxLanguageService.put(0, value);
   }
 
-  static String? getLanguagesAvalible() {
-      final String? languagesService = boxLanguageService.get(0);
-
-    return languagesService;
+  static List<LanguageModel> getLanguagesAvalible() {
+      final String languagesService = boxLanguageService.get(0)??'';
+      var json = jsonDecode(languagesService) as List;
+      List<LanguageModel> languages = json.map((element) => LanguageModel.fromJsonManual(element)).toList();
+    return languages;
   }
 
 

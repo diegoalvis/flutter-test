@@ -37,12 +37,13 @@ class IdtMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
+    Size sizeScreen = MediaQuery.of(context).size;
+    bool isLogged = BoxDataSesion.isLoggedIn;
+    final listMenu = DataTest.List2(isLogged);
     final String imageUrl = '';
-    String languageUser = BoxDataSesion.getLanguagesAvalible().toString();
-    var json = jsonDecode(languageUser) as List;
-    List<LanguageModel> languages = json.map((element) => LanguageModel.fromJsonManual(element)).toList();
+    List<LanguageModel> listAvalibleServ = BoxDataSesion.getLanguagesAvalible();
+
 
 
     Future<String> getNameUser() async {
@@ -98,7 +99,7 @@ class IdtMenu extends StatelessWidget {
                       },
                     ),
                   ),
-                  BoxDataSesion.isLoggedIn
+                  isLogged
                       ? Positioned(
                           top: 5,
                           right: 2,
@@ -122,8 +123,6 @@ class IdtMenu extends StatelessWidget {
           ),
         )));
 
-    final listMenu = DataTest.List2(BoxDataSesion.isLoggedIn);
-    int? typeLanguage = 0;
     return SingleChildScrollView(
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 2000),
@@ -162,7 +161,7 @@ class IdtMenu extends StatelessWidget {
                     children: [
                       CarouselLanguages(
                         (){},
-                        languages: languages,
+                        languages: listAvalibleServ,
                         sizeScreen: sizeScreen,
                         selectColor: Colors.orange,
                       ),
