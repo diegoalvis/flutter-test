@@ -16,7 +16,6 @@ import 'package:another_flushbar/flushbar.dart';
 
 class ProfileEditPage extends StatelessWidget {
   final String emailUser;
-  late String fullNameUser = '$nameUser $lastName';
   final String nameUser;
   final String lastName;
 
@@ -27,7 +26,7 @@ class ProfileEditPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return ProfileEditWidget(emailUser, fullNameUser);
+        return ProfileEditWidget(emailUser,nameUser,lastName );
       },
     );
   }
@@ -35,34 +34,38 @@ class ProfileEditPage extends StatelessWidget {
 
 class ProfileEditWidget extends StatefulWidget {
   final String _emailUser;
-  final String _fullNameUser;
+  final String _nameUser;
+  final String _lastName;
 
-  ProfileEditWidget(this._emailUser, this._fullNameUser);
+  ProfileEditWidget(this._emailUser, this._nameUser,this._lastName);
 
   @override
   _ProfileEditWidgetState createState() => _ProfileEditWidgetState();
 }
 
 class _ProfileEditWidgetState extends State<ProfileEditWidget> {
-  final _controllerFullNameUser = TextEditingController();
-  final _controllerEmail = TextEditingController();
+  final _nameControllerUser = TextEditingController();
+  final _lastNameControllerUser = TextEditingController();
+  final _emailController = TextEditingController();
   bool changeText = false;
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
+
   void cancelChangeDataUser() {
-    String fullNameOriginal = widget._fullNameUser;
+    String nameOriginal = widget._nameUser;
+    String lastNameOriginal = widget._lastName;
     String emailOriginal = widget._emailUser;
     setState(() {
-      _controllerEmail.text = emailOriginal;
-      _controllerFullNameUser.text = fullNameOriginal;
+      _emailController.text = emailOriginal;
+      _nameControllerUser.text = nameOriginal;
+      _lastNameControllerUser.text = lastNameOriginal;
       changeText = false;
     });
   }
 
   void saveChangeDataUser() {
     setState(() {
-    changeText = false;
-
+      changeText = false;
     });
   }
 
@@ -75,17 +78,19 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   @override
   void initState() {
     super.initState();
-    _controllerEmail.text = widget._emailUser;
-    _controllerEmail.addListener(_changeValueController);
+    _emailController.text = widget._emailUser;
+    _emailController.addListener(_changeValueController);
 
-    _controllerFullNameUser.text = widget._fullNameUser;
-    _controllerFullNameUser.addListener(_changeValueController);
+    _nameControllerUser.text = widget._nameUser;
+    _lastNameControllerUser.text = widget._lastName;
+    _nameControllerUser.addListener(_changeValueController);
   }
 
   @override
   void dispose() {
-    _controllerEmail.dispose();
-    _controllerFullNameUser.dispose();
+    _emailController.dispose();
+    _nameControllerUser.dispose();
+    _lastNameControllerUser.dispose();
     super.dispose();
   }
 
@@ -93,27 +98,26 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProfileEditViewModel>();
 
-    return 
-        ScaffoldMessenger(
-          key: scaffoldMessengerKey,
-          child: SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: IdtGradients.green,
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
+    return ScaffoldMessenger(
+      key: scaffoldMessengerKey,
+      child: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: IdtGradients.green,
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+          child: WillPopScope(
+            onWillPop: viewModel.offMenuBack,
+            child: Scaffold(
+                appBar: IdtAppBar(viewModel.openMenu),
+                backgroundColor: IdtColors.transparent,
+                body: _buildProfileEdit(viewModel)),
           ),
         ),
-        child: WillPopScope(
-          onWillPop: viewModel.offMenuBack,
-          child: Scaffold(
-              appBar: IdtAppBar(viewModel.openMenu),
-              backgroundColor: IdtColors.transparent,
-              body: _buildProfileEdit(viewModel)),
-        ),
       ),
-      ), 
     );
   }
 
@@ -128,35 +132,31 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
           : SizedBox.shrink(),
     );
 
-    final KTextFieldInputDecoration = InputDecoration(
-      contentPadding: EdgeInsets.all(12.0),
-      isDense: true,
-      hintStyle: textTheme.textButtomWhite,
-      hintText: 'Nombre de usuario',
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
+    InputDecoration KeditTextFieldDecoration() {
+      return InputDecoration(
+        contentPadding: EdgeInsets.all(12.0),
+        isDense: true,
+        hintStyle: textTheme.optionsGray,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(50.0),
+          ),
+          borderSide: BorderSide(
+            width: 1.2,
+            color: IdtColors.white,
+          ),
         ),
-        borderSide: BorderSide(
-          width: 1.2,
-          color: IdtColors.white,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(50.0),
+          ),
+          borderSide: BorderSide(
+            width: 2.0,
+            color: IdtColors.white,
+          ),
         ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
-        ),
-        borderSide: BorderSide(
-          width: 2.5,
-          color: IdtColors.white,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50.0),
-        ),
-      ),
-    );
+      );
+    }
 
     return Stack(
       children: [
@@ -230,7 +230,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           flex: 5,
                         ),
                         Text(
-                          widget._fullNameUser,
+                          widget._nameUser,
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite
                               .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
@@ -242,16 +242,25 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           'Nombre',
                           style: textTheme.textButtomWhite,
                         ),
+                        // TextField(
+                        //   keyboardType: TextInputType.emailAddress,
+                        //   textAlign: TextAlign.center,
+                        //   style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                        //   decoration: KTextFieldInputDecoration,
+                        //   controller: _controllerFullNameUser,
+                        // ),
                         SizedBox(
                           height: 32,
                         ),
-                        TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          textAlign: TextAlign.center,
+                        TextFormField(
+                          // validator: (value) => viewModel.validateEmail(value, emailController.text),
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                          decoration: KTextFieldInputDecoration,
-                          controller: _controllerFullNameUser,
+                          controller: _nameControllerUser,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: KeditTextFieldDecoration(),
                         ),
+
                         SizedBox(
                           height: 6,
                         ),
@@ -262,13 +271,30 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         SizedBox(
                           height: 30,
                         ),
-                        TextField(
+                        TextFormField(
+                          // validator: (value) => viewModel.validateEmail(value, emailController.text),
+                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          controller: _lastNameControllerUser,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: KeditTextFieldDecoration(),
+                        ),
+
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          'Apellido de Usuario',
+                          style: textTheme.textButtomWhite,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        TextFormField(
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                          controller: _controllerEmail,
-                          decoration: KTextFieldInputDecoration.copyWith(
-                            hintText: 'Email',
-                          ),
+                          controller: _emailController,
+                          decoration: KeditTextFieldDecoration()
                         ),
                         SizedBox(
                           height: 6,
@@ -301,7 +327,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                               style: textTheme.textButtomWhite
                                   .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                             ),
-                            onPressed: ()=>_deactivateAccount(viewModel) ),
+                            onPressed: () => _deactivateAccount(viewModel)),
                         SizedBox(
                           height: 12,
                         ),
@@ -359,14 +385,14 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   }
 
   showSnack(String title, {Function? onPressed, int? duration}) async {
-      await Flushbar(
+    await Flushbar(
       blockBackgroundInteraction: true,
       isDismissible: false,
       title: 'Atención!',
       message: title,
       duration: Duration(seconds: 5),
-      onTap: (_){
-        if(onPressed!= null){
+      onTap: (_) {
+        if (onPressed != null) {
           onPressed();
         }
       },

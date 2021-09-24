@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 
 
 class RateService {
-  Future<IdtResult<SplashModel?>> ratePlace(String hotel, String rate) async {
+  Future<IdtResult<SplashModel?>> PutRatePlace(String hotel, String rate) async {
     final uri = Uri.https(IdtConstants.url_server, '/util/rate');
     final rateRequest = RateRequest(hotel, rate);
     final response = await http.put(uri,body: rateRequest.toJson());
