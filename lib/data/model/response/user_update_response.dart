@@ -15,8 +15,8 @@ part 'user_update_response.g.dart';
 class UserUpdateResponse extends IdtModel {
 //recibir
   final int? status;
-  // final UserDataRequest? data;
-  final UserModel? data;
+  final UserDataRequest? data;
+  // final UserModel? data;
 
 
 

@@ -140,7 +140,7 @@ class DataUserService {
     }
   }
 
-  Future<IdtResult<UserModel?>> updateUser(String newLastName, String newName,
+  Future<IdtResult<UserDataRequest?>> updateUser(String newLastName, String newName,
       String newEmail, String idUser) async {
     final dataUserRequest = UserDataRequest(
       name: newName,
