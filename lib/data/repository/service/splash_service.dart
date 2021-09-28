@@ -20,7 +20,7 @@ class SplashService {
     };
 
     final uri = Uri.https(IdtConstants.url_server, '/util/splash', queryParameters);
-
+    print(uri);
     try {
       final response = await http.get(uri).timeout(
             Duration(seconds: 5),

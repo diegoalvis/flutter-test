@@ -1,5 +1,3 @@
-
-
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_as_message_model.dart';
@@ -12,12 +10,13 @@ import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
 import 'package:bogota_app/data/model/request/register_request.dart';
+import 'package:bogota_app/data/model/request/user_data_request.dart';
+import 'package:bogota_app/data/model/response/user_update_response.dart';
 import 'package:bogota_app/data/model/response_model_reset_password.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/service/filter_service.dart';
 import 'package:bogota_app/utils/idt_result.dart';
-
 
 import 'service/audioguide_service.dart';
 import 'service/bestRated_service.dart';
@@ -27,9 +26,8 @@ import 'service/event_service.dart';
 import 'service/favorite_service.dart';
 import 'service/gps_service.dart';
 import 'service/language_avalible_service.dart';
-import 'service/login_service.dart';
 import 'service/menu_images_service.dart';
-import 'service/register_service.dart';
+import 'service/data_user_service.dart';
 import 'service/reset_password.dart';
 import 'service/savedPlaces_service.dart';
 import 'service/search_service.dart';
@@ -39,8 +37,10 @@ import 'service/unmissable_service.dart';
 import 'service/zone_service.dart';
 
 class ApiInteractor {
-  Future<IdtResult<List<DataModel>?>> getPlacesList(Map params, Map? oldFilters) async {
-    final response = await locator<FilterService>().getPlaces(params, oldFilters);
+  Future<IdtResult<List<DataModel>?>> getPlacesList(
+      Map params, Map? oldFilters) async {
+    final response =
+        await locator<FilterService>().getPlaces(params, oldFilters);
 
     return response;
   }
@@ -51,8 +51,10 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(Map params, String section) async {
-    final response = await locator<FilterService>().getPlaceEventForLocation(params, section);
+  Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(
+      Map params, String section) async {
+    final response = await locator<FilterService>()
+        .getPlaceEventForLocation(params, section);
 
     return response;
   }
@@ -81,13 +83,15 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getUnmissablePlacesList(String lan) async {
-    final response = await locator<UnmissableService>().getUnmissablePlaces(lan);
+  Future<IdtResult<List<DataModel>?>> getUnmissablePlacesList(
+      String lan) async {
+    final response =
+        await locator<UnmissableService>().getUnmissablePlaces(lan);
     return response;
   }
 
   Future<IdtResult<UserModel?>> getDataUser(String id) async {
-    final response = await locator<RegisterService>().getDataUser(id);
+    final response = await locator<DataUserService>().getDataUser(id);
     return response;
   }
 
@@ -128,14 +132,15 @@ class ApiInteractor {
   }
 
   Future<IdtResult<List<LanguageModel>?>> getLanguageAvalible() async {
-
-    final response = await locator<LanguageAvalibleService>().getLanguageAvalible();
+    final response =
+        await locator<LanguageAvalibleService>().getLanguageAvalible();
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(String coordinates, String lan) async {
-
-    final response = await locator<CloseToMeService>().getPlacesCloseToMe(coordinates, lan);
+  Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(
+      String coordinates, String lan) async {
+    final response =
+        await locator<CloseToMeService>().getPlacesCloseToMe(coordinates, lan);
     return response;
   }
 
@@ -156,14 +161,13 @@ class ApiInteractor {
     return response;
   }
 
-
   Future<IdtResult<FavoriteModel?>> postFavorite(String idplace) async {
     final response = await locator<FavoriteService>().postFavorite(idplace);
     return response;
   }
 
-
-  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {
+  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(
+      String id) async {
     final response = await locator<EventService>().getEventSocialById(id);
     return response;
   }
@@ -187,13 +191,13 @@ class ApiInteractor {
 
   Future<IdtResult<RegisterModel?>> login(LoginRequest params) async {
     print('entra al future del login');
-    final response = await locator<LoginService>().postLogin(params);
+    final response = await locator<DataUserService>().postLogin(params);
 
     return response;
   }
 
   Future<IdtResult<RegisterModel?>> register(RegisterRequest params) async {
-    final response = await locator<RegisterService>().postRegister(params);
+    final response = await locator<DataUserService>().postRegister(params);
 
     return response;
   }
@@ -204,9 +208,15 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<DataAsMessageModel?>> deleteUser(
-      int id) async {
-    final response = await locator<RegisterService>().deleteUser(id);
+  Future<IdtResult<DataAsMessageModel?>> deleteUser(int id) async {
+    final response = await locator<DataUserService>().deleteUser(id);
+    return response;
+  }
+
+  Future<IdtResult<UserModel?>> updateDataUser(
+      String newLastName, String newName, String newEmail, String idUser) async {
+    final response = await locator<DataUserService>()
+        .updateUser(newLastName, newName, newEmail, idUser);
     return response;
   }
 

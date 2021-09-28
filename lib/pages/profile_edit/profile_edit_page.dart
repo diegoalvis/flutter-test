@@ -1,3 +1,5 @@
+import 'package:bogota_app/data/model/request/user_data_request.dart';
+import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
@@ -15,29 +17,30 @@ import '../../app_theme.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class ProfileEditPage extends StatelessWidget {
-  final String emailUser;
-  final String nameUser;
-  final String lastName;
+  final UserModel user;
 
-  ProfileEditPage(this.emailUser, this.nameUser, this.lastName);
+  // final String emailUser;
+  // final String nameUser;
+  // final String lastName;
+
+  ProfileEditPage(this.user);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return ProfileEditWidget(emailUser,nameUser,lastName );
+        return ProfileEditWidget(user);
       },
     );
   }
 }
 
 class ProfileEditWidget extends StatefulWidget {
-  final String _emailUser;
-  final String _nameUser;
-  final String _lastName;
+  final UserModel _user;
 
-  ProfileEditWidget(this._emailUser, this._nameUser,this._lastName);
+  ProfileEditWidget(this._user);
 
   @override
   _ProfileEditWidgetState createState() => _ProfileEditWidgetState();
@@ -52,9 +55,9 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
       GlobalKey<ScaffoldMessengerState>();
 
   void cancelChangeDataUser() {
-    String nameOriginal = widget._nameUser;
-    String lastNameOriginal = widget._lastName;
-    String emailOriginal = widget._emailUser;
+    String nameOriginal = widget._user.name!;
+    String lastNameOriginal = widget._user.lastName!;
+    String emailOriginal = widget._user.email!;
     setState(() {
       _emailController.text = emailOriginal;
       _nameControllerUser.text = nameOriginal;
@@ -78,11 +81,11 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = widget._emailUser;
+    _nameControllerUser.text = widget._user.name!;
+    _lastNameControllerUser.text = widget._user.lastName!;
+    _emailController.text = widget._user.email!;
     _emailController.addListener(_changeValueController);
-
-    _nameControllerUser.text = widget._nameUser;
-    _lastNameControllerUser.text = widget._lastName;
+    _lastNameControllerUser.addListener(_changeValueController);
     _nameControllerUser.addListener(_changeValueController);
   }
 
@@ -178,7 +181,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           children: [
                             FutureBuilder(
                               future: viewModel.getNameUser(),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
                                 if (!snapshot.hasData) {
                                   // while data is loading:
                                   print(snapshot);
@@ -223,17 +227,17 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         Text(
                           'Editar Perfil',
-                          style: textTheme.textButtomWhite
-                              .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                          style: textTheme.textButtomWhite.copyWith(
+                              fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                         Spacer(
                           flex: 5,
                         ),
                         Text(
-                          widget._nameUser,
+                          widget._user.name!,
                           textAlign: TextAlign.center,
-                          style: textTheme.textButtomWhite
-                              .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
+                          style: textTheme.textButtomWhite.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
                           height: 12,
@@ -253,6 +257,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           height: 32,
                         ),
                         TextFormField(
+                          // initialValue: 'valor inicial',
                           // validator: (value) => viewModel.validateEmail(value, emailController.text),
                           style: textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: _nameControllerUser,
@@ -273,7 +278,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         TextFormField(
                           // validator: (value) => viewModel.validateEmail(value, emailController.text),
-                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          style:
+                              textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: _lastNameControllerUser,
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.emailAddress,
@@ -291,11 +297,11 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           height: 30,
                         ),
                         TextFormField(
-                          textAlign: TextAlign.center,
-                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                          controller: _emailController,
-                          decoration: KeditTextFieldDecoration()
-                        ),
+                            textAlign: TextAlign.center,
+                            style: textTheme.textButtomWhite
+                                .copyWith(fontSize: 16),
+                            controller: _emailController,
+                            decoration: KeditTextFieldDecoration()),
                         SizedBox(
                           height: 6,
                         ),
@@ -324,8 +330,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         TextButton(
                             child: Text(
                               'Desactivar mi cuenta',
-                              style: textTheme.textButtomWhite
-                                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+                              style: textTheme.textButtomWhite.copyWith(
+                                  fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             onPressed: () => _deactivateAccount(viewModel)),
                         SizedBox(
@@ -334,8 +340,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         TextButton(
                             child: Text(
                               'Cerrar Sesión',
-                              style: textTheme.textButtomWhite
-                                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+                              style: textTheme.textButtomWhite.copyWith(
+                                  fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             onPressed: () => viewModel.goLoginAll()),
                         SizedBox(
@@ -374,6 +380,11 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         onPressed: () {
                           saveChangeDataUser();
+                          viewModel.updateUserData(
+                              newLastName: _lastNameControllerUser.text,
+                              newName: _nameControllerUser.text,
+                              newEmail: _emailController.text,
+                              idUser: widget._user.id);
                         }),
                   ],
                 ),
@@ -403,7 +414,8 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
     try {
       bool response = await viewModel.deleteUser();
       if (response == true) {
-        await showSnack("Cuenta eliminada exitosamente", onPressed: viewModel.goLoginAll);
+        await showSnack("Cuenta eliminada exitosamente",
+            onPressed: viewModel.goLoginAll);
         viewModel.goLoginAll();
       } else {
         await showSnack("Hubo un error, intenta nuevamente");

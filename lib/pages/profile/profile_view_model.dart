@@ -46,7 +46,6 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
       print('Email del Usario id $idUser:** ${dataUser.body!.name}');
 
       status = status.copyWith(dataUser: dataUser.body); // Status reasignacion
-      print(status.dataUser!.toJson());
     } else {
       final erroRes = dataUser as IdtFailure<UserDataError>;
       print(erroRes.message);
@@ -65,10 +64,7 @@ class ProfileViewModel extends ViewModel<ProfileStatus> {
 
   void goProfileEditPage() async {
     status = status.copyWith(isLoading: true);
-    //todo se debe cambiar una vez el correo llegue para el servicio de obtener usuario
-    //status.dataUser!.email!,
-    await _route.goProfileEdit(status.dataUser!.email!, status.dataUser!.name!,
-        status.dataUser!.lastName!);
+    await _route.goProfileEdit(status.dataUser!);
     status = status.copyWith(isLoading: false);
   }
 
