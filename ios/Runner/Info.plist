@@ -29,6 +29,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MinimumOSVersion</key>
+	<string>12.0</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>need to access the location to find hotels, events and restaurants to visit</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
