@@ -1,7 +1,6 @@
 import 'dart:ffi';
 
 
-
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -17,41 +16,44 @@ import 'splash_status.dart';
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-  late String languageUser;
+
 
   SplashViewModel(this._route, this._interactor) {
     status = SplashStatus();
   }
 
   void onInit() async {
+    Future.delayed(const Duration(milliseconds: 500), () {
     getSplash();
-     // languageUser = await BoxDataSesion.getLaguageByUser();
-    languageUser = 'es';
+    });
   }
 
   void getSplash() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     print("connectivityResult $connectivityResult");
+    late String languageUser;
 
-    if(connectivityResult != ConnectivityResult.none){
+    if (connectivityResult != ConnectivityResult.none) {
+      //todo obtener usuario para el idioma
+      // languageUser = BoxDataSesion.getLaguageByUser();
 
-      final response = await _interactor.getSplashInteractor(languageUser);
+      final response = await _interactor.getSplashInteractor('es');
 
       if (response is IdtSuccess<SplashModel>) {
-        status = status.copyWith(title: response.body.title,imgSplash: IdtConstants.url_image + response.body.background.toString());
-        await Future.delayed(Duration (seconds: 10));
+        status = status.copyWith(title: response.body.title,
+            imgSplash: IdtConstants.url_image +
+                response.body.background.toString());
+        await Future.delayed(Duration(seconds: 10));
         _route.goSelectLanguage();
       } else {
-        await Future.delayed(Duration (seconds: 10));
+        await Future.delayed(Duration(seconds: 10));
         _route.goSelectLanguage();
         final erroRes = response as IdtFailure<FilterError>;
         print(erroRes.message);
         UnimplementedError();
       }
-    }
-    else{
+    } else {
       _route.goSavedPlaces();
     }
-
   }
 }

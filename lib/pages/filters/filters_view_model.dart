@@ -1,3 +1,4 @@
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -42,6 +43,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
+
     languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     status = status.copyWith(isLoading: true);
     switch (section) {

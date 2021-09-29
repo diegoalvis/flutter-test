@@ -50,6 +50,7 @@ class IdtRoute {
     navigatorKey.currentState!.pop();
   }
   goSelectLanguage() {
+
     // IdtRoute.route = HomePage.namePage;
     return navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (_) => SelectLanguagePage()));

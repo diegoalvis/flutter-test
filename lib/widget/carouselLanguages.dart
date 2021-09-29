@@ -66,21 +66,17 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
   }
 
   void savedSelectedLanguaje(int index) {
-    CurrentUser? user = BoxDataSesion.getCurrentUser();
     /*
       Revisar estos dos id, no se cual es el id del usuario
       user?.id_user o user?.user?.id_db no se cual es
     */
     String prefix =  widget.languages[index].prefix!;
-    BoxDataSesion.pushToLaguageUser(user?.id_user,prefix);
+    BoxDataSesion.pushToLaguageUser(prefix);
 
   }
 
   String readSelectedLanguaje() {
-    CurrentUser? user = BoxDataSesion.getCurrentUser();
-    String prefixLanguaje = BoxDataSesion.getLaguageByUser(idUser: user?.id_user);
-    print(
-        '${user?.id_user != null ? 'Lenguage recuperado del usuario, #${user?.id_user}: \"$prefixLanguaje\"' : 'Usuario *sin Cuenta idioma default: \"$prefixLanguaje\"'}');
+    String prefixLanguaje = BoxDataSesion.getLaguageByUser();
     return prefixLanguaje;
   }
 }

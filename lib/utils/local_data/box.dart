@@ -193,6 +193,7 @@ class BoxDataSesion {
     boxPeson.deleteFromDisk();
     print("=== 🧹Box limpiada === ");
   }
+
 //*********Para el usuario actual***************
 
   static void pushToBoxCurrentU(CurrentUser value) async {
@@ -204,8 +205,9 @@ class BoxDataSesion {
 
   static CurrentUser? getCurrentUser() {
     final CurrentUser? value = boxCurrentUser.get(0);
-    print('devuelve usuario actual ${value?.id_user ??'**No Hay Usuario'}');
-    print('${value?.id_user!= null ? 'Usuario actual #${value?.id_user}' : '**No Hay Usuario almacenado'}');
+    print('devuelve usuario actual ${value?.id_user ?? '**No Hay Usuario'}');
+    print(
+        '${value?.id_user != null ? 'Usuario actual #${value?.id_user}' : '**No Hay Usuario almacenado'}');
 
     return value;
   }
@@ -299,8 +301,9 @@ class BoxDataSesion {
       print("========================= ");
     }
     return boxSavedLaguage;
-    
-  }static Future<Box<String>> boxlanguageServiceInit() async {
+  }
+
+  static Future<Box<String>> boxlanguageServiceInit() async {
     try {
       print("=== Cargando BOX === ");
       boxLanguageService = await Hive.openBox('boxLanguageService');
@@ -314,16 +317,22 @@ class BoxDataSesion {
     return boxLanguageService;
   }
 
-  static void pushToLaguageUser(int? idUser, String value) {
+  static void pushToLaguageUser(String value) {
+    int? idUser = BoxDataSesion.getCurrentUser()?.id_user;
+
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
     boxSavedLaguage.put(idUser ?? noSessionUser, value);
-    print('✅ Se registra para ${idUser ?? noSessionUser} con valor ${jsonEncode(value)}');
+    print(
+        '✅ Se registra para ${idUser ?? noSessionUser} con valor ${jsonEncode(value)}');
   }
 
-  static String getLaguageByUser({int? idUser }) {
+  static String getLaguageByUser() {
+    // int? idUser = BoxDataSesion.getCurrentUser()?.id_user;
+    int? idUser = BoxDataSesion.getCurrentUser()?.id_user;
+
     String defaultLanguage = 'es';
     String noSessionUser = 'noSessionUser'; // Para un usuario sin sesión
-    if(idUser == null){
+    if (idUser == null) {
       final languageSaved = boxSavedLaguage.get(noSessionUser);
       return languageSaved ?? defaultLanguage;
     }
@@ -334,20 +343,16 @@ class BoxDataSesion {
     return defaultLanguage;
   }
 
-
-
-
   static void pushToLanguagesAvalible({List<LanguageModel>? lan}) {
     String value = jsonEncode(lan);
     boxLanguageService.put(0, value);
   }
 
   static List<LanguageModel> getLanguagesAvalible() {
-      final String languagesService = boxLanguageService.get(0)??'';
-      var json = jsonDecode(languagesService) as List;
-      List<LanguageModel> languages = json.map((element) => LanguageModel.fromJsonManual(element)).toList();
+    final String languagesService = boxLanguageService.get(0) ?? '';
+    var json = jsonDecode(languagesService) as List;
+    List<LanguageModel> languages =
+        json.map((element) => LanguageModel.fromJsonManual(element)).toList();
     return languages;
   }
-
-
 }
