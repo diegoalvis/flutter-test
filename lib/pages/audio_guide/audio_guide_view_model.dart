@@ -28,9 +28,12 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   }
 
   void getAudioGuideResponse() async {
-    languageUser = BoxDataSesion
-        .getLaguageByUser();
-    final audioguideResponse = await _interactor.getAudioGuidesList(languageUser);
+    languageUser = BoxDataSesion.getLaguageByUser();
+    // if(languageUser == 'es'){
+    //   languageUser= 'en';
+    // };
+    final audioguideResponse =
+        await _interactor.getAudioGuidesList(languageUser);
     if (audioguideResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
       print(audioguideResponse.body![0].audioguia_en);
       status = status.copyWith(

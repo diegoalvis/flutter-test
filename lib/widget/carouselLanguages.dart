@@ -20,10 +20,8 @@ class CarouselLanguages extends StatefulWidget {
 }
 
 class _CarouselLanguagesState extends State<CarouselLanguages> {
-  String? lanSelected = BoxDataSesion.getLaguageByUser(); //get language User Prefered;
-
   Widget build(BuildContext context) {
-    readSelectedLanguaje();
+    String? lanSelected  =  readSelectedLanguaje();
     return Container(
       width: widget.sizeScreen.width * 0.7,
       height: 70,
@@ -33,12 +31,12 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
           itemCount: widget.languages.length,
           itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
+                  savedSelectedLanguaje(index);
                   widget.buttonEnable();
                   print('Idioma selecionando index: $index');
                   setState(() {
                     lanSelected = widget.languages.elementAt(index).prefix;
                   });
-                  savedSelectedLanguaje(index);
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -78,11 +76,11 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
 
   }
 
-  void readSelectedLanguaje() {
+  String readSelectedLanguaje() {
     CurrentUser? user = BoxDataSesion.getCurrentUser();
     String prefixLanguaje = BoxDataSesion.getLaguageByUser(idUser: user?.id_user);
     print(
         '${user?.id_user != null ? 'Lenguage recuperado del usuario, #${user?.id_user}: \"$prefixLanguaje\"' : 'Usuario *sin Cuenta idioma default: \"$prefixLanguaje\"'}');
-    // return prefixLanguaje;
+    return prefixLanguaje;
   }
 }
