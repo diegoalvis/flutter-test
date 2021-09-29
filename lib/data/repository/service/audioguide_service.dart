@@ -7,10 +7,12 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class AudioGuideService {
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuide() async {
-
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuide(String lanUser) async {
+    var queryParameters = {
+      'lan': lanUser,
+    };
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/audio');
+    final uri = Uri.https(IdtConstants.url_server, '/audio/',queryParameters);
 
     final response = await http.get(uri);
 

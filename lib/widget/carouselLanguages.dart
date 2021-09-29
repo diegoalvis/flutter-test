@@ -73,7 +73,9 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
       Revisar estos dos id, no se cual es el id del usuario
       user?.id_user o user?.user?.id_db no se cual es
     */
-    BoxDataSesion.pushToLaguageUser(user?.id_user, widget.languages[index].prefix!);
+    String prefix =  widget.languages[index].prefix!;
+    BoxDataSesion.pushToLaguageUser(user?.id_user,prefix);
+
   }
 
   void readSelectedLanguaje() {

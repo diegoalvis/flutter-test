@@ -150,8 +150,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList() async {
-    final response = await locator<AudioGuideService>().getAudioGuide();
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList(String lan) async {
+    final response = await locator<AudioGuideService>().getAudioGuide(lan);
 
     return response;
   }

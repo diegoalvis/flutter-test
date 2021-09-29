@@ -8,12 +8,14 @@ import 'package:bogota_app/pages/audio_guide/audio_guide_status.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   AudioGuideViewModel(this._route, this._interactor) {
     status =
@@ -22,17 +24,17 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
-    print('entra audio');
     getAudioGuideResponse();
-    //TODO
   }
 
   void getAudioGuideResponse() async {
-    final audioguideResponse = await _interactor.getAudioGuidesList();
+    languageUser = BoxDataSesion
+        .getLaguageByUser();
+    final audioguideResponse = await _interactor.getAudioGuidesList(languageUser);
     if (audioguideResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
-      print("model");
-      print(audioguideResponse.body![0].audioguia_es);
-      status = status.copyWith(itemsAudioGuide: audioguideResponse.body, isLoading: false);
+      print(audioguideResponse.body![0].audioguia_en);
+      status = status.copyWith(
+          itemsAudioGuide: audioguideResponse.body, isLoading: false);
 
       // Actualización de lugares guardados/favoritos
       final dynamic savedPlaces = await _interactor.getSavedPlacesList();
@@ -112,7 +114,7 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  Future<bool> offMenuBack()async {
+  Future<bool> offMenuBack() async {
     bool? shouldPop = true;
 
     if (status.openMenu) {
