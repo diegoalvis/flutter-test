@@ -13,13 +13,17 @@ import 'package:bogota_app/utils/errors/user_data_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter/material.dart';
 
 class ProfileEditViewModel
     extends EffectsViewModel<ProfileEditStatus, ProfileEditEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
 
-  ProfileEditViewModel(this._route, this._interactor) {
+  ProfileEditViewModel(
+    this._route,
+    this._interactor,
+  ) {
     status = ProfileEditStatus(
         titleBar: 'Recibidos',
         isLoading: true,
@@ -99,22 +103,30 @@ class ProfileEditViewModel
     return false;
   }
 
-  void updateUserData(
-      {required String newLastName,
-      required String newName,
-      required String newEmail,
-        required idUser,
-      }) async {
-    // status = status.copyWith(isLoading: true);
+  void updateUserData({
+    required String newLastName,
+    required String newName,
+    required idUser,
+  }) async {
+    status = status.copyWith(isLoading: true);
     // CurrentUser user = BoxDataSesion.getCurrentUser()!;
 
     final updateResponse =
-        await _interactor.updateDataUser(newLastName, newName, newEmail, idUser);
+        await _interactor.updateDataUser(newLastName, newName, idUser);
 
-    if (updateResponse is IdtSuccess<UserModel?>) {
-      status = status.copyWith(
-          currentUser: updateResponse.body); // Status reasignacion
-      print(status.currentUser!.toJson());
+    if (updateResponse is IdtSuccess<UserDataRequest?>) {
+      final dataUser = await _interactor.getDataUser(idUser);
+      if (dataUser is IdtSuccess<UserModel?>) {
+        print('Email del Usario id $idUser:** ${dataUser.body!.name}');
+
+        status =
+            status.copyWith(currentUser: dataUser.body); // Status reasignacion
+      } else {
+        final erroRes = dataUser as IdtFailure<UserDataError>;
+        print(erroRes.message);
+        UnimplementedError();
+      }
+      status = status.copyWith(isLoading: false);
     } else {
       final erroRes = updateResponse as IdtFailure<UserDataError>;
       print(erroRes.message);

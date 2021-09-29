@@ -213,10 +213,10 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<UserModel?>> updateDataUser(
-      String newLastName, String newName, String newEmail, String idUser) async {
+  Future<IdtResult<UserDataRequest?>> updateDataUser(
+      String newLastName, String newName, String idUser) async {
     final response = await locator<DataUserService>()
-        .updateUser(newLastName, newName, newEmail, idUser);
+        .updateUser(newLastName, newName, idUser);
     return response;
   }
 

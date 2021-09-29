@@ -141,11 +141,10 @@ class DataUserService {
   }
 
   Future<IdtResult<UserDataRequest?>> updateUser(String newLastName, String newName,
-      String newEmail, String idUser) async {
+      String idUser) async {
     final dataUserRequest = UserDataRequest(
       name: newName,
       lastName: newLastName,
-      email: newEmail,
     );
 
     String encodeUserRequest = jsonEncode(dataUserRequest);

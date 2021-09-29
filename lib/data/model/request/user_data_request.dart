@@ -6,6 +6,7 @@ part 'user_data_request.g.dart';
 //UserModel
 class UserDataRequest {
 //enviar
+  final int? id;
   final String? name;
   final String? email;
   @JsonKey(name: 'last_name')
@@ -17,8 +18,9 @@ class UserDataRequest {
   // final String? reasonTrip;
 
   UserDataRequest({
-    this.email,
     this.name,
+    this.id,
+    this.email,
     this.lastName,
     // this.country, this.reasonTrip ,this.city,
   });

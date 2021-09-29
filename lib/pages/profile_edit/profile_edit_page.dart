@@ -28,8 +28,10 @@ class ProfileEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          ProfileEditViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => ProfileEditViewModel(
+        locator<IdtRoute>(),
+        locator<ApiInteractor>(),
+      ),
       builder: (context, _) {
         return ProfileEditWidget(user);
       },
@@ -47,9 +49,10 @@ class ProfileEditWidget extends StatefulWidget {
 }
 
 class _ProfileEditWidgetState extends State<ProfileEditWidget> {
+  final _route = locator<IdtRoute>();
+
   final _nameControllerUser = TextEditingController();
   final _lastNameControllerUser = TextEditingController();
-  final _emailController = TextEditingController();
   bool changeText = false;
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -57,17 +60,9 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
   void cancelChangeDataUser() {
     String nameOriginal = widget._user.name!;
     String lastNameOriginal = widget._user.lastName!;
-    String emailOriginal = widget._user.email!;
     setState(() {
-      _emailController.text = emailOriginal;
       _nameControllerUser.text = nameOriginal;
       _lastNameControllerUser.text = lastNameOriginal;
-      changeText = false;
-    });
-  }
-
-  void saveChangeDataUser() {
-    setState(() {
       changeText = false;
     });
   }
@@ -83,15 +78,12 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
     super.initState();
     _nameControllerUser.text = widget._user.name!;
     _lastNameControllerUser.text = widget._user.lastName!;
-    _emailController.text = widget._user.email!;
-    _emailController.addListener(_changeValueController);
-    _lastNameControllerUser.addListener(_changeValueController);
-    _nameControllerUser.addListener(_changeValueController);
+    // _lastNameControllerUser.addListener(_changeValueController);
+    // _nameControllerUser.addListener(_changeValueController);
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
     _nameControllerUser.dispose();
     _lastNameControllerUser.dispose();
     super.dispose();
@@ -234,7 +226,7 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           flex: 5,
                         ),
                         Text(
-                          widget._user.name!,
+                          "${widget._user.name!} ${widget._user.lastName!}" ,
                           textAlign: TextAlign.center,
                           style: textTheme.textButtomWhite.copyWith(
                               fontSize: 15, fontWeight: FontWeight.w700),
@@ -257,9 +249,14 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           height: 32,
                         ),
                         TextFormField(
-                          // initialValue: 'valor inicial',
+                          onChanged: (text) {
+                            setState(() {
+                              changeText = true;
+                            });
+                          },
                           // validator: (value) => viewModel.validateEmail(value, emailController.text),
-                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          style:
+                              textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: _nameControllerUser,
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.emailAddress,
@@ -277,6 +274,11 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           height: 30,
                         ),
                         TextFormField(
+                          onChanged: (text) {
+                            setState(() {
+                              changeText = true;
+                            });
+                          },
                           // validator: (value) => viewModel.validateEmail(value, emailController.text),
                           style:
                               textTheme.textButtomWhite.copyWith(fontSize: 16),
@@ -291,22 +293,6 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                         ),
                         Text(
                           'Apellido de Usuario',
-                          style: textTheme.textButtomWhite,
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        TextFormField(
-                            textAlign: TextAlign.center,
-                            style: textTheme.textButtomWhite
-                                .copyWith(fontSize: 16),
-                            controller: _emailController,
-                            decoration: KeditTextFieldDecoration()),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          'Email',
                           style: textTheme.textButtomWhite,
                         ),
                         SizedBox(
@@ -378,13 +364,14 @@ class _ProfileEditWidgetState extends State<ProfileEditWidget> {
                           size: 40,
                           color: IdtColors.white,
                         ),
-                        onPressed: () {
-                          saveChangeDataUser();
+                        onPressed: () async {
                           viewModel.updateUserData(
                               newLastName: _lastNameControllerUser.text,
                               newName: _nameControllerUser.text,
-                              newEmail: _emailController.text,
                               idUser: widget._user.id);
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            _route.goProfile();
+                          });
                         }),
                   ],
                 ),
