@@ -33,7 +33,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          LoginViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return LoginWidget();
       },
@@ -119,7 +120,8 @@ class _LoginWidgetState extends State<LoginWidget> {
     final viewModel = context.watch<LoginViewModel>();
     final sizeScreen = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     InputDecoration KTextFieldDecoration(IconData icon) {
       return InputDecoration(
@@ -197,8 +199,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                         Text(
                           'App Oficial de Bogotá',
-                          style: textTheme.textWhiteShadow
-                              .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                          style: textTheme.textWhiteShadow.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                         Spacer(),
                         SizedBox(
@@ -206,18 +208,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                         Text(
                           'BIENVENIDO',
-                          style: textTheme.textWhiteShadow
-                              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+                          style: textTheme.textWhiteShadow.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         Spacer(),
                         SizedBox(
                           height: 6,
                         ),
                         TextFormField(
-                          validator: (value) => viewModel.validateEmail(value, emailController.text),
-                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) => viewModel.validateEmail(
+                              value, emailController.text),
+                          style:
+                              textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: emailController,
-                          decoration: KTextFieldDecoration(Icons.email_outlined).copyWith(
+                          decoration: KTextFieldDecoration(Icons.email_outlined)
+                              .copyWith(
                             labelText: 'Email',
                           ),
                         ),
@@ -226,13 +233,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                         Spacer(),
                         TextFormField(
-                          validator: (value) => viewModel.validatePassword(value),
-                          keyboardType: TextInputType.emailAddress,
-                          style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                          onFieldSubmitted: (_) async {
+                            print("asdadda");
+                            submittLogin(viewModel);
+                          },
+                          textInputAction: TextInputAction.done,
+                          validator: (value) =>
+                              viewModel.validatePassword(value),
+                          keyboardType: TextInputType.text,
+                          style:
+                              textTheme.textButtomWhite.copyWith(fontSize: 16),
                           controller: passwordController,
                           obscureText: true,
-                          decoration:
-                              KTextFieldDecoration(Icons.vpn_key).copyWith(labelText: 'Contraseña'),
+                          decoration: KTextFieldDecoration(Icons.vpn_key)
+                              .copyWith(labelText: 'Contraseña'),
                         ),
                         SizedBox(
                           height: 12,
@@ -244,11 +258,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 fontSize: 16,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w700), onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            viewModel.loginResponse(emailController.text, passwordController.text);
-                          } else {
-                            _showAlert();
-                          }
+                          submittLogin(viewModel);
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
                         }),
@@ -276,8 +286,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 ),
                                 Text(
                                   'Recordarme',
-                                  style: textTheme.textWhiteShadow
-                                      .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                                  style: textTheme.textWhiteShadow.copyWith(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ],
                             ),
@@ -292,7 +303,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                 //CURVA
                 top: sizeScreen.height * 0.6,
                 child: SvgPicture.asset(IdtAssets.curve_up,
-                    width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
+                    width: sizeScreen.width,
+                    color: IdtColors.white,
+                    fit: BoxFit.contain),
               ),
               Positioned(
                 top: sizeScreen.height * 0.6,
@@ -315,15 +328,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   '¿Olvidó su contraseña?',
-                                  style: textTheme.textWhiteShadow
-                                      .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+                                  style: textTheme.textWhiteShadow.copyWith(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                               onTap: () {
                                 print("navegacion a recover Pass");
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => RecoverPassPage()),
+                                  MaterialPageRoute(
+                                      builder: (context) => RecoverPassPage()),
                                 );
                               },
                             ),
@@ -343,7 +358,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 fontWeight: FontWeight.w700), onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => RegisterUserPage()),
+                            MaterialPageRoute(
+                                builder: (context) => RegisterUserPage()),
                           );
                         }),
                         Spacer(
@@ -352,11 +368,15 @@ class _LoginWidgetState extends State<LoginWidget> {
                         Text(
                           'O inicia sesión con',
                           style: textTheme.textDetail.copyWith(
-                              fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey),
                         ),
                         Spacer(),
                         LoginButtons(
-                            logout: viewModel.logOut, login: viewModel.login, alert: _showAlert()),
+                            logout: viewModel.logOut,
+                            login: viewModel.login,
+                            alert: _showAlert()),
                         SizedBox(
                           height: 50,
                         ),
@@ -381,8 +401,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                   children: [
                     Text(
                       'Oficina de Turismo de Bogotá',
-                      style: textTheme.textDetail
-                          .copyWith(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey),
+                      style: textTheme.textDetail.copyWith(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey),
                     ),
                     SizedBox(
                       height: 10,
@@ -397,6 +419,14 @@ class _LoginWidgetState extends State<LoginWidget> {
       ),
     );
   }
+
+  void submittLogin(LoginViewModel vm) {
+    if (_formKey.currentState!.validate()) {
+      vm.loginResponse(emailController.text, passwordController.text);
+    } else {
+      _showAlert();
+    }
+  }
 }
 
 double scaleSmallDevice(BuildContext context) {
@@ -408,4 +438,3 @@ double scaleSmallDevice(BuildContext context) {
   // For normal devices.
   return 150;
 }
-

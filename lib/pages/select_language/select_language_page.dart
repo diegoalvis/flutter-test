@@ -79,30 +79,14 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                   SizedBox(
                     height: 80,
                   ),
-                  Stack(
-                    children: [
-                      viewModel.status.isLoading == false
-                          ? CarouselLanguages(
-                              viewModel.nextHome,
-                              languages: viewModel.status.languagesAvalibles,
-                              sizeScreen: sizeScreen,
-                              selectColor: Colors.white,
-                            )
-                          : SizedBox.shrink(),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 20.0,
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.center,
-                            colors: <Color>[Colors.black12, Colors.transparent],
-                            // red to yellow
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  viewModel.status.isLoading == false
+                      ? CarouselLanguages(
+                          viewModel.nextHome,
+                          languages: viewModel.status.languagesAvalibles,
+                          sizeScreen: sizeScreen,
+                          selectColor: Colors.white,
+                        )
+                      : SizedBox.shrink(),
                   SizedBox(
                     height: 30,
                   ),

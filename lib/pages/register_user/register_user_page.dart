@@ -32,7 +32,8 @@ class RegisterUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RegisterUserViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          RegisterUserViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return RegisterUserWidget();
       },
@@ -98,11 +99,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   _validatePassword(TextEditingController controller) {
     controller.addListener(() {
       if (!RegExp(r'^[a-zA-Z0-9]*$').hasMatch(controller.text)) {
-        showSnack('Solo se permiten caracteres \n alfanuméricos', onPressed: null, duration: null);
+        showSnack('Solo se permiten caracteres \n alfanuméricos',
+            onPressed: null, duration: null);
         final text = controller.text;
         controller.text = text.replaceAll(new RegExp(r'(?![a-zA-Z0-9]).'), '');
-        controller.selection =
-            TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+        controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: controller.text.length));
       }
     });
   }
@@ -190,40 +192,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   Widget _buildRegisterUser(RegisterUserViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
     final sizeScreen = MediaQuery.of(context).size;
-    final _route = locator<IdtRoute>();
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
     // RegisterRequest params = RegisterRequest(
     //     // 'name','name','name@gmail.com', 'col', 'apellido', 'asd', '1234'
     //     _controllerName.text,_controllerName.text, _controllerEmail.text, 'Colombia', _controllerLastNames.text, 'turismo', _controllerPass.text
     // );
 
-    _onSuccessRegister() {
-      context.showDialogObservation(
-          titleDialog: 'Éxito',
-          bodyTextDialog: 'Cuenta creada exitosamente!',
-          textPrimaryButton: 'aceptar / cerrar',
-          actionPrimaryButtom: _route.goHome);
-    }
-
-    _register() {
-      //Todo se debe bajar el keyBoard cuando se cree el usuario,
-      print('register user page');
-      // print(params.reason_trip);
-      // print(params.toJson());
-      // viewModel.status.data = params;
-      context.read<RegisterUserViewModel>().registerResponse(
-          _controllerName.text,
-          _controllerLastNames.text,
-          dropdownValueCountry,
-          dropdownValueReasonTrip,
-          _controllerEmail.text,
-          dropdownValueCity,
-          _controllerPass.text,
-          _onSuccessRegister);
-      _showAlert();
-    }
-
-    _validations() { //revisar estas validaciones
+    _validations() {
+      //revisar estas validaciones
       String validationResult = '';
       // validationResult = viewModel.validateEmail(_controllerEmail.text); //esta validacion ya se hace con la propiedad validator
       if (validationResult != 'null') {
@@ -246,7 +224,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
     InputDecoration KTextFieldDecoration() {
       return InputDecoration(
-        contentPadding: EdgeInsets.only(bottom: 6, top: 14, left: 20, right: 20),
+        contentPadding:
+            EdgeInsets.only(bottom: 6, top: 14, left: 20, right: 20),
         errorStyle: TextStyle(color: IdtColors.red),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.black54, width: 1.3),
@@ -322,8 +301,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'App Oficial de Bogotá',
-                        style: textTheme.textWhiteShadow
-                            .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
+                        style: textTheme.textWhiteShadow.copyWith(
+                            fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
                     Spacer(),
@@ -334,7 +313,9 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                 //CURVA
                 top: sizeScreen.height * 0.3,
                 child: SvgPicture.asset(IdtAssets.curve_up,
-                    width: sizeScreen.width, color: IdtColors.white, fit: BoxFit.contain),
+                    width: sizeScreen.width,
+                    color: IdtColors.white,
+                    fit: BoxFit.contain),
               ),
               Column(
                 children: [
@@ -364,12 +345,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                         child: Column(
                           children: [
                             TextFormField(
+                              textInputAction: TextInputAction.next,
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")) //validado solo letras y espacio
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[a-zA-Z ]"))
+                                //validado solo letras y espacio
                               ],
-                              validator: (value) => viewModel.validateName(value),
-                              style: textTheme.textButtomWhite
-                                  .copyWith(fontSize: 16, color: Colors.black87),
+                              validator: (value) =>
+                                  viewModel.validateName(value),
+                              style: textTheme.textButtomWhite.copyWith(
+                                  fontSize: 16, color: Colors.black87),
                               controller: _controllerName,
                               decoration: KTextFieldDecoration().copyWith(
                                 labelText: 'Nombres',
@@ -379,14 +364,19 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               height: 8,
                             ),
                             TextFormField(
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")) //validado solo letras y espacio
-                                ],
-                              validator:(value) =>viewModel.validateLastName(value),
+                              textInputAction: TextInputAction.next,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[a-zA-Z ]"))
+                                //validado solo letras y espacio
+                              ],
+                              validator: (value) =>
+                                  viewModel.validateLastName(value),
                               keyboardType: TextInputType.name,
                               style: textTheme.textDetail,
                               controller: _controllerLastNames,
-                              decoration: KTextFieldDecoration().copyWith(labelText: 'Apellidos'),
+                              decoration: KTextFieldDecoration()
+                                  .copyWith(labelText: 'Apellidos'),
                             ),
                             SizedBox(
                               height: 8,
@@ -398,8 +388,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                             //       border: Border.all(color: Colors.black26, width: 1.3),
                             //       borderRadius: BorderRadius.all(Radius.circular(20))),)
                             DropdownButtonFormField<String>(
-                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
-                              validator: (value) => value == null ? '* Campo motivo de viaje es necesario' : null,
+                              decoration: KTextFieldDecoration().copyWith(
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 0, top: 0, left: 20, right: 5)),
+                              validator: (value) => value == null
+                                  ? '* Campo motivo de viaje es necesario'
+                                  : null,
                               isExpanded: true,
                               hint: Text('Motivo del Viaje'),
                               isDense: true,
@@ -425,7 +419,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                 // 'Motivo de Viaje',
                               ].map<DropdownMenuItem<String>>((String option) {
                                 return DropdownMenuItem<String>(
-                                  child: Text('$option', style: TextStyle(color: Colors.black54)),
+                                  child: Text('$option',
+                                      style: TextStyle(color: Colors.black54)),
                                   value: option,
                                 );
                               }).toList(),
@@ -441,7 +436,9 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                             ),
 
                             DropdownButtonFormField<String>(
-                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
+                              decoration: KTextFieldDecoration().copyWith(
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 0, top: 0, left: 20, right: 5)),
                               // validator: (value) => value == null ? '* Motivo es necesario' : null,
                               isExpanded: true,
                               hint: Text('País'),
@@ -456,7 +453,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                   color: IdtColors.grayBtn,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500),
-                              items: countries.map<DropdownMenuItem<String>>((String option) {
+                              items: countries.map<DropdownMenuItem<String>>(
+                                  (String option) {
                                 return DropdownMenuItem<String>(
                                   child: Text('$option',
                                       // style: textTheme.textDetail,
@@ -476,8 +474,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               height: 8,
                             ),
                             DropdownButtonFormField<String>(
-                              decoration: KTextFieldDecoration().copyWith(contentPadding: EdgeInsets.only(bottom: 0, top: 0, left: 20,right: 5)),
-                              validator: (value) => value == null ? '* La ciudad / providencia es necesario' : null,
+                              decoration: KTextFieldDecoration().copyWith(
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 0, top: 0, left: 20, right: 5)),
+                              validator: (value) => value == null
+                                  ? '* La ciudad / providencia es necesario'
+                                  : null,
                               value: dropdownValueCity,
                               isExpanded: true,
                               hint: Text('Ciudad'),
@@ -493,7 +495,8 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500),
                               items: citiesFilterByCountry
-                                  .map<DropdownMenuItem<String>>((String option) {
+                                  .map<DropdownMenuItem<String>>(
+                                      (String option) {
                                 return DropdownMenuItem<String>(
                                   child: Text(
                                     '$option',
@@ -512,28 +515,39 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               height: 8,
                             ),
                             TextFormField(
-                              validator:(value)=> viewModel.validateEmail(value,_controllerEmail.text),
+                              textInputAction: TextInputAction.next,
+                              validator: (value) => viewModel.validateEmail(
+                                  value, _controllerEmail.text),
                               keyboardType: TextInputType.emailAddress,
                               style: textTheme.textDetail,
                               controller: _controllerEmail,
-                              decoration:
-                                  KTextFieldDecoration().copyWith(labelText: 'Correo electrónico'),
+                              decoration: KTextFieldDecoration()
+                                  .copyWith(labelText: 'Correo electrónico'),
                             ),
                             SizedBox(
                               height: 8,
                             ),
                             TextFormField(
-                              validator: (value) => viewModel.validatePasswords(_controllerPass.text,_controllerConfirmPass.text),
+                              textInputAction: TextInputAction.next,
+                              validator: (value) => viewModel.validatePasswords(
+                                  _controllerPass.text,
+                                  _controllerConfirmPass.text),
                               keyboardType: TextInputType.visiblePassword,
                               style: textTheme.textDetail,
                               controller: _controllerPass,
                               obscureText: true,
-                              decoration: KTextFieldDecoration().copyWith(labelText: 'Contraseña'),
+                              decoration: KTextFieldDecoration()
+                                  .copyWith(labelText: 'Contraseña'),
                             ),
                             SizedBox(
                               height: 8,
                             ),
                             TextFormField(
+                              textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (_) async {
+                                print("asdadda");
+                                createCount();
+                              },
                               style: textTheme.textDetail,
                               controller: _controllerConfirmPass,
                               obscureText: true,
@@ -546,17 +560,12 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                             BtnGradient('Crear cuenta',
                                 colorGradient: IdtGradients.orange,
                                 textStyle: textTheme.textButtomWhite.copyWith(
-                                    fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
+                                    fontSize: 16,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w700),
                                 // onPressed: () => _validations(),
                                 onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                // viewModel.loginResponse(emailController.text, passwordController.text);
-                                // _validations();
-                                _register();
-                              } else {
-                                _showAlert();
-                              }
-
+                              createCount();
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
                             }),
@@ -603,6 +612,40 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         dropdownValueCity = null;
       }
     });
+  }
+
+  void createCount() {
+    if (_formKey.currentState!.validate()) {
+      // viewModel.loginResponse(emailController.text, passwordController.text);
+      // _validations();
+
+      //Todo se debe bajar el keyBoard cuando se cree el usuario,
+      print('register user page');
+      // print(params.reason_trip);
+      // print(params.toJson());
+      // viewModel.status.data = params;
+      context.read<RegisterUserViewModel>().registerResponse(
+          _controllerName.text,
+          _controllerLastNames.text,
+          dropdownValueCountry,
+          dropdownValueReasonTrip,
+          _controllerEmail.text,
+          dropdownValueCity,
+          _controllerPass.text,
+          _onSuccessRegister);
+      _showAlert();
+    } else {
+      _showAlert();
+    }
+  }
+
+  _onSuccessRegister() {
+    final route = locator<IdtRoute>();
+    context.showDialogObservation(
+        titleDialog: 'Éxito',
+        bodyTextDialog: 'Cuenta creada exitosamente!',
+        textPrimaryButton: 'aceptar / cerrar',
+        actionPrimaryButtom: route.goHome);
   }
 }
 
