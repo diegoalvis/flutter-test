@@ -15,7 +15,6 @@ import 'splash_status.dart';
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-  //solid color #2164ac blue-Splash.
 
   SplashViewModel(this._route, this._interactor) {
     status = SplashStatus();
@@ -43,7 +42,7 @@ class SplashViewModel extends ViewModel<SplashStatus> {
             imgSplash: IdtConstants.url_image +
                 response.body.background.toString());
         await Future.delayed(Duration(seconds: 10));
-        // _route.goSelectLanguage();
+        _route.goSelectLanguage();
       } else {
         await Future.delayed(Duration(seconds: 10));
         _route.goSelectLanguage();
