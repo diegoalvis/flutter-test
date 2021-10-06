@@ -43,7 +43,7 @@ class SplashViewModel extends ViewModel<SplashStatus> {
             imgSplash: IdtConstants.url_image +
                 response.body.background.toString());
         await Future.delayed(Duration(seconds: 10));
-        _route.goSelectLanguage();
+        // _route.goSelectLanguage();
       } else {
         await Future.delayed(Duration(seconds: 10));
         _route.goSelectLanguage();
