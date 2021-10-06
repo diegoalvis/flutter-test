@@ -7,7 +7,10 @@ import 'package:bogota_app/extensions/language.dart';
 
 class CarouselLanguages extends StatefulWidget {
   CarouselLanguages(this.buttonEnable,
-      {Key? key, required this.selectColor, required this.sizeScreen, required this.languages})
+      {Key? key,
+      required this.selectColor,
+      required this.sizeScreen,
+      required this.languages})
       : super(key: key);
 
   final VoidCallback buttonEnable;
@@ -72,7 +75,6 @@ class _CarouselLanguagesState extends State<CarouselLanguages> {
     */
     String prefix =  widget.languages[index].prefix!;
     BoxDataSesion.pushToLaguageUser(prefix);
-
   }
 
   String readSelectedLanguaje() {

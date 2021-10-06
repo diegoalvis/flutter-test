@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -16,7 +15,7 @@ import 'splash_status.dart';
 class SplashViewModel extends ViewModel<SplashStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-
+  //solid color #2164ac blue-Splash.
 
   SplashViewModel(this._route, this._interactor) {
     status = SplashStatus();

@@ -26,7 +26,8 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SearchViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          SearchViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return SearchWidget();
       },
@@ -84,7 +85,8 @@ class _SearchWidgetState extends State<SearchWidget> {
             bottomNavigationBar: viewModel.status.openMenu
                 ? null
                 : IdtBottomAppBar(discoverSelect: false, searchSelect: true),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             body: _buildDiscover(viewModel)),
       ),
     );
@@ -94,8 +96,9 @@ class _SearchWidgetState extends State<SearchWidget> {
     final textTheme = Theme.of(context).textTheme;
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
-      child:
-          viewModel.status.openMenu ? IdtMenu(closeMenu: viewModel.closeMenu) : SizedBox.shrink(),
+      child: viewModel.status.openMenu
+          ? IdtMenu(closeMenu: viewModel.closeMenu)
+          : SizedBox.shrink(),
     );
 
     return Stack(
@@ -124,7 +127,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                     ),
                   ),
                   Expanded(
-                    child: TextFormField(
+                    child: TextField(
+                        onSubmitted: (value) {
+                          viewModel.goResultSearchPage(value);
+                        },
+                        textInputAction: TextInputAction.search,
                         controller: keyWordController,
                         textAlign: TextAlign.left,
                         style: TextStyle(color: IdtColors.white, fontSize: 20),
@@ -134,10 +141,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                           alignLabelWithHint: true,
                           hintStyle: TextStyle(color: IdtColors.white),
                           labelStyle: TextStyle(color: IdtColors.white),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
                         )
                         //TODO: Arreglar los colores y estilos
                         ),
@@ -153,9 +160,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                   textColor: Colors.deepOrangeAccent,
                   color: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                  onPressed: () => viewModel.goResultSearchPage(keyWordController.text)
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  onPressed: () =>
+                      viewModel.goResultSearchPage(keyWordController.text)
                   // viewModel.goResultSearchPage
                   )
             ],
