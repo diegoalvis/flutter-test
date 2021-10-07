@@ -68,7 +68,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogSuggestionLoginEffect) {
         context.showDialogObservation(
-          titleDialog: 'Funcionalidad Pro',
+          titleDialog: ' Funcionalidad para usuarios registrados',
           bodyTextDialog:
               '* Aqui tendras la lista de todos tus lugares favoritos o de interes que hayas agregado \u2665 *\n\n¿Quieres iniciar sesion?',
           textPrimaryButton: 'Ir al login...',

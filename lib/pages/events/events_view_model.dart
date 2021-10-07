@@ -84,7 +84,6 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
       print(erroRes.message);
       UnimplementedError();
     }
-    status = status.copyWith(isLoading: false);
   }
 
   void filtersForZones(DataModel item, String section) async {

@@ -28,6 +28,7 @@ class AudioGuidePage extends StatelessWidget {
   final int? optionIndex;
 
   AudioGuidePage({this.optionIndex});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -44,7 +45,9 @@ class AudioGuidePage extends StatelessWidget {
 
 class AudioGuideWidget extends StatefulWidget {
   final int? optionIndex;
+
   const AudioGuideWidget(this.optionIndex);
+
   @override
   _AudioGuideWidgetState createState() => _AudioGuideWidgetState();
 }
@@ -64,7 +67,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
 
     return SafeArea(
       child: WillPopScope(
-          onWillPop: viewModel.offMenuBack,
+        onWillPop: viewModel.offMenuBack,
         child: Scaffold(
             appBar: IdtAppBar(viewModel.openMenu),
             backgroundColor: IdtColors.white,
@@ -96,7 +99,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
         viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     Widget imagesCard(DataAudioGuideModel item, int index, List listItems) =>
-        (GestureDetector(
+
+    (GestureDetector(
           onDoubleTap: BoxDataSesion.isLoggedIn
               ? () {
                   viewModel.onTapFavorite(item.id.toString());
@@ -112,24 +116,24 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                 child: ColorFiltered(
                   colorFilter:
                       ColorFilter.mode(IdtColors.black, BlendMode.difference),
-                 
-                 child: CachedNetworkImage(
-                    imageUrl: "${IdtConstants.url_image}${listItems[index].image ?? 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png'}",
+
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        IdtConstants.url_image + listItems[index].image ?? 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png',
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                           ),
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    // height: 250,
-                    // width: 250,
-                    // placeholder: (context, url) => Container(child: Container(child: Center(child: CircularProgressIndicator(backgroundColor: Colors.transparent,)), height: 30, width: 30), height: 250, width: 250,),
+                    placeholder: (context, url) => CircularProgressIndicator(
+                      backgroundColor: Colors.transparent,
+                    ),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                 
+
                   // child: Image.network(
                   //   IdtConstants.url_image + item.image!,
                   //   height: 250,
@@ -197,7 +201,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             final int index = entry.key;
             final DataAudioGuideModel value = entry.value;
 
-            return imagesCard(value, index, _audios);
+            return imagesCard(value, index, _audios , );
           }).toList(),
         ));
 

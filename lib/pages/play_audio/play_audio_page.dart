@@ -134,7 +134,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
             duration: Duration(milliseconds: event.duration));
       } else if (event is ShowDialogModeOffEffect) {
         context.showDialogObservation(
-          titleDialog: 'Funcionalidad Pro',
+          titleDialog: ' Funcionalidad para usuarios registrados',
           bodyTextDialog:
               '* Te permite almacenar el \"audio\" de éste lugar para escucharlo sin conexion *\n\n¿Quieres iniciar sesion?',
           textPrimaryButton: 'Ir al Login...',
@@ -143,7 +143,7 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
         );
       } else if (event is ShowDialogAddSavedPlaceEffect) {
         context.showDialogObservation(
-          titleDialog: 'Funcionalidad Pro',
+          titleDialog: ' Funcionalidad para usuarios registrados',
           bodyTextDialog:
               '* Te permite agregar este lugar a tu lista de Favoritos *\n\n¿Quieres iniciar sesion?',
           textPrimaryButton: 'Ir al Login...',
