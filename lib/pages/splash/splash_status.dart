@@ -2,7 +2,7 @@ import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/view_model.dart';
 
 class SplashStatus extends ViewStatus {
-  late String? imgSplash = IdtAssets.splash;
+  late String? imgSplash;
   late String? logo ;
   final String? title;
 
