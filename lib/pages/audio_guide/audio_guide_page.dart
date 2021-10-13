@@ -99,8 +99,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
         viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     Widget imagesCard(DataAudioGuideModel item, int index, List listItems) =>
-
-    (GestureDetector(
+        (GestureDetector(
           onDoubleTap: BoxDataSesion.isLoggedIn
               ? () {
                   viewModel.onTapFavorite(item.id.toString());
@@ -118,8 +117,9 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                       ColorFilter.mode(IdtColors.black, BlendMode.difference),
 
                   child: CachedNetworkImage(
-                    imageUrl:
-                        IdtConstants.url_image + listItems[index].image ?? 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png',
+                    imageUrl: listItems[index]?.image != null
+                        ? IdtConstants.url_image + listItems[index].image
+                        : 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png',
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -201,7 +201,11 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             final int index = entry.key;
             final DataAudioGuideModel value = entry.value;
 
-            return imagesCard(value, index, _audios , );
+            return imagesCard(
+              value,
+              index,
+              _audios,
+            );
           }).toList(),
         ));
 
