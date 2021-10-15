@@ -170,7 +170,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
           ids_subcategories: [],
           location: "",
           rate: "",
-          image: item.image,
+          image: item.main_img,
         );
         _route.goPlayAudio(detail: payload);
         status = status.copyWith(isLoading: false);

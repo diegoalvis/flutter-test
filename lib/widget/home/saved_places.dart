@@ -124,7 +124,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                     onTap: () => widget.onTapCard(listImages[index].id.toString()),
                     child: Column(
                       children: <Widget>[
-                        imagesCard(listImages[index].image!, index, listGuide),
+                        imagesCard(listImages[index].main_img!, index, listGuide),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
                           child: Text(

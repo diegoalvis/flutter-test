@@ -145,7 +145,7 @@ class PlayAudioGuiaViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayA
     details['path_audio'] = file.toString();*/
     details['id']=status.idAudio;
     details['title']=(status.detalleSaved! as DataAudioGuideModel).title;
-    details['image']=(status.detalleSaved! as DataAudioGuideModel).image;
+    details['image']=(status.detalleSaved! as DataAudioGuideModel).main_img;
     details['audioguia_es']=status.pathAudio;
     details['audioguia_en']=status.pathAudio;
     details['audioguia_pt']=status.pathAudio;

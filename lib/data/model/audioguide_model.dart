@@ -8,7 +8,7 @@ part 'audioguide_model.g.dart';
 class DataAudioGuideModel extends IdtModel {
   final String? id;
   final String? title;
-  final String? image;
+  final String? main_img;
   final String? audioguia_es;
   final String? audioguia_en;
   final String? audioguia_pt;
@@ -21,7 +21,7 @@ class DataAudioGuideModel extends IdtModel {
   DataAudioGuideModel({
     this.id,
     this.title,
-    this.image,
+    this.main_img,
     this.audioguia_es,
     this.audioguia_en,
     this.audioguia_pt,

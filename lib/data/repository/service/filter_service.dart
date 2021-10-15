@@ -37,7 +37,7 @@ class FilterService {
 
     print('Parametro: $queryParameters');
     final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
-
+    //todo Llegando mal la URI
     final response = await http.get(uri);
 
     try {

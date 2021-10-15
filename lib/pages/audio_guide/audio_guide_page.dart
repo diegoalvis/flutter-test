@@ -117,8 +117,9 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                       ColorFilter.mode(IdtColors.black, BlendMode.difference),
 
                   child: CachedNetworkImage(
-                    imageUrl: listItems[index]?.image != null
-                        ? IdtConstants.url_image + listItems[index].image
+                    imageUrl: listItems[index]?.main_img != null ||
+                            listItems[index]?.main_img == ''
+                        ? IdtConstants.url_image + listItems[index].main_img
                         : 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png',
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(

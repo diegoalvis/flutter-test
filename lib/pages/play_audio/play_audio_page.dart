@@ -191,13 +191,13 @@ class _PlayAudioWidgetState extends State<PlayAudioWidget> with SingleTickerProv
         viewModel.status.urlAudio = IdtConstants.url_image + widget._detail.url_audioguia_es!;
         viewModel.status.idAudio = widget._detail.id;
         DataAudioGuideModel data = DataAudioGuideModel(
-            id: widget._detail.id, title: widget._detail.title, image: widget._detail.image);
+            id: widget._detail.id, title: widget._detail.title, main_img: widget._detail.image);
         viewModel.status.detalleSaved = data;
       } else {
         viewModel.status.urlAudio = widget._detail.url_audioguia_es!;
         viewModel.status.idAudio = widget._detail.id;
         DataAudioGuideModel data = DataAudioGuideModel(
-            id: widget._detail.id, title: widget._detail.title, image: widget._detail.image);
+            id: widget._detail.id, title: widget._detail.title, main_img: widget._detail.image);
         viewModel.status.detalleSaved = data;
       }
     });

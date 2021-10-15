@@ -97,7 +97,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                           children: [
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(5.0),
-                                child: (listItems[index].image == null)
+                                child: (listItems[index].main_img == null)
                                     ? Image.asset(
                                         IdtAssets.profile_photo,
                                         height: 70,
@@ -106,7 +106,7 @@ class _SavedPlacesWidgetState extends State<SavedPlacesWidget> {
                                       )
                                     : CachedNetworkImage(
                                         imageUrl:
-                                            "${IdtConstants.url_image}${listItems[index].image!}",
+                                            "${IdtConstants.url_image}${listItems[index].main_img!}",
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(
