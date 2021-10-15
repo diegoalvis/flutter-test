@@ -115,8 +115,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getBestRatedPlacesList() async {
-    final response = await locator<BestRatedService>().getBestRated();
+  Future<IdtResult<List<DataModel>?>> getBestRatedPlacesList(String lan) async {
+    final response = await locator<BestRatedService>().getBestRated(lan);
     return response;
   }
 

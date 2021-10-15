@@ -79,7 +79,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
   void getBestRatedResponse({int? option}) async {
     status = status.copyWith(isLoading: true, currentOption: 1);
-    final bestRatedResponse = await _interactor.getBestRatedPlacesList();
+    final bestRatedResponse = await _interactor.getBestRatedPlacesList(languageUser);
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(

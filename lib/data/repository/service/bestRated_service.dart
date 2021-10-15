@@ -11,10 +11,13 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class BestRatedService {
-  Future<IdtResult<List<DataModel>?>> getBestRated() async {
+  Future<IdtResult<List<DataModel>?>> getBestRated(String lanUser) async {
 
+    var queryParameters = {
+      'lan': lanUser,
+    };
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/place/bestplaces');
+    final uri = Uri.https(IdtConstants.url_server, '/place/bestplaces',queryParameters);
 
     final response = await http.get(uri);
 

@@ -84,7 +84,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void getBestRatedResponse() async {
-    final bestRatedResponse = await _interactor.getBestRatedPlacesList();
+    final bestRatedResponse = await _interactor.getBestRatedPlacesList(languageUser);
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(itemsbestRatedPlaces: bestRatedResponse.body); // Status reasignacion
