@@ -24,12 +24,12 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   }
 
   void onInit() async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
     getAudioGuideResponse();
   }
 
   void getAudioGuideResponse() async {
-    languageUser = BoxDataSesion.getLaguageByUser();
 
 
     final audioguideResponse =

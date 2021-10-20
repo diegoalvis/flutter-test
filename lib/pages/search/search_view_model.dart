@@ -6,11 +6,13 @@ import 'package:bogota_app/pages/search/search_effect.dart';
 import 'package:bogota_app/pages/search/search_status.dart';
 import 'package:bogota_app/utils/errors/search_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 
 class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   SearchViewModel(this._route, this._interactor) {
     status = SearchStatus(
@@ -19,21 +21,22 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
     );
   }
 
-  void onInit(List<DataModel> results) async {
+  void onInit() async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(
       isLoading: true,
     );
-
     //TODO
   }
 
   void goResultSearchPage(
       String keyWord
       ) async {
+    // languageUser = BoxDataSesion.getLaguageByUser();
     final Map query = {'keyword': keyWord};
     status = status.copyWith(isLoading: true);
 
-    final responseSearch = await _interactor.getSearchResultList(query);
+    final responseSearch = await _interactor.getSearchResultList(query, languageUser);
 
     if (responseSearch is IdtSuccess<List<DataModel>?>) {
       final results = responseSearch.body!;

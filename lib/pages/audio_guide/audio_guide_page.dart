@@ -54,10 +54,11 @@ class AudioGuideWidget extends StatefulWidget {
 
 class _AudioGuideWidgetState extends State<AudioGuideWidget> {
   void initState() {
-    print('pago audio');
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<AudioGuideViewModel>().getAudioGuideResponse();
+      context.read<AudioGuideViewModel>().onInit();
     });
+    print('pago audio');
+
     super.initState();
   }
 

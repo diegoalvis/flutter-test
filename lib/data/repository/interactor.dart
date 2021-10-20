@@ -110,8 +110,8 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getSearchResultList(Map params) async {
-    final response = await locator<SearchService>().getResultByWord(params);
+  Future<IdtResult<List<DataModel>?>> getSearchResultList(Map params, String lan) async {
+    final response = await locator<SearchService>().getResultByWord(params, lan);
     return response;
   }
 

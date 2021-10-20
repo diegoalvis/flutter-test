@@ -11,9 +11,11 @@ import 'package:http/http.dart' as http;
 
 class SearchService {
 
-  Future<IdtResult<List<DataModel>?>> getResultByWord(Map params) async {
+  Future<IdtResult<List<DataModel>?>> getResultByWord(Map params, String languageUser) async {
 
-    Map<String, dynamic> queryParameters = {};
+    Map<String, dynamic> queryParameters = {
+      'lan': languageUser
+    };
 
     params.forEach((key, value) {
 

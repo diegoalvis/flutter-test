@@ -47,6 +47,9 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<SearchViewModel>().onInit();
+    });
     final viewModel = context.read<SearchViewModel>();
 
     _effectSubscription = viewModel.effects.listen((event) {
