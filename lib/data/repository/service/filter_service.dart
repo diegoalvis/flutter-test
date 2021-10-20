@@ -16,15 +16,14 @@ import 'package:rxdart/rxdart.dart';
 
 class FilterService {
   //Este metodo trae los lugares apenas se entra al filter Page
-  Future<IdtResult<List<DataModel>?>> getPlaces(Map params, Map? oldParams) async {
-    Map<String, dynamic> queryParameters = {};
+  Future<IdtResult<List<DataModel>?>> getPlaces(Map params, Map? oldParams,String lanUser) async {
+    Map<String, dynamic> queryParameters = {'lan':lanUser};
 
-    //Todo no funciona el filtro
     params.forEach((key, value) {
       queryParameters[key] = value;
     });
 
-
+// todo arma la Uri mal, en filtro, llega mal la subcategoria.
     if(oldParams == null){
       await getAllParams(params, queryParameters);
     }else {
@@ -37,7 +36,7 @@ class FilterService {
 
     print('Parametro: $queryParameters');
     final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
-    //todo Llegando mal la URI
+
     final response = await http.get(uri);
 
     try {

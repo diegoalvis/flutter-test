@@ -74,7 +74,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       query = {status.section: item.id};
     }
 
-    final response = await _interactor.getPlacesList(query, null);
+    final response = await _interactor.getPlacesList(query, null, languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;

@@ -150,7 +150,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     final Map query = {section: item.id};
 
     
-    final response = await _interactor.getPlacesList(query, status.oldFilters);
+    final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
@@ -209,7 +209,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       listQuery = '';
     }
     
-    final response = await _interactor.getPlacesList(query, status.oldFilters);
+    final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
     
     if (response is IdtSuccess<List<DataModel>?>) {
       print('Places: ${response.body!.length}');

@@ -38,9 +38,9 @@ import 'service/zone_service.dart';
 
 class ApiInteractor {
   Future<IdtResult<List<DataModel>?>> getPlacesList(
-      Map params, Map? oldFilters) async {
+      Map params, Map? oldFilters, String lan) async {
     final response =
-        await locator<FilterService>().getPlaces(params, oldFilters);
+        await locator<FilterService>().getPlaces(params, oldFilters, lan);
 
     return response;
   }
