@@ -32,7 +32,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void onInit() async {
-      //get language User Prefered
+
     getDiscoveryData();
   }
 
@@ -59,6 +59,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
 
   void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones) async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
     late Map query;
@@ -97,6 +98,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void getDiscoveryData() async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
     void sortOptionsFilters(IdtSuccess<List<DataModel>?> resources) { //ordena los filtros A/Z
@@ -164,6 +166,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   goDetailPage(String id) async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
     final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
