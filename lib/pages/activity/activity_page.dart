@@ -50,7 +50,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ActivityViewModel>();
-    viewModel.getPlacesVisitedStorageLocal();
     return SafeArea(
       child: Scaffold(
           appBar: IdtAppBar(viewModel.openMenu),

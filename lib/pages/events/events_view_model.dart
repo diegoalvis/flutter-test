@@ -187,7 +187,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
     switch (type) {
       case SocialEventType.EVENT:
-        placeByIdResponse = await _interactor.getEventSocialById(id);
+        placeByIdResponse = await _interactor.getEventSocialById(id, 'es');
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goEventDetail(detail: placeByIdResponse.body!);
         } else {

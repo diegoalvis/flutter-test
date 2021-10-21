@@ -44,7 +44,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
 
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    // languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     status = status.copyWith(isLoading: true);
     switch (section) {
       case 'category':
@@ -148,8 +148,8 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   void getDataFilterAll(DataModel item, String section) async {
     status = status.copyWith(isLoading: true);
     final Map query = {section: item.id};
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    
     final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
@@ -165,6 +165,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   }
 
   void getDataFilter() async {
+    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
     final List<String> codesCategory = [];
@@ -208,7 +209,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       query['zone'] = listQuery;
       listQuery = '';
     }
-    
     final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
     
     if (response is IdtSuccess<List<DataModel>?>) {
@@ -270,8 +270,8 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   goDetailPage(String id) async{
     status = status.copyWith(isLoading: true);
-
-    final placebyidResponse = await _interactor.getPlaceById(id);
+    languageUser = BoxDataSesion.getLaguageByUser();
+    final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
     print(placebyidResponse);
     if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
@@ -302,6 +302,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   }
   getPlacesCloseToMe(bool isEnable) async{
     status = status.copyWith(isLoading: true, switchCloseToMe: isEnable);
+    languageUser = BoxDataSesion.getLaguageByUser();
     await getLoc();
     final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );
 

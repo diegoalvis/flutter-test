@@ -52,8 +52,9 @@ class ResultSearchWidget extends StatefulWidget {
 class _ResultSearchWidgetState extends State<ResultSearchWidget> {
   @override
   void initState() {
-    // una vez tengas la info la pasas aca
-    // viewModel.onTapButton(index, id, items);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<ResultSearchViewModel>().onInit();
+    });
   }
 
   @override

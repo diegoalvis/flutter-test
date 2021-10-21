@@ -110,8 +110,10 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getSearchResultList(Map params, String lan) async {
-    final response = await locator<SearchService>().getResultByWord(params, lan);
+  Future<IdtResult<List<DataModel>?>> getSearchResultList(
+      Map params, String lan) async {
+    final response =
+        await locator<SearchService>().getResultByWord(params, lan);
     return response;
   }
 
@@ -150,14 +152,16 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList(String lan) async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesList(
+      String lan) async {
     final response = await locator<AudioGuideService>().getAudioGuide(lan);
 
     return response;
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
-    final response = await locator<FilterService>().getPlaceById(id);
+  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(
+      String id, String lan) async {
+    final response = await locator<FilterService>().getPlaceById(id, lan);
     return response;
   }
 
@@ -167,8 +171,8 @@ class ApiInteractor {
   }
 
   Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(
-      String id) async {
-    final response = await locator<EventService>().getEventSocialById(id);
+      String id, String lan) async {
+    final response = await locator<EventService>().getEventSocialById(id, lan);
     return response;
   }
 

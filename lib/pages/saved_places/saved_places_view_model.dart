@@ -18,6 +18,7 @@ import 'package:connectivity/connectivity.dart';
 class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  final String languageUser = BoxDataSesion.getLaguageByUser();
 
   SavedPlacesViewModel(this._route, this._interactor) {
     status = SavedPlacesStatus(
@@ -25,7 +26,6 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   }
 
   void onInit() async {
-    //TODO
     loadSavedPlaces();
   }
 
@@ -139,7 +139,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
       print("id de lugares guardados $id");
       status = status.copyWith(isLoading: true);
 
-      final placebyidResponse = await _interactor.getPlaceById(id!);
+      final placebyidResponse = await _interactor.getPlaceById(id!, languageUser);
       print('view model detail page');
       print(placebyidResponse);
       if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {

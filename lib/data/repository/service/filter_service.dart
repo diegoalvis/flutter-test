@@ -188,9 +188,12 @@ class FilterService {
   }
 
 
-  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id) async {
+  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id,String languageUser ) async {
+    var queryParameters = {
+      'lan': languageUser,
+    };
 
-    final uri = Uri.https(IdtConstants.url_server, '/place/' +id,);
+    final uri = Uri.https(IdtConstants.url_server, '/place/' +id,queryParameters);
 
     final response = await http.get(uri);
 

@@ -12,6 +12,7 @@ import 'package:bogota_app/view_model.dart';
 class ActivityViewModel extends ViewModel<ActivityStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  final String languageUser = BoxDataSesion.getLaguageByUser();
   ActivityViewModel(this._route, this._interactor) {
     status = ActivityStatus(
       detail: [],
@@ -24,7 +25,9 @@ class ActivityViewModel extends ViewModel<ActivityStatus> {
     );
   }
 
-  void onInit() async {}
+  void onInit() async {
+    getPlacesVisitedStorageLocal();
+  }
 
   void goActivityPage() async {
     status = status.copyWith(isLoading: true);
@@ -66,13 +69,15 @@ class ActivityViewModel extends ViewModel<ActivityStatus> {
   goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
 
-    final placebyidResponse = await _interactor.getPlaceById(id);
+    final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
     print(placebyidResponse);
     if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
       print("model detail");
       print(placebyidResponse.body!.title);
-      _route.goEventDetail(detail: placebyidResponse.body!);
+      //Todo redireccion dependiendo del tipo
+      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+      // _route.goEventDetail(detail: placebyidResponse.body!);
 
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)

@@ -83,7 +83,7 @@ class AudioGuideViewModel extends ViewModel<AudioGuideStatus> {
   goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
 
-    final placebyidResponse = await _interactor.getPlaceById(id);
+    final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
     print(placebyidResponse);
     if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {

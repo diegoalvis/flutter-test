@@ -44,9 +44,11 @@ class EventService {
     }
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id) async {
-
-    final uri = Uri.https(IdtConstants.url_server, '/event/' +id,);
+  Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id, String lanUser) async {
+    var queryParameters = {
+      'lan': lanUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/event/' +id,queryParameters);
 
     final response = await http.get(uri);
 
