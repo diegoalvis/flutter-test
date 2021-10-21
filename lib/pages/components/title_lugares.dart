@@ -9,7 +9,7 @@ class Title_Lugares extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.only(top: 15.0, bottom: 0),

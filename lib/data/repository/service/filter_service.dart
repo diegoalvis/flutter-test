@@ -70,6 +70,7 @@ class FilterService {
     final keys = params.keys.toList();
     final values = params.values.toList();
 
+
     for (var i = 0; i < params.keys.length; i++) {
 
       // En caso de ser subcategoria, se consulta con el api de subcategoria para recuperar sus ID
@@ -79,8 +80,9 @@ class FilterService {
 
         ids.forEach((id) {
           // Se prepara una lista de peticiones
+          String languageUser = BoxDataSesion.getLaguageByUser();
           listSubcategory.add(
-            locator<ApiInteractor>().getPlacesSubcategory(id).asStream(),
+            locator<ApiInteractor>().getPlacesSubcategory(id, languageUser ).asStream(),
           );
         });
 
@@ -119,9 +121,11 @@ class FilterService {
   }
 
 
-  Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(String id) async {
-    
-    final uri = Uri.https(IdtConstants.url_server, '/subcategory/' +id,);
+  Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(String id, String lanUser) async {
+    var queryParameters = {
+      'lan': lanUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/subcategory/' +id,queryParameters);
 
     final response = await http.get(uri);
 
@@ -148,8 +152,10 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(Map params, String section) async {
-    Map<String, dynamic> queryParameters = {};
+  Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(Map params, String section, String lanUser) async {
+    Map<String, dynamic> queryParameters = {
+      'lan': lanUser,
+    };
 
     params.forEach((key, value) {
       queryParameters[key] = value;

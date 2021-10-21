@@ -93,7 +93,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     // print('1. $query');
 
 
-    final response = await _interactor.getPlaceEventForLocation(query, section);
+    final response = await _interactor.getPlaceEventForLocation(query, section, languageUser);
     if (response is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: response.body, nameFilter: item.title!); // Status reasignacion
 

@@ -32,7 +32,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   }
 
   void onInit() async {
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+      //get language User Prefered
     getDiscoveryData();
   }
 
@@ -64,7 +64,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     late Map query;
 
     if (status.section == 'subcategory') {
-      final itemsSubCat = await _interactor.getPlacesSubcategory(item.id);
+      final itemsSubCat = await _interactor.getPlacesSubcategory(item.id, languageUser);
 
       if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
         final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");

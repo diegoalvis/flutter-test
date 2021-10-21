@@ -45,16 +45,17 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(String id) async {
-    final response = await locator<FilterService>().getPlaceSubcategories(id);
+  //TODO solucionar la parte de subcategoria
+  Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(String id, String lan) async {
+    final response = await locator<FilterService>().getPlaceSubcategories(id, lan);
 
     return response;
   }
 
   Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(
-      Map params, String section) async {
+      Map params, String section, String lan) async {
     final response = await locator<FilterService>()
-        .getPlaceEventForLocation(params, section);
+        .getPlaceEventForLocation(params, section, lan);
 
     return response;
   }
@@ -231,31 +232,3 @@ class ApiInteractor {
   }*/
 
 }
-
-/// class PlaceRepository {
-///
-///  Future<IdtResult<List<DataPlacesModel>?>> getPlacesList() async {
-///
-///     final response = await locator<FilterService>().getPlaces();
-///
-///     return response;
-///   }
-///
-///  ejemplo
-///  Future<IdtResult<DataPlacesModel>>> getPlace(String searchQuery) async {
-///    todo implement
-///     final response = await locator<FilterService>().getPlace(searchQuery;
-///
-///     return response;
-///    }
-/// }
-///
-///
-///class SplashRepository {
-///  Future<IdtResult<SplashModel>> getSplashInteractor() async {
-///
-///     final response = await locator<SplashService>().getSplash();
-///
-///     return response;
-///   }
-/// }
