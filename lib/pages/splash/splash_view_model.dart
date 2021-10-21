@@ -32,7 +32,7 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     late String languageUser;
 
     if (connectivityResult != ConnectivityResult.none) {
-      //todo obtener usuario para el idioma
+
       // languageUser = BoxDataSesion.getLaguageByUser();
 
       final response = await _interactor.getSplashInteractor('es');

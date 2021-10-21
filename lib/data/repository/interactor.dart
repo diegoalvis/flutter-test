@@ -46,8 +46,10 @@ class ApiInteractor {
   }
 
   //TODO solucionar la parte de subcategoria
-  Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(String id, String lan) async {
-    final response = await locator<FilterService>().getPlaceSubcategories(id, lan);
+  Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(
+      String id, String lan) async {
+    final response =
+        await locator<FilterService>().getPlaceSubcategories(id, lan);
 
     return response;
   }
@@ -128,6 +130,7 @@ class ApiInteractor {
     return response;
   }
 
+//todo obtener usuario para el idioma
   Future<IdtResult<SplashModel>> getSplashInteractor(String lan) async {
     final response = await locator<SplashService>().getSplash(lan);
 
