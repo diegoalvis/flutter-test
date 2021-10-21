@@ -27,15 +27,13 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   void onInit() async {
-
-   languageUser = BoxDataSesion.getLaguageByUser();
     getUnmissableResponse();
-    // TODO
   }
 
   void getUnmissableResponse({int? option}) async {
     status = status.copyWith(isLoading: true, currentOption: 0);
-    print('entra unmmisable');
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     final IdtResult<List<DataModel>?> unmissableResponse =
         await _interactor.getUnmissablePlacesList(languageUser);
 
@@ -79,6 +77,8 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
   void getBestRatedResponse({int? option}) async {
     status = status.copyWith(isLoading: true, currentOption: 1);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     final bestRatedResponse = await _interactor.getBestRatedPlacesList(languageUser);
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
@@ -108,9 +108,8 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
   }
 
   goDetailPage(String id) async {
-    //  _route.goDetail(isHotel: false, id:id);
-
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
