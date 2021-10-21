@@ -18,7 +18,7 @@ import 'package:connectivity/connectivity.dart';
 class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-  final String languageUser = BoxDataSesion.getLaguageByUser();
+  late String languageUser;
 
   SavedPlacesViewModel(this._route, this._interactor) {
     status = SavedPlacesStatus(
@@ -135,6 +135,8 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
 
   goDetailPage({String? id, DataAudioGuideModel? item}) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     if (connectivityResult != ConnectivityResult.none) {
       print("id de lugares guardados $id");
       status = status.copyWith(isLoading: true);
