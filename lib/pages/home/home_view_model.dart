@@ -44,7 +44,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void onInit() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser();
     getUnmissableResponse();
     // getEatResponse();
     getBestRatedResponse();
@@ -69,6 +68,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void getUnmissableResponse() async {
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final unmissableResponse = await _interactor.getUnmissablePlacesList(languageUser);
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
@@ -84,6 +84,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void getBestRatedResponse() async {
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final bestRatedResponse = await _interactor.getBestRatedPlacesList(languageUser);
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
@@ -190,6 +191,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
