@@ -20,7 +20,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   Location locationUser = Location();
   String latitud = '';
   String longitud = '';
-  late String languageUser ;
+  late String languageUser;
 
 
   FiltersViewModel(this._route, this._interactor) {
@@ -44,7 +44,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   void onInit(String section, List<DataModel> categories, List<DataModel> subcategories,
       List<DataModel> zones, List<DataModel> places, DataModel item, Map oldFilters) {
 
-    // languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     status = status.copyWith(isLoading: true);
     switch (section) {
       case 'category':
@@ -102,22 +101,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
         );
 
     //getFoodResponse();
-  }
-
-  void getFoodResponse() async {
-    /*final foodResponse = await _interactor.getFoodPlacesList();
-
-    if (foodResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsFoodPlaces: foodResponse.body!); // Status reasignacion
-      // status.places.addAll(UnmissableResponse.body)
-    } else {
-      final erroRes = foodResponse as IdtFailure<FoodError>;
-      print(erroRes.message);
-      UnimplementedError();
-      // FoodError();
-      //Todo implementar errores
-    }*/
-    status = status.copyWith(isLoading: false);
   }
 
   void openMenu() {
