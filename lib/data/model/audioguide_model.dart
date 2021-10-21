@@ -9,6 +9,7 @@ class DataAudioGuideModel extends IdtModel {
   final String? id;
   final String? title;
   final String? main_img;
+  final String? image;
   final String? audioguia_es;
   final String? audioguia_en;
   final String? audioguia_pt;
@@ -22,6 +23,7 @@ class DataAudioGuideModel extends IdtModel {
     this.id,
     this.title,
     this.main_img,
+    this.image,
     this.audioguia_es,
     this.audioguia_en,
     this.audioguia_pt,

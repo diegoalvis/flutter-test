@@ -190,10 +190,12 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   goDetailPage(String id, SocialEventType type) async {
     status = status.copyWith(isLoading: true);
     final placeByIdResponse;
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
 
     switch (type) {
       case SocialEventType.EVENT:
-        placeByIdResponse = await _interactor.getEventSocialById(id, 'es');
+        placeByIdResponse = await _interactor.getEventSocialById(id, languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goEventDetail(detail: placeByIdResponse.body!);
         } else {
@@ -204,7 +206,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
         status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.SLEEP:
-        placeByIdResponse = await _interactor.getSleepSocialById(id);
+        placeByIdResponse = await _interactor.getSleepSocialById(id, languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goDetail(detail: placeByIdResponse.body!, isHotel: true);
         } else {
@@ -215,7 +217,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
         status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.EAT:
-        placeByIdResponse = await _interactor.getEatSocialById(id);
+        placeByIdResponse = await _interactor.getEatSocialById(id,languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goDetail(detail: placeByIdResponse.body!, isHotel: false);
         } else {

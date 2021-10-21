@@ -112,8 +112,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     print('se abre lugares guardados');
     final bool value = status.openSaved;
     status = status.copyWith(openSaved: !value);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    final savedResponse = await _interactor.getSavedPlacesList();
+    final savedResponse = await _interactor.getSavedPlacesList(languageUser);
 
     if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
       if (savedResponse.body!.length > 0) {

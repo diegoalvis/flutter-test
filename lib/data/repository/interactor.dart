@@ -125,7 +125,7 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<List<DataAudioGuideModel>?>> getSavedPlacesList() async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getSavedPlacesList(String lan) async {
     final response = await locator<SavedPlacesService>().getSavedPlaces();
     return response;
   }
@@ -181,13 +181,13 @@ class ApiInteractor {
   }
 
   Future<IdtResult<DataPlacesDetailModel?>> getSleepSocialById(
-      String id) async {
-    final response = await locator<SleepService>().getSleepSocialById(id);
+      String id, String lan) async {
+    final response = await locator<SleepService>().getSleepSocialById(id, lan);
     return response;
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id) async {
-    final response = await locator<EatService>().getEatSocialById(id);
+  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id, String lan) async {
+    final response = await locator<EatService>().getEatSocialById(id, lan);
     return response;
   }
 

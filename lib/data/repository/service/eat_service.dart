@@ -45,9 +45,11 @@ class EatService {
     }
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id) async {
-
-    final uri = Uri.https(IdtConstants.url_server, '/food/' +id,);
+  Future<IdtResult<DataPlacesDetailModel?>> getEatSocialById(String id, String languageUser) async {
+    var queryParameters = {
+      'lan': languageUser,
+    };
+    final uri = Uri.https(IdtConstants.url_server, '/food/' +id,queryParameters);
 
     final response = await http.get(uri);
 

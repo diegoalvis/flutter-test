@@ -21,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   DetailViewModel(this._route, this._interactor) {
     status = DetailStatus(
@@ -66,9 +67,11 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   Future<bool> isFavorite(String id) async {
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     bool isFavorite = false;
     // Actualización de lugares guardados/favoritos
-    final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+    final dynamic savedPlaces = await _interactor.getSavedPlacesList(languageUser);
     if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
       List places = savedPlaces.body!;
 

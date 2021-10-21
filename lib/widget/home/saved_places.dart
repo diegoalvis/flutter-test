@@ -20,8 +20,8 @@ class SavedPlaces extends StatefulWidget {
   final bool openSaved;
   final VoidCallback changeSaved;
   final bool notSaved;
-  final  addSaved;
-  final  suggestionLogin;
+  final addSaved;
+  final suggestionLogin;
   final bool seeAll;
   final Function(bool) onTapSeeAll;
   final Function(bool) changeSrollController;
@@ -56,7 +56,8 @@ class _SavedPlacesState extends State<SavedPlaces> {
   bool isStart = true;
   bool isEnd = false;
 
-  Widget imagesCard(String image, int index, List<bool> listGuide) => (Container(
+  Widget imagesCard(String? image, int index, List<bool> listGuide) =>
+      (Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -79,7 +80,9 @@ class _SavedPlacesState extends State<SavedPlaces> {
                     listGuide[index] ? IdtColors.black : IdtColors.transparent,
                     BlendMode.difference),
                 child: Image.network(
-                  IdtConstants.url_image + image,
+                  image != null
+                      ? IdtConstants.url_image + image
+                      : 'https://www.pequenomundo.cl/wp-content/themes/childcare/images/default.png',
                   height: 150,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -121,19 +124,21 @@ class _SavedPlacesState extends State<SavedPlaces> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => InkWell(
-                    onTap: () => widget.onTapCard(listImages[index].id.toString()),
+                    onTap: () =>
+                        widget.onTapCard(listImages[index].id.toString()),
                     child: Column(
                       children: <Widget>[
-                        imagesCard(listImages[index].main_img!, index, listGuide),
+                        imagesCard(listImages[index].image, index, listGuide),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 20.0),
                           child: Text(
                             listImages[index].title!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: textTheme.grayDetail
-                                .copyWith(fontWeight: FontWeight.w600, fontSize: 13),
+                            style: textTheme.grayDetail.copyWith(
+                                fontWeight: FontWeight.w600, fontSize: 13),
                           ),
                         )
                       ],
@@ -212,14 +217,17 @@ class _SavedPlacesState extends State<SavedPlaces> {
                         ),
                   color: IdtColors.white,
                   borderRadius: BorderRadius.circular(30.0)),
-              constraints:
-                  BoxConstraints(maxWidth: 150.0, minWidth: 150, minHeight: 50.0, maxHeight: 50),
+              constraints: BoxConstraints(
+                  maxWidth: 150.0,
+                  minWidth: 150,
+                  minHeight: 50.0,
+                  maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
                 'AUDIOGUÍAS',
                 textAlign: TextAlign.center,
-                style: textTheme.textButtomWhite
-                    .copyWith(color: widget.seeAll ? IdtColors.greenDark : null),
+                style: textTheme.textButtomWhite.copyWith(
+                    color: widget.seeAll ? IdtColors.greenDark : null),
               ),
             ),
           ),
@@ -251,14 +259,17 @@ class _SavedPlacesState extends State<SavedPlaces> {
                       : null,
                   color: IdtColors.white,
                   borderRadius: BorderRadius.circular(30.0)),
-              constraints:
-                  BoxConstraints(maxWidth: 150.0, minWidth: 150, minHeight: 50.0, maxHeight: 50),
+              constraints: BoxConstraints(
+                  maxWidth: 150.0,
+                  minWidth: 150,
+                  minHeight: 50.0,
+                  maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
                 'VER TODOS',
                 textAlign: TextAlign.center,
-                style: textTheme.textButtomWhite
-                    .copyWith(color: widget.seeAll ? null : IdtColors.greenDark),
+                style: textTheme.textButtomWhite.copyWith(
+                    color: widget.seeAll ? null : IdtColors.greenDark),
               ),
             ),
           ),
@@ -273,12 +284,13 @@ class _SavedPlacesState extends State<SavedPlaces> {
             margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             height: 80,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)), color: IdtColors.grayBg),
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                color: IdtColors.grayBg),
             child: IconButton(
               icon: Icon(Icons.add, color: IdtColors.gray, size: 80),
-              onPressed:BoxDataSesion.isLoggedIn
+              onPressed: BoxDataSesion.isLoggedIn
                   ? widget.addSaved
-                  : widget.suggestionLogin,//addSaved
+                  : widget.suggestionLogin, //addSaved
             ),
           ),
         ),
@@ -352,8 +364,12 @@ class _SavedPlacesState extends State<SavedPlaces> {
                         SliderImages(
                           context,
                           textTheme,
-                          widget.seeAll ? widget.listBoolAll : widget.listBoolAudio,
-                          (widget.seeAll ? widget.savedPlaces : widget.audioSavedPlaces)!,
+                          widget.seeAll
+                              ? widget.listBoolAll
+                              : widget.listBoolAudio,
+                          (widget.seeAll
+                              ? widget.savedPlaces
+                              : widget.audioSavedPlaces)!,
                         ),
                         widget_row_buttons(textTheme),
                       ],
@@ -361,7 +377,9 @@ class _SavedPlacesState extends State<SavedPlaces> {
             ],
           ),
           secondChild: SizedBox.shrink(),
-          crossFadeState: widget.openSaved ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          crossFadeState: widget.openSaved
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
         ),
       ],
     );

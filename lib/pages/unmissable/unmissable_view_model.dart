@@ -45,7 +45,7 @@ class UnmissableViewModel extends ViewModel<UnmissableStatus> {
 
       // Actualización de lugares guardados/favoritos
       try {
-        final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+        final dynamic savedPlaces = await _interactor.getSavedPlacesList(languageUser);
         if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
           List places = savedPlaces.body!;
           unmissableResponse.body!.map((unmissable) {

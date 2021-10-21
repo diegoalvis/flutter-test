@@ -18,6 +18,7 @@ import 'package:bogota_app/view_model.dart';
 class PlayAudioGuiaViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayAudioGuiaEffect>{
   final IdtRoute _route;
   final ApiInteractor _interactor;
+  late String languageUser;
 
   PlayAudioGuiaViewModel(this._route, this._interactor) {
     status = PlayAudioGuiaStatus(
@@ -198,8 +199,10 @@ print(e);
 
   Future<bool> getIsFavorite(String id) async {
     bool isFavorite = false;
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     // Actualización de lugares guardados/favoritos
-    final dynamic savedPlaces = await _interactor.getSavedPlacesList();
+    final dynamic savedPlaces = await _interactor.getSavedPlacesList(languageUser);
     if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
       List places = savedPlaces.body!;
 

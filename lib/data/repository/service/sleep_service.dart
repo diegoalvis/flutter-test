@@ -11,12 +11,11 @@ import 'package:http/http.dart' as http;
 
 class SleepService {
   Future<IdtResult<List<DataModel>?>> getPlacesSleep(String lanUser) async {
-
     var queryParameters = {
       'lan': lanUser,
     };
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/hotel',queryParameters);
+    final uri = Uri.https(IdtConstants.url_server, '/hotel', queryParameters);
 
     final response = await http.get(uri);
 
@@ -32,8 +31,7 @@ class SleepService {
 
         default:
           {
-            final error =
-            SleepError('Capturar el error', response.statusCode);
+            final error = SleepError('Capturar el error', response.statusCode);
 
             return IdtResult.failure(error);
           }
@@ -45,26 +43,33 @@ class SleepService {
     }
   }
 
-  Future<IdtResult<DataPlacesDetailModel?>> getSleepSocialById(String id) async {
-    final uri = Uri.https(IdtConstants.url_server, '/hotel/' +id,);
+  Future<IdtResult<DataPlacesDetailModel?>> getSleepSocialById(
+      String id, String lanUser) async {
+    var queryParameters = {
+      'lan': lanUser,
+    };
+
+    final uri =
+        Uri.https(IdtConstants.url_server, '/hotel/' + id, queryParameters);
     final response = await http.get(uri);
 
     try {
       final body = json.decode(response.body);
       switch (response.statusCode) {
-        case 200: {
-          print('service Social SLEEP 200 ok, id: '+ id);
-          final entity = ResponseDetailModel.fromJson(body);
-          return IdtResult.success(entity.data);
-        }
+        case 200:
+          {
+            print('service Social SLEEP 200 ok, id: ' + id);
+            final entity = ResponseDetailModel.fromJson(body);
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = SleepError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = SleepError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
-
     } on StateError catch (err) {
       final error = SleepError(err.message, response.statusCode);
 

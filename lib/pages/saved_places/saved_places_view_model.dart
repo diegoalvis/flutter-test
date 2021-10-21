@@ -38,6 +38,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
   }
 
   void loadSavedPlaces() async {
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     print("loadSvaedPlaces");
 
     CurrentUser user = BoxDataSesion.getCurrentUser()!;
@@ -53,7 +54,7 @@ class SavedPlacesViewModel extends ViewModel<SavedPlacesStatus> {
       // - Se filtran los lugares que llegan desde el servicio según si están en los lugares guardados localmente
       // - Se Unifica una sola lista, teniendo en cuenta un atributo isLocal que indica si está local o no
 
-      final savedResponse = await _interactor.getSavedPlacesList();
+      final savedResponse = await _interactor.getSavedPlacesList(languageUser);
       if (savedResponse is IdtSuccess<List<DataAudioGuideModel>?>) {
         _updatedListSavedPlacesWithItemsOfFavorites(savedResponse.body);
       } else {
