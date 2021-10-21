@@ -12,7 +12,7 @@ import 'package:bogota_app/view_model.dart';
 class ActivityViewModel extends ViewModel<ActivityStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
-  final String languageUser = BoxDataSesion.getLaguageByUser();
+  late String languageUser;
   ActivityViewModel(this._route, this._interactor) {
     status = ActivityStatus(
       detail: [],
@@ -68,6 +68,7 @@ class ActivityViewModel extends ViewModel<ActivityStatus> {
 
   goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
