@@ -40,7 +40,6 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void onInit() async {
-    languageUser = BoxDataSesion.getLaguageByUser();
     getZonesResponse();
 
     late String title, nameFilter, section;
@@ -74,6 +73,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void getZonesResponse() async {
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
 
     final zonesResponse = await _interactor.getZonesList(languageUser);
 
@@ -88,10 +89,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void filtersForZones(DataModel item, String section) async {
     status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final Map query = {'zone' : item.id};
-    // print('1. $query');
-
 
     final response = await _interactor.getPlaceEventForLocation(query, section, languageUser);
     if (response is IdtSuccess<List<DataModel>?>) {
@@ -110,6 +110,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEventResponse() async {
+    status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eventResponse = await _interactor.getEventPlacesList(languageUser);
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
@@ -125,6 +127,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getSleepsResponse() async {
+    status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final sleepResponse = await _interactor.getSleepPlacesList(languageUser);
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
@@ -139,6 +143,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEatResponse() async {
+    status = status.copyWith(isLoading: true);
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eatResponse = await _interactor.getEatPlacesList(languageUser);
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
