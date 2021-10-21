@@ -22,33 +22,28 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
   }
 
   void onInit() async {
-    languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(
       isLoading: true,
     );
-    //TODO
   }
 
-  void goResultSearchPage(
-      String keyWord
-      ) async {
-    // languageUser = BoxDataSesion.getLaguageByUser();
+  void goResultSearchPage(String keyWord) async {
+    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
     final Map query = {'keyword': keyWord};
     status = status.copyWith(isLoading: true);
 
-    final responseSearch = await _interactor.getSearchResultList(query, languageUser);
+    final responseSearch =
+        await _interactor.getSearchResultList(query, languageUser);
 
     if (responseSearch is IdtSuccess<List<DataModel>?>) {
       final results = responseSearch.body!;
 
-      if (results.isEmpty){
+      if (results.isEmpty) {
         addEffect(ShowDialogEffect());
-      } else  {
+      } else {
         _route.goResultSearch(results, keyWord);
       }
-
-
-
     } else {
       final erroRes = responseSearch as IdtFailure<SearchError>;
       print(erroRes.message);
@@ -70,7 +65,7 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
     status = status.copyWith(isLoading: true);
   }
 
-  Future<bool> offMenuBack()async {
+  Future<bool> offMenuBack() async {
     bool? shouldPop = true;
 
     if (status.openMenu) {
@@ -81,5 +76,4 @@ class SearchViewModel extends EffectsViewModel<SearchStatus, SearchEffect> {
       return shouldPop;
     }
   }
-
 }
