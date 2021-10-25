@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+
+import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
@@ -56,13 +58,30 @@ class AudioGuideWidget extends StatefulWidget {
 }
 
 class _AudioGuideWidgetState extends State<AudioGuideWidget> {
-  // StreamSubscription<AudioGuidesEffect>? _effectSubscription;
+  StreamSubscription<AudioGuidesEffect>? _effectSubscription;
+  final scrollController = ScrollController();
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<AudioGuideViewModel>().onInit();
     });
+    final viewModel = context.read<AudioGuideViewModel>();
     print('pago audio');
-
+    _effectSubscription = viewModel.effects.listen((audioGuide) {
+      if (audioGuide is AudioGuidesValueControllerScrollEffect) {
+        scrollController.animateTo(
+            audioGuide.next
+                ? scrollController.offset + IdtConstants.itemSize
+                : scrollController.offset - IdtConstants.itemSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: audioGuide.duration));
+      } else if (audioGuide is ShowDialogEffect) {
+        context.showDialogObservation(
+            titleDialog: 'Sin resultados',
+            bodyTextDialog:
+            'No se han encotrado resultados para la localidad especificada',
+            textPrimaryButton: 'aceptar / cerrar');
+      }
+    });
     super.initState();
   }
 
@@ -201,7 +220,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
             goFilters: (item) => viewModel.filtersForZones(
-                item, 'Seccion')) //viewModel.status.section
+                item, )) //viewModel.status.section
         : SizedBox.shrink();
 
     Widget _buttonFilter() {
@@ -231,7 +250,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: Text(
-                            'LOCALIDAD',
+                            viewModel.status.nameFilter.toUpperCase(),
                             textAlign: TextAlign.center,
                             style: textTheme.textDetail.copyWith(
                                 fontSize: 15, fontWeight: FontWeight.w400),
@@ -298,7 +317,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
               ),
               SizedBox(height: 12),
               _buttonFilter(),
-              SizedBox(height: 15),
+              SizedBox(height: 22),
               gridImagesCol3(),
               SizedBox(height: 55),
             ],

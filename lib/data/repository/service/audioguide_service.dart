@@ -9,7 +9,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class AudioGuideService {
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesForLocation(Map params, String section, String lanUser) async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesForLocation(Map params, String lanUser) async {
     Map<String, dynamic> queryParameters = {
       'lan': lanUser,
     };

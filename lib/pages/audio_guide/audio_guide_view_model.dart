@@ -22,6 +22,7 @@ class AudioGuideViewModel extends EffectsViewModel<AudioGuideStatus, AudioGuides
 
   AudioGuideViewModel(this._route, this._interactor) {
     status = AudioGuideStatus(
+      nameFilter: 'Localidad',
       isLoading: true,
       openMenu: false,
       openMenuTab: false,
@@ -108,15 +109,15 @@ class AudioGuideViewModel extends EffectsViewModel<AudioGuideStatus, AudioGuides
     status = status.copyWith(openMenuTab: false);
   }
 
-  void filtersForZones(DataModel item, String section) async {
+  void filtersForZones(DataModel item,) async {
     status = status.copyWith(isLoading: true);
     languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final Map query = {'zone' : item.id};
 
-    final response = await _interactor.getAudioGuidesForLocation(query, section, languageUser);
+    final response = await _interactor.getAudioGuidesForLocation(query, languageUser);
     if (response is IdtSuccess<List<DataAudioGuideModel>?>) {
-      status = status.copyWith(itemsAudioGuide: response.body); // Status reasignacion
+      status = status.copyWith(itemsAudioGuide: response.body,nameFilter: item.title!); // Status reasignacion
 
     } else {
       final erroRes = response as IdtFailure<FilterError>;
