@@ -105,7 +105,7 @@ class ApiInteractor {
     final response = await locator<DataUserService>().getDataUser(id);
     return response;
   }
-
+//Eventos
   Future<IdtResult<List<DataModel>?>> getEventPlacesList(String lan) async {
     final response = await locator<EventService>().getPlacesEvent(lan);
     return response;
@@ -117,16 +117,32 @@ class ApiInteractor {
     await locator<EventService>().getEventCloseToMe(coordinates, lan);
     return response;
   }
-
+//Hoteles
   Future<IdtResult<List<DataModel>?>> getSleepPlacesList(String lan) async {
     final response = await locator<SleepService>().getPlacesSleep(lan);
     return response;
   }
 
+  Future<IdtResult<List<DataModel>?>> getSleepCloseToMe(
+      String coordinates, String lan) async {
+    final response =
+    await locator<SleepService>().getSleepCloseToMe(coordinates, lan);
+    return response;
+  }
+//Restaurants
   Future<IdtResult<List<DataModel>?>> getEatPlacesList(String lan) async {
     final response = await locator<EatService>().getPlacesEat(lan);
     return response;
   }
+
+  Future<IdtResult<List<DataModel>?>> getEatCloseToMe(
+      String coordinates, String lan) async {
+    final response =
+    await locator<EatService>().getEatCloseToMe(coordinates, lan);
+    return response;
+  }
+
+
 
   Future<IdtResult<List<DataModel>?>> getSearchResultList(
       Map params, String lan) async {

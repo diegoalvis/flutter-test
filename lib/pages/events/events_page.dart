@@ -378,11 +378,7 @@ class _EventsWidgetState extends State<EventsWidget> {
                   Switch.adaptive(
                     value: viewModel.status.switchCloseToMe,
                     onChanged: (bool value) {
-                      if (value) {
-                        viewModel.getEventsCloseToMe(value,viewModel.type);
-                      } else {
-                        viewModel.getEventsCloseToMe(value,viewModel.type);
-                      }
+                      viewModel.getEventsCloseToMe(value, viewModel.type);
                     },
                     activeColor: IdtColors.greenDark,
                   ),

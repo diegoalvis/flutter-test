@@ -79,7 +79,6 @@ class EventService {
     }
   }
 
-
   Future<IdtResult<DataPlacesDetailModel?>> getEventSocialById(String id, String lanUser) async {
     var queryParameters = {
       'lan': lanUser,

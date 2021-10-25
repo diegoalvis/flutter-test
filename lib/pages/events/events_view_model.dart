@@ -76,6 +76,36 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     // llamar metodo que obtiene las localidades
   }
 
+  getEventsCloseToMe(bool valueSwitch, SocialEventType type) async {
+    print(valueSwitch);
+    status = status.copyWith(switchCloseToMe: valueSwitch,nameFilter: 'Localidad');
+
+    switch (type) {
+      case SocialEventType.EVENT:
+        valueSwitch ?
+        getEventCloseToMeResponse() :
+        getEventResponse();
+        break;
+      case SocialEventType.SLEEP:
+        valueSwitch ?
+        getSleepCloseToMeResponse() :
+        getSleepsResponse();
+        break;
+      case SocialEventType.EAT:
+        valueSwitch ?
+        getEatCloseToMeResponse() :
+        getEatResponse();
+    }
+
+    status = status.copyWith(
+      isLoading: true,
+    );
+    final placeByIdResponse;
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    status = status.copyWith(isLoading: false);
+  }
+
   void getZonesResponse() async {
     status = status.copyWith(isLoading: true);
     languageUser =
@@ -94,7 +124,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void filtersForZones(DataModel item, String section) async {
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: true,switchCloseToMe: false);
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
@@ -160,6 +190,30 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     status = status.copyWith(isLoading: false);
   }
 
+  void getSleepCloseToMeResponse() async {
+    status = status.copyWith(
+      isLoading: true,
+
+    );
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    await getLoc();
+    final response = await _interactor.getSleepCloseToMe(
+        '$latitud,$longitud', languageUser);
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(places: response.body); // Status reasignacion
+
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = EventError as IdtFailure<EventError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
+
   void getSleepsResponse() async {
     status = status.copyWith(isLoading: true);
     languageUser =
@@ -177,6 +231,30 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     }
     status = status.copyWith(isLoading: false);
   }
+
+  void getEatCloseToMeResponse() async {
+    status = status.copyWith(
+      isLoading: true,
+
+    );
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    await getLoc();
+    final response = await _interactor.getEatCloseToMe(
+        '$latitud,$longitud', languageUser);
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(places: response.body); // Status reasignacion
+
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = EventError as IdtFailure<EventError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
 
   void getEatResponse() async {
     status = status.copyWith(isLoading: true);
@@ -247,32 +325,6 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     _locationData = await location.getLocation();
     latitud = _locationData.latitude.toString();
     longitud = _locationData.longitude.toString();
-  }
-
-  getEventsCloseToMe(bool valueSwitch, SocialEventType type) async {
-    print(valueSwitch);
-    status = status.copyWith(switchCloseToMe: valueSwitch);
-
-    switch (type) {
-      case SocialEventType.EVENT:
-        valueSwitch ?
-        getEventCloseToMeResponse() :
-        getEventResponse();
-        break;
-      case SocialEventType.SLEEP:
-        getSleepsResponse();
-        break;
-      case SocialEventType.EAT:
-        getEatResponse();
-    }
-
-    status = status.copyWith(
-      isLoading: true,
-    );
-    final placeByIdResponse;
-    languageUser =
-        BoxDataSesion.getLaguageByUser(); //get language User Prefered
-    status = status.copyWith(isLoading: false);
   }
 
   goDetailPage(String id, SocialEventType type) async {
