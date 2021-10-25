@@ -25,7 +25,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
-        switchCloseToMe: true,
+        switchCloseToMe: false,
         isLoading: false,
         openMenu: false,
         openMenuTab: false,
@@ -283,8 +283,48 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     print(latitud);
     // fecha = _currentPosition.time.toString();
   }
-  getPlacesCloseToMe(bool isEnable) async{
-    status = status.copyWith(isLoading: true, switchCloseToMe: isEnable);
+  //
+  // getPlacesOffCloseToMe()async{
+  //   languageUser = BoxDataSesion.getLaguageByUser();
+  //   status = status.copyWith(isLoading: true);
+  //
+  //   late Map query;
+  //
+  //   if (status.section == 'subcategory') {
+  //     final itemsSubCat =
+  //     await _interactor.getPlacesSubcategory(item.id, languageUser);
+  //
+  //     if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
+  //       final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
+  //       query = {status.section: listIds};
+  //     }
+  //   } else {
+  //     query = {status.section: item.id};
+  //   }
+  //
+  //   final response = await _interactor.getPlacesList(query, null, languageUser);
+  //   if (response is IdtSuccess<List<DataModel>?>) {
+  //     final places = response.body!;
+  //     _route.goFilters(
+  //         section: status.section,
+  //         item: item,
+  //         categories: categories,
+  //         subcategories: subcategories,
+  //         zones: zones,
+  //         places: places,
+  //         oldFilters: query);
+  //   } else {
+  //     final erroRes = response as IdtFailure<FilterError>;
+  //     print(erroRes.message);
+  //     UnimplementedError();
+  //   }
+  //   closeMenuTab();
+  //   status = status.copyWith(isLoading: false);
+  // }
+
+
+  getPlacesCloseToMe(bool isSwitch) async{
+    status = status.copyWith(isLoading: true, switchCloseToMe: isSwitch);
     languageUser = BoxDataSesion.getLaguageByUser();
     await getLoc();
     final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );

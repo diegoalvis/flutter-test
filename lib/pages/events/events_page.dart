@@ -370,6 +370,28 @@ class _EventsWidgetState extends State<EventsWidget> {
               viewModel.type != SocialEventType.EVENT
                   ? _buttonFilter()
                   : SizedBox.shrink(),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Switch.adaptive(
+                    value: viewModel.status.switchCloseToMe,
+                    onChanged: (bool value) {
+                      if (value) {
+                        viewModel.getEventsCloseToMe(value,viewModel.type);
+                      } else {
+                        viewModel.getEventsCloseToMe(value,viewModel.type);
+                      }
+                    },
+                    activeColor: IdtColors.greenDark,
+                  ),
+                  Text(
+                    'Cerca de mi',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
               //Coment porque no llega con localidad el servicio
               // Column(
               //   children: [

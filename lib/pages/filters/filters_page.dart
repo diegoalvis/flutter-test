@@ -36,15 +36,13 @@ class FiltersPage extends StatelessWidget {
   final List<DataModel> zones;
   final Map oldFilters;
 
-  FiltersPage(
-    this.section,
-    this.item,
-    this.places,
-    this.categories,
-    this.subcategories,
-    this.zones,
-    this.oldFilters,
-  );
+  FiltersPage(this.section,
+      this.item,
+      this.places,
+      this.categories,
+      this.subcategories,
+      this.zones,
+      this.oldFilters,);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +50,14 @@ class FiltersPage extends StatelessWidget {
       create: (_) =>
           FiltersViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return FiltersWidget(section, item, places, categories, subcategories,
-            zones, oldFilters);
+        return FiltersWidget(
+            section,
+            item,
+            places,
+            categories,
+            subcategories,
+            zones,
+            oldFilters);
       },
     );
   }
@@ -107,7 +111,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         context.showDialogObservation(
             titleDialog: 'Sin resultados',
             bodyTextDialog:
-                'No se han encotrado resultados para la busqueda especificada',
+            'No se han encotrado resultados para la busqueda especificada',
             textPrimaryButton: 'aceptar / cerrar');
       }
     });
@@ -129,60 +133,60 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             extendBody: true,
             extendBodyBehindAppBar: true,
             bottomNavigationBar:
-                viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            viewModel.status.openMenu ? null : IdtBottomAppBar(),
             floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+            FloatingActionButtonLocation.centerDocked,
             body: _buildDiscover(viewModel)),
       ),
     );
   }
 
-  Widget _buildDiscover(
-    FiltersViewModel viewModel,
-  ) {
+  Widget _buildDiscover(FiltersViewModel viewModel,) {
     final loading =
-        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     int count = 0;
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
 
     final menu = AnimatedSwitcher(
       duration: Duration(milliseconds: 500),
       child: viewModel.status.openMenu
           ? Padding(
-              padding: EdgeInsets.only(top: 70),
-              child: IdtMenu(
-                closeMenu: viewModel.closeMenu,
-              ),
-            )
+        padding: EdgeInsets.only(top: 70),
+        child: IdtMenu(
+          closeMenu: viewModel.closeMenu,
+        ),
+      )
           : SizedBox.shrink(),
     );
 
     final menuTap = viewModel.status.openMenuTab
         ? IdtMenuTap(
-            listItems: viewModel.status.itemsFilter,
-            closeMenu: viewModel.closeMenuTab,
-            isBlue: true,
-            goFilters: (item) =>
-                viewModel.getDataFilterAll(item, widget._section),
-          )
+      listItems: viewModel.status.itemsFilter,
+      closeMenu: viewModel.closeMenuTab,
+      isBlue: true,
+      goFilters: (item) =>
+          viewModel.getDataFilterAll(item, widget._section),
+    )
         : SizedBox.shrink();
 
     final menuTapFilter = viewModel.status.openMenuFilter
         ? IdtMenuFilter(
-            listCategories: widget._categories,
-            listSubcategories: widget._subcategories,
-            listZones: widget._zones,
-            closeMenu: viewModel.closeMenuFilter,
-            goFilters: viewModel.getDataFilter,
-            filter1: viewModel.status.filterSubcategory,
-            filter2: viewModel.status.filterZone,
-            filter3: viewModel.status.filterCategory,
-            tapButton: viewModel.onTapButton,
-            typeFilter: viewModel.status.type,
-            tapResetSearch: viewModel.onTapResetSearch,
-          )
+      listCategories: widget._categories,
+      listSubcategories: widget._subcategories,
+      listZones: widget._zones,
+      closeMenu: viewModel.closeMenuFilter,
+      goFilters: viewModel.getDataFilter,
+      filter1: viewModel.status.filterSubcategory,
+      filter2: viewModel.status.filterZone,
+      filter3: viewModel.status.filterCategory,
+      tapButton: viewModel.onTapButton,
+      typeFilter: viewModel.status.type,
+      tapResetSearch: viewModel.onTapResetSearch,
+    )
         : SizedBox.shrink();
 
     Widget _buttonsTapFilter() {
@@ -257,21 +261,22 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       );
     }
 
-    Widget imagesCard(DataModel item, int index, List listItems) => (InkWell(
+    Widget imagesCard(DataModel item, int index, List listItems) =>
+        (InkWell(
           onTap: () => viewModel.goDetailPage(item.id),
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
               ClipRRect(
                 borderRadius:
-                    // Validacion para el borde superior izquiero
-                    (index == 0)
-                        ? BorderRadius.only(topLeft: Radius.circular(15))
+                // Validacion para el borde superior izquiero
+                (index == 0)
+                    ? BorderRadius.only(topLeft: Radius.circular(15))
 
-                        // Validacion para el borde superior derecho
-                        : (index == 1)
-                            ? BorderRadius.only(topRight: Radius.circular(15))
-                            : BorderRadius.circular(0.0),
+                // Validacion para el borde superior derecho
+                    : (index == 1)
+                    ? BorderRadius.only(topRight: Radius.circular(15))
+                    : BorderRadius.circular(0.0),
                 child: SizedBox(
                   width: double.infinity,
                   height: double.infinity,
@@ -286,10 +291,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 right: 10,
                 child: Container(
                     child: Icon(
-                  Icons.favorite_border,
-                  color: IdtColors.white,
-                  size: 19,
-                )),
+                      Icons.favorite_border,
+                      color: IdtColors.white,
+                      size: 19,
+                    )),
               ),
               Positioned(
                 bottom: 0.0,
@@ -297,7 +302,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 right: 0.0,
                 child: Container(
                   padding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                  EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                   child: AutoSizeText(
                     item.title!.toUpperCase(),
                     maxLines: 2,
@@ -311,14 +316,18 @@ class _FiltersWidgetState extends State<FiltersWidget> {
           ),
         ));
 
-    Widget gridImagesCol3(List<DataModel> listItems) => Padding(
+    Widget gridImagesCol3(List<DataModel> listItems) =>
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: (StaggeredGridView.count(
             crossAxisCount: 6,
             shrinkWrap: true,
             physics: ScrollPhysics(),
             staggeredTiles: viewModel.status.staggedList,
-            children: listItems.asMap().entries.map((entry) {
+            children: listItems
+                .asMap()
+                .entries
+                .map((entry) {
               final int index = entry.key;
               // final imageUrl = entry.value.image ?? '';
               // final String img = IdtConstants.url_image + imageUrl;
@@ -342,9 +351,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       children: [
         SingleChildScrollView(
           physics:
-              viewModel.status.openMenuTab || viewModel.status.openMenuFilter
-                  ? NeverScrollableScrollPhysics()
-                  : null,
+          viewModel.status.openMenuTab || viewModel.status.openMenuFilter
+              ? NeverScrollableScrollPhysics()
+              : null,
           child: Column(
             children: [
               Container(
@@ -361,7 +370,28 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ),
               ),
               _buttonsTapFilter(),
-              SwitchCloseToMe(viewModel),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Switch.adaptive(
+                    value: viewModel.status.switchCloseToMe,
+                    onChanged: (bool value) {
+                      if (value) {
+                        viewModel.getPlacesCloseToMe(value);
+                      } else {
+                        // viewModel.getPlacesOffCloseToMe();
+                      }
+                    },
+                    activeColor: IdtColors.greenDark,
+                  ),
+                  Text(
+                    'Cerca de mi',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
               Container(
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
@@ -391,36 +421,6 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         menuTapFilter,
         loading,
         menu,
-      ],
-    );
-  }
-}
-
-class SwitchCloseToMe extends StatelessWidget {
-  final viewModel;
-
-  const SwitchCloseToMe(this.viewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Switch.adaptive(
-          value: viewModel.status.switchCloseToMe,
-          onChanged: (bool value) {
-            if (!viewModel.status.switchCloseToMe) {
-              viewModel.getPlacesCloseToMe(value);
-            }
-          },
-          activeColor: IdtColors.greenDark,
-        ),
-        Text(
-          'Cerca de mi',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
       ],
     );
   }

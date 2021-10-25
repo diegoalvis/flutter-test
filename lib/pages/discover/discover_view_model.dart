@@ -108,9 +108,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     } else {
       query = {status.section: item.id};
     }
-    await getLoc();
-    // final response = await _interactor.getPlacesList(query, null, languageUser);
-    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser);
+    final response = await _interactor.getPlacesList(query, null, languageUser);
+    // await getLoc();
+    // final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;

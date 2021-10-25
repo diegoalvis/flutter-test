@@ -111,6 +111,13 @@ class ApiInteractor {
     return response;
   }
 
+  Future<IdtResult<List<DataModel>?>> getEventsCloseToMe(
+      String coordinates, String lan) async {
+    final response =
+    await locator<EventService>().getEventCloseToMe(coordinates, lan);
+    return response;
+  }
+
   Future<IdtResult<List<DataModel>?>> getSleepPlacesList(String lan) async {
     final response = await locator<SleepService>().getPlacesSleep(lan);
     return response;
@@ -150,6 +157,7 @@ class ApiInteractor {
         await locator<LanguageAvalibleService>().getLanguageAvalible();
     return response;
   }
+
 
   Future<IdtResult<List<DataModel>?>> getPlacesCloseToMe(
       String coordinates, String lan) async {

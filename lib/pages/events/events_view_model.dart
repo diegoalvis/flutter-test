@@ -15,6 +15,7 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:location/location.dart';
 
 import 'events_effect.dart';
 
@@ -25,6 +26,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   final ApiInteractor _interactor;
   final SocialEventType type;
   late String languageUser;
+  Location location = new Location();
+  String latitud = '';
+  String longitud = '';
 
   EventsViewModel(this._route, this._interactor, this.type) {
     status = EventsStatus(
@@ -36,6 +40,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
       nameFilter: 'Localidad',
       places: [],
       zones: [],
+      switchCloseToMe: false,
     );
   }
 
@@ -73,13 +78,14 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void getZonesResponse() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
-
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final zonesResponse = await _interactor.getZonesList(languageUser);
 
     if (zonesResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(zones: zonesResponse.body); // Status reasignacion
+      status =
+          status.copyWith(zones: zonesResponse.body); // Status reasignacion
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
       print(erroRes.message);
@@ -89,13 +95,17 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void filtersForZones(DataModel item, String section) async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    final Map query = {'zone' : item.id};
+    final Map query = {'zone': item.id};
 
-    final response = await _interactor.getPlaceEventForLocation(query, section, languageUser);
+    final response = await _interactor.getPlaceEventForLocation(
+        query, section, languageUser);
     if (response is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(places: response.body, nameFilter: item.title!); // Status reasignacion
+      status = status.copyWith(
+          places: response.body,
+          nameFilter: item.title!); // Status reasignacion
 
     } else {
       final erroRes = response as IdtFailure<FilterError>;
@@ -109,13 +119,37 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     }
   }
 
+  void getEventCloseToMeResponse() async {
+    status = status.copyWith(
+      isLoading: true,
+    );
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    await getLoc();
+    final response = await _interactor.getEventsCloseToMe(
+        '$latitud,$longitud', languageUser);
+
+    if (response is IdtSuccess<List<DataModel>?>) {
+      status = status.copyWith(places: response.body); // Status reasignacion
+
+      // status.places.addAll(UnmissableResponse.body)
+    } else {
+      final erroRes = EventError as IdtFailure<EventError>;
+      print(erroRes.message);
+      UnimplementedError();
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
   void getEventResponse() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eventResponse = await _interactor.getEventPlacesList(languageUser);
 
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(places: eventResponse.body); // Status reasignacion
+      status =
+          status.copyWith(places: eventResponse.body); // Status reasignacion
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -128,11 +162,13 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void getSleepsResponse() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final sleepResponse = await _interactor.getSleepPlacesList(languageUser);
 
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(places: sleepResponse.body); // Status reasignacion
+      status =
+          status.copyWith(places: sleepResponse.body); // Status reasignacion
 
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
@@ -144,7 +180,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   void getEatResponse() async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eatResponse = await _interactor.getEatPlacesList(languageUser);
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
@@ -187,15 +224,67 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     status = status.copyWith(isLoading: true);
   }
 
-  goDetailPage(String id, SocialEventType type) async {
-    status = status.copyWith(isLoading: true);
-    final placeByIdResponse;
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+  getLoc() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
 
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
+    latitud = _locationData.latitude.toString();
+    longitud = _locationData.longitude.toString();
+  }
+
+  getEventsCloseToMe(bool valueSwitch, SocialEventType type) async {
+    print(valueSwitch);
+    status = status.copyWith(switchCloseToMe: valueSwitch);
 
     switch (type) {
       case SocialEventType.EVENT:
-        placeByIdResponse = await _interactor.getEventSocialById(id, languageUser);
+        valueSwitch ?
+        getEventCloseToMeResponse() :
+        getEventResponse();
+        break;
+      case SocialEventType.SLEEP:
+        getSleepsResponse();
+        break;
+      case SocialEventType.EAT:
+        getEatResponse();
+    }
+
+    status = status.copyWith(
+      isLoading: true,
+    );
+    final placeByIdResponse;
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    status = status.copyWith(isLoading: false);
+  }
+
+  goDetailPage(String id, SocialEventType type) async {
+    status = status.copyWith(isLoading: true);
+    final placeByIdResponse;
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+
+    switch (type) {
+      case SocialEventType.EVENT:
+        placeByIdResponse =
+            await _interactor.getEventSocialById(id, languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goEventDetail(detail: placeByIdResponse.body!);
         } else {
@@ -206,7 +295,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
         status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.SLEEP:
-        placeByIdResponse = await _interactor.getSleepSocialById(id, languageUser);
+        placeByIdResponse =
+            await _interactor.getSleepSocialById(id, languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goDetail(detail: placeByIdResponse.body!, isHotel: true);
         } else {
@@ -217,7 +307,8 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
         status = status.copyWith(isLoading: false);
         break;
       case SocialEventType.EAT:
-        placeByIdResponse = await _interactor.getEatSocialById(id,languageUser);
+        placeByIdResponse =
+            await _interactor.getEatSocialById(id, languageUser);
         if (placeByIdResponse is IdtSuccess<DataPlacesDetailModel?>) {
           _route.goDetail(detail: placeByIdResponse.body!, isHotel: false);
         } else {
@@ -245,10 +336,11 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
         imageUrl = value.image;
         break;
     }
-    return IdtConstants.url_image + (imageUrl ?? ''); //hay alguna imagen por defecto?
+    return IdtConstants.url_image +
+        (imageUrl ?? ''); //hay alguna imagen por defecto?
   }
 
-  Future<bool> offMenuBack()async {
+  Future<bool> offMenuBack() async {
     bool? shouldPop = true;
 
     if (status.openMenu) {

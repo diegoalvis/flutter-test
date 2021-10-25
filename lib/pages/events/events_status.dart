@@ -11,7 +11,7 @@ class EventsStatus extends ViewStatus {
   final int currentOption;
   final List<DataModel> places;
   late List<DataModel> zones;
-
+  late final bool switchCloseToMe;
 
   EventsStatus({
     required this.section,
@@ -23,9 +23,11 @@ class EventsStatus extends ViewStatus {
     this.currentOption = -1,
     required this.places,
     required this.zones,
+    required this.switchCloseToMe
   });
 
   EventsStatus copyWith({
+    bool? switchCloseToMe,
     int? currentOption,
     String? section,
     bool? isLoading,
@@ -38,6 +40,7 @@ class EventsStatus extends ViewStatus {
     List<DataModel>? zones,
   }) {
     return EventsStatus(
+      switchCloseToMe: switchCloseToMe?? this.switchCloseToMe,
       currentOption: currentOption ?? this.currentOption,
       section: section ?? this.section,
       isLoading: isLoading ?? this.isLoading,
