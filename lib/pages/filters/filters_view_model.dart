@@ -25,7 +25,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
   FiltersViewModel(this._route, this._interactor) {
     status = FiltersStatus(
-        switchCloseToMe: false,
+        switchCloseToMe: true,
         isLoading: false,
         openMenu: false,
         openMenuTab: false,

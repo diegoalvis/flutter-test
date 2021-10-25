@@ -49,9 +49,11 @@ class FiltersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => FiltersViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          FiltersViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return FiltersWidget(section, item, places, categories, subcategories, zones, oldFilters);
+        return FiltersWidget(section, item, places, categories, subcategories,
+            zones, oldFilters);
       },
     );
   }
@@ -66,8 +68,8 @@ class FiltersWidget extends StatefulWidget {
   final List<DataModel> _zones;
   final Map _oldFilters;
 
-  FiltersWidget(this._section, this._item, this._places, this._categories, this._subcategories,
-      this._zones, this._oldFilters);
+  FiltersWidget(this._section, this._item, this._places, this._categories,
+      this._subcategories, this._zones, this._oldFilters);
 
   @override
   _FiltersWidgetState createState() => _FiltersWidgetState();
@@ -76,13 +78,20 @@ class FiltersWidget extends StatefulWidget {
 class _FiltersWidgetState extends State<FiltersWidget> {
   final scrollController = ScrollController();
   StreamSubscription<FilterEffect>? _effectSubscription;
+
   // bool _nearToMe = false;
 
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<FiltersViewModel>().onInit(widget._section, widget._categories,
-          widget._subcategories, widget._zones, widget._places, widget._item, widget._oldFilters);
+      context.read<FiltersViewModel>().onInit(
+          widget._section,
+          widget._categories,
+          widget._subcategories,
+          widget._zones,
+          widget._places,
+          widget._item,
+          widget._oldFilters);
     });
     final viewModel = context.read<FiltersViewModel>();
 
@@ -97,7 +106,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
       } else if (event is ShowDialogEffect) {
         context.showDialogObservation(
             titleDialog: 'Sin resultados',
-            bodyTextDialog: 'No se han encotrado resultados para la busqueda especificada',
+            bodyTextDialog:
+                'No se han encotrado resultados para la busqueda especificada',
             textPrimaryButton: 'aceptar / cerrar');
       }
     });
@@ -118,16 +128,21 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             backgroundColor: IdtColors.white,
             extendBody: true,
             extendBodyBehindAppBar: true,
-            bottomNavigationBar: viewModel.status.openMenu ? null : IdtBottomAppBar(),
+            bottomNavigationBar:
+                viewModel.status.openMenu ? null : IdtBottomAppBar(),
             floatingActionButton: viewModel.status.openMenu ? null : IdtFab(),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             body: _buildDiscover(viewModel)),
       ),
     );
   }
 
-  Widget _buildDiscover(FiltersViewModel viewModel,) {
-    final loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+  Widget _buildDiscover(
+    FiltersViewModel viewModel,
+  ) {
+    final loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     int count = 0;
     final textTheme = Theme.of(context).textTheme;
@@ -149,7 +164,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             listItems: viewModel.status.itemsFilter,
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
-            goFilters: (item) => viewModel.getDataFilterAll(item, widget._section),
+            goFilters: (item) =>
+                viewModel.getDataFilterAll(item, widget._section),
           )
         : SizedBox.shrink();
 
@@ -280,7 +296,8 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 left: 0.0,
                 right: 0.0,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                   child: AutoSizeText(
                     item.title!.toUpperCase(),
                     maxLines: 2,
@@ -324,9 +341,10 @@ class _FiltersWidgetState extends State<FiltersWidget> {
     return Stack(
       children: [
         SingleChildScrollView(
-          physics: viewModel.status.openMenuTab || viewModel.status.openMenuFilter
-              ? NeverScrollableScrollPhysics()
-              : null,
+          physics:
+              viewModel.status.openMenuTab || viewModel.status.openMenuFilter
+                  ? NeverScrollableScrollPhysics()
+                  : null,
           child: Column(
             children: [
               Container(
@@ -343,26 +361,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ),
               ),
               _buttonsTapFilter(),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Switch.adaptive(
-                    value: viewModel.status.switchCloseToMe,
-                    onChanged: (bool value) {
-                      if (!viewModel.status.switchCloseToMe) {
-                        viewModel.getPlacesCloseToMe(value);
-                      }
-                    },
-                    activeColor: IdtColors.greenDark,
-                  ),
-                  Text(
-                    'Cerca de mi',
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
+              SwitchCloseToMe(viewModel),
               Container(
                 height: 20,
                 margin: EdgeInsets.only(top: 40),
@@ -372,7 +371,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                     text: '${viewModel.status.type} > ',
                     style: textTheme.titleBlack,
                     children: <TextSpan>[
-                      TextSpan(text: viewModel.status.section, style: textTheme.subTitleBlack)
+                      TextSpan(
+                          text: viewModel.status.section,
+                          style: textTheme.subTitleBlack)
                     ],
                   ),
                 ),
@@ -390,6 +391,36 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         menuTapFilter,
         loading,
         menu,
+      ],
+    );
+  }
+}
+
+class SwitchCloseToMe extends StatelessWidget {
+  final viewModel;
+
+  const SwitchCloseToMe(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Switch.adaptive(
+          value: viewModel.status.switchCloseToMe,
+          onChanged: (bool value) {
+            if (!viewModel.status.switchCloseToMe) {
+              viewModel.getPlacesCloseToMe(value);
+            }
+          },
+          activeColor: IdtColors.greenDark,
+        ),
+        Text(
+          'Cerca de mi',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
       ],
     );
   }

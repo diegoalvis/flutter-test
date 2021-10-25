@@ -11,11 +11,15 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class DiscoverViewModel extends ViewModel<DiscoverStatus> {
   final IdtRoute _route;
   final ApiInteractor _interactor;
   late String languageUser;
+  Location location = new Location();
+  String latitud = '';
+  String longitud = '';
 
   DiscoverViewModel(this._route, this._interactor) {
     status = DiscoverStatus(
@@ -31,8 +35,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     );
   }
 
-  void onInit() async {
 
+  void onInit() async {
     getDiscoveryData();
   }
 
@@ -44,9 +48,13 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(openMenu: false);
   }
 
-  void openMenuTab(List<DataModel> listData, String section, int currentOption) {
+  void openMenuTab(
+      List<DataModel> listData, String section, int currentOption) {
     status = status.copyWith(
-        openMenuTab: true, listOptions: listData, section: section, currentOption: currentOption);
+        openMenuTab: true,
+        listOptions: listData,
+        section: section,
+        currentOption: currentOption);
   }
 
   void closeMenuTab() {
@@ -57,15 +65,41 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     status = status.copyWith(isLoading: true);
   }
 
-  void goFiltersPage(DataModel item, List<DataModel> categories, List<DataModel> subcategories,
-      List<DataModel> zones) async {
+  getLoc() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
+    latitud = _locationData.latitude.toString();
+    longitud = _locationData.longitude.toString();
+  }
+
+  void goFiltersPage(DataModel item, List<DataModel> categories,
+      List<DataModel> subcategories, List<DataModel> zones) async {
     languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
     late Map query;
 
     if (status.section == 'subcategory') {
-      final itemsSubCat = await _interactor.getPlacesSubcategory(item.id, languageUser);
+      final itemsSubCat =
+          await _interactor.getPlacesSubcategory(item.id, languageUser);
 
       if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
         final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
@@ -74,8 +108,9 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     } else {
       query = {status.section: item.id};
     }
-
-    final response = await _interactor.getPlacesList(query, null, languageUser);
+    await getLoc();
+    // final response = await _interactor.getPlacesList(query, null, languageUser);
+    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
@@ -86,8 +121,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
           subcategories: subcategories,
           zones: zones,
           places: places,
-          oldFilters: query
-          );
+          oldFilters: query);
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
@@ -101,7 +135,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
-    void sortOptionsFilters(IdtSuccess<List<DataModel>?> resources) { //ordena los filtros A/Z
+    void sortOptionsFilters(IdtSuccess<List<DataModel>?> resources) {
+      //ordena los filtros A/Z
       resources.body!.sort((a, b) => a.title!.compareTo(b.title!));
     }
 
@@ -144,7 +179,6 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
       print(erroRes.message);
       UnimplementedError();
     }
-
 
     final resZona = await _interactor.getZonesList(languageUser);
 
@@ -192,11 +226,12 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     closeMenuTab();
   }
 
-  Future<bool> offMenuBack()async {
+  Future<bool> offMenuBack() async {
     bool? shouldPop = true;
 
     if (status.openMenu || status.openMenuTab) {
-      status = status.copyWith(openMenu: false, openMenuTab: false, currentOption: -1 );
+      status = status.copyWith(
+          openMenu: false, openMenuTab: false, currentOption: -1);
       return !shouldPop;
     } else {
       IdtRoute.route = HomePage.namePage;
