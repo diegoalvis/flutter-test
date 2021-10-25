@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -9,12 +10,14 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
+import 'package:bogota_app/pages/audio_guide/audio_guides_effect.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
 import 'package:bogota_app/widget/fab.dart';
 import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:bogota_app/widget/menu.dart';
+import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,6 +56,7 @@ class AudioGuideWidget extends StatefulWidget {
 }
 
 class _AudioGuideWidgetState extends State<AudioGuideWidget> {
+  // StreamSubscription<AudioGuidesEffect>? _effectSubscription;
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<AudioGuideViewModel>().onInit();
@@ -191,6 +195,67 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
           ),
         ));
 
+    final menuTap = viewModel.status.openMenuTab
+        ? IdtMenuTap(
+            listItems: viewModel.status.zones,
+            closeMenu: viewModel.closeMenuTab,
+            isBlue: true,
+            goFilters: (item) => viewModel.filtersForZones(
+                item, 'Seccion')) //viewModel.status.section
+        : SizedBox.shrink();
+
+    Widget _buttonFilter() {
+      return Row(
+        children: [
+          Expanded(
+            child: FlatButton(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              color: viewModel.status.openMenuTab
+                  ? IdtColors.white
+                  : IdtColors.blue.withOpacity(0.15),
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: IdtColors.grayBtn, width: 0.5),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                  )),
+              onPressed: () => viewModel.openMenuTab(
+                viewModel.status.zones,
+              ),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Align(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            'LOCALIDAD',
+                            textAlign: TextAlign.center,
+                            style: textTheme.textDetail.copyWith(
+                                fontSize: 15, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      right: 15,
+                      child: Icon(
+                        Icons.arrow_drop_down_circle_outlined,
+                        color: IdtColors.blue,
+                        size: 30,
+                      ))
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     Widget gridImagesCol3() => (GridView.count(
           shrinkWrap: true,
           physics: ScrollPhysics(),
@@ -231,12 +296,15 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
                   thickness: 1,
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 12),
+              _buttonFilter(),
+              SizedBox(height: 15),
               gridImagesCol3(),
               SizedBox(height: 55),
             ],
           ),
         ),
+        menuTap,
         loading,
         menu,
       ],
