@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-
 import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
@@ -13,6 +12,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guide_view_model.dart';
 import 'package:bogota_app/pages/audio_guide/audio_guides_effect.dart';
+import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/appbar.dart';
 import 'package:bogota_app/widget/bottom_appbar.dart';
@@ -60,6 +60,7 @@ class AudioGuideWidget extends StatefulWidget {
 class _AudioGuideWidgetState extends State<AudioGuideWidget> {
   StreamSubscription<AudioGuidesEffect>? _effectSubscription;
   final scrollController = ScrollController();
+
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<AudioGuideViewModel>().onInit();
@@ -78,7 +79,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
         context.showDialogObservation(
             titleDialog: 'Sin resultados',
             bodyTextDialog:
-            'No se han encotrado resultados para la localidad especificada',
+                'No se han encotrado resultados para la localidad especificada',
             textPrimaryButton: 'aceptar / cerrar');
       }
     });
@@ -220,7 +221,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             closeMenu: viewModel.closeMenuTab,
             isBlue: true,
             goFilters: (item) => viewModel.filtersForZones(
-                item, )) //viewModel.status.section
+                  item,
+                )) //viewModel.status.section
         : SizedBox.shrink();
 
     Widget _buttonFilter() {
@@ -318,7 +320,9 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
               SizedBox(height: 12),
               _buttonFilter(),
               SizedBox(height: 22),
-              gridImagesCol3(),
+              viewModel.status.itemsAudioGuide.length > 0
+                  ? gridImagesCol3()
+                  : NotFoundResultsWidget(textTheme: textTheme),
               SizedBox(height: 55),
             ],
           ),

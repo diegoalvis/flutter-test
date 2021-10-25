@@ -87,6 +87,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       addEffect(ShowDialogEffect());
     }
 
+    //Recargando Diseño
     List<StaggeredTile> listDesing = desingGrid(places);
 
     status = status.copyWith(
@@ -329,7 +330,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     await getLoc();
     final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );
 
-      status = status.copyWith(isLoading: false);
+
     if (response is IdtSuccess<List<DataModel>?>) {
 
       final places = response.body!;

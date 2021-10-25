@@ -381,6 +381,9 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                       if (value) {
                         viewModel.getPlacesCloseToMe(value);
                       } else {
+                        print('Apagando switche');
+                        viewModel.status.switchCloseToMe = value;
+
                         // viewModel.getPlacesOffCloseToMe();
                       }
                     },
