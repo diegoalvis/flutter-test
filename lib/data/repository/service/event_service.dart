@@ -43,6 +43,48 @@ class EventService {
       return IdtResult.failure(error);
     }
   }
+
+  Future<IdtResult<List<DataModel>?>> getPlaceEventForLocation(Map params, String section, String lanUser) async {
+    Map<String, dynamic> queryParameters = {
+      'lan': lanUser,
+    };
+
+    params.forEach((key, value) {
+      queryParameters[key] = value;
+      /*value.keys.forEach((element) {
+        queryParameters[element] = value[element];
+      });*/
+      // queryParameters[value.keys.first] = value.values.first;
+    });
+
+    final uri = Uri.https(IdtConstants.url_server, '/$section', queryParameters);
+
+    print(uri.toString());
+    final response = await http.get(uri);
+    print('**response: ${response.body}');
+    try {
+      final body = json.decode(response.body);
+      print(body);
+      switch (response.statusCode) {
+        case 200: {
+          final entity = ResponseModel.fromJson(body);
+          print(entity.data);
+          return IdtResult.success(entity.data);
+        }
+
+        default: {
+          final error = EventError('Capturar el error', response.statusCode);
+
+          return IdtResult.failure(error);
+        }
+      }
+    } on StateError catch (err) {
+      final error = EventError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+  }
+
   Future<IdtResult<List<DataModel>?>> getEventCloseToMe(String coordinates,String lanUser) async {
     var queryParameters = {
       'lan': lanUser,
