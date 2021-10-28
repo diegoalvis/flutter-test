@@ -1,8 +1,9 @@
-import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
+import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/pages/event_detail/event_detail_status.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class EventDetailViewModel extends ViewModel<EventDetailStatus> {
 
@@ -37,11 +38,12 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     final double lat = double.parse(latitude);
     final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Error al lanzar la url: $url';
-    }
+    await launch(url);
+
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else throw 'Error al lanzar la url: $url';
+
   }
 
 
