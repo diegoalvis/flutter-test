@@ -1,5 +1,6 @@
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_as_message_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
@@ -198,6 +199,13 @@ class ApiInteractor {
   Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(
       String id, String lan) async {
     final response = await locator<FilterService>().getPlaceById(id, lan);
+    return response;
+  }
+
+  Future<IdtResult<AudiosModel?>> getAudiosById(
+      String id, String lan) async {
+    print("entra a getAudiosById ");
+    final response = await locator<FilterService>().getAudiosById(id, lan);
     return response;
   }
 

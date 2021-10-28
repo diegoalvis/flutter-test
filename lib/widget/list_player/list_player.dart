@@ -120,7 +120,7 @@ class ItemPlayer extends StatelessWidget {
             width: _size!.width / PROPORTIONS,
             height: _size!.width / PROPORTIONS,
             child: Icon(
-                this.select ? Icons.play_circle_filled : Icons.pause_circle,
+                this.select ? Icons.play_circle_filled : Icons.pause_circle_filled_outlined,
                 size: 40,
                 color: this.color),
           ),

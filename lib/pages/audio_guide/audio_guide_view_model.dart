@@ -1,5 +1,6 @@
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -149,13 +150,10 @@ class AudioGuideViewModel extends EffectsViewModel<AudioGuideStatus, AudioGuides
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
-    print('view model detail page');
-    print(placebyidResponse);
-    if (placebyidResponse is IdtSuccess<DataPlacesDetailModel?>) {
-      print("model detail");
-      print(placebyidResponse.body!.title);
-      _route.goDetail(isHotel: false, detail: placebyidResponse.body!);
+    final placebyidResponse = await _interactor.getAudiosById(id, languageUser);
+
+    if (placebyidResponse is IdtSuccess<AudiosModel?>) {
+      _route.goDetailAudio(isHotel: false, detail: placebyidResponse.body!);
 
       /// Status reasignacion
       // status.places.addAll(UnmissableResponse.body)

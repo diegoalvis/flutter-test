@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
@@ -36,7 +37,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     status = status.copyWith(moreText: !tapClick);
   }
 
-  void goPlayAudioPage(DataPlacesDetailModel _detail) {
+  void goPlayAudioPage(AudiosModel _detail) {
     status = status.copyWith(isLoading: true);
     // _route.goPlayAudio(detail: _detail);
     _route.goNewPlayAudio(detail: _detail);

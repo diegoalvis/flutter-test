@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:bogota_app/configure/get_it_locator.dart';
+import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/data/model/response/audios_response.dart';
 import 'package:bogota_app/data/model/response_model.dart';
 import 'package:bogota_app/data/model/response_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
@@ -201,6 +203,8 @@ class FilterService {
 
     final uri = Uri.https(IdtConstants.url_server, '/place/' +id,queryParameters);
 
+    print("uri");
+    print(uri);
     final response = await http.get(uri);
 
     try {
@@ -209,6 +213,42 @@ class FilterService {
       switch (response.statusCode) {
         case 200: {
           final entity = ResponseDetailModel.fromJson(body);
+          print(entity.data);
+          return IdtResult.success(entity.data);
+        }
+
+        default: {
+          final error = FilterError('Capturar el error', response.statusCode);
+
+          return IdtResult.failure(error);
+        }
+      }
+    } on StateError catch (err) {
+      final error = FilterError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+  }
+
+  Future<IdtResult<AudiosModel?>> getAudiosById(String id,String languageUser ) async {
+    var queryParameters = {
+      'lan': languageUser,
+    };
+
+    final uri = Uri.https(IdtConstants.url_server, '/audio/' +id,queryParameters);
+
+    print("uri");
+    print(uri);
+    final response = await http.get(uri);
+    print("trae respuest a de audiso");
+    print(response.body);
+    try {
+      final body = json.decode(response.body);
+      print(body);
+      switch (response.statusCode) {
+        case 200: {
+          final entity = AudiosResponseModel.fromJson(body);
+          print("entity.data");
           print(entity.data);
           return IdtResult.success(entity.data);
         }

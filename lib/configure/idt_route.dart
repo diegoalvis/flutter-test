@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/user_model.dart';
@@ -102,12 +103,20 @@ class IdtRoute {
 
   }
 
+
+  goDetailAudio({required bool isHotel, required AudiosModel detail}) {
+
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => PlayAudioGuiaPage(detail: detail)));
+  }
+
+
   goPlayAudio({required DataPlacesDetailModel detail}) {
     return navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (_) => PlayAudioPage(detail: detail)));
   }
 
-  goNewPlayAudio({required DataPlacesDetailModel detail}) {
+  goNewPlayAudio({required AudiosModel detail}) {
     return navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (_) => PlayAudioGuiaPage(detail: detail)));
   }
