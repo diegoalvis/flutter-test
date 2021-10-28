@@ -95,7 +95,7 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     languageUser = BoxDataSesion.getLaguageByUser();
     status = status.copyWith(isLoading: true);
 
-    late Map query;
+    late Map<String,String> query;
 
     if (status.section == 'subcategory') {
       final itemsSubCat =
@@ -108,7 +108,8 @@ class DiscoverViewModel extends ViewModel<DiscoverStatus> {
     } else {
       query = {status.section: item.id};
     }
-    final response = await _interactor.getPlacesList(query, null, languageUser);
+    //todo Aqui si se arma bien las subCategorias
+    final response = await _interactor.getPlacesListGoFilter(query, languageUser);
     // await getLoc();
     // final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser);
 
