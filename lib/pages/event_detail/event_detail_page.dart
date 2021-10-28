@@ -30,7 +30,8 @@ class EventDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EventDetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          EventDetailViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return EventDetailWidget(detail);
       },
@@ -54,8 +55,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   @override
   void initState() {
-
-    String? videoId = YoutubePlayer.convertUrlToId(widget._detail.video.toString());
+    String? videoId =
+        YoutubePlayer.convertUrlToId(widget._detail.video.toString());
     _controller = YoutubePlayerController(
       initialVideoId: videoId ?? '',
     );
@@ -97,7 +98,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
             extendBodyBehindAppBar: true,
             floatingActionButton: IdtFab(),
             bottomNavigationBar: IdtBottomAppBar(),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             backgroundColor: IdtColors.white,
             body: _buildEventDetail(viewModel)),
       ),
@@ -143,37 +145,41 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
           SizedBox(
             width: 20,
           ),
+          widget._detail.phone!.isNotEmpty
+              ?
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                padding: EdgeInsets.all(0.0),
-                icon: Icon(
-                  Icons.phone,
-                  color: IdtColors.white,
-                  size: 50,
-                ),
-                onPressed: () {
-                  launch("tel:+1 555 010 999");
-                  print('LLamando, fallando en la llamada?!!');
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: 120,
-                child: Text(
-                  'tel: ${widget._detail.phone}',
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.textButtomWhite.copyWith(fontSize: 16),
-                ),
-              ),
-            ],
-          )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.all(0.0),
+                      icon: Icon(
+                        Icons.phone,
+                        color: IdtColors.white,
+                        size: 50,
+                      ),
+                      onPressed: () {
+                        print('${widget._detail.phone}');
+                        launch('tel:${widget._detail.phone}');
+                        print('LLamando, fallando en la llamada?!!');
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 120,
+                      child: Text(
+                        'tel: ${widget._detail.phone}',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.textButtomWhite.copyWith(fontSize: 16),
+                      ),
+                    )
+                  ],
+                )
+              : SizedBox.shrink()
         ],
       );
     }
@@ -183,15 +189,20 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
         children: [
           CarouselSlider(
               options: CarouselOptions(
-                  autoPlay: true, enlargeCenterPage: true, height: 320, viewportFraction: 0.6),
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  height: 320,
+                  viewportFraction: 0.6),
               items: widget._detail.gallery!
                   .map((item) => Container(
                         child: Container(
                           margin: EdgeInsets.all(5.0),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                              child:
-                                  Image.network(IdtConstants.url_image + item, fit: BoxFit.cover)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              child: Image.network(
+                                  IdtConstants.url_image + item,
+                                  fit: BoxFit.cover)),
                         ),
                       ))
                   .toList()),
@@ -215,7 +226,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
                   width: size.width * 0.2,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(180.0)),
-                      border: Border.all(color: IdtColors.blueDark.withOpacity(0.8), width: 2),
+                      border: Border.all(
+                          color: IdtColors.blueDark.withOpacity(0.8), width: 2),
                       color: IdtColors.white),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -248,8 +260,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
     }
 
     Widget _body() {
-      final String dateEvent =
-          DateFormat('yMMMMd', 'es').format(DateTime.parse(widget._detail.date!));
+      final String dateEvent = DateFormat('yMMMMd', 'es')
+          .format(DateTime.parse(widget._detail.date!));
       final viewModel = context.watch<EventDetailViewModel>();
 
       return Center(
@@ -356,7 +368,10 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
               ),
             ),
             TextButton(
-              child: Text(viewModel.status.moreText ? 'MOSTRAR MENOS' : 'SEGUIR LEYENDO',
+              child: Text(
+                  viewModel.status.moreText
+                      ? 'MOSTRAR MENOS'
+                      : 'SEGUIR LEYENDO',
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -373,8 +388,10 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       decoration: BoxDecoration(
           color: Colors.black,
           image: DecorationImage(
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
-            image: NetworkImage(IdtConstants.url_image + widget._detail.coverImage!),
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.6), BlendMode.dstATop),
+            image: NetworkImage(
+                IdtConstants.url_image + widget._detail.coverImage!),
             fit: BoxFit.fitHeight,
           )),
       height: size.height,
