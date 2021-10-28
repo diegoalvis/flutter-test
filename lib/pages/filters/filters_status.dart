@@ -16,7 +16,7 @@ class FiltersStatus extends ViewStatus {
   final String type;
   final List<StaggeredTile> staggedList;
   final bool shouldPop = true;
-  Map oldFilters;
+  Map<String,dynamic>? oldFilters;
   late final bool switchCloseToMe;
 
   FiltersStatus(

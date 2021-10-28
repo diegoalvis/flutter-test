@@ -37,17 +37,27 @@ import 'service/unmissable_service.dart';
 import 'service/zone_service.dart';
 
 class ApiInteractor {
-  Future<IdtResult<List<DataModel>?>> getPlacesList(
-      Map params, Map? oldFilters, String lan) async {
+  Future<IdtResult<List<DataModel>?>> getPlacesListGoFilter(
+      Map<String,String> params, String lan) async {
+
     final response =
-        await locator<FilterService>().getPlaces(params, oldFilters, lan);
+    await locator<FilterService>().getPlacesListGoFilter(params, lan);
 
     return response;
   }
 
-  //TODO solucionar la parte de subcategoria
+  Future<IdtResult<List<DataModel>?>> getPlacesList(
+      Map<String,dynamic> params, Map<String,dynamic> oldFilters,String lan ) async {
+
+    final response =
+        await locator<FilterService>().getPlaces(params, oldFilters,  lan);
+
+    return response;
+  }
+
+  //TODO funciona bien desde Discover page
   Future<IdtResult<List<DataModel>?>> getPlacesSubcategory(
-      String id, String lan) async {
+      String id, [String? lan]) async {
     final response =
         await locator<FilterService>().getPlaceSubcategories(id, lan);
 

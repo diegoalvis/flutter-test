@@ -88,7 +88,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     }
 
     //Recargando Diseño
-    List<StaggeredTile> listDesing = desingGrid(places);
+    List<StaggeredTile> listDesing = redesignGridFilter(places);
 
     status = status.copyWith(
         filterSubcategory: filtersSubcategory,
@@ -129,16 +129,34 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     status = status.copyWith(openMenuFilter: false);
   }
 
-  void getDataFilterAll(DataModel item, String section) async {
-    status = status.copyWith(isLoading: true);
-    final Map query = {section: item.id};
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
+  void getDataFilterAll(DataModel item, String section) async {
+    //Hacer validacion cuando se seleccione la misma opcion
+
+    status = status.copyWith(isLoading: true);
+    Map<String,dynamic> query = {section: item.id};
+    languageUser = BoxDataSesion.getLaguageByUser();
+    //get language User Prefered
+
+    if (section == 'subcategory') {
+      final itemsSubCat =
+      await _interactor.getPlacesSubcategory(item.id, languageUser);
+
+      if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
+        final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
+        query = {section: listIds};
+      }
+    } else {
+      query = {section: item.id};
+    }
+    print(query);
+    //Asta aqui todo bien
+    final response = await _interactor.getPlacesList( query, status.oldFilters!,languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
-      status = status.copyWith(placesFilter: places, section: item.title);
+      List<StaggeredTile> listDesing = redesignGridFilter(response.body);
+      status = status.copyWith(placesFilter: places, section: item.title,staggedList: listDesing);
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
@@ -156,7 +174,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     final List<String> codesSubategory = [];
     final List<String> codesZones = [];
 
-    final Map query = {};
+    final Map<String,dynamic> query = {};
     String listQuery = '';
     status.filterCategory.forEach((element) {
       if (element != null) {
@@ -193,15 +211,16 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       query['zone'] = listQuery;
       listQuery = '';
     }
-    final response = await _interactor.getPlacesList(query, status.oldFilters, languageUser);
-    
+    final response = await _interactor.getPlacesList(query, status.oldFilters!, languageUser);
+
     if (response is IdtSuccess<List<DataModel>?>) {
       print('Places: ${response.body!.length}');
       if (response.body!.length > 0) {
-        status = status.copyWith(placesFilter: response.body!);
+        List<StaggeredTile> listDesing = redesignGridFilter(response.body);
+        status = status.copyWith(placesFilter: response.body!,staggedList: listDesing);
       }else{
         addEffect(ShowDialogEffect());
-        status = status.copyWith(placesFilter: []);
+        status = status.copyWith(placesFilter: [],);
 
       }
       // TODO: Mostrar mensaje que no hay resultados
@@ -284,45 +303,6 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     print(latitud);
     // fecha = _currentPosition.time.toString();
   }
-  //
-  // getPlacesOffCloseToMe()async{
-  //   languageUser = BoxDataSesion.getLaguageByUser();
-  //   status = status.copyWith(isLoading: true);
-  //
-  //   late Map query;
-  //
-  //   if (status.section == 'subcategory') {
-  //     final itemsSubCat =
-  //     await _interactor.getPlacesSubcategory(item.id, languageUser);
-  //
-  //     if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
-  //       final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
-  //       query = {status.section: listIds};
-  //     }
-  //   } else {
-  //     query = {status.section: item.id};
-  //   }
-  //
-  //   final response = await _interactor.getPlacesList(query, null, languageUser);
-  //   if (response is IdtSuccess<List<DataModel>?>) {
-  //     final places = response.body!;
-  //     _route.goFilters(
-  //         section: status.section,
-  //         item: item,
-  //         categories: categories,
-  //         subcategories: subcategories,
-  //         zones: zones,
-  //         places: places,
-  //         oldFilters: query);
-  //   } else {
-  //     final erroRes = response as IdtFailure<FilterError>;
-  //     print(erroRes.message);
-  //     UnimplementedError();
-  //   }
-  //   closeMenuTab();
-  //   status = status.copyWith(isLoading: false);
-  // }
-
 
   getPlacesCloseToMe(bool isSwitch) async{
     status = status.copyWith(isLoading: true, switchCloseToMe: isSwitch);
@@ -335,7 +315,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
 
       final places = response.body!;
 
-      List<StaggeredTile> listDesing = desingGrid(places);
+      List<StaggeredTile> listDesing = redesignGridFilter(places);
 
       status = status.copyWith(placesFilter: places,staggedList: listDesing);
       // _route.goDetail(isHotel: false, detail: placesClosedToMe.body!);
@@ -362,7 +342,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     }
   }
 
-  List<StaggeredTile> desingGrid(List<DataModel>? places){
+  List<StaggeredTile> redesignGridFilter(List<DataModel>? places){
     int count = 0;
 
     final List<StaggeredTile> listStaggered = places!.asMap().entries.map((entry) {
