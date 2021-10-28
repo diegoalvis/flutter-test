@@ -60,38 +60,11 @@ class FilterService {
     params['lan'] = lanUser;
 
     params.addAll(oldParams);
-
-    //
-    // if (params[0].keys.toString() == 'subcategory') {
-    //   final itemsSubCat =
-    //   await _interactor.getPlacesSubcategory(params.values.toString(),);
-    //
-    //   if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
-    //     final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
-    //     query = {params.keys: listIds};
-    //   }
-    // }
-    // else {
-    //   query = {status.section: item.id};
-    // }
-
-    // params.forEach((key, value) {
-    //   queryParameters[key] = value;
-    //   print('queryes');
-    //   print(queryParameters);
-    //   print(params);
-    //
-    // }
-    // );
-
-// todo arma la Uri mal, en filtro, llega mal la subcategoria.
-//     if(oldParams == null){
-//       await getAllParams(params, queryParameters);
-//     }else if(oldParams.keys != 'subcategory'){
-//       oldParams.forEach((key, value) {
-//         queryParameters[key] = value;
-//       });
-//     }
+    //Todo validar cuando es la misma Key
+    // if (oldParams.keys == params.keys) {
+    //   params = params;
+    // } else
+    //   params.addAll(oldParams);
 
     final uri = Uri.https(IdtConstants.url_server, '/place', params);
 
@@ -122,63 +95,6 @@ class FilterService {
     }
   }
 
-  // Future<void> getAllParams(Map<dynamic, dynamic> params, Map<String, dynamic>? queryParameters) async {
-  //   List<Stream> listSubcategory = [];
-  //   List<String> listIdsSubcategory = [];
-  //
-  //   // Se obtienen las listas para manejo más fácil en ciclo for
-  //   final keys = params.keys.toList();
-  //   final values = params.values.toList();
-  //
-  //
-  //   for (var i = 0; i < params.keys.length; i++) {
-  //
-  //     // En caso de ser subcategoria, se consulta con el api de subcategoria para recuperar sus ID
-  //     if (keys[i] == 'subcategory') {
-  //       List<String> ids = (values[i] as String).split(",");
-  //         String languageUser = BoxDataSesion.getLaguageByUser();
-  //
-  //
-  //       ids.forEach((id) {
-  //         // Se prepara una lista de peticiones
-  //         listSubcategory.add(
-  //           locator<ApiInteractor>().getPlacesSubcategory(id, languageUser ).asStream(),
-  //         );
-  //       });
-  //
-  //       // Se ejecutan en bloque la lista de peticiones de subcategorias
-  //       await Rx.forkJoinList(listSubcategory)
-  //           .listen((event) async {
-  //
-  //             // Se recibe un array de respuestas de cada petición
-  //             event.forEach((element) {
-  //
-  //               // Se analiza cada respuesta
-  //               if (element is IdtSuccess<List<DataModel>?>) {
-  //
-  //                 // Cada subcategoria arroja una serie de ids, estos se recuperan en una lista.
-  //                 List<DataModel> dato = element.body as List<DataModel>;
-  //                 dato.forEach((element) {
-  //                   listIdsSubcategory.add(element.id);
-  //                 });
-  //               } else {
-  //                 print('❌ Error en consulta de una subcategoria');
-  //               }
-  //             });
-  //           })
-  //           .asFuture()
-  //           .then((value) {
-  //
-  //             if (listIdsSubcategory.length > 0) {
-  //               // Finalmente, para la la agrupación de subcategory, la lista de ids se une separado por comas,
-  //               queryParameters![keys[i]] = listIdsSubcategory.join(",");
-  //             }
-  //           });
-  //     } else {
-  //       queryParameters![keys[i]] = values[i];
-  //     }
-  //   }
-  // }
 
   Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(
       String id, String? lanUser) async {
@@ -256,12 +172,14 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<AudiosModel?>> getAudiosById(String id,String languageUser ) async {
+  Future<IdtResult<AudiosModel?>> getAudiosById(
+      String id, String languageUser) async {
     var queryParameters = {
       'lan': languageUser,
     };
 
-    final uri = Uri.https(IdtConstants.url_server, '/audio/' +id,queryParameters);
+    final uri =
+        Uri.https(IdtConstants.url_server, '/audio/' + id, queryParameters);
 
     print("uri");
     print(uri);
@@ -272,18 +190,20 @@ class FilterService {
       final body = json.decode(response.body);
       print(body);
       switch (response.statusCode) {
-        case 200: {
-          final entity = AudiosResponseModel.fromJson(body);
-          print("entity.data");
-          print(entity.data);
-          return IdtResult.success(entity.data);
-        }
+        case 200:
+          {
+            final entity = AudiosResponseModel.fromJson(body);
+            print("entity.data");
+            print(entity.data);
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
