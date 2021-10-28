@@ -118,19 +118,15 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   void launchMap(String location) async {
-    print('Abriendo Map');
-    String latitude = location.split(", ").first;
-    String longitude = location.split(", ").last;
+    print('Abriendo Map del Detalle');
+    String longitude = location.split(", ").first;
+    String latitude = location.split(", ").last;
     final double lat = double.parse(latitude);
     final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Error al lanzar la url: $url';
-    }
-  }
+    await launch(url);
 
+  }
   pushPlaceVisitedStorageLocal(DataPlacesDetailModel placeNew) async {
     try {
       List<dynamic> list = [];

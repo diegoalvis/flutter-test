@@ -426,7 +426,9 @@ class _DetailWidgetState extends State<DetailWidget> {
                               viewModel.launchMap(widget._detail.location!),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print('Como llegar de detalle presionado');
+                      },
                     ),
                     SizedBox(height: 20),
                     AutoSizeText('Como llegar',
