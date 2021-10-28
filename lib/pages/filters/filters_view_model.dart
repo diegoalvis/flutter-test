@@ -1,8 +1,7 @@
-import 'package:bogota_app/data/local/user.dart';
+import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
-import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/discover/discover_page.dart';
 import 'package:bogota_app/pages/filters/filters_status.dart';
 import 'package:bogota_app/utils/errors/filter_error.dart';
@@ -151,15 +150,22 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     }
     print(query);
     //Asta aqui todo bien
+
     final response = await _interactor.getPlacesList( query, status.oldFilters!,languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
       List<StaggeredTile> listDesing = redesignGridFilter(response.body);
-      status = status.copyWith(placesFilter: places, section: item.title,staggedList: listDesing);
+      status = status.copyWith(
+        placesFilter: places,
+        section: item.title,
+        staggedList: listDesing,
+        oldFilters: query,
+      );
     } else {
       final erroRes = response as IdtFailure<FilterError>;
       print(erroRes.message);
+
       UnimplementedError();
     }
     closeMenuTab();
@@ -187,10 +193,26 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       query['category'] = listQuery;
       listQuery = '';
     }
-
+    //TODO sedebe primero consultar el value.
     status.filterSubcategory.forEach((element) {
       if (element != null) {
         listQuery.isEmpty ? listQuery = element.id : listQuery += ',' + element.id;
+        // if (element == 'subcategory') {
+        //   final itemsSubCat =
+        //       await _interactor.getPlacesSubcategory(item.id, languageUser);
+        //
+        //   if (itemsSubCat is IdtSuccess<List<DataModel>?>) {
+        //     final listIds = itemsSubCat.body!.map((e) => e.id).toList().join(",");
+        //     query = {section: listIds};
+        //   }
+        // } else {
+        //   query = {section: item.id};
+        // }
+        // print(query);
+        //Asta aqui todo bien
+        // final response = await _interactor.getPlacesList( query, status.oldFilters!,languageUser);
+
+
         codesSubategory.add(element.id);
       }
     });

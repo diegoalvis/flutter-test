@@ -59,12 +59,11 @@ class FilterService {
 
     params['lan'] = lanUser;
 
-    params.addAll(oldParams);
+    // params.addAll(oldParams);
     //Todo validar cuando es la misma Key
-    // if (oldParams.keys == params.keys) {
-    //   params = params;
-    // } else
-    //   params.addAll(oldParams);
+    if (!oldParams.containsKey('subcategory') ) {
+      params.addAll(oldParams);
+    }
 
     final uri = Uri.https(IdtConstants.url_server, '/place', params);
 
