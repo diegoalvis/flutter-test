@@ -61,7 +61,7 @@ class FilterService {
 
     // params.addAll(oldParams);
     //Todo validar cuando es la misma Key
-    if (!oldParams.containsKey('subcategory') ) {
+    if (!oldParams.containsKey(params.keys.first) ) {
       params.addAll(oldParams);
     }
 
