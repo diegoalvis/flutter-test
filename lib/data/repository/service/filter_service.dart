@@ -17,27 +17,13 @@ import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
 class FilterService {
-  //Este metodo trae los lugares apenas se entra al filter Page
-  Future<IdtResult<List<DataModel>?>> getPlaces(Map params, Map? oldParams,String lanUser) async {
-    Map<String, dynamic> queryParameters = {'lan':lanUser};
+  late final ApiInteractor _interactor;
 
-    params.forEach((key, value) {
-      queryParameters[key] = value;
-    });
+  Future<IdtResult<List<DataModel>?>> getPlacesListGoFilter(
+      Map<String, String> params, String lanUser) async {
+    params["lan"] = lanUser;
 
-// todo arma la Uri mal, en filtro, llega mal la subcategoria.
-    if(oldParams == null){
-      await getAllParams(params, queryParameters);
-    }else {
-      oldParams.forEach((key, value) {
-        queryParameters[key] = value;
-      });
-    }
-
- 
-
-    print('Parametro: $queryParameters');
-    final uri = Uri.https(IdtConstants.url_server, '/place', queryParameters);
+    final uri = Uri.https(IdtConstants.url_server, '/place', params);
 
     final response = await http.get(uri);
 
@@ -45,17 +31,19 @@ class FilterService {
       final body = json.decode(response.body);
 
       switch (response.statusCode) {
-        case 200: {
-          final entity = ResponseModel.fromJson(body);
+        case 200:
+          {
+            final entity = ResponseModel.fromJson(body);
 
-          return IdtResult.success(entity.data);
-        }
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
@@ -64,84 +52,36 @@ class FilterService {
     }
   }
 
-  Future<void> getAllParams(Map<dynamic, dynamic> params, Map<String, dynamic> queryParameters) async {
-    List<Stream> listSubcategory = [];
-    List<String> listIdsSubcategory = [];
-    
-    // Se obtienen las listas para manejo más fácil en ciclo for
-    final keys = params.keys.toList();
-    final values = params.values.toList();
+  //Este metodo trae los lugares apenas se entra al filter Page
+  Future<IdtResult<List<DataModel>?>> getPlaces(Map<String, dynamic> params,
+      Map<String, dynamic> oldParams, String lanUser) async {
+    // Map<String, dynamic>? queryParameters;
 
+    params['lan'] = lanUser;
 
-    for (var i = 0; i < params.keys.length; i++) {
-
-      // En caso de ser subcategoria, se consulta con el api de subcategoria para recuperar sus ID
-      if (keys[i] == 'subcategory') {
-        List<String> ids = (values[i] as String).split(",");
-
-
-        ids.forEach((id) {
-          // Se prepara una lista de peticiones
-          String languageUser = BoxDataSesion.getLaguageByUser();
-          listSubcategory.add(
-            locator<ApiInteractor>().getPlacesSubcategory(id, languageUser ).asStream(),
-          );
-        });
-
-        // Se ejecutan en bloque la lista de peticiones de subcategorias
-        await Rx.forkJoinList(listSubcategory)
-            .listen((event) async {
-
-              // Se recibe un array de respuestas de cada petición
-              event.forEach((element) {
-
-                // Se analiza cada respuesta
-                if (element is IdtSuccess<List<DataModel>?>) {
-
-                  // Cada subcategoria arroja una serie de ids, estos se recuperan en una lista.
-                  List<DataModel> dato = element.body as List<DataModel>;
-                  dato.forEach((element) {
-                    listIdsSubcategory.add(element.id);
-                  });
-                } else {
-                  print('❌ Error en consulta de una subcategoria');
-                }
-              });
-            })
-            .asFuture()
-            .then((value) {
-
-              if (listIdsSubcategory.length > 0) {
-                // Finalmente, para la la agrupación de subcategory, la lista de ids se une separado por comas,
-                queryParameters[keys[i]] = listIdsSubcategory.join(",");
-              }
-            });
-      } else {
-        queryParameters[keys[i]] = values[i];
-      }
+    // params.addAll(oldParams);
+    //Todo validar cuando es la misma Key
+    if (!oldParams.containsKey(params.keys.first) ) {
+      params.addAll(oldParams);
     }
-  }
 
-
-  Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(String id, String lanUser) async {
-    var queryParameters = {
-      'lan': lanUser,
-    };
-    final uri = Uri.https(IdtConstants.url_server, '/subcategory/' +id,queryParameters);
+    final uri = Uri.https(IdtConstants.url_server, '/place', params);
 
     final response = await http.get(uri);
 
     try {
       final body = json.decode(response.body);
-      print(body);
+
       switch (response.statusCode) {
-        case 200: {
+        case 200:
+          {
             final entity = ResponseModel.fromJson(body);
-            print(entity.data);
+
             return IdtResult.success(entity.data);
           }
 
-        default: {
+        default:
+          {
             final error = FilterError('Capturar el error', response.statusCode);
 
             return IdtResult.failure(error);
@@ -155,12 +95,52 @@ class FilterService {
   }
 
 
-  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(String id,String languageUser ) async {
+  Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(
+      String id, String? lanUser) async {
+    Map<String, String>? queryParameters;
+    if (lanUser != null) {
+      queryParameters = {
+        'lan': lanUser,
+      };
+    }
+    final uri = Uri.https(
+        IdtConstants.url_server, '/subcategory/' + id, queryParameters);
+
+    final response = await http.get(uri);
+
+    try {
+      final body = json.decode(response.body);
+      print(body);
+      switch (response.statusCode) {
+        case 200:
+          {
+            final entity = ResponseModel.fromJson(body);
+            print(entity.data);
+            return IdtResult.success(entity.data);
+          }
+
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
+
+            return IdtResult.failure(error);
+          }
+      }
+    } on StateError catch (err) {
+      final error = FilterError(err.message, response.statusCode);
+
+      return IdtResult.failure(error);
+    }
+  }
+
+  Future<IdtResult<DataPlacesDetailModel?>> getPlaceById(
+      String id, String languageUser) async {
     var queryParameters = {
       'lan': languageUser,
     };
 
-    final uri = Uri.https(IdtConstants.url_server, '/place/' +id,queryParameters);
+    final uri =
+        Uri.https(IdtConstants.url_server, '/place/' + id, queryParameters);
 
     print("uri");
     print(uri);
@@ -170,17 +150,19 @@ class FilterService {
       final body = json.decode(response.body);
       print(body);
       switch (response.statusCode) {
-        case 200: {
-          final entity = ResponseDetailModel.fromJson(body);
-          print(entity.data);
-          return IdtResult.success(entity.data);
-        }
+        case 200:
+          {
+            final entity = ResponseDetailModel.fromJson(body);
+            print(entity.data);
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
@@ -189,12 +171,14 @@ class FilterService {
     }
   }
 
-  Future<IdtResult<AudiosModel?>> getAudiosById(String id,String languageUser ) async {
+  Future<IdtResult<AudiosModel?>> getAudiosById(
+      String id, String languageUser) async {
     var queryParameters = {
       'lan': languageUser,
     };
 
-    final uri = Uri.https(IdtConstants.url_server, '/audio/' +id,queryParameters);
+    final uri =
+        Uri.https(IdtConstants.url_server, '/audio/' + id, queryParameters);
 
     print("uri");
     print(uri);
@@ -205,18 +189,20 @@ class FilterService {
       final body = json.decode(response.body);
       print(body);
       switch (response.statusCode) {
-        case 200: {
-          final entity = AudiosResponseModel.fromJson(body);
-          print("entity.data");
-          print(entity.data);
-          return IdtResult.success(entity.data);
-        }
+        case 200:
+          {
+            final entity = AudiosResponseModel.fromJson(body);
+            print("entity.data");
+            print(entity.data);
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = FilterError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = FilterError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
     } on StateError catch (err) {
       final error = FilterError(err.message, response.statusCode);
@@ -226,11 +212,11 @@ class FilterService {
   }
 
   Future<IdtResult<List<DataModel>?>> getCategories(String lanUser) async {
-
     var queryParameters = {
       'lan': lanUser,
     };
-    final uri = Uri.https(IdtConstants.url_server, '/category',queryParameters);
+    final uri =
+        Uri.https(IdtConstants.url_server, '/category', queryParameters);
 
     final response = await http.get(uri);
 
@@ -263,7 +249,8 @@ class FilterService {
     final queryParameters = {
       'lan': lanUser,
     };
-    final uri = Uri.https(IdtConstants.url_server, '/subcategory',queryParameters);
+    final uri =
+        Uri.https(IdtConstants.url_server, '/subcategory', queryParameters);
 
     final response = await http.get(uri);
 
