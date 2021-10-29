@@ -377,8 +377,8 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                 children: [
                   IconButton(
                     icon: SvgPicture.asset(
-                      IdtAssets.back,
-                      color: IdtColors.black.withOpacity(0.9),
+                      IdtAssets.back_white,
+                      color: IdtColors.white,
                     ),
                     iconSize: 52,
                     padding: EdgeInsets.only(left: 10, bottom: 4),

@@ -402,31 +402,24 @@ class _DetailWidgetState extends State<DetailWidget> {
           viewModel.validationEmptyResponse(widget._detail.location)
               ? Column(
                   children: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: IdtColors.orange, width: 1),
-                          borderRadius: BorderRadius.circular(80.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Container(
-                        constraints:
-                            BoxConstraints(maxWidth: 100.0, maxHeight: 55),
-                        decoration: StylesMethodsApp().decorarStyle(
-                            IdtGradients.orange,
-                            30,
-                            Alignment.bottomRight,
-                            Alignment.topLeft),
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          icon: Icon(
-                            IdtIcons.mappin,
-                            color: IdtColors.white,
-                            size: 40,
-                          ),
-                          onPressed: () =>
-                              viewModel.launchMap(widget._detail.location!),
+                    Container(
+                      constraints:
+                          BoxConstraints(maxWidth: 100.0, maxHeight: 55),
+                      decoration: StylesMethodsApp().decorarStyle(
+                          IdtGradients.orange,
+                          30,
+                          Alignment.bottomRight,
+                          Alignment.topLeft),
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: Icon(
+                          IdtIcons.mappin,
+                          color: IdtColors.white,
+                          size: 40,
                         ),
+                        onPressed: () =>
+                            viewModel.launchMap(widget._detail.location!),
                       ),
-                      onPressed: () {},
                     ),
                     SizedBox(height: 20),
                     AutoSizeText('Como llegar',
