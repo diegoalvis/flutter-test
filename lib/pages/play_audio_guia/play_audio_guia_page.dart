@@ -65,7 +65,7 @@ class PlayAudioGuiaWidget extends StatefulWidget {
 
 class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
     with SingleTickerProviderStateMixin {
-  late AudioPlayer _audioPlayer;
+  //late AudioPlayer _audioPlayer;
   final testdata = testData(); //instacia para acceder al data Mock
   bool offlineMode = true;
   final _route = locator<IdtRoute>();
@@ -75,17 +75,14 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
   StreamSubscription<PlayAudioGuiaEffect>? _effectSubscription;
   List<AudioSource> audiosService = [];
   List audiosPlayList=[];
-
+  late  AudioPlayer   _audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
-
     // Hardcoded audio sources
     // TODO: Get sources with a network call, or at least move to a separated file.
     print("testdata.ListURIexample");
     print(testdata.ListURIexample);
-
 
     for (var i=0; i<widget._detail.audios!.length; i++) {
       Map audiosPlay= {};
@@ -116,7 +113,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
 
   @override
   void dispose() {
-    _player.dispose();
+
     _audioPlayer.dispose();
     super.dispose();
   }
