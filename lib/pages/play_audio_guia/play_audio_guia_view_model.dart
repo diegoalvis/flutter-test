@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
+import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/configure/idt_route.dart';
@@ -41,7 +42,6 @@ class PlayAudioGuiaViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayA
   void onInit() async {
 
     initConnectivity();
-
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);   
   }
@@ -49,6 +49,10 @@ class PlayAudioGuiaViewModel extends EffectsViewModel<PlayAudioGuiaStatus, PlayA
   void dispose() {
     _connectivitySubscription.cancel();
     super.dispose();
+  }
+
+  getAvalibleLangu(){
+    List<LanguageModel> langAvalibles = BoxDataSesion.getLanguagesAvalible();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

@@ -11,6 +11,7 @@ import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/model/audios_model.dart';
+import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/mock/data/testData.dart';
@@ -28,6 +29,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+
 //import 'package:googleapis/vision/v1.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +46,8 @@ class PlayAudioGuiaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => PlayAudioGuiaViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) =>
+          PlayAudioGuiaViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return PlayAudioGuiaWidget(detail!);
       },
@@ -65,7 +68,6 @@ class PlayAudioGuiaWidget extends StatefulWidget {
 
 class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
     with SingleTickerProviderStateMixin {
-  //late AudioPlayer _audioPlayer;
   final testdata = testData(); //instacia para acceder al data Mock
   bool offlineMode = true;
   final _route = locator<IdtRoute>();
@@ -74,28 +76,27 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
   bool firstValidate = false;
   StreamSubscription<PlayAudioGuiaEffect>? _effectSubscription;
   List<AudioSource> audiosService = [];
-  List audiosPlayList=[];
-  late  AudioPlayer   _audioPlayer = AudioPlayer();
+  List audiosPlayList = [];
+  late AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
-    // Hardcoded audio sources
-    // TODO: Get sources with a network call, or at least move to a separated file.
     print("testdata.ListURIexample");
     print(testdata.ListURIexample);
 
-    for (var i=0; i<widget._detail.audios!.length; i++) {
-      Map audiosPlay= {};
+    for (var i = 0; i < widget._detail.audios!.length; i++) {
+      Map audiosPlay = {};
       print(widget._detail.audios![i]);
-      audiosPlay={
+      audiosPlay = {
         'title': widget._detail.title,
-        'part': i+1,
+        'part': i + 1,
         'audio': widget._detail.audios![i],
         'image': IdtConstants.testImage
       };
       audiosPlayList.add(audiosPlay);
-      audiosService.add( AudioSource.uri(
-        Uri.parse(IdtConstants.url_image+widget._detail.audios![i]),
+      audiosService.add(AudioSource.uri(
+        Uri.parse(IdtConstants.url_image + widget._detail.audios![i]),
       ));
     }
 
@@ -113,14 +114,12 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
 
   @override
   void dispose() {
-
     _audioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<PlayAudioGuiaViewModel>();
     print("widget._detail");
     print(widget._detail.title);
@@ -148,12 +147,66 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
           "id": index,
           "title": "This is the title $index",
           "subtitle": "This is the subtitle $index"
-        };});
+        };
+      });
       return Container(
         child: SingleChildScrollView(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 60,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        IdtAssets.back_white,
+                        color: IdtColors.white,
+                      ),
+                      iconSize: 52,
+                      padding: EdgeInsets.only(left: 10, bottom: 4),
+                      alignment: Alignment.bottomCenter,
+                      onPressed: _route.pop,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 2,
+                          color: IdtColors.white,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: IdtColors.black.withOpacity(0.6),
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: DropdownButton(
+                        items: _dropdownValues
+                            .map((value) => DropdownMenuItem(
+                                  child: Text(
+                                    value,
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.textButtomWhite,
+                                  ),
+                                  value: value,
+                                ))
+                            .toList(),
+                        isExpanded: false,
+                        iconSize: 30,
+                        value: viewModel.status.language,
+                        iconEnabledColor: Colors.white,
+                        dropdownColor: IdtColors.black.withOpacity(0.4),
+                        style: textTheme.titleGray,
+                        hint: Text('Español'),
+                        onChanged: viewModel.selectLanguage,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 30,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 child: Text(
@@ -165,33 +218,36 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                 ),
               ),
               Text(
-                widget._detail.audios!.length.toString()+ ' Pista(s) de audio',
-                style:
-                textTheme.textWhiteShadow.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                widget._detail.audios!.length.toString() + ' Pista(s) de audio',
+                style: textTheme.textWhiteShadow
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
                 '34:55 minutos ',
-                style:
-                textTheme.textWhiteShadow.copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                style: textTheme.textWhiteShadow
+                    .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 10,
               ),
               IconButton(
                   icon: Icon(
-                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
-                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
+                    viewModel.status.isFavorite
+                        ? IdtIcons.heart2
+                        : Icons.favorite_border,
+                    color: viewModel.status.isFavorite
+                        ? IdtColors.red
+                        : IdtColors.white,
                   ),
-                  padding: EdgeInsets.only(right: 20.0),
                   iconSize: 35,
                   onPressed: BoxDataSesion.isLoggedIn
                       ? viewModel.onTapFavorite
                       : () {
-                    viewModel.dialogSuggestionLoginSavedPlace();
-                  }),
+                          viewModel.dialogSuggestionLoginSavedPlace();
+                        }),
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.network(
@@ -227,7 +283,8 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
               ),
               PlayerButtons(_audioPlayer),
               Container(
-                  padding: EdgeInsets.only(top: 8, bottom: 8, left: 35, right: 25),
+                  padding:
+                      EdgeInsets.only(top: 8, bottom: 8, left: 35, right: 25),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black.withOpacity(0.5),
@@ -241,70 +298,96 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                       SizedBox(
                         height: 10,
                       ),
-                      //TODO progreso de la reproduccion color
-                      LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                      LayoutBuilder(builder:
+                          (BuildContext context, BoxConstraints constraints) {
                         if (MediaQuery.of(context).size.width < 390) {
-                          widget.sizeContainer = MediaQuery.of(context).size.width / 2;
+                          widget.sizeContainer =
+                              MediaQuery.of(context).size.width / 2;
                         } else {
-                          widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
+                          widget.sizeContainer =
+                              MediaQuery.of(context).size.width / 1.65;
                         }
                         return Stack(
                           children: [
                             ImageAnimatedContainer(
-                                width: widget.sizeContainer, imagePath: IdtAssets.waves),
+                                width: widget.sizeContainer,
+                                imagePath: IdtAssets.waves),
                             StreamBuilder<Duration>(
                                 stream: _audioPlayer.positionStream,
                                 builder: (context, snapshot) {
-                                  format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
-                                  final currentPosition = snapshot.data?.inSeconds ?? 0;
-                                  final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
+                                  format(Duration? d) =>
+                                      d?.toString().substring(2, 7) ?? " ";
+                                  final currentPosition =
+                                      snapshot.data?.inSeconds ?? 0;
+                                  final totalDuration =
+                                      _audioPlayer.duration?.inSeconds ?? 1;
                                   final timeCurrent = format(snapshot.data);
-                                  final totalTime = format(_audioPlayer.duration);
-                                  final progresAudio = currentPosition / totalDuration; //es un %
-                                  final widthAudio =
-                                      widget.sizeContainer * (currentPosition / totalDuration);
+                                  final totalTime =
+                                      format(_audioPlayer.duration);
+                                  final progresAudio =
+                                      currentPosition / totalDuration; //es un %
+                                  final widthAudio = widget.sizeContainer *
+                                      (currentPosition / totalDuration);
                                   return IntrinsicWidth(
                                     child: Column(
                                       children: [
                                         Stack(
                                           children: [
                                             ImageAnimatedContainer(
-                                                width: widthAudio, imagePath: IdtAssets.waves_front),
+                                                width: widthAudio,
+                                                imagePath:
+                                                    IdtAssets.waves_front),
                                             Container(
                                               width: widget.sizeContainer,
                                               child: SliderTheme(
-                                                data: SliderTheme.of(context).copyWith(
-                                                  trackShape: CustomSliderTrackShape(),
+                                                data: SliderTheme.of(context)
+                                                    .copyWith(
+                                                  trackShape:
+                                                      CustomSliderTrackShape(),
                                                   trackHeight: 0.0,
-                                                  thumbShape: RoundSliderThumbShape(
+                                                  thumbShape:
+                                                      RoundSliderThumbShape(
                                                     enabledThumbRadius: 0,
                                                   ),
                                                   overlayShape:
-                                                  RoundSliderOverlayShape(overlayRadius: 20.0),
+                                                      RoundSliderOverlayShape(
+                                                          overlayRadius: 20.0),
                                                 ),
                                                 child: Slider(
                                                     min: 0.0,
-                                                    max: totalDuration.toDouble(),
-                                                    value: currentPosition.toDouble(),
+                                                    max: totalDuration
+                                                        .toDouble(),
+                                                    value: currentPosition
+                                                        .toDouble(),
                                                     onChanged: (pos) {
-                                                      _audioPlayer
-                                                          .seek(Duration(seconds: pos.toInt()));
+                                                      _audioPlayer.seek(
+                                                          Duration(
+                                                              seconds:
+                                                                  pos.toInt()));
                                                     }),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: 5,),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
                                         Row(
                                           children: [
                                             Text(
                                               timeCurrent,
-                                              style: TextStyle(color: IdtColors.white, fontSize: 10),
+                                              style: TextStyle(
+                                                  color: IdtColors.white,
+                                                  fontSize: 10),
                                             ),
                                             Spacer(),
                                             Text(totalTime,
-                                                style: TextStyle(color: IdtColors.white, fontSize: 10)),
-                                            SizedBox(width: 10,)
+                                                style: TextStyle(
+                                                    color: IdtColors.white,
+                                                    fontSize: 10)),
+                                            SizedBox(
+                                              width: 10,
+                                            )
                                           ],
                                         )
                                       ],
@@ -316,28 +399,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                       }),
                     ],
                   )),
-
               PlayListB(_audioPlayer),
-
-              SizedBox(
-                height: 50,
-              ),
-              // ListView.builder(
-              //   itemCount: dummyList.length,
-              //   itemBuilder: (context, index) => Card(
-              //     elevation: 6,
-              //     margin: EdgeInsets.all(10),
-              //     child: ListTile(
-              //       leading: CircleAvatar(
-              //         child: Text(dummyList[index]["id"].toString()),
-              //         backgroundColor: Colors.purple,
-              //       ),
-              //       title: Text(dummyList[index]["title"]),
-              //       subtitle: Text(dummyList[index]["subtitle"]),
-              //       trailing: Icon(Icons.add_a_photo),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),
@@ -351,7 +413,8 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
           width: sizeScreen.width,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(IdtConstants.url_image + widget._detail.main_img!),
+              image: NetworkImage(
+                  IdtConstants.url_image + widget._detail.main_img!),
               fit: BoxFit.cover,
             ),
           ),
@@ -362,113 +425,35 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
             ),
           ),
         ),
-        Positioned(
-          // row superior
-          top: 50,
-          right: 0,
-          left: 0,
-          child: Container(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: SvgPicture.asset(
-                      IdtAssets.back_white,
-                      color: IdtColors.white,
-                    ),
-                    iconSize: 52,
-                    padding: EdgeInsets.only(left: 10, bottom: 4),
-                    alignment: Alignment.bottomCenter,
-                    onPressed: _route.pop,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2,
-                        color: IdtColors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: IdtColors.black.withOpacity(0.6),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: DropdownButton(
-                      items: _dropdownValues
-                          .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value,
-                          textAlign: TextAlign.center,
-                          style: textTheme.textButtomWhite,
-                        ),
-                        value: value,
-                      ))
-                          .toList(),
-                      isExpanded: false,
-                      iconSize: 30,
-                      value: viewModel.status.language,
-                      iconEnabledColor: Colors.white,
-                      dropdownColor: IdtColors.black.withOpacity(0.4),
-                      style: textTheme.titleGray,
-                      hint: Text('Español'),
-                      onChanged: viewModel.selectLanguage,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        ListView(
-          children: [
-            SizedBox(
-              height: 120,
-            ),
-            _body(),
-            SizedBox(
-              height: 55,
-            ),
-            Container(
-              color: IdtColors.red,
-              height: 10,
-              width: 10,
-            )
-          ],
-        )
+        _body()
       ],
     );
   }
-  Widget PlayListB(AudioPlayer _audioPlayer){
 
-
+  Widget PlayListB(AudioPlayer _audioPlayer) {
     return Container(
       width: 270,
       height: 300,
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(8),
-          itemCount:audiosPlayList.length,
+          itemCount: audiosPlayList.length,
           itemBuilder: (BuildContext context, int index) {
             // print(_audioPlayerTotal.sequence![1]);
             print("audiosPlayList abajo");
             print(json.encode(audiosPlayList[index]));
             final data = json.encode(audiosPlayList[index]);
             Map<String, dynamic> datos = jsonDecode(data.toString());
-            List<AudioSource> audioService=[];
+            List<AudioSource> audioService = [];
 
-            print(IdtConstants.url_image+datos['audio']);
-            audiosService.add( AudioSource.uri(
-              Uri.parse(IdtConstants.url_image+datos['audio']),
+            print(IdtConstants.url_image + datos['audio']);
+            audiosService.add(AudioSource.uri(
+              Uri.parse(IdtConstants.url_image + datos['audio']),
             ));
 
             format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
 
-
             return Container(
-
                 padding: EdgeInsets.only(top: 8, bottom: 8, left: 1, right: 35),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -482,39 +467,42 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                         Container(
                           height: 42,
                           alignment: Alignment.centerLeft,
-                          child: ButtonPlayer( _audioPlayer, index),
+                          child: ButtonPlayer(_audioPlayer, index),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Container(
-
                           alignment: Alignment.centerLeft,
                           width: 160,
                           child: AutoSizeText(
-                            (datos['part'].toString() + '/'+ audiosPlayList.length.toString() + '  '+datos['title']),
+                            (datos['part'].toString() +
+                                '/' +
+                                audiosPlayList.length.toString() +
+                                '  ' +
+                                datos['title']),
                             maxLines: 2,
                             textAlign: TextAlign.left,
                             minFontSize: 11,
                             maxFontSize: 12,
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         )
-
-
                       ],
                     ),
-
                     Container(
-
-                      margin: EdgeInsets.only(left: 58) ,
+                      margin: EdgeInsets.only(left: 58),
                       alignment: Alignment.centerLeft,
-                      child: Text(format(_audioPlayer.duration).toString(),style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        format(_audioPlayer.duration).toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )
                   ],
                 ));
-          }
-      ),
+          }),
     );
   }
 }
@@ -529,7 +517,8 @@ class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
   }) {
     final double? trackHeight = sliderTheme.trackHeight;
     final double trackLeft = offset.dx;
-    final double trackTop = offset.dy + (parentBox.size.height - trackHeight!) / 2;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight!) / 2;
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
