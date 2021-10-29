@@ -32,18 +32,22 @@ class EventDetailViewModel extends ViewModel<EventDetailStatus> {
     status = status.copyWith(isFavorite: !value);
   }
 
- void launchMap(String location) async {
-    String longitude = location.split(", ").first;
-    String latitude = location.split(", ").last;
+  void launchMap(String location) async {
+    print('Abriendo Map del Detalle');
+
+    List<String> newLoc = location.split(", ");
+    String latitude, longitude;
+    if (newLoc[0].contains('-')) {
+      longitude = newLoc.first;
+      latitude = newLoc.last;
+    } else{
+      latitude = newLoc.first;
+      longitude = newLoc.last;
+    }
     final double lat = double.parse(latitude);
     final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
     await launch(url);
-
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else throw 'Error al lanzar la url: $url';
-
   }
 
 

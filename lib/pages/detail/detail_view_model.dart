@@ -68,11 +68,13 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
   }
 
   Future<bool> isFavorite(String id) async {
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     bool isFavorite = false;
     // Actualización de lugares guardados/favoritos
-    final dynamic savedPlaces = await _interactor.getSavedPlacesList(languageUser);
+    final dynamic savedPlaces =
+        await _interactor.getSavedPlacesList(languageUser);
     if (savedPlaces is IdtSuccess<List<DataAudioGuideModel>?>) {
       List places = savedPlaces.body!;
 
@@ -89,7 +91,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     return isFavorite;
   }
 
-  void onChangeScrollController(int duration,bool value, double width) {
+  void onChangeScrollController(int duration, bool value, double width) {
     addEffect(DetailControllerScrollEffect(duration, width, value));
   }
 
@@ -119,14 +121,22 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
 
   void launchMap(String location) async {
     print('Abriendo Map del Detalle');
-    String longitude = location.split(", ").first;
-    String latitude = location.split(", ").last;
+
+    List<String> newLoc = location.split(", ");
+    String latitude, longitude;
+    if (newLoc[0].contains('-')) {
+      longitude = newLoc.first;
+      latitude = newLoc.last;
+    } else{
+      latitude = newLoc.first;
+      longitude = newLoc.last;
+    }
     final double lat = double.parse(latitude);
     final double lon = double.parse(longitude);
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
     await launch(url);
-
   }
+
   pushPlaceVisitedStorageLocal(DataPlacesDetailModel placeNew) async {
     try {
       List<dynamic> list = [];
@@ -163,7 +173,7 @@ class DetailViewModel extends EffectsViewModel<DetailStatus, DetailEffect> {
     return shouldPop;
   }
 
-  dialogSuggestionLoginSavedPlace(){
+  dialogSuggestionLoginSavedPlace() {
     addEffect(ShowDialogAddSavedPlaceEffect());
   }
 }
