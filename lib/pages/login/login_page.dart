@@ -181,7 +181,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               Form(
                 key: _formKey,
                 child: Container(
-                  height: sizeScreen.height * 0.6,
+                  height: sizeScreen.height * 0.64,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
@@ -265,7 +265,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         SizedBox(
                           height: 12,
                         ),
-                        Spacer(),
+
                         InkWell(
                           onTap: () => viewModel.rememberMe(),
                           child: Padding(
@@ -301,14 +301,14 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
               Positioned(
                 //CURVA
-                top: sizeScreen.height * 0.6,
+                top: sizeScreen.height * 0.61,
                 child: SvgPicture.asset(IdtAssets.curve_up,
                     width: sizeScreen.width,
                     color: IdtColors.white,
                     fit: BoxFit.contain),
               ),
               Positioned(
-                top: sizeScreen.height * 0.6,
+                top: sizeScreen.height * 0.62,
                 width: sizeScreen.width,
                 child: Container(
                   height: sizeScreen.height * 0.4,
