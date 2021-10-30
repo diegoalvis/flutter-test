@@ -81,15 +81,6 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
     cityValue = "";
     address = "";
 
-    // _controllerEmail.text = '';
-    // _controllerName.text = '';
-    // _controllerLastNames.text = '';
-    // _controllerEmail.text = '';
-    // _controllerPass.text = '';
-    // _controllerConfirmPass.text = '';
-
-    final viewModel = context.read<RegisterUserViewModel>();
-
     chargeCountriesAndCities();
     _validatePassword(_controllerPass);
     _validatePassword(_controllerConfirmPass);
@@ -97,16 +88,16 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   }
 
   _validatePassword(TextEditingController controller) {
-    controller.addListener(() {
-      if (!RegExp(r'^[a-zA-Z0-9]*$').hasMatch(controller.text)) {
-        showSnack('Solo se permiten caracteres \n alfanuméricos',
-            onPressed: null, duration: null);
-        final text = controller.text;
-        controller.text = text.replaceAll(new RegExp(r'(?![a-zA-Z0-9]).'), '');
-        controller.selection = TextSelection.fromPosition(
-            TextPosition(offset: controller.text.length));
-      }
-    });
+    // controller.addListener(() { //validacion de no caracteres especiales
+    //   if (!RegExp(r'^[a-zA-Z0-9]*$').hasMatch(controller.text)) {
+    //     // showSnack('Solo se permiten caracteres \n alfanuméricos',
+    //     //     onPressed: null, duration: null);
+    //     final text = controller.text;
+    //     controller.text = text.replaceAll(new RegExp(r'(?![a-zA-Z0-9]).'), '');
+    //     controller.selection = TextSelection.fromPosition(
+    //         TextPosition(offset: controller.text.length));
+    //   }
+    // });
   }
 
   void chargeCountriesAndCities() {
@@ -532,7 +523,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
                               validator: (value) => viewModel.validatePasswords(
                                   _controllerPass.text,
                                   _controllerConfirmPass.text),
-                              keyboardType: TextInputType.visiblePassword,
+                              keyboardType: TextInputType.url,
                               style: textTheme.textDetail,
                               controller: _controllerPass,
                               obscureText: true,
