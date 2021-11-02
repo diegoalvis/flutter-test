@@ -215,15 +215,15 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
           ),
         ));
 
-    final menuTap = viewModel.status.openMenuTab
-        ? IdtMenuTap(
-            listItems: viewModel.status.zones,
-            closeMenu: viewModel.closeMenuTab,
-            isBlue: true,
-            goFilters: (item) => viewModel.filtersForZones(
-                  item,
-                )) //viewModel.status.section
-        : SizedBox.shrink();
+    // final menuTap = viewModel.status.openMenuTab
+    //     ? IdtMenuTap(
+    //         listItems: viewModel.status.zones,
+    //         closeMenu: viewModel.closeMenuTab,
+    //         isBlue: true,
+    //         goFilters: (item) => viewModel.filtersForZones(
+    //               item,
+    //             )) //viewModel.status.section
+    //     : SizedBox.shrink();
 
     Widget _buttonFilter() {
       return Row(
@@ -327,7 +327,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             ],
           ),
         ),
-        menuTap,
+        // menuTap,
         loading,
         menu,
       ],

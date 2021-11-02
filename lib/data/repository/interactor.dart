@@ -48,10 +48,10 @@ class ApiInteractor {
   }
 
   Future<IdtResult<List<DataModel>?>> getPlacesList(
-      Map<String,dynamic> params, Map<String,dynamic> oldFilters,String lan ) async {
+      Map<String,dynamic> params, Map<String,dynamic> oldFilters,String? coordinates,String lan ) async {
 
     final response =
-        await locator<FilterService>().getPlaces(params, oldFilters,  lan);
+        await locator<FilterService>().getPlaces(params, oldFilters,coordinates,  lan);
 
     return response;
   }

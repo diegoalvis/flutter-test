@@ -53,14 +53,21 @@ class FilterService {
   }
 
   //Este metodo trae los lugares apenas se entra al filter Page
-  Future<IdtResult<List<DataModel>?>> getPlaces(Map<String, dynamic> params,
-      Map<String, dynamic> oldParams, String lanUser) async {
+  Future<IdtResult<List<DataModel>?>> getPlaces(
+      Map<String, dynamic> params,
+      Map<String, dynamic> oldParams,
+      String? coordinates,
+      String lanUser) async {
     // Map<String, dynamic>? queryParameters;
+    // if (params != null) {
+    //   params['lan'] = lanUser;
 
-    params['lan'] = lanUser;
+
+    // }
 
     // params.addAll(oldParams);
     //Todo validar cuando es la misma Key
+    if (coordinates != null) params['location'] = coordinates;
     if (!oldParams.containsKey(params.keys.first) ) {
       params.addAll(oldParams);
     }
@@ -93,7 +100,6 @@ class FilterService {
       return IdtResult.failure(error);
     }
   }
-
 
   Future<IdtResult<List<DataModel>?>> getPlaceSubcategories(
       String id, String? lanUser) async {

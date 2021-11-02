@@ -132,7 +132,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   void getDataFilterAll(DataModel item, String section) async {
     //Hacer validacion cuando se seleccione la misma opcion
 
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: true,switchCloseToMe: false);
     Map<String,dynamic> query = {section: item.id};
     languageUser = BoxDataSesion.getLaguageByUser();
     //get language User Prefered
@@ -151,7 +151,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
     print(query);
     //Asta aqui todo bien
 
-    final response = await _interactor.getPlacesList( query, status.oldFilters!,languageUser);
+    final response = await _interactor.getPlacesList( query, status.oldFilters!,null,languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       final places = response.body!;
@@ -233,7 +233,7 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
       query['zone'] = listQuery;
       listQuery = '';
     }
-    final response = await _interactor.getPlacesList(query, status.oldFilters!, languageUser);
+    final response = await _interactor.getPlacesList(query, status.oldFilters!,null, languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       print('Places: ${response.body!.length}');
@@ -329,8 +329,15 @@ class FiltersViewModel extends EffectsViewModel<FiltersStatus, FilterEffect> {
   getPlacesCloseToMe(bool isSwitch) async{
     status = status.copyWith(isLoading: true, switchCloseToMe: isSwitch);
     languageUser = BoxDataSesion.getLaguageByUser();
-    await getLoc();
-    final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser );
+    final response;
+    //Hacer validacion cuando se seleccione la misma opcion
+    if (isSwitch) {
+      await getLoc();
+      response = await _interactor.getPlacesList( {'':''}, status.oldFilters!,'$latitud,$longitud',languageUser);
+    }
+    else
+      response = await _interactor.getPlacesList( {'':''}, status.oldFilters!,null,languageUser);
+    // final response = await _interactor.getPlacesCloseToMe('$latitud,$longitud',languageUser, );
 
 
     if (response is IdtSuccess<List<DataModel>?>) {
