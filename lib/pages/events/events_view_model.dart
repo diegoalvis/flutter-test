@@ -15,6 +15,7 @@ import 'package:bogota_app/utils/errors/unmissable_error.dart';
 import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:location/location.dart';
 
 import 'events_effect.dart';
@@ -78,23 +79,18 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
   getEventsCloseToMe(bool valueSwitch, SocialEventType type) async {
     print(valueSwitch);
-    status = status.copyWith(switchCloseToMe: valueSwitch,nameFilter: 'Localidad');
+    status = status.copyWith(
+        switchCloseToMe: valueSwitch, nameFilter: 'Localidad', isLoading: true);
 
     switch (type) {
       case SocialEventType.EVENT:
-        valueSwitch ?
-        getEventCloseToMeResponse() :
-        getEventResponse();
+        valueSwitch ? getEventCloseToMeResponse() : getEventResponse();
         break;
       case SocialEventType.SLEEP:
-        valueSwitch ?
-        getSleepCloseToMeResponse() :
-        getSleepsResponse();
+        valueSwitch ? getSleepCloseToMeResponse() : getSleepsResponse();
         break;
       case SocialEventType.EAT:
-        valueSwitch ?
-        getEatCloseToMeResponse() :
-        getEatResponse();
+        valueSwitch ? getEatCloseToMeResponse() : getEatResponse();
     }
 
     status = status.copyWith(
@@ -124,7 +120,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void filtersForZones(DataModel item, String section) async {
-    status = status.copyWith(isLoading: true,switchCloseToMe: false);
+    status = status.copyWith(isLoading: true, switchCloseToMe: false);
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
@@ -136,6 +132,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
       status = status.copyWith(
           places: response.body,
           nameFilter: item.title!); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
     } else {
       final erroRes = response as IdtFailure<FilterError>;
@@ -144,15 +143,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     }
     closeMenuTab();
     status = status.copyWith(isLoading: false);
-    if (status.places.length < 1) {
-      addEffect(ShowDialogEffect());
-    }
   }
 
   void getEventCloseToMeResponse() async {
-    status = status.copyWith(
-      isLoading: true,
-    );
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     await getLoc();
@@ -161,6 +154,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
 
     if (response is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: response.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -172,7 +168,6 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEventResponse() async {
-    status = status.copyWith(isLoading: true);
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eventResponse = await _interactor.getEventPlacesList(languageUser);
@@ -180,6 +175,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     if (eventResponse is IdtSuccess<List<DataModel>?>) {
       status =
           status.copyWith(places: eventResponse.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -191,18 +189,17 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getSleepCloseToMeResponse() async {
-    status = status.copyWith(
-      isLoading: true,
-
-    );
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     await getLoc();
-    final response = await _interactor.getSleepCloseToMe(
-        '$latitud,$longitud', languageUser);
+    final response =
+        await _interactor.getSleepCloseToMe('$latitud,$longitud', languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: response.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -213,9 +210,7 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-
   void getSleepsResponse() async {
-    status = status.copyWith(isLoading: true);
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final sleepResponse = await _interactor.getSleepPlacesList(languageUser);
@@ -223,6 +218,9 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     if (sleepResponse is IdtSuccess<List<DataModel>?>) {
       status =
           status.copyWith(places: sleepResponse.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
     } else {
       final erroRes = EventError as IdtFailure<EventError>;
@@ -233,18 +231,18 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
   }
 
   void getEatCloseToMeResponse() async {
-    status = status.copyWith(
-      isLoading: true,
 
-    );
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     await getLoc();
-    final response = await _interactor.getEatCloseToMe(
-        '$latitud,$longitud', languageUser);
+    final response =
+        await _interactor.getEatCloseToMe('$latitud,$longitud', languageUser);
 
     if (response is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: response.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
       // status.places.addAll(UnmissableResponse.body)
     } else {
@@ -255,15 +253,16 @@ class EventsViewModel extends EffectsViewModel<EventsStatus, EventsEffect> {
     status = status.copyWith(isLoading: false);
   }
 
-
   void getEatResponse() async {
-    status = status.copyWith(isLoading: true);
     languageUser =
         BoxDataSesion.getLaguageByUser(); //get language User Prefered
     final eatResponse = await _interactor.getEatPlacesList(languageUser);
 
     if (eatResponse is IdtSuccess<List<DataModel>?>) {
       status = status.copyWith(places: eatResponse.body); // Status reasignacion
+      if (status.places.length < 1) {
+        addEffect(ShowDialogEffect());
+      }
 
     } else {
       final erroRes = EventError as IdtFailure<EatError>;

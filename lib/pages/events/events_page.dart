@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
+import 'package:bogota_app/pages/filters/filters_page.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:bogota_app/widget/menu_tap.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
@@ -366,7 +367,6 @@ class _EventsWidgetState extends State<EventsWidget> {
                   style: textTheme.titleWhite,
                 ),
               ),
-
               viewModel.type != SocialEventType.EVENT
                   ? _buttonFilter()
                   : SizedBox.shrink(),
@@ -377,8 +377,13 @@ class _EventsWidgetState extends State<EventsWidget> {
                   ),
                   Switch.adaptive(
                     value: viewModel.status.switchCloseToMe,
-                    onChanged: (bool value) {
-                      viewModel.getEventsCloseToMe(value, viewModel.type);
+                    onChanged: (value) {
+                      if (value) {
+                        viewModel.getEventsCloseToMe(value, viewModel.type);
+                      } else {
+                        print('Apagando switche');
+                        viewModel.getEventsCloseToMe(value, viewModel.type);
+                      }
                     },
                     activeColor: IdtColors.greenDark,
                   ),
@@ -388,28 +393,10 @@ class _EventsWidgetState extends State<EventsWidget> {
                   ),
                 ],
               ),
-              //Coment porque no llega con localidad el servicio
-              // Column(
-              //   children: [
-              //     SizedBox(height: 10,),
-              //     Switch.adaptive(
-              //       value: _nearToMe,
-              //       onChanged: (bool value) {
-              //         setState(() {
-              //           print(value);
-              //           _nearToMe = value;
-              //           print(_nearToMe);
-              //
-              //         });
-              //       },
-              //       activeColor: IdtColors.greenDark,
-              //     ),
-              //     Text('Cerca de mi', style: TextStyle(fontWeight: FontWeight.w700),),
-              //
-              //   ],
-              // ),
               SizedBox(height: 15),
-              gridImagesCol3(viewModel.status.places),
+              viewModel.status.places.length > 0
+                  ? gridImagesCol3(viewModel.status.places)
+                  : NotFoundResultsWidget(textTheme: textTheme),
               SizedBox(height: 55),
             ],
           ),
