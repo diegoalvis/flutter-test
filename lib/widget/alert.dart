@@ -46,7 +46,8 @@ class Alert extends StatelessWidget {
                     colorGradient: IdtGradients.orange,
                     textStyle: textTheme.textButtomWhite.copyWith(
                         fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
-                    onPressed: () => _route.goHome()
+                  //todo diccionario
+                    // onPressed: () => _route.goHome()//COmentado para probar la llega de diccionario al home
                 ),
               ],
             ),

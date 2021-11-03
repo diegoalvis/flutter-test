@@ -9,6 +9,7 @@ import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/select_language/select_language_view_model.dart';
 import 'package:bogota_app/widget/btn_gradient.dart';
 import 'package:bogota_app/widget/carouselLanguages.dart';
+import 'package:bogota_app/widget/idt_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,8 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SelectLanguageViewModel>();
+    final loading =
+    viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     Size sizeScreen = MediaQuery.of(context).size;
 
@@ -123,7 +126,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
                     child: viewModel.status.isButtonEnable
                         ? BtnGradient(
                             "CONTINUAR",
-                            onPressed: () => _route.goHomeRemoveAll(),
+                            onPressed: () => viewModel.goHomeWithWordsAndImagesMenu(),
                             colorGradient: IdtGradients.orange,
                             textStyle: Theme.of(context).textTheme.textButtomWhite.copyWith(
                                 fontSize: 16, letterSpacing: 0.0, fontWeight: FontWeight.w700),
@@ -135,6 +138,7 @@ class _SelectLanguageWidgetState extends State<SelectLanguageWidget> {
             ),
           ),
         ),
+        loading,
       ],
     ));
   }

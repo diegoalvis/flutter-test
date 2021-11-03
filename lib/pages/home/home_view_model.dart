@@ -5,7 +5,7 @@ import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
-import 'package:bogota_app/data/model/menu_images_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/pages/home/home_effect.dart';
@@ -39,43 +39,50 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         itemAudiosSavedPlaces: [],
         listBoolAudio: [],
         listBoolAll: [],
-        message: '');
+        message: '',
+        dictionary: null,
+        textsMenu: []);
   }
 
-  void onInit() async {
-    status = status.copyWith(isLoading: true);
+  void onInit(List imgsMenu, List<String> textsMenu,
+      WordsAndMenuImagesModel menuAndWords) async {
+    status = status.copyWith(
+      imagesMenu: imgsMenu,
+      textsMenu: textsMenu,
+    );
     getUnmissableResponse();
-    // getEatResponse();
     getBestRatedResponse();
-    getWordsAndImagesMenu();
+    // getWordsAndImagesMenu();
 
     onpenSavedPlaces();
     if (status.itemsSavedPlaces.length >= 1) {
       status.notSaved = false;
     }
   }
-
-  void getWordsAndImagesMenu() async {
-    languageUser =
-        BoxDataSesion.getLaguageByUser();
-    final response = await _interactor.getWordsAndImagesMenu(languageUser);
-
-    if (response is IdtSuccess<MenuImagesModel>) {
-      status = status.copyWith(imagesMenu: response.body.images_menu);
-    } else {
-      final erroRes = response as IdtFailure<MenuImagesError>;
-      print(erroRes.message);
-      UnimplementedError();
-    }
-  }
+//Ahora se va hacer desde el select Language
+  // void getWordsAndImagesMenu() async {
+  //   languageUser = BoxDataSesion.getLaguageByUser();
+  //   final response = await _interactor.getWordsAndImagesMenu(languageUser);
+  //
+  //   if (response is IdtSuccess<WordsAndMenuImagesModel>) {
+  //     status = status.copyWith(imagesMenu: response.body.images_menu);
+  //   } else {
+  //     final erroRes = response as IdtFailure<MenuImagesError>;
+  //     print(erroRes.message);
+  //     UnimplementedError();
+  //   }
+  // }
 
   void getUnmissableResponse() async {
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
-    final unmissableResponse = await _interactor.getUnmissablePlacesList(languageUser);
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    final unmissableResponse =
+        await _interactor.getUnmissablePlacesList(languageUser);
 
     if (unmissableResponse is IdtSuccess<List<DataModel>?>) {
-      status =
-          status.copyWith(itemsUnmissablePlaces: unmissableResponse.body); // Status reasignacion
+      status = status.copyWith(
+          itemsUnmissablePlaces:
+              unmissableResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = unmissableResponse as IdtFailure<UnmissableError>;
@@ -86,11 +93,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void getBestRatedResponse() async {
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
-    final bestRatedResponse = await _interactor.getBestRatedPlacesList(languageUser);
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    final bestRatedResponse =
+        await _interactor.getBestRatedPlacesList(languageUser);
 
     if (bestRatedResponse is IdtSuccess<List<DataModel>?>) {
-      status = status.copyWith(itemsbestRatedPlaces: bestRatedResponse.body); // Status reasignacion
+      status = status.copyWith(
+          itemsbestRatedPlaces: bestRatedResponse.body); // Status reasignacion
       // status.places.addAll(UnmissableResponse.body)
     } else {
       final erroRes = bestRatedResponse as IdtFailure<EatError>;
@@ -114,7 +124,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     print('se abre lugares guardados');
     final bool value = status.openSaved;
     status = status.copyWith(openSaved: !value);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final savedResponse = await _interactor.getSavedPlacesList(languageUser);
 
@@ -124,18 +135,23 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         status = status.copyWith(notSaved: false);
       }
       // Se recupera y se filtra los itemsSavedPlaces
-      List<DataAudioGuideModel>? listSavedPlacesFilter = savedResponse.body ?? [];
+      List<DataAudioGuideModel>? listSavedPlacesFilter =
+          savedResponse.body ?? [];
       listSavedPlacesFilter = removeRepeatElementById(listSavedPlacesFilter);
-      status = status.copyWith(itemsSavedPlaces: listSavedPlacesFilter); // Status reasignacion
+      status = status.copyWith(
+          itemsSavedPlaces: listSavedPlacesFilter); // Status reasignacion
 
       // Se recupera y se filtra los itemAudiosSavedPlaces
-      List<DataAudioGuideModel> listAudiosSavedPlacesFilter1 = savedResponse.body!
+      List<DataAudioGuideModel> listAudiosSavedPlacesFilter1 = savedResponse
+          .body!
           .where((f) => (f.audioguia_es != null && f.audioguia_es != '' ||
               f.audioguia_en != null && f.audioguia_en != '' ||
               f.audioguia_pt != null && f.audioguia_pt != ''))
           .toList();
-      listAudiosSavedPlacesFilter1 = removeRepeatElementById(listAudiosSavedPlacesFilter1);
-      status = status.copyWith(itemAudiosSavedPlaces: listAudiosSavedPlacesFilter1); //filtro audios
+      listAudiosSavedPlacesFilter1 =
+          removeRepeatElementById(listAudiosSavedPlacesFilter1);
+      status = status.copyWith(
+          itemAudiosSavedPlaces: listAudiosSavedPlacesFilter1); //filtro audios
 
       List<bool> listAudio = [];
       List<bool> listAll = [];
@@ -165,7 +181,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // addEffect(ShowDialogEffect('nada'));  //Dialog de prueba
   }
 
-  List<DataAudioGuideModel> removeRepeatElementById(List<DataAudioGuideModel> list) {
+  List<DataAudioGuideModel> removeRepeatElementById(
+      List<DataAudioGuideModel> list) {
     final Map<String, DataAudioGuideModel> profileMap = new Map();
     list.forEach((DataAudioGuideModel item) => profileMap["${item.id}"] = item);
     list = profileMap.values.toList();
@@ -194,7 +211,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void goDetailPage(String id) async {
     status = status.copyWith(isLoading: true);
-    languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
+    languageUser =
+        BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
     final placebyidResponse = await _interactor.getPlaceById(id, languageUser);
     print('view model detail page');
@@ -215,8 +233,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void setLocationUser() async {
-    final GpsModel location =
-        GpsModel(imei: '999', longitud: '-78.229', latitud: '2.3666', fecha: '03/19/21');
+    final GpsModel location = GpsModel(
+        imei: '999', longitud: '-78.229', latitud: '2.3666', fecha: '03/19/21');
     final response = await _interactor.postLocationUser(location);
 
     if (response is IdtSuccess<GpsModel?>) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/pages/home/home_page.dart';
+import 'package:bogota_app/pages/select_language/select_language_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> HomePage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> SelectLanguagePage()));
   }
 
   @override

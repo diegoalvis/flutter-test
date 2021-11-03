@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bogota_app/data/model/audios_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/user_model.dart';
 import 'package:bogota_app/pages/%20recover_pass/recover_pass_page.dart';
@@ -57,12 +58,34 @@ class IdtRoute {
         .pushReplacement(MaterialPageRoute(builder: (_) => SelectLanguagePage()));
   }
 
-
-  goHome() {
-    IdtRoute.route = HomePage.namePage;
-    return navigatorKey.currentState!
-        .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+  goHomeFromLanguageSelected({
+    required List<String> imgsMenu,
+    required List<String> textsMenu,
+    required WordsAndMenuImagesModel menuAndWords,
+  }) {
+    if(IdtRoute.route != HomePage.namePage){
+      IdtRoute.route = HomePage.namePage;
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) => HomePage(imgsMenu,textsMenu,menuAndWords)));
+    }
   }
+//todo diccionario
+  // goHome() {//COmentado para probar la llega de diccionario al home
+  //   IdtRoute.route = HomePage.namePage;
+  //   return navigatorKey.currentState!
+  //       .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+  // }
+  // goHomeRemoveAll() {//COmentado para probar la llega de diccionario al home
+  //   if(IdtRoute.route != HomePage.namePage){
+  //     IdtRoute.route = HomePage.namePage;
+  //     return navigatorKey.currentState!.pushAndRemoveUntil(
+  //         MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
+  //
+  //   }
+  // }
+  // goUserHome() {//COmentado para probar la llega de diccionario al home
+  //   return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => HomePage()));
+  // }
 
   goLogin() {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => LoginPage()));
@@ -83,14 +106,6 @@ class IdtRoute {
         .pushReplacement(MaterialPageRoute(builder: (_) => RecoverPassPage()));
   }
 
-  goHomeRemoveAll() {
-    if(IdtRoute.route != HomePage.namePage){
-      IdtRoute.route = HomePage.namePage;
-      return navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
-
-    }
-  }
 
   goDetail({required bool isHotel, required DataPlacesDetailModel detail}) {
 
@@ -125,9 +140,6 @@ class IdtRoute {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => DiscoverPage()));
   }
 
-  goUserHome() {
-    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => HomePage()));
-  }
 
   goDiscoverUntil() {
     if (IdtRoute.route != DiscoverPage.namePage){
@@ -156,6 +168,8 @@ class IdtRoute {
           .push(MaterialPageRoute(builder: (_) => ResultSearchPage(results, keyWord)));
     }
   }
+
+
 
   goFilters({
     required String section,

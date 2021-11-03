@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bogota_app/data/model/menu_images_model.dart';
-import 'package:bogota_app/data/model/response/menu_images_response.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
+import 'package:bogota_app/data/model/response/words_and_menu_images_response.dart';
 import 'package:bogota_app/data/model/response/splash_response.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 
@@ -12,7 +12,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class MenuImagesService {
-  Future<IdtResult<MenuImagesModel>> getWordsAndImagesMenu(String lan) async {
+  Future<IdtResult<WordsAndMenuImagesModel>> getWordsAndImagesMenu(String lan) async {
     Map<String, String> params = {};
 
     params["lan"] = lan;
@@ -26,7 +26,7 @@ class MenuImagesService {
         case 200:
           {
             final body = json.decode(response.body);
-            final entity = MenuImagesResponse.fromJson(body);
+            final entity = WordsAndMenuImagesResponse.fromJson(body);
 
             return IdtResult.success(entity.data);
           }

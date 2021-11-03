@@ -6,7 +6,7 @@ import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/favorite_model.dart';
 import 'package:bogota_app/data/model/gps_model.dart';
 import 'package:bogota_app/data/model/language_model.dart';
-import 'package:bogota_app/data/model/menu_images_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
 import 'package:bogota_app/data/model/register_model.dart';
 import 'package:bogota_app/data/model/request/login_request.dart';
@@ -198,7 +198,7 @@ class ApiInteractor {
   //
   //   return response;
   // }
-  Future<IdtResult<MenuImagesModel>> getWordsAndImagesMenu(String lan) async {
+  Future<IdtResult<WordsAndMenuImagesModel>> getWordsAndImagesMenu(String lan) async {
     final response = await locator<MenuImagesService>().getWordsAndImagesMenu(lan);
 
     return response;

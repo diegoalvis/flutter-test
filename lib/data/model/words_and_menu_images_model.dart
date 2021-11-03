@@ -2,13 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'idt_model.dart';
 
-part 'menu_images_model.g.dart';
+part 'words_and_menu_images_model.g.dart';
 
 @JsonSerializable()
-class MenuImagesModel extends IdtModel {
+class WordsAndMenuImagesModel extends IdtModel {
   final String title;
-  final List images_menu;
-  final List text_menu;
+  final List<String> images_menu;
+  final List<String> text_menu;
 
   final String appword18;
   final String appword60;
@@ -74,7 +74,7 @@ class MenuImagesModel extends IdtModel {
   final String appword35;
   final String appword57;
 
-  MenuImagesModel(
+  WordsAndMenuImagesModel(
     this.title,
     this.images_menu,
     this.text_menu,
@@ -143,8 +143,8 @@ class MenuImagesModel extends IdtModel {
     this.appword57,
   );
 
-  factory MenuImagesModel.fromJson(Map<String, dynamic> json) =>
-      _$MenuImagesModelFromJson(json);
+  factory WordsAndMenuImagesModel.fromJson(Map<String, dynamic> json) =>
+      _$WordsAndMenuImagesModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MenuImagesModelToJson(this);
+  Map<String, dynamic> toJson() => _$WordsAndMenuImagesModelToJson(this);
 }
