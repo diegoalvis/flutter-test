@@ -193,8 +193,13 @@ class ApiInteractor {
     return response;
   }
 
-  Future<IdtResult<MenuImagesModel>> getImagesMenu() async {
-    final response = await locator<MenuImagesService>().getMenuImages();
+  // Future<IdtResult<MenuImagesModel>> getImagesMenu() async {
+  //   final response = await locator<MenuImagesService>().getMenuImages();
+  //
+  //   return response;
+  // }
+  Future<IdtResult<MenuImagesModel>> getWordsAndImagesMenu(String lan) async {
+    final response = await locator<MenuImagesService>().getWordsAndImagesMenu(lan);
 
     return response;
   }

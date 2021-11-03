@@ -173,7 +173,7 @@ class IdtRoute {
     }
   }
 
-  goFiltersUntil({ // no se esta usando
+  goToHomeChangelanguage({
     required String section,
     required DataModel item,
     required List<DataModel> places,
@@ -182,11 +182,13 @@ class IdtRoute {
     required List<DataModel> zones,
     required Map oldFilters,
   }) {
-    return navigatorKey.currentState!.pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones, oldFilters)),
-        (route) => route.isFirst);
+    if(IdtRoute.route != FiltersPage.namePage){
+      IdtRoute.route = FiltersPage.namePage;
+      return navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (_) => FiltersPage(section, item, places, categories, subcategories, zones, oldFilters)));
+    }
   }
+
 
   goAudioGuide() {
     if(IdtRoute.route != AudioGuidePage.namePage){

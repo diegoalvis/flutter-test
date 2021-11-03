@@ -47,7 +47,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     getUnmissableResponse();
     // getEatResponse();
     getBestRatedResponse();
-    getImagesMenu();
+    getWordsAndImagesMenu();
 
     onpenSavedPlaces();
     if (status.itemsSavedPlaces.length >= 1) {
@@ -55,11 +55,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
   }
 
-  void getImagesMenu() async {
-    final response = await _interactor.getImagesMenu();
+  void getWordsAndImagesMenu() async {
+    languageUser =
+        BoxDataSesion.getLaguageByUser();
+    final response = await _interactor.getWordsAndImagesMenu(languageUser);
 
     if (response is IdtSuccess<MenuImagesModel>) {
-      status = status.copyWith(imagesMenu: response.body.menu);
+      status = status.copyWith(imagesMenu: response.body.images_menu);
     } else {
       final erroRes = response as IdtFailure<MenuImagesError>;
       print(erroRes.message);
