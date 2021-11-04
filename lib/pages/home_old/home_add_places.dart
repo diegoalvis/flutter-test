@@ -73,7 +73,7 @@ class _HorizontalAndVerticalListViewState
             child: Container(color: Colors.white),
           ),
         ),
-        Title_Sec("IMPERDIBLE EN BOGOTÁ"),
+        Title_Sec("**-IMPERDIBLE EN BOGOTÁ"),
         g.GridVertical(context, testData().imgList2, testData().textList2)
       ],
     );

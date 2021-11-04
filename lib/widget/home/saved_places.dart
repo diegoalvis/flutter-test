@@ -8,6 +8,7 @@ import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/data_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/title_section.dart';
@@ -55,6 +56,7 @@ class SavedPlaces extends StatefulWidget {
 class _SavedPlacesState extends State<SavedPlaces> {
   bool isStart = true;
   bool isEnd = false;
+  WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
 
   Widget imagesCard(String? image, int index, List<bool> listGuide) =>
       (Container(
@@ -224,7 +226,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                   maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
-                'AUDIOGUÍAS',
+                dictionary.text_menu[4].toUpperCase(),
                 textAlign: TextAlign.center,
                 style: textTheme.textButtomWhite.copyWith(
                     color: widget.seeAll ? IdtColors.greenDark : null),
@@ -266,7 +268,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
                   maxHeight: 50),
               alignment: Alignment.center,
               child: Text(
-                'VER TODOS',
+                '**-VER TODOS',
                 textAlign: TextAlign.center,
                 style: textTheme.textButtomWhite.copyWith(
                     color: widget.seeAll ? null : IdtColors.greenDark),
@@ -308,7 +310,7 @@ class _SavedPlacesState extends State<SavedPlaces> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: TitleSection('LUGARES GUARDADOS'),
+                child: TitleSection(dictionary.appword33.toUpperCase()),
               ),
               Positioned(
                 right: 12,

@@ -1,15 +1,26 @@
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:flutter/material.dart';
 
-class TitlesMenu {
-  static String iniciarSesion = 'INICIAR SESION';
-  static String descubreBogota = 'DESCUBRE BOGOTÁ';
-  static String audioguias = 'AUDIOGUÍAS';
-  static String impedibles = 'IMPERDIBLES';
-  static String eventos = 'EVENTOS';
-  static String dondeDormir = 'DÓNDE DORMIR';
-  static String dondeComer = 'DÓNDE COMER';
-  static String lugaresGuardados = 'LUGARES GUARDADOS';
-  static String privacidadYTerminos = 'PRIVACIDAD Y TÉRMINOS';
+
+
+
+
+WordsAndMenuImagesModel dictionary = await BoxDataSesion.getDictionary();
+mixin TitlesMenu {
+
+
+
+  static String iniciarSesion = dictionary.appword7.toUpperCase();
+  static String descubreBogota = dictionary.text_menu[0].toUpperCase();
+  static String audioguias = dictionary.text_menu[4].toUpperCase();
+  static String impedibles = dictionary.text_menu[5].toUpperCase();
+  static String eventos = dictionary.text_menu[1].toUpperCase();
+  static String dondeDormir = dictionary.text_menu[3].toUpperCase();
+  static String dondeComer = dictionary.text_menu[2].toUpperCase();
+  static String lugaresGuardados = dictionary.appword33.toUpperCase();
+  static String privacidadYTerminos = '**-PRIVACIDAD Y TÉRMINOS';
+
 }
 
 class DataTest {

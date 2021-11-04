@@ -7,6 +7,7 @@ import 'package:bogota_app/configure/get_it_locator.dart';
 import 'package:bogota_app/configure/idt_route.dart';
 import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/language_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/mock/data/DataTest.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
@@ -35,6 +36,7 @@ class IdtMenu extends StatelessWidget {
     final listMenu = DataTest.List2(isLogged);
     final String imageUrl = '';
     List<LanguageModel> listAvalibleServ = BoxDataSesion.getLanguagesAvalible();
+    WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
 
 
 

@@ -364,8 +364,8 @@ class BoxDataSesion {
     boxDictionary.put(0, value);
   }
 
-  static WordsAndMenuImagesModel getDictionary() {
-    final String dictionaryService = boxDictionary.get(0) ?? '';
+   static WordsAndMenuImagesModel getDictionary()  {
+    final String dictionaryService = boxDictionary.get(0);
     var json  = jsonDecode(dictionaryService);
     WordsAndMenuImagesModel dictionary = WordsAndMenuImagesModel.fromJson(json);
 

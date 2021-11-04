@@ -6,7 +6,9 @@ import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
 import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/pages/home/home_view_model.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:bogota_app/widget/title_section.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class OtherPlaces extends StatelessWidget {
   late List<DataModel>? resUnmissable;
   late List<DataModel>? resFood;
   late List<DataModel>? bestRated;
+  WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
 
   OtherPlaces({required this.onTapCard, required this.goDiscover, this.resUnmissable, this.resFood, this.bestRated});
 
@@ -117,7 +120,7 @@ class OtherPlaces extends StatelessWidget {
                   Alignment.bottomCenter, Alignment.topCenter),
               alignment: Alignment.center,
               child: Text(
-                'DESCUBRE BOGOTÁ',
+                dictionary.text_menu[1],
                 textAlign: TextAlign.center,
                 style: textTheme.textButtomWhite,
               )),
@@ -132,13 +135,13 @@ class OtherPlaces extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 35),
-        TitleSection('Imperdible en Bogotá'),
+        TitleSection('**-Imperdible en Bogotá'),
         SizedBox(height: 25),
         GridImagesCol2(textTheme, resUnmissable!),
         SizedBox(height: 5),
         best_rated_btn(textTheme),
         SizedBox(height: 20),
-        TitleSection('Mejor calificado'),
+        TitleSection(dictionary.appword34),
         SizedBox(height: 15),
         GridImagesCol2(textTheme, bestRated!),
         SizedBox(height: 55),

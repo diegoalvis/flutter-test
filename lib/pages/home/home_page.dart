@@ -28,15 +28,8 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   static final namePage = 'home_page';
-  final List<String> imgsMenu;
-  final List<String> textsMenu;
-  final WordsAndMenuImagesModel menuAndWords;
 
-  HomePage(
-  this.imgsMenu,
-    this.textsMenu,
-    this.menuAndWords,
-  );
+  HomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +37,17 @@ class HomePage extends StatelessWidget {
       create: (_) =>
           HomeViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
-        return HomeWidget(
-          imgsMenu,
-          textsMenu,
-          menuAndWords
-        );
+        return HomeWidget();
       },
     );
   }
 }
 
 class HomeWidget extends StatefulWidget {
-  final List<String> _imgsMenu;
-  final List<String> _textsMenu;
-  final WordsAndMenuImagesModel _menuAndWords;
-  HomeWidget(this._imgsMenu, this._textsMenu, this._menuAndWords);
+  HomeWidget();
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
-
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
@@ -74,17 +59,11 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
-      context.read<HomeViewModel>().onInit(
-        widget._imgsMenu,
-        widget._textsMenu,
-        widget._menuAndWords
-
-      );
+      context.read<HomeViewModel>().onInit();
     });
 
     final viewModel = context.read<HomeViewModel>();
-    
+
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is HomeValueControllerScrollEffect) {
         print(event.next);
@@ -120,7 +99,6 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<HomeViewModel>();
 
     return SafeArea(
@@ -197,25 +175,23 @@ class _HomeWidgetState extends State<HomeWidget> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: widget._textsMenu.length,
+                itemCount: viewModel.status.textsMenu.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () => optionSelectedHome(index),
                       child: Container(
-                        height: (size.height - 28 * widget._textsMenu.length) /
-                            widget._textsMenu.length,
+                        height: (size.height -
+                                28 * viewModel.status.textsMenu.length) /
+                            viewModel.status.textsMenu.length,
                         decoration: BoxDecoration(
-                          color: widget._imgsMenu.length != 0
+                          color: viewModel.status.imagesMenu.length != 0
                               ? DataTest.colorsHomeList[index].withOpacity(0.7)
                               : null,
                           image: DecorationImage(
-                            image: widget._imgsMenu.length != 0
-                                ? index != 5
-                                    ? NetworkImage(IdtConstants.url_image +
-                                        widget._imgsMenu[index]
-                                            .replaceAll(' ', ''))
-                                    : AssetImage(IdtAssets.splash)
-                                        as ImageProvider
+                            image: viewModel.status.imagesMenu.length != 0
+                                ? NetworkImage(IdtConstants.url_image +
+                                    viewModel.status.imagesMenu[index]
+                                        .replaceAll(' ', ''))
                                 : AssetImage(IdtAssets.splash) as ImageProvider,
                             fit: BoxFit.fill,
                           ),
@@ -231,7 +207,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 children: [
                                   Expanded(
                                     child: AutoSizeText(
-                                      widget._textsMenu[index].toUpperCase(),
+                                      viewModel.status.textsMenu[index]
+                                          .toUpperCase(),
                                       maxFontSize: 30,
                                       minFontSize: 22,
                                       style: TextStyle(
@@ -298,12 +275,12 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  // List<String> widget._textsMenu = [
-  //   'Descubre Bogotá',
-  //   'Eventos',
-  //   '¿Dónde comer?',
-  //   '¿Dónde Dormir?',
-  //   'Audioguias',
-  //   'Imperdibles'
-  // ];
+// List<String> widget._textsMenu = [
+//   dictionary.text_menu[1],
+//   'Eventos',
+//   '¿Dónde comer?',
+//   '¿Dónde Dormir?',
+//   'Audioguias',
+//   'Imperdibles'
+// ];
 }

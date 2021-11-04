@@ -44,11 +44,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         textsMenu: []);
   }
 
-  void onInit(List imgsMenu, List<String> textsMenu,
-      WordsAndMenuImagesModel menuAndWords) async {
+  void onInit() async {
+    WordsAndMenuImagesModel dictionary = await BoxDataSesion.getDictionary();
     status = status.copyWith(
-      imagesMenu: imgsMenu,
-      textsMenu: textsMenu,
+      imagesMenu: dictionary.images_menu,
+      textsMenu: dictionary.text_menu,
     );
     getUnmissableResponse();
     getBestRatedResponse();

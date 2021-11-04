@@ -1,11 +1,13 @@
 import 'package:bogota_app/commons/idt_assets.dart';
 import 'package:bogota_app/commons/idt_colors.dart';
 import 'package:bogota_app/commons/idt_gradients.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:bogota_app/mock/data/testData.dart';
 
 import 'package:bogota_app/pages/components/title_lugares.dart';
 import 'package:bogota_app/pages/components/title_sec.dart';
 import 'package:bogota_app/pages/components/verticalgrid.dart';
+import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/widget/style_method.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class _HorizontalAndVerticalListViewState
   bool state_b = false;
   var button_selected;
   var button_unselected;
+  WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
 
   String prevTitle = '';
   late List<String> items;
@@ -96,10 +99,10 @@ class _HorizontalAndVerticalListViewState
         widget_slider_horizontal(),
         widget_row_buttons(),
         SliverToBoxAdapter(child: SizedBox(height: 20, child: Container(color: Colors.white),),),
-        Title_Sec("IMPERDIBLE EN BOGOTÁ"),
+        Title_Sec("**-IMPERDIBLE EN BOGOTÁ"),
         g.GridVertical(context, testdata.imgList2, testdata.textList2),
         widget_explorar_button(),
-        Title_Sec("MEJOR CALIFICADO"),
+        Title_Sec(dictionary.appword34),
         g.GridVertical(
             context, testdata.calificadoList, testdata.textCalificadoList),
         SliverToBoxAdapter(child: SizedBox(height: 60, child: Container(color: Colors.white),),),

@@ -58,13 +58,9 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
 
     if (response is IdtSuccess<WordsAndMenuImagesModel>) {
       BoxDataSesion.pushToDictionary(dictionary: response.body); //almacenar el dicionario Local
-      final List<String> imagesMenu = response.body.images_menu;
-      final textsMenu = response.body.text_menu;
-      final menuAndWords = response.body;
       _route.goHomeFromLanguageSelected(
-          menuAndWords: menuAndWords,
-          imgsMenu: imagesMenu,
-          textsMenu: textsMenu);
+
+      );
     } else {
       final erroRes = response as IdtFailure<MenuImagesError>;
       print(erroRes.message);

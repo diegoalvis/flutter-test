@@ -58,34 +58,33 @@ class IdtRoute {
         .pushReplacement(MaterialPageRoute(builder: (_) => SelectLanguagePage()));
   }
 
-  goHomeFromLanguageSelected({
-    required List<String> imgsMenu,
-    required List<String> textsMenu,
-    required WordsAndMenuImagesModel menuAndWords,
-  }) {
+  goHomeFromLanguageSelected() {
+
+    // IdtRoute.route = 'HomePage.namePage'; //todo redirctionamiento quitar para el home
+
     if(IdtRoute.route != HomePage.namePage){
-      // IdtRoute.route = HomePage.namePage;//
+      IdtRoute.route = HomePage.namePage;
       return navigatorKey.currentState!.push(MaterialPageRoute(
-          builder: (_) => HomePage(imgsMenu,textsMenu,menuAndWords)));
+          builder: (_) => HomePage()));
     }
   }
 //todo diccionario
-  // goHome() {//COmentado para probar la llega de diccionario al home
-  //   IdtRoute.route = HomePage.namePage;
-  //   return navigatorKey.currentState!
-  //       .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
-  // }
-  // goHomeRemoveAll() {//COmentado para probar la llega de diccionario al home
-  //   if(IdtRoute.route != HomePage.namePage){
-  //     IdtRoute.route = HomePage.namePage;
-  //     return navigatorKey.currentState!.pushAndRemoveUntil(
-  //         MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
-  //
-  //   }
-  // }
-  // goUserHome() {//COmentado para probar la llega de diccionario al home
-  //   return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => HomePage()));
-  // }
+  goHome() {//COmentado para probar la llega de diccionario al home
+    IdtRoute.route = HomePage.namePage;
+    return navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+  }
+  goHomeRemoveAll() {//COmentado para probar la llega de diccionario al home
+    if(IdtRoute.route != HomePage.namePage){
+      IdtRoute.route = HomePage.namePage;
+      return navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => HomePage()), (Route<dynamic> route) => false);
+
+    }
+  }
+  goUserHome() {//COmentado para probar la llega de diccionario al home
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => HomePage()));
+  }
 
   goLogin() {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => LoginPage()));
