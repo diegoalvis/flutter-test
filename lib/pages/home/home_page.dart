@@ -74,6 +74,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
       context.read<HomeViewModel>().onInit(
         widget._imgsMenu,
         widget._textsMenu,
@@ -119,6 +120,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     final viewModel = context.watch<HomeViewModel>();
 
     return SafeArea(

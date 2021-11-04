@@ -47,7 +47,6 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
       }
     }
   }
-
   void nextHome() {
     status = status.copyWith(isButtonEnable: true);
   }
@@ -58,6 +57,7 @@ class SelectLanguageViewModel extends ViewModel<SelectLanguageStatus> {
     final response = await _interactor.getWordsAndImagesMenu(languageUser);
 
     if (response is IdtSuccess<WordsAndMenuImagesModel>) {
+      BoxDataSesion.pushToDictionary(dictionary: response.body); //almacenar el dicionario Local
       final List<String> imagesMenu = response.body.images_menu;
       final textsMenu = response.body.text_menu;
       final menuAndWords = response.body;

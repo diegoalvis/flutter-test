@@ -64,7 +64,7 @@ class IdtRoute {
     required WordsAndMenuImagesModel menuAndWords,
   }) {
     if(IdtRoute.route != HomePage.namePage){
-      IdtRoute.route = HomePage.namePage;
+      // IdtRoute.route = HomePage.namePage;//
       return navigatorKey.currentState!.push(MaterialPageRoute(
           builder: (_) => HomePage(imgsMenu,textsMenu,menuAndWords)));
     }

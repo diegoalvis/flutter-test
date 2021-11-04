@@ -4,6 +4,7 @@ import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/audioguide_model.dart';
 import 'package:bogota_app/data/model/language_model.dart';
 import 'package:bogota_app/data/model/places_detail_model.dart';
+import 'package:bogota_app/data/model/words_and_menu_images_model.dart';
 import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,6 +12,7 @@ class BoxDataSesion {
   static late Box<Person> boxPeson;
   static late Box<CurrentUser> boxCurrentUser;
   static late Box<RememberMe> boxRememberMe;
+  static late Box<dynamic> boxDictionary;
   static late Box<dynamic> boxActivity;
   static late Box<dynamic> boxAudioGuides;
   static late Box<String> boxSavedLaguage;
@@ -29,6 +31,7 @@ class BoxDataSesion {
       boxSessionCurr().then((value) => boxCurrentUser = value).asStream(),
       boxSessionRem().then((value) => boxRememberMe = value).asStream(),
       boxActivityA().then((value) => boxActivity = value).asStream(),
+      boxDictionaryA().then((value) => boxDictionary = value).asStream(),
       boxAudioGuidesA().then((value) => boxAudioGuides = value).asStream(),
       boxLaguageInit().then((value) => boxSavedLaguage = value).asStream(),
       boxLaguageInit().then((value) => boxLanguageService = value).asStream(),
@@ -257,6 +260,20 @@ class BoxDataSesion {
     }
     return boxActivity as Box<dynamic>;
   }
+  static Future<Box<dynamic>> boxDictionaryA() async {
+    try {
+      print("=== Cargando BOX === ");
+      boxDictionary = await Hive.openBox('dictionary');
+      print("✅ Box de dictionary cargado");
+      print("=================== ");
+    } catch (e) {
+      print("=== ❌ Error leyendo BOX dictionary === ");
+      print(e);
+      print("========================= ");
+    }
+    return boxDictionary as Box<dynamic>;
+  }
+
 
   static Future<Box<dynamic>> boxAudioGuidesA() async {
     try {
@@ -303,20 +320,6 @@ class BoxDataSesion {
     return boxSavedLaguage;
   }
 
-  static Future<Box<String>> boxlanguageServiceInit() async {
-    try {
-      print("=== Cargando BOX === ");
-      boxLanguageService = await Hive.openBox('boxLanguageService');
-      print("✅ Box de lenguajes disponibles del servicio");
-      print("=================== ");
-    } catch (e) {
-      print("=== ❌ Error leyendo BOX audioguias === ");
-      print(e);
-      print("========================= ");
-    }
-    return boxLanguageService;
-  }
-
   static void pushToLaguageUser(String value) {
     int? idUser = BoxDataSesion.getCurrentUser()?.id_user;
 
@@ -354,5 +357,18 @@ class BoxDataSesion {
     List<LanguageModel> languages =
         json.map((element) => LanguageModel.fromJsonManual(element)).toList();
     return languages;
+  }
+
+  static void pushToDictionary({WordsAndMenuImagesModel? dictionary}) {
+    String value = jsonEncode(dictionary);
+    boxDictionary.put(0, value);
+  }
+
+  static WordsAndMenuImagesModel getDictionary() {
+    final String dictionaryService = boxDictionary.get(0) ?? '';
+    var json  = jsonDecode(dictionaryService);
+    WordsAndMenuImagesModel dictionary = WordsAndMenuImagesModel.fromJson(json);
+
+    return dictionary;
   }
 }
