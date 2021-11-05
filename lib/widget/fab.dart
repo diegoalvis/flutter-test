@@ -51,9 +51,7 @@ class IdtFab extends StatelessWidget {
         ),
         hoverColor: IdtColors.blackShadow,
         backgroundColor: IdtColors.white,
-        onPressed: (){}
-          //todo diccionario
-        // _route.goHomeRemoveAll,
+        onPressed: _route.goHomeRemoveAll,
       ),
     );
   }

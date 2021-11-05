@@ -72,8 +72,8 @@ class ProfileEditViewModel
     } catch (e) {
       BoxDataSesion.clearBoxRememberMe();
     }
-//todo diccionario
-    // _route.goHome();
+
+    _route.goHome();
   }
 
   Future<bool> offMenuBack() async {

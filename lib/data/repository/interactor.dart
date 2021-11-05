@@ -74,9 +74,9 @@ class ApiInteractor {
   }
 
   Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesForLocation(
-      Map params,String lan) async {
+      Map<String,String> params,String lan) async {
     final response = await locator<AudioGuideService>()
-        .getAudioGuidesForLocation(params, lan);
+        .getAudioGuidesForLocation( params, lan);
 
     return response;
   }

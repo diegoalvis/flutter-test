@@ -222,8 +222,8 @@ class RegisterUserViewModel
         onSuccess();
         Future.delayed(Duration(seconds: 3)).then((value) {
           status = status.copyWith(isLoading: false);
-          //todo diccionario
-          // _route.goHome();
+
+          _route.goHome();
         });
       }
     } else {
@@ -398,8 +398,8 @@ class RegisterUserViewModel
     try {
       await _googleSignIn.signIn();
       ;
-      //todo diccionario
-      // _route.goHome();
+
+      _route.goHome();
     } catch (error) {
       print(error);
 

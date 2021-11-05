@@ -9,20 +9,11 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:http/http.dart' as http;
 
 class AudioGuideService {
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesForLocation(Map params, String lanUser) async {
-    Map<String, dynamic> queryParameters = {
-      'lan': lanUser,
-    };
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuidesForLocation(Map<String,String>
+      params, String lanUser) async {
+    params["lan"] = lanUser;
 
-    params.forEach((key, value) {
-      queryParameters[key] = value;
-      /*value.keys.forEach((element) {
-        queryParameters[element] = value[element];
-      });*/
-      // queryParameters[value.keys.first] = value.values.first;
-    });
-
-    final uri = Uri.https(IdtConstants.url_server, '/audio', queryParameters);
+    final uri = Uri.https(IdtConstants.url_server, '/audio', params);
 
     final response = await http.get(uri);
     print('**response: ${response.body}');
@@ -30,17 +21,19 @@ class AudioGuideService {
       final body = json.decode(response.body);
       print(body);
       switch (response.statusCode) {
-        case 200: {
-          final entity = AudioGuidesResponse.fromJson(body);
-          print(entity.data);
-          return IdtResult.success(entity.data);
-        }
+        case 200:
+          {
+            final entity = AudioGuidesResponse.fromJson(body);
+            print(entity.data);
+            return IdtResult.success(entity.data);
+          }
 
-        default: {
-          final error = ZonesError('Capturar el error', response.statusCode);
+        default:
+          {
+            final error = ZonesError('Capturar el error', response.statusCode);
 
-          return IdtResult.failure(error);
-        }
+            return IdtResult.failure(error);
+          }
       }
     } on StateError catch (err) {
       final error = ZonesError(err.message, response.statusCode);
@@ -49,12 +42,13 @@ class AudioGuideService {
     }
   }
 
-  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuide(String lanUser) async {
+  Future<IdtResult<List<DataAudioGuideModel>?>> getAudioGuide(
+      String lanUser) async {
     var queryParameters = {
       'lan': lanUser,
     };
     // final uri = Uri.https(IdtConstants.url_server, '/event', queryParameters);
-    final uri = Uri.https(IdtConstants.url_server, '/audio/',queryParameters);
+    final uri = Uri.https(IdtConstants.url_server, '/audio/', queryParameters);
 
     final response = await http.get(uri);
 
@@ -71,7 +65,7 @@ class AudioGuideService {
         default:
           {
             final error =
-            UnmissableError('Capturar el error', response.statusCode);
+                UnmissableError('Capturar el error', response.statusCode);
 
             return IdtResult.failure(error);
           }

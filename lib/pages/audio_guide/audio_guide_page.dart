@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:bogota_app/data/model/data_model.dart';
 import 'package:bogota_app/extensions/idt_dialog.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
 import 'package:bogota_app/commons/idt_icons.dart';
@@ -89,6 +90,8 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<AudioGuideViewModel>();
+    final List<DataModel> _zones = viewModel.status.zones;
+
 
     return SafeArea(
       child: WillPopScope(
@@ -215,15 +218,15 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
           ),
         ));
 
-    // final menuTap = viewModel.status.openMenuTab
-    //     ? IdtMenuTap(
-    //         listItems: viewModel.status.zones,
-    //         closeMenu: viewModel.closeMenuTab,
-    //         isBlue: true,
-    //         goFilters: (item) => viewModel.filtersForZones(
-    //               item,
-    //             )) //viewModel.status.section
-    //     : SizedBox.shrink();
+    final menuTap = viewModel.status.openMenuTab
+        ? IdtMenuTap(
+            listItems: viewModel.status.zones,
+            closeMenu: viewModel.closeMenuTab,
+            isBlue: true,
+            goFilters: (item) => viewModel.filtersForZones(
+                  item,
+                )) //viewModel.status.section
+        : SizedBox.shrink();
 
     Widget _buttonFilter() {
       return Row(
@@ -327,7 +330,7 @@ class _AudioGuideWidgetState extends State<AudioGuideWidget> {
             ],
           ),
         ),
-        // menuTap,
+        menuTap,
         loading,
         menu,
       ],

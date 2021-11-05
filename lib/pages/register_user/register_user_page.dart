@@ -636,10 +636,10 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
         titleDialog: 'Éxito',
         bodyTextDialog: 'Cuenta creada exitosamente!',
         textPrimaryButton: 'aceptar / cerrar',
-        actionPrimaryButtom:(){}
+        actionPrimaryButtom:
 
-        //todo diccionario
-        // route.goHome
+
+        route.goHome
     );
   }
 }

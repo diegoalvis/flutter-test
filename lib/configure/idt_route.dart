@@ -64,12 +64,12 @@ class IdtRoute {
 
     if(IdtRoute.route != HomePage.namePage){
       IdtRoute.route = HomePage.namePage;
-      return navigatorKey.currentState!.push(MaterialPageRoute(
+      return navigatorKey.currentState!.pushReplacement(MaterialPageRoute(
           builder: (_) => HomePage()));
     }
   }
-//todo diccionario
-  goHome() {//COmentado para probar la llega de diccionario al home
+
+  goHome() {
     IdtRoute.route = HomePage.namePage;
     return navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));

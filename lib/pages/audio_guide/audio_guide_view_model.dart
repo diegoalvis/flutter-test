@@ -114,9 +114,9 @@ class AudioGuideViewModel extends EffectsViewModel<AudioGuideStatus, AudioGuides
     status = status.copyWith(isLoading: true);
     languageUser = BoxDataSesion.getLaguageByUser(); //get language User Prefered
 
-    final Map query = {'zone' : item.id};
+    final Map<String,String> query = {'zone' : item.id};
 
-    final response = await _interactor.getAudioGuidesForLocation(query, languageUser);
+    final response = await _interactor.getAudioGuidesForLocation( query, languageUser);
     if (response is IdtSuccess<List<DataAudioGuideModel>?>) {
       status = status.copyWith(itemsAudioGuide: response.body,nameFilter: item.title!); // Status reasignacion
 

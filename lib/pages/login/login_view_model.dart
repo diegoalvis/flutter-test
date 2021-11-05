@@ -90,8 +90,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
         status = status.copyWith(isLoading: false);
       } else {
         print('entra a else');
-        //todo diccionario
-        // _route.goHome();
+
+        _route.goHome();
         _serviceEn();
         _servicePer();
         Timer.periodic(Duration(seconds: 15), (timer) {
@@ -241,8 +241,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
   void goUserHomePage(String username, String password) {
     print('view model username');
     print(username);
-    //todo diccionario
-    // _route.goUserHome();
+
+    _route.goUserHome();
   }
 
 /*
@@ -340,8 +340,8 @@ class LoginViewModel extends EffectsViewModel<LoginUserStatus, LoginEffect> {
       final userData = await FacebookAuth.instance.getUserData();
       // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
       _userData = userData;
-      //todo diccionario
-      // _route.goHome();
+
+      _route.goHome();
     } else {
       print(result.status);
       print(result.message);

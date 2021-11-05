@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 
-WordsAndMenuImagesModel dictionary = await BoxDataSesion.getDictionary();
+WordsAndMenuImagesModel dictionary = BoxDataSesion.getDictionary();
 mixin TitlesMenu {
 
 
