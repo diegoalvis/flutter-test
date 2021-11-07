@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:bogota_app/data/local/user.dart';
 import 'package:bogota_app/data/model/splash_model.dart';
 import 'package:bogota_app/data/repository/interactor.dart';
 import 'package:bogota_app/commons/idt_constants.dart';
@@ -9,6 +10,7 @@ import 'package:bogota_app/utils/idt_result.dart';
 import 'package:bogota_app/utils/local_data/box.dart';
 import 'package:bogota_app/view_model.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:hive/hive.dart';
 
 import 'splash_status.dart';
 
@@ -32,9 +34,10 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     late String languageUser;
 
     if (connectivityResult != ConnectivityResult.none) {
+      // Hive.registerAdapter(CurrentUserAdapter());
 
       // languageUser = BoxDataSesion.getLaguageByUser();
-
+// todo 1. obtenrer splash con el idioma del usurio
       final response = await _interactor.getSplashInteractor('es');
 
       if (response is IdtSuccess<SplashModel>) {

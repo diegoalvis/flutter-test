@@ -68,48 +68,85 @@ class PlayAudioGuiaWidget extends StatefulWidget {
 
 class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
     with SingleTickerProviderStateMixin {
-  final testdata = testData(); //instacia para acceder al data Mock
-  bool offlineMode = true;
+  bool offlineMode = false; //pasar al viewModel
   final _route = locator<IdtRoute>();
-  final List<String> _dropdownValues = ['Español', 'Ingles', 'Portugües'];
-  late AudioPlayer _player; //TODO Audio Anterior Refactor
-  bool firstValidate = false;
-  StreamSubscription<PlayAudioGuiaEffect>? _effectSubscription;
+  final List<String> _dropdownValues = [
+    'Español',
+    'Ingles',
+    'Portugües'
+  ]; //obtener por servicio
+
   List<AudioSource> audiosService = [];
   List audiosPlayList = [];
-  late AudioPlayer _audioPlayer = AudioPlayer();
+  // late AudioPlayer _audioPlayer = AudioPlayer();
+  late AudioPlayer _audioPlayer;
+
 
   @override
   void initState() {
     super.initState();
-    print("testdata.ListURIexample");
-    print(testdata.ListURIexample);
+    _audioPlayer = AudioPlayer();
 
     for (var i = 0; i < widget._detail.audios!.length; i++) {
-      Map audiosPlay = {};
-      print(widget._detail.audios![i]);
-      audiosPlay = {
-        'title': widget._detail.title,
-        'part': i + 1,
-        'audio': widget._detail.audios![i],
-        'image': IdtConstants.testImage
-      };
-      audiosPlayList.add(audiosPlay);
       audiosService.add(AudioSource.uri(
         Uri.parse(IdtConstants.url_image + widget._detail.audios![i]),
+        tag: AudioMetadata(
+          title: widget._detail.title!,
+        ),
       ));
     }
+      print(audiosService);
+      print('ok');
 
     _audioPlayer
         .setAudioSource(
       ConcatenatingAudioSource(
-        children: audiosService, //Lista de Datos Mock AUDIO
+        children: audiosService, //Lista de Datos Audio
       ),
     )
         .catchError((error) {
       // catch load errors: 404, invalid url ...
       print("An error occured $error");
-    });
+    }
+
+    );
+    Duration? totalDurationList =  _audioPlayer.duration;
+print(totalDurationList);
+    // _audioPlayer.setAudioSource(
+    //   ConcatenatingAudioSource(
+    //     children: [
+    //       AudioSource.uri(
+    //         Uri.parse(
+    //             IdtConstants.url_image + widget._detail.audios![0].toString()
+    //             // "https://archive.org/download/IGM-V7/IGM%20-%20Vol.%207/25%20Diablo%20-%20Tristram%20%28Blizzard%29.mp3"
+    //         ),
+    //         tag: AudioMetadata(
+    //           title: "Tristram",
+    //           artwork:
+    //               "https://upload.wikimedia.org/wikipedia/en/3/3a/Diablo_Coverart.png",
+    //         ),
+    //       ),
+    //       AudioSource.uri(
+    //         Uri.parse(
+    //             IdtConstants.url_image + widget._detail.audios![1].toString()),
+    //         tag: AudioMetadata(
+    //           title: "Cerulean City",
+    //           artwork:
+    //               "https://upload.wikimedia.org/wikipedia/en/f/f1/Bulbasaur_pokemon_red.png",
+    //         ),
+    //       ),
+    //       AudioSource.uri(
+    //         Uri.parse(
+    //             IdtConstants.url_image + widget._detail.audios![2].toString()),
+    //         tag: AudioMetadata(
+    //           title: "The secret of Monkey Island - Introduction",
+    //           artwork:
+    //               "https://upload.wikimedia.org/wikipedia/en/a/a8/The_Secret_of_Monkey_Island_artwork.jpg",
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   @override
@@ -120,6 +157,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
 
   @override
   Widget build(BuildContext context) {
+
     final viewModel = context.watch<PlayAudioGuiaViewModel>();
     print("widget._detail");
     print(widget._detail.title);
@@ -154,7 +192,9 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 60,),
+              SizedBox(
+                height: 60,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -206,7 +246,9 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                   ],
                 ),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 child: Text(
@@ -277,6 +319,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                 },
               ),
               SizedBox(height: 8),
+              Playlist(_audioPlayer,),
               Text(
                 'Modo Offline',
                 style: textTheme.textButtomWhite,
@@ -290,6 +333,7 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                     color: Colors.black.withOpacity(0.5),
                   ),
                   child: Column(
+                    //ondas de audio del reproductor.
                     children: [
                       Text(
                         widget._detail.title!,
@@ -399,7 +443,8 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
                       }),
                     ],
                   )),
-              PlayListB(_audioPlayer),
+              SizedBox(height: 100,)
+              // Playlist(_audioPlayer),
             ],
           ),
         ),
@@ -430,81 +475,78 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
     );
   }
 
-  Widget PlayListB(AudioPlayer _audioPlayer) {
-    return Container(
-      width: 270,
-      height: 300,
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.all(8),
-          itemCount: audiosPlayList.length,
-          itemBuilder: (BuildContext context, int index) {
-            // print(_audioPlayerTotal.sequence![1]);
-            print("audiosPlayList abajo");
-            print(json.encode(audiosPlayList[index]));
-            final data = json.encode(audiosPlayList[index]);
-            Map<String, dynamic> datos = jsonDecode(data.toString());
-            List<AudioSource> audioService = [];
+Widget PlayListB(AudioPlayer _audioPlayer) {
+  return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(8),
+      itemCount: audiosPlayList.length,
+      itemBuilder: (BuildContext context, int index) {
+        // final data = json.encode(audiosPlayList[index]);
+        // Map<String, dynamic> datos = jsonDecode(data.toString());
 
-            print(IdtConstants.url_image + datos['audio']);
-            audiosService.add(AudioSource.uri(
-              Uri.parse(IdtConstants.url_image + datos['audio']),
-            ));
+        print(IdtConstants.url_image + audiosPlayList[index]['audio']);
+        audiosService.add(AudioSource.uri(
+          Uri.parse(IdtConstants.url_image + audiosPlayList[index]['audio']),
+        ));
 
-            format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
+          format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
 
-            return Container(
-                padding: EdgeInsets.only(top: 8, bottom: 8, left: 1, right: 35),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.black.withOpacity(0.8),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        return Container(
+            padding: EdgeInsets.only(top: 8, bottom: 8, left: 1, right: 35),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.black.withOpacity(0.8),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 42,
-                          alignment: Alignment.centerLeft,
-                          child: ButtonPlayer(_audioPlayer, index),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          width: 160,
-                          child: AutoSizeText(
-                            (datos['part'].toString() +
-                                '/' +
-                                audiosPlayList.length.toString() +
-                                '  ' +
-                                datos['title']),
-                            maxLines: 2,
-                            textAlign: TextAlign.left,
-                            minFontSize: 11,
-                            maxFontSize: 12,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
+                    Container(
+                      color: IdtColors.red,
+                      height: 42,
+                      alignment: Alignment.centerLeft,
+                      child:  ButtonPlayer(_audioPlayer, index)
+
+                      // child: index == 2
+                      //     ? Icon(Icons.pause_circle_filled_sharp,color: Colors.white,size: 45,)
+                      //     :Icon(Icons.play_circle_fill ,color: Colors.white)
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 58),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        format(_audioPlayer.duration).toString(),
-                        style: TextStyle(color: Colors.white),
+                      width: 160,
+                      child: AutoSizeText(
+                        (audiosPlayList[index]['part'].toString() +
+                            '/' +
+                            audiosPlayList.length.toString() +
+                            '  ' +
+                            audiosPlayList[index]['title']),
+                        maxLines: 2,
+                        textAlign: TextAlign.left,
+                        minFontSize: 11,
+                        maxFontSize: 12,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
-                ));
-          }),
-    );
-  }
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 58),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    format(_audioPlayer.duration).toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ));
+      });
+}
 }
 
 class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
@@ -522,4 +564,18 @@ class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
+}
+
+class AudioMetadata {
+  /// The name of the song/show/recording.
+  final String title;
+
+  /// URL to an image representing this audio source.
+  // final String artwork;
+
+  // TODO change placeholder
+  AudioMetadata(
+      {required this.title,
+        // this.artwork = 'https://via.placeholder.com/150'
+      });
 }

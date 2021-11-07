@@ -24,7 +24,8 @@ class ButtonPlayer extends StatelessWidget {
           stream: _audioPlayer.playerStateStream,
           builder: (_, snapshot) {
             final playerState = snapshot.data;
-            return playPauseButton(playerState!);
+            return
+              playPauseButton(playerState!);
           },
         ),
         // Next
@@ -75,7 +76,7 @@ class ButtonPlayer extends StatelessWidget {
         ),
         iconSize: 40.0,
         onPressed: () =>
-            _audioPlayer.seek(Duration.zero, index: index),
+            _audioPlayer.seek(Duration.zero,),
       );
     }
   }

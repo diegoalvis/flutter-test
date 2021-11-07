@@ -130,10 +130,10 @@ class IdtRoute {
         .push(MaterialPageRoute(builder: (_) => PlayAudioPage(detail: detail)));
   }
 
-  goNewPlayAudio({required AudiosModel detail}) {
-    return navigatorKey.currentState!
-        .push(MaterialPageRoute(builder: (_) => PlayAudioGuiaPage(detail: detail)));
-  }
+  // goNewPlayAudio({required AudiosModel detail}) {
+  //   return navigatorKey.currentState!
+  //       .push(MaterialPageRoute(builder: (_) => PlayAudioGuiaPage(detail: detail)));
+  // }
 
   goDiscover() {
     return navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => DiscoverPage()));
@@ -210,7 +210,7 @@ class IdtRoute {
     }
   }
 
-  goAudioGuideUntil(int optionIndex) {// no se usa
+  goAudioGuideUntil(int optionIndex) {
     if(IdtRoute.route != AudioGuidePage.namePage){
       IdtRoute.route = AudioGuidePage.namePage;
       return navigatorKey.currentState!.pushAndRemoveUntil(
