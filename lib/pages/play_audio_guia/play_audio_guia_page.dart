@@ -46,8 +46,7 @@ class PlayAudioGuiaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          PlayAudioGuiaViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
+      create: (_) => PlayAudioGuiaViewModel(locator<IdtRoute>(), locator<ApiInteractor>()),
       builder: (context, _) {
         return PlayAudioGuiaWidget(detail!);
       },
@@ -66,21 +65,16 @@ class PlayAudioGuiaWidget extends StatefulWidget {
   _PlayAudioGuiaWidgetState createState() => _PlayAudioGuiaWidgetState();
 }
 
-class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
-    with SingleTickerProviderStateMixin {
+class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget> with SingleTickerProviderStateMixin {
   bool offlineMode = false; //pasar al viewModel
   final _route = locator<IdtRoute>();
-  final List<String> _dropdownValues = [
-    'Español',
-    'Ingles',
-    'Portugües'
-  ]; //obtener por servicio
+  final List<String> _dropdownValues = ['Español', 'Ingles', 'Portugües']; //obtener por servicio
 
   List<AudioSource> audiosService = [];
   List audiosPlayList = [];
+
   // late AudioPlayer _audioPlayer = AudioPlayer();
   late AudioPlayer _audioPlayer;
-
 
   @override
   void initState() {
@@ -95,8 +89,8 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
         ),
       ));
     }
-      print(audiosService);
-      print('ok');
+    print(audiosService);
+    print('ok');
 
     _audioPlayer
         .setAudioSource(
@@ -107,11 +101,9 @@ class _PlayAudioGuiaWidgetState extends State<PlayAudioGuiaWidget>
         .catchError((error) {
       // catch load errors: 404, invalid url ...
       print("An error occured $error");
-    }
-
-    );
-    Duration? totalDurationList =  _audioPlayer.duration;
-print(totalDurationList);
+    });
+    Duration? totalDurationList = _audioPlayer.duration;
+    print(totalDurationList);
     // _audioPlayer.setAudioSource(
     //   ConcatenatingAudioSource(
     //     children: [
@@ -155,9 +147,10 @@ print(totalDurationList);
     super.dispose();
   }
 
+  int selectedPosition = -1;
+
   @override
   Widget build(BuildContext context) {
-
     final viewModel = context.watch<PlayAudioGuiaViewModel>();
     print("widget._detail");
     print(widget._detail.title);
@@ -181,11 +174,7 @@ print(totalDurationList);
 
     Widget _body() {
       final List dummyList = List.generate(10, (index) {
-        return {
-          "id": index,
-          "title": "This is the title $index",
-          "subtitle": "This is the subtitle $index"
-        };
+        return {"id": index, "title": "This is the title $index", "subtitle": "This is the subtitle $index"};
       });
       return Container(
         child: SingleChildScrollView(
@@ -211,8 +200,7 @@ print(totalDurationList);
                       onPressed: _route.pop,
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 2,
@@ -261,28 +249,22 @@ print(totalDurationList);
               ),
               Text(
                 widget._detail.audios!.length.toString() + ' Pista(s) de audio',
-                style: textTheme.textWhiteShadow
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                style: textTheme.textWhiteShadow.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
                 '34:55 minutos ',
-                style: textTheme.textWhiteShadow
-                    .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+                style: textTheme.textWhiteShadow.copyWith(fontSize: 15, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 10,
               ),
               IconButton(
                   icon: Icon(
-                    viewModel.status.isFavorite
-                        ? IdtIcons.heart2
-                        : Icons.favorite_border,
-                    color: viewModel.status.isFavorite
-                        ? IdtColors.red
-                        : IdtColors.white,
+                    viewModel.status.isFavorite ? IdtIcons.heart2 : Icons.favorite_border,
+                    color: viewModel.status.isFavorite ? IdtColors.red : IdtColors.white,
                   ),
                   iconSize: 35,
                   onPressed: BoxDataSesion.isLoggedIn
@@ -319,15 +301,19 @@ print(totalDurationList);
                 },
               ),
               SizedBox(height: 8),
-              Playlist(_audioPlayer,),
+              Playlist(_audioPlayer, (index) {
+                setState(() {
+                  selectedPosition = index;
+                });
+                _audioPlayer.seek(Duration.zero, index: index);
+              }, selectedIndex: selectedPosition),
               Text(
                 'Modo Offline',
                 style: textTheme.textButtomWhite,
               ),
               PlayerButtons(_audioPlayer),
               Container(
-                  padding:
-                      EdgeInsets.only(top: 8, bottom: 8, left: 35, right: 25),
+                  padding: EdgeInsets.only(top: 8, bottom: 8, left: 35, right: 25),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black.withOpacity(0.5),
@@ -342,72 +328,49 @@ print(totalDurationList);
                       SizedBox(
                         height: 10,
                       ),
-                      LayoutBuilder(builder:
-                          (BuildContext context, BoxConstraints constraints) {
+                      LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
                         if (MediaQuery.of(context).size.width < 390) {
-                          widget.sizeContainer =
-                              MediaQuery.of(context).size.width / 2;
+                          widget.sizeContainer = MediaQuery.of(context).size.width / 2;
                         } else {
-                          widget.sizeContainer =
-                              MediaQuery.of(context).size.width / 1.65;
+                          widget.sizeContainer = MediaQuery.of(context).size.width / 1.65;
                         }
                         return Stack(
                           children: [
-                            ImageAnimatedContainer(
-                                width: widget.sizeContainer,
-                                imagePath: IdtAssets.waves),
+                            ImageAnimatedContainer(width: widget.sizeContainer, imagePath: IdtAssets.waves),
                             StreamBuilder<Duration>(
                                 stream: _audioPlayer.positionStream,
                                 builder: (context, snapshot) {
-                                  format(Duration? d) =>
-                                      d?.toString().substring(2, 7) ?? " ";
-                                  final currentPosition =
-                                      snapshot.data?.inSeconds ?? 0;
-                                  final totalDuration =
-                                      _audioPlayer.duration?.inSeconds ?? 1;
+                                  format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
+                                  final currentPosition = snapshot.data?.inSeconds ?? 0;
+                                  final totalDuration = _audioPlayer.duration?.inSeconds ?? 1;
                                   final timeCurrent = format(snapshot.data);
-                                  final totalTime =
-                                      format(_audioPlayer.duration);
-                                  final progresAudio =
-                                      currentPosition / totalDuration; //es un %
-                                  final widthAudio = widget.sizeContainer *
-                                      (currentPosition / totalDuration);
+                                  final totalTime = format(_audioPlayer.duration);
+                                  final progresAudio = currentPosition / totalDuration; //es un %
+                                  final widthAudio = widget.sizeContainer * (currentPosition / totalDuration);
                                   return IntrinsicWidth(
                                     child: Column(
                                       children: [
                                         Stack(
                                           children: [
                                             ImageAnimatedContainer(
-                                                width: widthAudio,
-                                                imagePath:
-                                                    IdtAssets.waves_front),
+                                                width: widthAudio, imagePath: IdtAssets.waves_front),
                                             Container(
                                               width: widget.sizeContainer,
                                               child: SliderTheme(
-                                                data: SliderTheme.of(context)
-                                                    .copyWith(
-                                                  trackShape:
-                                                      CustomSliderTrackShape(),
+                                                data: SliderTheme.of(context).copyWith(
+                                                  trackShape: CustomSliderTrackShape(),
                                                   trackHeight: 0.0,
-                                                  thumbShape:
-                                                      RoundSliderThumbShape(
+                                                  thumbShape: RoundSliderThumbShape(
                                                     enabledThumbRadius: 0,
                                                   ),
-                                                  overlayShape:
-                                                      RoundSliderOverlayShape(
-                                                          overlayRadius: 20.0),
+                                                  overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
                                                 ),
                                                 child: Slider(
                                                     min: 0.0,
-                                                    max: totalDuration
-                                                        .toDouble(),
-                                                    value: currentPosition
-                                                        .toDouble(),
+                                                    max: totalDuration.toDouble(),
+                                                    value: currentPosition.toDouble(),
                                                     onChanged: (pos) {
-                                                      _audioPlayer.seek(
-                                                          Duration(
-                                                              seconds:
-                                                                  pos.toInt()));
+                                                      _audioPlayer.seek(Duration(seconds: pos.toInt()));
                                                     }),
                                               ),
                                             ),
@@ -420,15 +383,11 @@ print(totalDurationList);
                                           children: [
                                             Text(
                                               timeCurrent,
-                                              style: TextStyle(
-                                                  color: IdtColors.white,
-                                                  fontSize: 10),
+                                              style: TextStyle(color: IdtColors.white, fontSize: 10),
                                             ),
                                             Spacer(),
                                             Text(totalTime,
-                                                style: TextStyle(
-                                                    color: IdtColors.white,
-                                                    fontSize: 10)),
+                                                style: TextStyle(color: IdtColors.white, fontSize: 10)),
                                             SizedBox(
                                               width: 10,
                                             )
@@ -443,7 +402,9 @@ print(totalDurationList);
                       }),
                     ],
                   )),
-              SizedBox(height: 100,)
+              SizedBox(
+                height: 100,
+              )
               // Playlist(_audioPlayer),
             ],
           ),
@@ -458,8 +419,7 @@ print(totalDurationList);
           width: sizeScreen.width,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                  IdtConstants.url_image + widget._detail.main_img!),
+              image: NetworkImage(IdtConstants.url_image + widget._detail.main_img!),
               fit: BoxFit.cover,
             ),
           ),
@@ -475,78 +435,77 @@ print(totalDurationList);
     );
   }
 
-Widget PlayListB(AudioPlayer _audioPlayer) {
-  return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(8),
-      itemCount: audiosPlayList.length,
-      itemBuilder: (BuildContext context, int index) {
-        // final data = json.encode(audiosPlayList[index]);
-        // Map<String, dynamic> datos = jsonDecode(data.toString());
+  Widget PlayListB(AudioPlayer _audioPlayer) {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(8),
+        itemCount: audiosPlayList.length,
+        itemBuilder: (BuildContext context, int index) {
+          // final data = json.encode(audiosPlayList[index]);
+          // Map<String, dynamic> datos = jsonDecode(data.toString());
 
-        print(IdtConstants.url_image + audiosPlayList[index]['audio']);
-        audiosService.add(AudioSource.uri(
-          Uri.parse(IdtConstants.url_image + audiosPlayList[index]['audio']),
-        ));
+          print(IdtConstants.url_image + audiosPlayList[index]['audio']);
+          audiosService.add(AudioSource.uri(
+            Uri.parse(IdtConstants.url_image + audiosPlayList[index]['audio']),
+          ));
 
           format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
 
-        return Container(
-            padding: EdgeInsets.only(top: 8, bottom: 8, left: 1, right: 35),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.black.withOpacity(0.8),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      color: IdtColors.red,
-                      height: 42,
-                      alignment: Alignment.centerLeft,
-                      child:  ButtonPlayer(_audioPlayer, index)
+          return Container(
+              padding: EdgeInsets.only(top: 8, bottom: 8, left: 1, right: 35),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.black.withOpacity(0.8),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          color: IdtColors.red,
+                          height: 42,
+                          alignment: Alignment.centerLeft,
+                          child: ButtonPlayer(_audioPlayer, index)
 
-                      // child: index == 2
-                      //     ? Icon(Icons.pause_circle_filled_sharp,color: Colors.white,size: 45,)
-                      //     :Icon(Icons.play_circle_fill ,color: Colors.white)
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: 160,
-                      child: AutoSizeText(
-                        (audiosPlayList[index]['part'].toString() +
-                            '/' +
-                            audiosPlayList.length.toString() +
-                            '  ' +
-                            audiosPlayList[index]['title']),
-                        maxLines: 2,
-                        textAlign: TextAlign.left,
-                        minFontSize: 11,
-                        maxFontSize: 12,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          // child: index == 2
+                          //     ? Icon(Icons.pause_circle_filled_sharp,color: Colors.white,size: 45,)
+                          //     :Icon(Icons.play_circle_fill ,color: Colors.white)
+                          ),
+                      SizedBox(
+                        height: 5,
                       ),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 58),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    format(_audioPlayer.duration).toString(),
-                    style: TextStyle(color: Colors.white),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: 160,
+                        child: AutoSizeText(
+                          (audiosPlayList[index]['part'].toString() +
+                              '/' +
+                              audiosPlayList.length.toString() +
+                              '  ' +
+                              audiosPlayList[index]['title']),
+                          maxLines: 2,
+                          textAlign: TextAlign.left,
+                          minFontSize: 11,
+                          maxFontSize: 12,
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ));
-      });
-}
+                  Container(
+                    margin: EdgeInsets.only(left: 58),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      format(_audioPlayer.duration).toString(),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ));
+        });
+  }
 }
 
 class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
@@ -559,8 +518,7 @@ class CustomSliderTrackShape extends RoundedRectSliderTrackShape {
   }) {
     final double? trackHeight = sliderTheme.trackHeight;
     final double trackLeft = offset.dx;
-    final double trackTop =
-        offset.dy + (parentBox.size.height - trackHeight!) / 2;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight!) / 2;
     final double trackWidth = parentBox.size.width;
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
@@ -574,8 +532,8 @@ class AudioMetadata {
   // final String artwork;
 
   // TODO change placeholder
-  AudioMetadata(
-      {required this.title,
-        // this.artwork = 'https://via.placeholder.com/150'
-      });
+  AudioMetadata({
+    required this.title,
+    // this.artwork = 'https://via.placeholder.com/150'
+  });
 }

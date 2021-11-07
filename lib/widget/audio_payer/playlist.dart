@@ -16,9 +16,12 @@ import 'package:just_audio/just_audio.dart';
 /// Audio sources are displayed with a `ListTile` with a leading image (the
 /// artwork), and the title of the audio source.
 class Playlist extends StatelessWidget {
-  const Playlist(this._audioPlayer, );
+  const Playlist(this._audioPlayer, this.onItemSelected, {this.selectedIndex = -1});
 
   final AudioPlayer _audioPlayer;
+  final ValueChanged<int> onItemSelected;
+  final int selectedIndex;
+
   // final List<AudioSource> audiosService;
   // List <Duration>timeDuration = '' as List<Duration>;
   Widget build(BuildContext context) {
@@ -30,8 +33,8 @@ class Playlist extends StatelessWidget {
         if (state == null) return CircularProgressIndicator();
         final sequence = state.sequence;
         Duration? totalDurationList;
-          totalDurationList = _audioPlayer.duration;
-          print(totalDurationList);
+        totalDurationList = _audioPlayer.duration;
+        print(totalDurationList);
         // for (var i = 0; i < sequence.length; i++){
         //
         //    snapshot.data.currentIndex.
@@ -39,59 +42,55 @@ class Playlist extends StatelessWidget {
         // }
 
         format(Duration? d) => d?.toString().substring(2, 7) ?? " ";
-        return ListView(
+        return ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(8),
-          children: [
-            for (var i = 0; i < sequence.length; i++)
-        GestureDetector(
-          onTap:()=> _audioPlayer.seek(Duration.zero, index: i),
-
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 2),
-              padding: EdgeInsets.only(top: 8, bottom: 8, right: 35),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.black.withOpacity(0.8),
-              ),
-              child: Row(
-                // mainAxisSize: MainAxisSize.min,
-                children: [
+          itemCount: sequence.length,
+          itemBuilder: (BuildContext context, int i) {
+            return InkWell(
+              onTap: () => onItemSelected(i),
+              child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 2),
+                  padding: EdgeInsets.only(top: 8, bottom: 8, right: 35),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                  child: Row(
+                    // mainAxisSize: MainAxisSize.min,
+                    children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                        Icon(Icons.play_circle_fill, color: Colors.white)
-                        ,
+                        child: Icon(Icons.play_circle_fill, color: Colors.white),
                       ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ((i+1).toString() +
-                            '/' +
-                            sequence.length.toString() +
-                            '  ' +
-                            sequence[i].tag.title),
-                        maxLines: 1,
-
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ((i + 1).toString() +
+                                '/' +
+                                sequence.length.toString() +
+                                '  ' +
+                                sequence[i].tag.title),
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            // format(_audioPlayer.duration).toString(),
+                            // format(sequence.single.duration).toString(),
+                            format(sequence[i].duration).toString(),
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 8,),
-                      Text(
-                        // format(_audioPlayer.duration).toString(),
-                        // format(sequence.single.duration).toString(),
-                        format(sequence[i].duration).toString(),
-                        style: TextStyle(color: Colors.white),
-                      )
                     ],
-                  ),
-                ],
-              )),
-        )
-          ],
+                  )),
+            );
+          },
         );
       },
     );
